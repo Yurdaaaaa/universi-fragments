@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>universum.studios.android</groupId>
-  <artifactId>fragments-core</artifactId>
+  <artifactId>fragments</artifactId>
   <version>1.2.0</version>
   <name>Android Fragments</name>
   <description>Simplified management of fragments for the Android platform.</description>
@@ -38,6 +38,12 @@
     <dependency>
       <groupId>com.android.support</groupId>
       <artifactId>support-annotations</artifactId>
+      <version>25.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.android.support</groupId>
+      <artifactId>appcompat-v7</artifactId>
       <version>25.3.0</version>
       <scope>compile</scope>
     </dependency>

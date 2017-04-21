@@ -7,6 +7,13 @@ Change-Log
 - Deprecated `FragmentsConfig` and added `FragmentsLogging` along with `FragmentPolicies` in order
   to control log output of the library or to check what features are available for the Fragments
   API at the current **Android** API level.
+- If **Animator duration scale** developer setting is set to **off** the custom fragment animations
+  specified via desired `FragmentTransition` are not set to `FragmentTransaction` as such animations
+  would not be actually played by the **Android** animation framework. This concerns only **animator**
+  based animations used for **not support** library version. This check has been added due to problem
+  with **translate** animations. When these animations (animators) are used to transition between
+  fragments and the animator duration scale setting is set to off, views of those fragments are just
+  not shown/drawn even thought the fragments are properly added/shown.
 
 ### [Release 1.1.1](https://github.com/universum-studios/android_fragments/releases/tag/1.1.1) ###
 > 03.03.2017
