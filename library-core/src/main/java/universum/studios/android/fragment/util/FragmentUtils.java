@@ -33,7 +33,7 @@ import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.view.ViewGroup;
 
-import universum.studios.android.fragment.FragmentsConfig;
+import universum.studios.android.fragment.FragmentPolicies;
 
 /**
  * Utility class for the Fragments library.
@@ -42,7 +42,7 @@ import universum.studios.android.fragment.FragmentsConfig;
  */
 public final class FragmentUtils {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -57,29 +57,29 @@ public final class FragmentUtils {
 	 */
 	private static final boolean ACCESS_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
 	/**
 	 */
 	private FragmentUtils() {
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -94,8 +94,8 @@ public final class FragmentUtils {
 	 */
 	@Nullable
 	@SuppressLint("NewApi")
-	public static Transition inflateTransition(@NonNull Context context, @TransitionRes int resource) {
-		return FragmentsConfig.TRANSITIONS_SUPPORTED ? TransitionInflater.from(context).inflateTransition(resource) : null;
+	public static Transition inflateTransition(@NonNull final Context context, @TransitionRes final int resource) {
+		return FragmentPolicies.TRANSITIONS_SUPPORTED ? TransitionInflater.from(context).inflateTransition(resource) : null;
 	}
 
 	/**
@@ -111,8 +111,8 @@ public final class FragmentUtils {
 	 */
 	@Nullable
 	@SuppressLint("NewApi")
-	public static TransitionManager inflateTransitionManager(@NonNull Context context, @TransitionRes int resource, @NonNull ViewGroup sceneRoot) {
-		return FragmentsConfig.TRANSITIONS_SUPPORTED ? TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) : null;
+	public static TransitionManager inflateTransitionManager(@NonNull final Context context, @TransitionRes final int resource, @NonNull final ViewGroup sceneRoot) {
+		return FragmentPolicies.TRANSITIONS_SUPPORTED ? TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) : null;
 	}
 
 	/**
@@ -131,7 +131,7 @@ public final class FragmentUtils {
 	 * @see VectorDrawableCompat#create(Resources, int, Resources.Theme)
 	 */
 	@Nullable
-	public static Drawable getVectorDrawable(@NonNull Resources resources, @DrawableRes int resId, @Nullable Resources.Theme theme) throws Resources.NotFoundException {
+	public static Drawable getVectorDrawable(@NonNull final Resources resources, @DrawableRes final int resId, @Nullable final Resources.Theme theme) throws Resources.NotFoundException {
 		if (resId == 0) return null;
 		else return ACCESS_LOLLIPOP ? getDrawable(resources, resId, theme) : VectorDrawableCompat.create(resources, resId, theme);
 	}
@@ -152,12 +152,12 @@ public final class FragmentUtils {
 	 */
 	@Nullable
 	@SuppressWarnings({"NewApi", "deprecation"})
-	public static Drawable getDrawable(@NonNull Resources resources, @DrawableRes int resId, @Nullable Resources.Theme theme) throws Resources.NotFoundException {
+	public static Drawable getDrawable(@NonNull final Resources resources, @DrawableRes final int resId, @Nullable final Resources.Theme theme) throws Resources.NotFoundException {
 		if (resId == 0) return null;
 		else return ACCESS_LOLLIPOP ? resources.getDrawable(resId, theme) : resources.getDrawable(resId);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

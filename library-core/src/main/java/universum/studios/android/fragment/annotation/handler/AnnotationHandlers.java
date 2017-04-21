@@ -24,7 +24,7 @@ import android.support.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 
-import universum.studios.android.fragment.FragmentsConfig;
+import universum.studios.android.fragment.annotation.FragmentAnnotations;
 
 /**
  * Base factory and cache for {@link AnnotationHandler} instances for a specific classes from the
@@ -34,7 +34,7 @@ import universum.studios.android.fragment.FragmentsConfig;
  */
 public abstract class AnnotationHandlers {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -43,11 +43,11 @@ public abstract class AnnotationHandlers {
 	 */
 	// private static final String TAG = "AnnotationHandlers";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -67,21 +67,22 @@ public abstract class AnnotationHandlers {
 	 */
 	private static Map<Class<?>, Object> sHandlers;
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
 	/**
 	 */
 	AnnotationHandlers() {
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -101,12 +102,12 @@ public abstract class AnnotationHandlers {
 	 * is disabled for the Fragments library.
 	 * @throws ClassCastException If there is already an annotation handler instantiated for the
 	 *                            specified annotated class but it is of different type as requested.
-	 * @see FragmentsConfig#ANNOTATIONS_PROCESSING_ENABLED
+	 * @see FragmentAnnotations#isEnabled()
 	 */
 	@Nullable
 	@SuppressWarnings({"unchecked", "ConstantConditions"})
-	public static <T extends AnnotationHandler> T obtainHandler(@NonNull Class<T> classOfHandler, @NonNull Class<?> annotatedClass) {
-		if (!FragmentsConfig.ANNOTATIONS_PROCESSING_ENABLED) return null;
+	public static <T extends AnnotationHandler> T obtainHandler(@NonNull final Class<T> classOfHandler, @NonNull final Class<?> annotatedClass) {
+		if (!FragmentAnnotations.isEnabled()) return null;
 		Object handler;
 		synchronized (LOCK) {
 			if (sHandlers == null) {
@@ -139,7 +140,7 @@ public abstract class AnnotationHandlers {
 	 * @return New instance of the requested handler with the annotated class attached.
 	 * @throws IllegalStateException If the requested handler failed to be instantiated.
 	 */
-	private static <T> T instantiateHandler(Class<T> classOfHandler, Class<?> annotatedClass) {
+	private static <T> T instantiateHandler(final Class<T> classOfHandler, final Class<?> annotatedClass) {
 		try {
 			return classOfHandler.getConstructor(Class.class).newInstance(annotatedClass);
 		} catch (Exception e) {
@@ -152,7 +153,7 @@ public abstract class AnnotationHandlers {
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

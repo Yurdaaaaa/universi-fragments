@@ -191,6 +191,7 @@ public final class FragmentTransitions {
 	/**
 	 */
 	private FragmentTransitions() {
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
 	}
 }

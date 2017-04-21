@@ -41,7 +41,7 @@ import universum.studios.android.fragment.manage.FragmentItem;
  */
 public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -49,10 +49,11 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 	 */
 	private BaseManagementAnnotationHandlers() {
 		super();
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -62,11 +63,11 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable
-	public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull Class<?> classOfFactory) {
+	public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull final Class<?> classOfFactory) {
 		return obtainHandler(FragmentFactoryHandler.class, classOfFactory);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
@@ -79,13 +80,13 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 		 * Array of fragment items populated from the {@link FactoryFragments @FactoryFragments} or
 		 * {@link FactoryFragment @FactoryFragment} annotations if presented.
 		 */
-		private final SparseArray<FragmentItem> items;
+		final SparseArray<FragmentItem> items;
 
 		/**
 		 * Same as {@link BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)} with
 		 * {@link BaseFragmentFactory} as <var>maxSuperClass</var>.
 		 */
-		public FragmentFactoryHandler(@NonNull Class<?> annotatedClass) {
+		public FragmentFactoryHandler(@NonNull final Class<?> annotatedClass) {
 			super(annotatedClass, BaseFragmentFactory.class);
 			final SparseArray<FragmentItem> items = new SparseArray<>();
 			final FactoryFragments fragments = findAnnotationRecursive(FactoryFragments.class);

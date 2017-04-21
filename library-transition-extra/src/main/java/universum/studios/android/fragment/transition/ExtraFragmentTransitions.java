@@ -234,6 +234,7 @@ public final class ExtraFragmentTransitions {
 	/**
 	 */
 	private ExtraFragmentTransitions() {
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
 	}
 }

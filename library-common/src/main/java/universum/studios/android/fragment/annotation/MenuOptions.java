@@ -21,6 +21,7 @@ package universum.studios.android.fragment.annotation;
 import android.support.annotation.IntDef;
 import android.support.annotation.MenuRes;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -31,11 +32,12 @@ import java.lang.annotation.Target;
  *
  * @author Martin Albedinsky
  */
+@Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MenuOptions {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -62,7 +64,7 @@ public @interface MenuOptions {
 	@interface Flags {
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

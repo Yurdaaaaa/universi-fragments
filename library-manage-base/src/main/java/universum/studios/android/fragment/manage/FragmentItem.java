@@ -34,7 +34,7 @@ import universum.studios.android.fragment.annotation.FactoryFragment;
  */
 public final class FragmentItem {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -43,15 +43,15 @@ public final class FragmentItem {
 	 */
 	private static final String TAG = "FragmentItem";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -70,7 +70,7 @@ public final class FragmentItem {
 	 */
 	public final String tag;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -94,7 +94,7 @@ public final class FragmentItem {
 		this.type = type;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -136,7 +136,7 @@ public final class FragmentItem {
 		return null;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

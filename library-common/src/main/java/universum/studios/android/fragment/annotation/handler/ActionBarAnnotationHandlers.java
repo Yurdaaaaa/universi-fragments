@@ -41,7 +41,7 @@ import universum.studios.android.fragment.annotation.MenuOptions;
 @SuppressWarnings("unused")
 public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -49,10 +49,10 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 	 */
 	private ActionBarAnnotationHandlers() {
 		super();
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -62,11 +62,11 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable
-	public static ActionBarFragmentAnnotationHandler obtainActionBarFragmentHandler(@NonNull Class<?> classOfFragment) {
+	public static ActionBarFragmentAnnotationHandler obtainActionBarFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(ActionBarFragmentHandler.class, classOfFragment);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
@@ -150,7 +150,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		 * Same as {@link #ActionBarFragmentHandler(Class, Class)} with {@link ActionBarFragment}
 		 * as <var>maxSuperClass</var>.
 		 */
-		public ActionBarFragmentHandler(@NonNull Class<?> annotatedClass) {
+		public ActionBarFragmentHandler(@NonNull final Class<?> annotatedClass) {
 			this(annotatedClass, ActionBarFragment.class);
 		}
 
@@ -159,7 +159,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		 *
 		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)
 		 */
-		ActionBarFragmentHandler(Class<?> annotatedClass, Class<?> maxSuperClass) {
+		ActionBarFragmentHandler(final Class<?> annotatedClass, final Class<?> maxSuperClass) {
 			super(annotatedClass, maxSuperClass);
 			final ActionBarOptions actionBarOptions = findAnnotationRecursive(ActionBarOptions.class);
 			if (actionBarOptions != null) {
@@ -185,7 +185,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		/**
 		 */
 		@Override
-		public void configureActionBar(@NonNull ActionBarDelegate actionBarDelegate) {
+		public void configureActionBar(@NonNull final ActionBarDelegate actionBarDelegate) {
 			switch (homeAsUp) {
 				case ActionBarOptions.HOME_AS_UP_DISABLED:
 					actionBarDelegate.setDisplayHomeAsUpEnabled(false);
@@ -257,21 +257,21 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		 */
 		@MenuRes
 		@Override
-		public int getOptionsMenuFlags(@MenuRes int defaultFlags) {
+		public int getOptionsMenuFlags(@MenuRes final int defaultFlags) {
 			return optionsMenuFlags == -1 ? defaultFlags : optionsMenuFlags;
 		}
 
 		/**
 		 */
 		@Override
-		public int getOptionsMenuResource(int defaultResource) {
+		public int getOptionsMenuResource(final int defaultResource) {
 			return optionsMenuResource == NO_RES ? defaultResource : optionsMenuResource;
 		}
 
 		/**
 		 */
 		@Override
-		public boolean handleCreateActionMode(@NonNull ActionMode actionMode, @NonNull Menu menu) {
+		public boolean handleCreateActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
 			if (actionModeMenuResource == NO_RES) {
 				return false;
 			}
