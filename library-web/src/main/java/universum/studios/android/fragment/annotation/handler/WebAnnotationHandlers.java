@@ -34,7 +34,7 @@ import universum.studios.android.fragment.annotation.WebContent;
  */
 public final class WebAnnotationHandlers extends AnnotationHandlers {
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -42,10 +42,11 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	 */
 	private WebAnnotationHandlers() {
 		super();
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -55,11 +56,11 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable
-	public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull Class<?> classOfFragment) {
+	public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(WebFragmentHandler.class, classOfFragment);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
@@ -86,7 +87,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		 * Same as {@link BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)} with
 		 * {@link WebFragment} as <var>maxSuperClass</var>.
 		 */
-		public WebFragmentHandler(@NonNull Class<?> annotatedClass) {
+		public WebFragmentHandler(@NonNull final Class<?> annotatedClass) {
 			super(annotatedClass, WebFragment.class);
 			final WebContent webContent = findAnnotation(WebContent.class);
 			this.webContentResId = webContent == null ? NO_RES : webContent.valueRes();
@@ -97,7 +98,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		 */
 		@Override
 		@StringRes
-		public int getWebContentResId(@StringRes int defaultResId) {
+		public int getWebContentResId(@StringRes final int defaultResId) {
 			return webContentResId == NO_RES ? defaultResId : webContentResId;
 		}
 
@@ -105,7 +106,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		 */
 		@Nullable
 		@Override
-		public String getWebContent(@Nullable String defaultContent) {
+		public String getWebContent(@Nullable final String defaultContent) {
 			return TextUtils.isEmpty(webContent) ? defaultContent : webContent;
 		}
 	}

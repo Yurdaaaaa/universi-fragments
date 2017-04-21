@@ -32,7 +32,7 @@ import universum.studios.android.fragment.annotation.FragmentAnnotations;
  */
 abstract class BaseAnnotationHandler implements AnnotationHandler {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -41,15 +41,15 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	 */
 	// private static final String TAG = "BaseAnnotationHandler";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -64,7 +64,7 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	 */
 	final Class<?> mMaxSuperClass;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -75,12 +75,12 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	 * @param maxSuperClass  Max super class of the annotated class up to which to search for annotations
 	 *                       recursively when searching for requested annotation via {@link #findAnnotationRecursive(Class)}.
 	 */
-	BaseAnnotationHandler(@NonNull Class<?> annotatedClass, @Nullable Class<?> maxSuperClass) {
+	BaseAnnotationHandler(@NonNull final Class<?> annotatedClass, @Nullable final Class<?> maxSuperClass) {
 		this.mAnnotatedClass = annotatedClass;
 		this.mMaxSuperClass = maxSuperClass;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -100,7 +100,7 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	 * @param <A>               Type of the annotation to find.
 	 * @return Found annotation or {@code null} if there is no such annotation presented.
 	 */
-	final <A extends Annotation> A findAnnotation(Class<A> classOfAnnotation) {
+	final <A extends Annotation> A findAnnotation(final Class<A> classOfAnnotation) {
 		return FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, mAnnotatedClass, null);
 	}
 
@@ -112,11 +112,11 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	 * @param <A>               Type of the annotation to find.
 	 * @return Found annotation or {@code null} if there is no such annotation presented.
 	 */
-	final <A extends Annotation> A findAnnotationRecursive(Class<A> classOfAnnotation) {
+	final <A extends Annotation> A findAnnotationRecursive(final Class<A> classOfAnnotation) {
 		return FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, mAnnotatedClass, mMaxSuperClass);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

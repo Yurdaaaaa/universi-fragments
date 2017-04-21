@@ -35,7 +35,7 @@ import universum.studios.android.fragment.annotation.ContentView;
  */
 public interface FragmentAnnotationHandler extends AnnotationHandler {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -44,7 +44,7 @@ public interface FragmentAnnotationHandler extends AnnotationHandler {
 	 */
 	int NO_RES = 0;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 

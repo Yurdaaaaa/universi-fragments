@@ -25,7 +25,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +89,7 @@ import universum.studios.android.fragment.annotation.handler.WebFragmentAnnotati
  */
 public class WebFragment extends ActionBarFragment {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -109,7 +108,7 @@ public class WebFragment extends ActionBarFragment {
 	 */
 	private static final String BUNDLE_PRIVATE_FLAGS = WebFragment.class.getName() + ".BUNDLE.PrivateFlags";
 
-	/**
+	/*
 	 * Source code copied from Android SDK [START] =================================================
 	 * to preserve min library SDK version at 7.
 	 */
@@ -167,7 +166,7 @@ public class WebFragment extends ActionBarFragment {
 					+ "(?:\\b|$)"
 	)
 			.matcher(""); // and finally, a word boundary or end of input.  This is to stop foo.sure from matching as foo.su
-	/**
+	/*
 	 * Source code copied from Android SDK [END] ===================================================
 	 */
 
@@ -230,7 +229,7 @@ public class WebFragment extends ActionBarFragment {
 	 */
 	private static final int LOG_CONTENT_MAX_LENGTH = 256;
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -259,7 +258,7 @@ public class WebFragment extends ActionBarFragment {
 		void onLoadingFinished(@NonNull String webUrl);
 	}
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -268,7 +267,7 @@ public class WebFragment extends ActionBarFragment {
 	 */
 	private static final Matcher FILE_URL_MATCHER = Pattern.compile("file://(.*)").matcher("");
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -297,11 +296,11 @@ public class WebFragment extends ActionBarFragment {
 	 */
 	private int mPrivateFlags;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -311,7 +310,7 @@ public class WebFragment extends ActionBarFragment {
 	 * @param url Url to check.
 	 * @return {@code True} if url matches valid web URL format, {@code false} otherwise.
 	 */
-	public static boolean isValidWebUrl(@Nullable String url) {
+	public static boolean isValidWebUrl(@Nullable final String url) {
 		return WEB_URL_MATCHER.reset(url).matches();
 	}
 
@@ -332,7 +331,7 @@ public class WebFragment extends ActionBarFragment {
 	 * @return New instance of WebFragment.
 	 */
 	@NonNull
-	public static WebFragment newInstance(@NonNull WebOptions options) {
+	public static WebFragment newInstance(@NonNull final WebOptions options) {
 		final WebFragment fragment = new WebFragment();
 		final Bundle args = new Bundle();
 		args.putInt(BUNDLE_PRIVATE_FLAGS, options.javascriptEnabled ? PFLAG_JAVA_SCRIPT_ENABLED : 0);
@@ -364,7 +363,7 @@ public class WebFragment extends ActionBarFragment {
 	 * @param add  Boolean flag indicating whether to add or remove the specified <var>flag</var>.
 	 * @see #hasPrivateFlag(int)
 	 */
-	private void updatePrivateFlags(int flag, boolean add) {
+	private void updatePrivateFlags(final int flag, final boolean add) {
 		if (add) this.mPrivateFlags |= flag;
 		else this.mPrivateFlags &= ~flag;
 	}
@@ -377,14 +376,14 @@ public class WebFragment extends ActionBarFragment {
 	 * @return {@code True} if the requested flag is contained, {@code false} otherwise.
 	 * @see #updatePrivateFlags(int, boolean)
 	 */
-	private boolean hasPrivateFlag(int flag) {
+	private boolean hasPrivateFlag(final int flag) {
 		return (mPrivateFlags & flag) != 0;
 	}
 
 	/**
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (mAnnotationHandler != null) {
 			final WebFragmentAnnotationHandler annotationHandler = (WebFragmentAnnotationHandler) mAnnotationHandler;
@@ -411,7 +410,7 @@ public class WebFragment extends ActionBarFragment {
 	 *
 	 * @param listener The desired listener callback. May be {@code null} to clear the current one.
 	 */
-	public void setOnWebContentLoadingListener(@Nullable OnWebContentLoadingListener listener) {
+	public void setOnWebContentLoadingListener(@Nullable final OnWebContentLoadingListener listener) {
 		this.mContentLoadingListener = listener;
 	}
 
@@ -423,7 +422,7 @@ public class WebFragment extends ActionBarFragment {
 	 *
 	 * @param webUrl Web url which is currently being loaded into the current web view.
 	 */
-	protected void notifyLoadingStarted(@NonNull String webUrl) {
+	protected void notifyLoadingStarted(@NonNull final String webUrl) {
 		if (mContentLoadingListener != null) mContentLoadingListener.onLoadingStarted(webUrl);
 	}
 
@@ -435,14 +434,14 @@ public class WebFragment extends ActionBarFragment {
 	 *
 	 * @param webUrl Web url which was currently loaded into the current web view.
 	 */
-	protected void notifyLoadingFinished(@NonNull String webUrl) {
+	protected void notifyLoadingFinished(@NonNull final String webUrl) {
 		if (mContentLoadingListener != null) mContentLoadingListener.onLoadingFinished(webUrl);
 	}
 
 	/**
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 		this.mWebView = new WebView(inflater.getContext());
 		mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
@@ -472,7 +471,7 @@ public class WebFragment extends ActionBarFragment {
 			/**
 			 */
 			@Override
-			public void onPageFinished(WebView view, String url) {
+			public void onPageFinished(final WebView view, final String url) {
 				super.onPageFinished(view, url);
 				notifyLoadingFinished(url);
 			}
@@ -480,7 +479,7 @@ public class WebFragment extends ActionBarFragment {
 			/**
 			 */
 			@Override
-			public void onPageStarted(WebView view, String url, Bitmap favicon) {
+			public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				notifyLoadingStarted(url);
 			}
@@ -503,7 +502,7 @@ public class WebFragment extends ActionBarFragment {
 	 */
 	@Override
 	@SuppressLint("SetJavaScriptEnabled")
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull final View view, @Nullable final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if (savedInstanceState != null) {
 			this.mPrivateFlags = savedInstanceState.getInt(BUNDLE_PRIVATE_FLAGS);
@@ -528,7 +527,7 @@ public class WebFragment extends ActionBarFragment {
 	/**
 	 */
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.updatePrivateFlags(PFLAG_READY_TO_LOAD_CONTENT, true);
 		this.resolveContentType();
@@ -551,7 +550,7 @@ public class WebFragment extends ActionBarFragment {
 	 * will be loaded in the feature when WebView is ready.
 	 * @see #getContent()
 	 */
-	public boolean loadContent(@Nullable String content) {
+	public boolean loadContent(@Nullable final String content) {
 		this.mContent = content;
 		this.updatePrivateFlags(PFLAG_CONTENT_CHANGED, true);
 		if ((mPrivateFlags & PFLAG_READY_TO_LOAD_CONTENT) != 0) {
@@ -596,13 +595,13 @@ public class WebFragment extends ActionBarFragment {
 	 * @param type    A type of the specified <var>content</var>. One of flags {@link #CONTENT_EMPTY},
 	 *                {@link #CONTENT_HTML}, {@link #CONTENT_URL} or {@link #CONTENT_FILE}.
 	 */
-	protected void onLoadContent(@Nullable String content, @ContentType int type) {
+	protected void onLoadContent(@Nullable final String content, @ContentType final int type) {
 		if (mWebView != null) {
-			if (FragmentsConfig.LOG_ENABLED && !TextUtils.isEmpty(content)) {
+			if (!TextUtils.isEmpty(content)) {
 				if (content.length() > LOG_CONTENT_MAX_LENGTH) {
-					Log.v(TAG, "Loading content('" + content.substring(0, LOG_CONTENT_MAX_LENGTH) + "') into web view.");
+					FragmentsLogging.d(TAG, "Loading content('" + content.substring(0, LOG_CONTENT_MAX_LENGTH) + "') into web view.");
 				} else {
-					Log.v(TAG, "Loading content('" + content + "') into web view.");
+					FragmentsLogging.d(TAG, "Loading content('" + content + "') into web view.");
 				}
 			}
 			switch (type) {
@@ -636,7 +635,7 @@ public class WebFragment extends ActionBarFragment {
 	/**
 	 */
 	@Override
-	public void onSaveInstanceState(Bundle state) {
+	public void onSaveInstanceState(@NonNull final Bundle state) {
 		super.onSaveInstanceState(state);
 		// Save web view state.
 		if (mWebView != null) {
@@ -657,7 +656,7 @@ public class WebFragment extends ActionBarFragment {
 		return false;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
@@ -672,12 +671,12 @@ public class WebFragment extends ActionBarFragment {
 		/**
 		 * Content to load into web view.
 		 */
-		private String content = "";
+		String content = "";
 
 		/**
 		 * Flag indicating whether Java-Script should be enabled or not.
 		 */
-		private boolean javascriptEnabled = true;
+		boolean javascriptEnabled = true;
 
 		/**
 		 * Sets a content to load into web view.

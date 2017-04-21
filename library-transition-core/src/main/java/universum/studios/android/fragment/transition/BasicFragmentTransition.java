@@ -32,7 +32,7 @@ import universum.studios.android.fragment.manage.FragmentTransition;
  */
 public class BasicFragmentTransition implements FragmentTransition {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -41,11 +41,11 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 */
 	// private static final String TAG = "BasicFragmentTransition";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
@@ -57,19 +57,19 @@ public class BasicFragmentTransition implements FragmentTransition {
 		/**
 		 */
 		@Override
-		public BasicFragmentTransition createFromParcel(@NonNull Parcel source) {
+		public BasicFragmentTransition createFromParcel(@NonNull final Parcel source) {
 			return new BasicFragmentTransition(source);
 		}
 
 		/**
 		 */
 		@Override
-		public BasicFragmentTransition[] newArray(int size) {
+		public BasicFragmentTransition[] newArray(final int size) {
 			return new BasicFragmentTransition[size];
 		}
 	};
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -98,7 +98,7 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 */
 	private final String mName;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -106,7 +106,7 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 * Same as {@link #BasicFragmentTransition(int, int, int, int)} with back-stack animations set
 	 * to {@link #NO_ANIMATION}.
 	 */
-	public BasicFragmentTransition(@AnimatorRes int inAnim, @AnimatorRes int outAnim) {
+	public BasicFragmentTransition(@AnimatorRes final int inAnim, @AnimatorRes final int outAnim) {
 		this(inAnim, outAnim, NO_ANIMATION, NO_ANIMATION);
 	}
 
@@ -114,7 +114,7 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 * Same as {@link #BasicFragmentTransition(int, int, int, int, String)} with name specified
 	 * as {@code "UNKNOWN"}.
 	 */
-	public BasicFragmentTransition(@AnimatorRes int inAnim, @AnimatorRes int outAnim, @AnimatorRes int inBackAnim, @AnimatorRes int outBackAnim) {
+	public BasicFragmentTransition(@AnimatorRes final int inAnim, @AnimatorRes final int outAnim, @AnimatorRes final int inBackAnim, @AnimatorRes final int outBackAnim) {
 		this(inAnim, outAnim, inBackAnim, outBackAnim, "UNKNOWN");
 	}
 
@@ -130,7 +130,7 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 *                    replaced by the incoming one.
 	 * @param name        Name for the new transition.
 	 */
-	public BasicFragmentTransition(@AnimatorRes int inAnim, @AnimatorRes int outAnim, @AnimatorRes int inBackAnim, @AnimatorRes int outBackAnim, @NonNull String name) {
+	public BasicFragmentTransition(@AnimatorRes final int inAnim, @AnimatorRes final int outAnim, @AnimatorRes final int inBackAnim, @AnimatorRes final int outBackAnim, @NonNull final String name) {
 		this.mInAnimRes = inAnim;
 		this.mOutAnimRes = outAnim;
 		this.mInBackAnimRes = inBackAnim;
@@ -144,7 +144,7 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 *
 	 * @param source Parcel with data for the new instance.
 	 */
-	protected BasicFragmentTransition(@NonNull Parcel source) {
+	protected BasicFragmentTransition(@NonNull final Parcel source) {
 		this.mInAnimRes = source.readInt();
 		this.mOutAnimRes = source.readInt();
 		this.mInBackAnimRes = source.readInt();
@@ -152,14 +152,14 @@ public class BasicFragmentTransition implements FragmentTransition {
 		this.mName = source.readString();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
 	/**
 	 */
 	@Override
-	public void writeToParcel(@NonNull Parcel dest, int flags) {
+	public void writeToParcel(@NonNull final Parcel dest, final int flags) {
 		dest.writeInt(mInAnimRes);
 		dest.writeInt(mOutAnimRes);
 		dest.writeInt(mInBackAnimRes);
@@ -214,7 +214,7 @@ public class BasicFragmentTransition implements FragmentTransition {
 		return mName;
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

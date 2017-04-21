@@ -33,7 +33,7 @@ import android.view.ActionMode;
  */
 @SuppressWarnings("WeakerAccess") public abstract class ActivityDelegate {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -42,15 +42,15 @@ import android.view.ActionMode;
 	 */
 	// private static final String TAG = "ActivityDelegate";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -59,7 +59,7 @@ import android.view.ActionMode;
 	 */
 	protected final Activity mActivity;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -68,11 +68,11 @@ import android.view.ActionMode;
 	 *
 	 * @param activity The activity for which is the new delegate being created.
 	 */
-	protected ActivityDelegate(@NonNull Activity activity) {
+	protected ActivityDelegate(@NonNull final Activity activity) {
 		this.mActivity = activity;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -84,7 +84,7 @@ import android.view.ActionMode;
 	 * @return Instance of ActivityDelegate for the specified activity.
 	 */
 	@NonNull
-	public static ActivityDelegate create(Activity activity) {
+	public static ActivityDelegate create(@NonNull final Activity activity) {
 		if (activity instanceof AppCompatActivity) {
 			return new AppCompatImpl((AppCompatActivity) activity);
 		}
@@ -119,7 +119,7 @@ import android.view.ActionMode;
 	@Nullable
 	public abstract ActionMode startActionMode(@NonNull ActionMode.Callback callback);
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
@@ -133,14 +133,14 @@ import android.view.ActionMode;
 		 *
 		 * @param activity The Activity instance to be wrapped.
 		 */
-		private Impl(Activity activity) {
+		Impl(final Activity activity) {
 			super(activity);
 		}
 
 		/**
 		 */
 		@Override
-		public boolean requestWindowFeature(int featureId) {
+		public boolean requestWindowFeature(final int featureId) {
 			return mActivity.requestWindowFeature(featureId);
 		}
 
@@ -171,7 +171,7 @@ import android.view.ActionMode;
 		 */
 		@Nullable
 		@Override
-		public ActionMode startActionMode(@NonNull ActionMode.Callback callback) {
+		public ActionMode startActionMode(@NonNull final ActionMode.Callback callback) {
 			return mActivity.startActionMode(callback);
 		}
 	}
@@ -186,14 +186,14 @@ import android.view.ActionMode;
 		 *
 		 * @param activity The AppCompatImpl instance to be wrapped.
 		 */
-		private AppCompatImpl(AppCompatActivity activity) {
+		AppCompatImpl(final AppCompatActivity activity) {
 			super(activity);
 		}
 
 		/**
 		 */
 		@Override
-		public boolean requestWindowFeature(int featureId) {
+		public boolean requestWindowFeature(final int featureId) {
 			return ((AppCompatActivity) mActivity).supportRequestWindowFeature(featureId);
 		}
 
