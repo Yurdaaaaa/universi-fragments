@@ -909,8 +909,9 @@ public class FragmentController {
 	 *                  into exception if it will be thrown.
 	 */
 	private void assertNotDestroyed(final String forAction) {
-		if (mDestroyed)
+		if (mDestroyed) {
 			throw new IllegalStateException("Cannot perform " + forAction + " action. Controller is already destroyed!");
+		}
 	}
 
 	/**

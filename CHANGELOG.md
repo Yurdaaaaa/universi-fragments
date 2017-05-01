@@ -2,11 +2,12 @@ Change-Log
 ===============
 
 ### Release 1.2.0 ###
-> --.04.2017
+> --.05.2017
 
 - Deprecated `FragmentsConfig` and added `FragmentsLogging` along with `FragmentPolicies` in order
   to control log output of the library or to check what features are available for the Fragments
   API at the current **Android** API level.
+- Added `BaseFragment.inflateTransition(int)` which may be used to inflate transitions in a simply way.
 - If **Animator duration scale** developer setting is set to **off** the custom fragment animations
   specified via desired `FragmentTransition` are not set to `FragmentTransaction` as such animations
   would not be actually played by the **Android** animation framework. This concerns only **animator**

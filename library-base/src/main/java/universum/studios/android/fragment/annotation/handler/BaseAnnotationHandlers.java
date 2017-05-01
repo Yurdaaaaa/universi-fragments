@@ -95,20 +95,13 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 		private int contentViewBackgroundResId = NO_RES;
 
 		/**
-		 * Same as {@link #FragmentHandler(Class, Class)} with {@link BaseFragment} as <var>maxSuperClass</var>.
+		 * Creates a new instance of FragmentHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
 		public FragmentHandler(@NonNull final Class<?> annotatedClass) {
-			this(annotatedClass, BaseFragment.class);
-		}
-
-		/**
-		 * Creates a new instance of FragmentHandler for the specified <var>annotatedClass</var>.
-		 *
-		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)
-		 */
-		FragmentHandler(final Class<?> annotatedClass, final Class<?> maxSuperClass) {
-			super(annotatedClass, maxSuperClass);
-			final ContentView contentView = findAnnotationRecursive(ContentView.class);
+			super(annotatedClass);
+			final ContentView contentView = findAnnotation(ContentView.class);
 			if (contentView != null) {
 				this.attachContentViewToContainer = contentView.attachToContainer();
 				this.contentViewResource = contentView.value();

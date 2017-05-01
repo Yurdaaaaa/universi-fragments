@@ -84,11 +84,12 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		private final String webContent;
 
 		/**
-		 * Same as {@link BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)} with
-		 * {@link WebFragment} as <var>maxSuperClass</var>.
+		 * Creates a new instance of WebFragmentHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
 		public WebFragmentHandler(@NonNull final Class<?> annotatedClass) {
-			super(annotatedClass, WebFragment.class);
+			super(annotatedClass);
 			final WebContent webContent = findAnnotation(WebContent.class);
 			this.webContentResId = webContent == null ? NO_RES : webContent.valueRes();
 			this.webContent = webContent == null ? null : webContent.value();

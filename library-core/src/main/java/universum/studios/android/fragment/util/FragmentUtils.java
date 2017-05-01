@@ -27,6 +27,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.TransitionRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -55,7 +56,7 @@ public final class FragmentUtils {
 	 * Boolean flag indicating whether we can use resources access in a way appropriate for
 	 * {@link Build.VERSION_CODES#LOLLIPOP} Android version.
 	 */
-	private static final boolean ACCESS_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+	@VisibleForTesting static final boolean ACCESS_LOLLIPOP = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
 	/*
 	 * Interface ===================================================================================
@@ -77,6 +78,7 @@ public final class FragmentUtils {
 	 */
 	private FragmentUtils() {
 		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
 	}
 
 	/*

@@ -83,13 +83,14 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 		final SparseArray<FragmentItem> items;
 
 		/**
-		 * Same as {@link BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)} with
-		 * {@link BaseFragmentFactory} as <var>maxSuperClass</var>.
+		 * Creates a new instance of FragmentFactoryHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
 		public FragmentFactoryHandler(@NonNull final Class<?> annotatedClass) {
-			super(annotatedClass, BaseFragmentFactory.class);
+			super(annotatedClass);
 			final SparseArray<FragmentItem> items = new SparseArray<>();
-			final FactoryFragments fragments = findAnnotationRecursive(FactoryFragments.class);
+			final FactoryFragments fragments = findAnnotation(FactoryFragments.class);
 			if (fragments != null) {
 				final int[] ids = fragments.value();
 				if (ids.length > 0) {
@@ -132,7 +133,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 						}
 					}
 				}
-			}, mAnnotatedClass, mMaxSuperClass);
+			}, mAnnotatedClass, BaseFragmentFactory.class);
 			this.items = items.size() > 0 ? items : null;
 		}
 

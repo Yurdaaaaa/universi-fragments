@@ -30,9 +30,9 @@ def mavenConfig = [
 def bintrayConfig = [
         publish                  : false,
         packageName              : mavenConfig.groupId + ':' + mavenConfig.artifactId,
-        packageLabels            : ['android', 'fragment', 'management', 'transition'],
+        packageLabels            : ['android', 'fragment', 'fragment-transactions', 'fragment-transitions', 'fragment-controlling'],
         packageVersionName       : mavenConfig.version,
-        packageVersionDescription: 'Version patch.',
+        packageVersionDescription: 'Minor release.',
         packageVersionTag        : mavenConfig.version
 ]
 

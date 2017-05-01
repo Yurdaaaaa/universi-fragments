@@ -153,6 +153,15 @@ public abstract class AnnotationHandlers {
 		}
 	}
 
+	/**
+	 * Clears cache with already obtained/instantiated annotation handlers.
+	 */
+	static void clearHandlers() {
+		synchronized (LOCK) {
+			if (sHandlers != null) sHandlers.clear();
+		}
+	}
+
 	/*
 	 * Inner classes ===============================================================================
 	 */

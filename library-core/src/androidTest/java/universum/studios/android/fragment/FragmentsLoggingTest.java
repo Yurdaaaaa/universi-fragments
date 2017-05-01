@@ -26,6 +26,9 @@ import org.hamcrest.core.IsNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import universum.studios.android.logging.Logger;
 import universum.studios.android.logging.SimpleLogger;
 import universum.studios.android.test.BaseInstrumentedTest;
@@ -45,19 +48,23 @@ public final class FragmentsLoggingTest extends BaseInstrumentedTest {
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentsLoggingTest";
 
-	private Logger mMockLogger;
-
-	@Override
-	public void beforeTest() throws Exception {
-		super.beforeTest();
-		this.mMockLogger = mock(Logger.class);
-	}
-
 	@Override
 	public void afterTest() throws Exception {
 		super.afterTest();
 		// Ensure that the logging class has default logger.
 		FragmentsLogging.setLogger(null);
+	}
+
+	@Test(expected = IllegalAccessException.class)
+	public void testInstantiation() throws Exception {
+		FragmentsLogging.class.newInstance();
+	}
+
+	@Test(expected = InvocationTargetException.class)
+	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		final Constructor<FragmentsLogging> constructor = FragmentsLogging.class.getDeclaredConstructor();
+		constructor.setAccessible(true);
+		constructor.newInstance();
 	}
 
 	@Test
@@ -78,57 +85,63 @@ public final class FragmentsLoggingTest extends BaseInstrumentedTest {
 
 	@Test
 	public void testV() {
-		FragmentsLogging.setLogger(mMockLogger);
+		final Logger mockLogger = mock(Logger.class);
+		FragmentsLogging.setLogger(mockLogger);
 		FragmentsLogging.v(TAG, "");
 		FragmentsLogging.v(TAG, "", null);
 	}
 
 	@Test
 	public void testD() {
-		FragmentsLogging.setLogger(mMockLogger);
+		final Logger mockLogger = mock(Logger.class);
+		FragmentsLogging.setLogger(mockLogger);
 		FragmentsLogging.d(TAG, "message.debug");
-		verify(mMockLogger, times(1)).d(TAG, "message.debug");
+		verify(mockLogger, times(1)).d(TAG, "message.debug");
 		FragmentsLogging.d(TAG, "message.debug", null);
-		verify(mMockLogger, times(1)).d(TAG, "message.debug", null);
+		verify(mockLogger, times(1)).d(TAG, "message.debug", null);
 	}
 
 	@Test
 	public void testI() {
-		FragmentsLogging.setLogger(mMockLogger);
+		final Logger mockLogger = mock(Logger.class);
+		FragmentsLogging.setLogger(mockLogger);
 		FragmentsLogging.i(TAG, "message.info");
-		verify(mMockLogger, times(1)).i(TAG, "message.info");
+		verify(mockLogger, times(1)).i(TAG, "message.info");
 		FragmentsLogging.i(TAG, "message.info", null);
-		verify(mMockLogger, times(1)).i(TAG, "message.info", null);
+		verify(mockLogger, times(1)).i(TAG, "message.info", null);
 	}
 
 	@Test
 	public void testW() {
-		FragmentsLogging.setLogger(mMockLogger);
+		final Logger mockLogger = mock(Logger.class);
+		FragmentsLogging.setLogger(mockLogger);
 		FragmentsLogging.w(TAG, "message.warn");
-		verify(mMockLogger, times(1)).w(TAG, "message.warn");
+		verify(mockLogger, times(1)).w(TAG, "message.warn");
 		FragmentsLogging.w(TAG, "message.warn", null);
-		verify(mMockLogger, times(1)).w(TAG, "message.warn", null);
+		verify(mockLogger, times(1)).w(TAG, "message.warn", null);
 		FragmentsLogging.w(TAG, (Throwable) null);
-		verify(mMockLogger, times(1)).w(TAG, (Throwable) null);
+		verify(mockLogger, times(1)).w(TAG, (Throwable) null);
 	}
 
 	@Test
 	public void testE() {
-		FragmentsLogging.setLogger(mMockLogger);
+		final Logger mockLogger = mock(Logger.class);
+		FragmentsLogging.setLogger(mockLogger);
 		FragmentsLogging.e(TAG, "message.error");
-		verify(mMockLogger, times(1)).e(TAG, "message.error");
+		verify(mockLogger, times(1)).e(TAG, "message.error");
 		FragmentsLogging.e(TAG, "message.error", null);
-		verify(mMockLogger, times(1)).e(TAG, "message.error", null);
+		verify(mockLogger, times(1)).e(TAG, "message.error", null);
 	}
 
 	@Test
 	public void testWTF() {
-		FragmentsLogging.setLogger(mMockLogger);
+		final Logger mockLogger = mock(Logger.class);
+		FragmentsLogging.setLogger(mockLogger);
 		FragmentsLogging.wtf(TAG, "message.wtf");
-		verify(mMockLogger, times(1)).wtf(TAG, "message.wtf");
+		verify(mockLogger, times(1)).wtf(TAG, "message.wtf");
 		FragmentsLogging.wtf(TAG, "message.wtf", null);
-		verify(mMockLogger, times(1)).wtf(TAG, "message.wtf", null);
+		verify(mockLogger, times(1)).wtf(TAG, "message.wtf", null);
 		FragmentsLogging.wtf(TAG, (Throwable) null);
-		verify(mMockLogger, times(1)).wtf(TAG, (Throwable) null);
+		verify(mockLogger, times(1)).wtf(TAG, (Throwable) null);
 	}
 }
