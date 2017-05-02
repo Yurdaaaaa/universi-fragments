@@ -17,51 +17,24 @@
  * =================================================================================================
  */
 package universum.studios.android.fragment.annotation.handler; 
-import android.app.Fragment;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import universum.studios.android.test.BaseInstrumentedTest;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.nullValue;
 
 /**
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class ActionBarAnnotationHandlersTest extends BaseInstrumentedTest {
+public final class ActionBarFragmentAnnotationHandlerTest extends BaseInstrumentedTest {
     
 	@SuppressWarnings("unused")
-	private static final String TAG = "ActionBarAnnotationHandlersTest";
+	private static final String TAG = "ActionBarFragmentAnnotationHandlerTest";
 
-	@Test(expected = IllegalAccessException.class)
-	public void testInstantiation() throws Exception {
-		ActionBarAnnotationHandlers.class.newInstance();
-	}
-
-	@Test(expected = InvocationTargetException.class)
-	public void testInstantiationWithAccessibleConstructor() throws Exception {
-		final Constructor<ActionBarAnnotationHandlers> constructor = ActionBarAnnotationHandlers.class.getDeclaredConstructor();
-		constructor.setAccessible(true);
-		constructor.newInstance();
-	}
-
-	@Test
-	public void testObtainFragmentHandler() {
-		final ActionBarFragmentAnnotationHandler handler = ActionBarAnnotationHandlers.obtainActionBarFragmentHandler(TestFragment.class);
-		assertThat(handler, is(not(nullValue())));
-		assertThat(handler, instanceOf(ActionBarAnnotationHandlers.ActionBarFragmentHandler.class));
-	}
-
-	public static final class TestFragment extends Fragment {
+    @Test
+	public void test() {
+		// todo:: implement test
 	}
 }

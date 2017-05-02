@@ -430,9 +430,10 @@ public class ActionBarFragment extends BaseFragment {
 		 */
 		@Override
 		public boolean onCreateActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
-			if (fragment == null || fragment.mAnnotationHandler == null) return false;
-			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) fragment.mAnnotationHandler;
-			return annotationHandler.handleCreateActionMode(actionMode, menu);
+			if (fragment == null || !FragmentAnnotations.isEnabled()) {
+				return false;
+			}
+			return fragment.getAnnotationHandler().handleCreateActionMode(actionMode, menu);
 		}
 
 		/**
