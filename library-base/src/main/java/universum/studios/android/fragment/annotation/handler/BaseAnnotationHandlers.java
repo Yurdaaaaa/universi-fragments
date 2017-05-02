@@ -112,16 +112,16 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 		/**
 		 */
 		@Override
-		public boolean shouldAttachContentViewToContainer() {
-			return attachContentViewToContainer;
+		@LayoutRes
+		public int getContentViewResource(@LayoutRes final int defaultViewResource) {
+			return contentViewResource == NO_RES ? defaultViewResource : contentViewResource;
 		}
 
 		/**
 		 */
 		@Override
-		@LayoutRes
-		public int getContentViewResource(@LayoutRes final int defaultViewResource) {
-			return contentViewResource == NO_RES ? defaultViewResource : contentViewResource;
+		public boolean shouldAttachContentViewToContainer() {
+			return attachContentViewToContainer;
 		}
 
 		/**

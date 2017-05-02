@@ -71,7 +71,6 @@ public final class FragmentUtilsTest extends BaseInstrumentedTest {
 
     @Test
     public void testInflateTransition() {
-	    assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
 		final Transition transition = FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(
 				mContext,
 				TestResources.TRANSITION,
@@ -87,7 +86,6 @@ public final class FragmentUtilsTest extends BaseInstrumentedTest {
 
 	@Test
 	public void testInflateTransitionManager() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
 		final ViewGroup sceneRoot = new FrameLayout(mContext);
 		final TransitionManager transitionManager = FragmentUtils.inflateTransitionManager(mContext, TestResources.resourceIdentifier(
 				mContext,
