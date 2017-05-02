@@ -22,7 +22,8 @@
 <manifest package="universum.studios.android.test"
 		  xmlns:android="http://schemas.android.com/apk/res/android">
 
-	<application>
+	<application android:theme="@style/Theme.AppCompat">
 		<activity android:name=".TestActivity" />
+		<activity android:name=".TestCompatActivity" />
 	</application>
 </manifest>

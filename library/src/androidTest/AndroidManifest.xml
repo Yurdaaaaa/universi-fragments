@@ -24,9 +24,11 @@
 		  xmlns:tools="http://schemas.android.com/tools">
 
 	<application
+		android:theme="@style/Theme.AppCompat"
 		android:label="Fragments Tests"
 		tools:replace="android:label">
 
 		<activity android:name="universum.studios.android.test.TestActivity" />
+		<activity android:name="universum.studios.android.test.TestCompatActivity" />
 	</application>
 </manifest>

@@ -27,6 +27,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
 import universum.studios.android.fragment.util.FragmentUtils;
@@ -99,10 +100,9 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		if (activity instanceof AppCompatActivity) {
 			final android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
 			return actionBar == null ? null : create(activity, actionBar);
-		} else {
-			final ActionBar actionBar = activity.getActionBar();
-			return actionBar == null ? null : create(activity, actionBar);
 		}
+		final ActionBar actionBar = activity.getActionBar();
+		return actionBar == null ? null : create(activity, actionBar);
 	}
 
 	/**
@@ -176,7 +176,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	/**
 	 * An {@link ActionBarDelegate} implementation used to wrap {@link ActionBar}.
 	 */
-	private static final class Impl extends ActionBarDelegate {
+	@VisibleForTesting static final class Impl extends ActionBarDelegate {
 
 		/**
 		 * Wrapped action bar instance.
@@ -232,7 +232,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		 */
 		@Override
 		public void setTitle(@StringRes final int resId) {
-			if (actionBar != null) actionBar.setTitle(resId);
+			setTitle(mContext.getText(resId));
 		}
 
 		/**
@@ -260,7 +260,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	/**
 	 * An {@link ActionBarDelegate} implementation used to wrap {@link android.support.v7.app.ActionBar}.
 	 */
-	private static final class SupportImpl extends ActionBarDelegate {
+	@VisibleForTesting static final class SupportImpl extends ActionBarDelegate {
 
 		/**
 		 * Wrapped support action bar instance.
@@ -328,7 +328,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		 */
 		@Override
 		public void setTitle(@StringRes final int resId) {
-			if (actionBar != null) actionBar.setTitle(resId);
+			setTitle(mContext.getText(resId));
 		}
 
 		/**
