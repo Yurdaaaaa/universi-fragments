@@ -43,9 +43,9 @@ public final class ActionBarAnnotationHandlersTest extends BaseInstrumentedTest 
 	@SuppressWarnings("unused")
 	private static final String TAG = "ActionBarAnnotationHandlersTest";
 
-	@Test(expected = IllegalAccessException.class)
+	@Test(expected = UnsupportedOperationException.class)
 	public void testInstantiation() throws Exception {
-		ActionBarAnnotationHandlers.class.newInstance();
+		new ActionBarAnnotationHandlers();
 	}
 
 	@Test(expected = InvocationTargetException.class)

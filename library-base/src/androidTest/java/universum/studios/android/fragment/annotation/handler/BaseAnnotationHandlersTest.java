@@ -26,7 +26,6 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.fragment.FragmentPolicies;
 import universum.studios.android.test.BaseInstrumentedTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -44,9 +43,9 @@ public final class BaseAnnotationHandlersTest extends BaseInstrumentedTest {
 	@SuppressWarnings("unused")
 	private static final String TAG = "BaseAnnotationHandlersTest";
 
-	@Test(expected = IllegalAccessException.class)
+	@Test(expected = UnsupportedOperationException.class)
 	public void testInstantiation() throws Exception {
-		BaseAnnotationHandlers.class.newInstance();
+		new BaseAnnotationHandlers();
 	}
 
 	@Test(expected = InvocationTargetException.class)

@@ -511,6 +511,22 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	/*public final boolean isResumed();*/
 
 	/**
+	 * Invalidates the attached activity's options menu as necessary.
+	 * <p>
+	 * Note that the invalidation request is ignored if this fragment instance is not added or it is
+	 * hidden at this time.
+	 *
+	 * @return {@code True} if menu has been invalidated, {@code false} otherwise.
+	 */
+	public boolean invalidateOptionsMenu() {
+		if (isAdded() && !isHidden()) {
+			getFragmentManager().invalidateOptionsMenu();
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Dispatches to {@link #onViewClick(View)}.
 	 * <p>
 	 * This implementation by default returns {@code false} for all passed views.

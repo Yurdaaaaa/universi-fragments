@@ -437,6 +437,34 @@ public final class BaseFragmentTest extends BaseInstrumentedTest {
 	}
 
 	@Test
+	@UiThreadTest
+	public void testInvalidateOptionsMenu() {
+		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final BaseFragment fragment = new TestFragment();
+		fragmentManager.beginTransaction().add(fragment, null).commit();
+		fragmentManager.executePendingTransactions();
+		assertThat(fragment.invalidateOptionsMenu(), is(true));
+	}
+
+	@Test
+	public void testInvalidateOptionsMenuWhenNotAdded() {
+		// Only ensure that invocation of the method does not cause any troubles.
+		assertThat(new TestFragment().invalidateOptionsMenu(), is(false));
+	}
+
+	@Test
+	@UiThreadTest
+	public void testInvalidateOptionsMenuWhenHidden() {
+		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final BaseFragment fragment = new TestFragment();
+		fragmentManager.beginTransaction().add(fragment, null).commit();
+		fragmentManager.executePendingTransactions();
+		fragmentManager.beginTransaction().hide(fragment).commit();
+		fragmentManager.executePendingTransactions();
+		assertThat(fragment.invalidateOptionsMenu(), is(false));
+	}
+
+	@Test
 	public void testDispatchViewClick() {
 		final TestFragment fragment = new TestFragment();
 		final View view = new Button(mContext);

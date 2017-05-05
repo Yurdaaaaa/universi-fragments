@@ -38,20 +38,11 @@ import universum.studios.android.fragment.annotation.MenuOptions;
  *
  * @author Martin Albedinsky
  */
-@SuppressWarnings("unused")
 public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 
 	/*
 	 * Constructors ================================================================================
 	 */
-
-	/**
-	 */
-	private ActionBarAnnotationHandlers() {
-		super();
-		// Not allowed to be instantiated publicly.
-		throw new UnsupportedOperationException();
-	}
 
 	/*
 	 * Methods =====================================================================================
@@ -74,7 +65,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * An {@link ActionBarFragmentAnnotationHandler} implementation for {@link ActionBarFragment} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static class ActionBarFragmentHandler extends BaseAnnotationHandlers.FragmentHandler implements ActionBarFragmentAnnotationHandler {
+	static class ActionBarFragmentHandler extends BaseAnnotationHandlers.FragmentHandler implements ActionBarFragmentAnnotationHandler {
 
 		/**
 		 * Action bar's home as up flag obtained from the annotated class.
@@ -180,12 +171,12 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		@Override
 		public void configureActionBar(@NonNull final ActionBarDelegate actionBarDelegate) {
 			switch (homeAsUp) {
-				case ActionBarOptions.HOME_AS_UP_DISABLED:
-					actionBarDelegate.setDisplayHomeAsUpEnabled(false);
-					break;
 				case ActionBarOptions.HOME_AS_UP_ENABLED:
 					actionBarDelegate.setDisplayHomeAsUpEnabled(true);
 					this.hasOptionsMenu = true;
+					break;
+				case ActionBarOptions.HOME_AS_UP_DISABLED:
+					actionBarDelegate.setDisplayHomeAsUpEnabled(false);
 					break;
 				default:
 					// Do not "touch" ActionBar's enabled state.

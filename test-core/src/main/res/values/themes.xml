@@ -2,7 +2,7 @@
 <!--
 /*
  * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
+ *                             Copyright (C) 2017 Universum Studios
  * =================================================================================================
  *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
  * *************************************************************************************************
@@ -19,12 +19,13 @@
  * =================================================================================================
  */
 -->
-<manifest package="universum.studios.android.fragment"
-		  xmlns:android="http://schemas.android.com/apk/res/android"
-		  xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
-	<application
-		android:theme="@style/Theme.AppCompat"
-		android:label="Fragments Tests"
-		tools:replace="android:label"/>
-</manifest>
+	<!-- Test theme requesting ActionBar feature. -->
+	<style name="Test.Theme.ActionBar" parent="android:Theme">
+		<item name="android:windowActionBar">true</item>
+	</style>
+
+	<!-- Test compatibility theme requesting ActionBar feature. -->
+	<style name="Test.ThemeCompat.ActionBar" parent="Theme.AppCompat"/>
+</resources>

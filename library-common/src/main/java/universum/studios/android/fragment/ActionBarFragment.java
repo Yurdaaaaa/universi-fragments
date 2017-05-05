@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -53,7 +54,7 @@ import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAn
  * <h3>Accepted annotations</h3>
  * <ul>
  * <li>
- * {@link universum.studios.android.fragment.annotation.ActionBarOptions @ActionBarOptions} <b>[class - inherited]</b>
+ * {@link ActionBarOptions @ActionBarOptions} <b>[class - inherited]</b>
  * <p>
  * If this annotation is presented, all options specified via this annotation will be used to set
  * up an instance of ActionBar accessible from within context of a sub-class of ActionBarFragment.
@@ -110,7 +111,7 @@ public class ActionBarFragment extends BaseFragment {
 	 * Delegate for ActionBar obtained from the parent activity of this fragment. This delegate is
 	 * available between calls to {@link #onActivityCreated(Bundle)} and {@link #onDetach()}.
 	 */
-	private ActionBarDelegate mActionBarDelegate;
+	@VisibleForTesting ActionBarDelegate mActionBarDelegate;
 
 	/*
 	 * Constructors ================================================================================
@@ -158,33 +159,31 @@ public class ActionBarFragment extends BaseFragment {
 			return;
 		}
 		final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) mAnnotationHandler;
-		if (!annotationHandler.hasOptionsMenu()) {
-			super.onCreateOptionsMenu(menu, inflater);
-			return;
-		}
-		final int menuResource = annotationHandler.getOptionsMenuResource(-1);
-		if (menuResource != -1) {
+		if (annotationHandler.hasOptionsMenu()) {
 			if (annotationHandler.shouldClearOptionsMenu()) {
 				menu.clear();
 			}
+			final int menuResource = annotationHandler.getOptionsMenuResource(0);
 			if (menuResource == 0) {
 				super.onCreateOptionsMenu(menu, inflater);
-				return;
+			} else {
+				switch (annotationHandler.getOptionsMenuFlags(0)) {
+					case MenuOptions.IGNORE_SUPER:
+						inflater.inflate(menuResource, menu);
+						break;
+					case MenuOptions.BEFORE_SUPER:
+						inflater.inflate(menuResource, menu);
+						super.onCreateOptionsMenu(menu, inflater);
+						break;
+					case MenuOptions.DEFAULT:
+					default:
+						super.onCreateOptionsMenu(menu, inflater);
+						inflater.inflate(menuResource, menu);
+						break;
+				}
 			}
-			switch (annotationHandler.getOptionsMenuFlags(0)) {
-				case MenuOptions.IGNORE_SUPER:
-					inflater.inflate(menuResource, menu);
-					break;
-				case MenuOptions.BEFORE_SUPER:
-					inflater.inflate(menuResource, menu);
-					super.onCreateOptionsMenu(menu, inflater);
-					break;
-				case MenuOptions.DEFAULT:
-				default:
-					super.onCreateOptionsMenu(menu, inflater);
-					inflater.inflate(menuResource, menu);
-					break;
-			}
+		} else {
+			super.onCreateOptionsMenu(menu, inflater);
 		}
 	}
 

@@ -40,14 +40,6 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 	 * Constructors ================================================================================
 	 */
 
-	/**
-	 */
-	private BaseAnnotationHandlers() {
-		super();
-		// Not allowed to be instantiated publicly.
-		throw new UnsupportedOperationException();
-	}
-
 	/*
 	 * Methods =====================================================================================
 	 */

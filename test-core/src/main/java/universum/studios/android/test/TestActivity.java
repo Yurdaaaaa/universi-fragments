@@ -23,7 +23,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
-import android.view.Window;
 
 /**
  * Simple activity that may be used in <b>Android Instrumented Tests</b> in order to set up
@@ -43,7 +42,6 @@ public class TestActivity extends Activity {
 	 */
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		super.onCreate(savedInstanceState);
 		setContentView(new View(this));
 	}

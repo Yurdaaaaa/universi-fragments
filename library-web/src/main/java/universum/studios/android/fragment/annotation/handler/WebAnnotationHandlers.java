@@ -38,14 +38,6 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	 * Constructors ================================================================================
 	 */
 
-	/**
-	 */
-	private WebAnnotationHandlers() {
-		super();
-		// Not allowed to be instantiated publicly.
-		throw new UnsupportedOperationException();
-	}
-
 	/*
 	 * Methods =====================================================================================
 	 */

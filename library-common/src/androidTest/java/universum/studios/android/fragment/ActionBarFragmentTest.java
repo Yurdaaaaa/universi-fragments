@@ -16,24 +16,39 @@
  * See the License for the specific language governing permissions and limitations under the License.
  * =================================================================================================
  */
-package universum.studios.android.fragment; 
+package universum.studios.android.fragment;
+
+import android.app.ActionBar;
+import android.app.FragmentManager;
+import android.support.test.annotation.UiThreadTest;
+import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuInflater;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import universum.studios.android.fragment.annotation.ActionBarOptions;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
+import universum.studios.android.fragment.annotation.MenuOptions;
 import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAnnotationHandler;
 import universum.studios.android.test.BaseInstrumentedTest;
+import universum.studios.android.test.TestActivity;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Martin Albedinsky
@@ -43,6 +58,9 @@ public final class ActionBarFragmentTest extends BaseInstrumentedTest {
     
 	@SuppressWarnings("unused")
 	private static final String TAG = "ActionBarFragmentTest";
+
+	@Rule
+	public final ActivityTestRule<TestActivity> ACTIVITY_RULE = new ActivityTestRule<>(TestActivity.class);
 
 	@Override
 	public void afterTest() throws Exception {
@@ -71,58 +89,259 @@ public final class ActionBarFragmentTest extends BaseInstrumentedTest {
 	}
 
 	@Test
+	@UiThreadTest
 	public void testOnCreate() {
-		// todo:: implement test
+		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final ActionBarFragment fragment = new TestFragment();
+		fragmentManager.beginTransaction().add(fragment, null).commit();
+		fragmentManager.executePendingTransactions();
 	}
 
 	@Test
+	@UiThreadTest
+	public void testOnCreateForFragmentWithoutMenu() {
+		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final ActionBarFragment fragment = new TestFragmentWithoutAnnotation();
+		fragmentManager.beginTransaction().add(fragment, null).commit();
+		fragmentManager.executePendingTransactions();
+	}
+
+	@Test
+	@UiThreadTest
+	public void testOnCreateWhenAnnotationsAreDisabled() {
+		FragmentAnnotations.setEnabled(false);
+		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final ActionBarFragment fragment = new TestFragment();
+		fragmentManager.beginTransaction().add(fragment, null).commit();
+		fragmentManager.executePendingTransactions();
+	}
+
+	@Test
+	@SuppressWarnings("ResourceType")
 	public void testOnCreateOptionsMenu() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragmentWithMenuOptions();
+		final Menu mockMenu = mock(Menu.class);
+		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
+		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
+		verifyZeroInteractions(mockMenu);
+		verify(mockMenuInflater, times(1)).inflate(TestFragmentWithMenuOptions.MENU_RESOURCE, mockMenu);
 	}
 
 	@Test
-	public void testOnActivityCreated() {
-		// todo:: implement test
+	@SuppressWarnings("ResourceType")
+	public void testOnCreateOptionsMenuIgnoringSuper() {
+		final ActionBarFragment fragment = new TestFragmentWithMenuOptionsIgnoringSuper();
+		final Menu mockMenu = mock(Menu.class);
+		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
+		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
+		verifyZeroInteractions(mockMenu);
+		verify(mockMenuInflater, times(1)).inflate(TestFragmentWithMenuOptions.MENU_RESOURCE, mockMenu);
 	}
+
+	@Test
+	@SuppressWarnings("ResourceType")
+	public void testOnCreateOptionsMenuBeforeSuper() {
+		final ActionBarFragment fragment = new TestFragmentWithMenuOptionsBeforeSuper();
+		final Menu mockMenu = mock(Menu.class);
+		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
+		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
+		verifyZeroInteractions(mockMenu);
+		verify(mockMenuInflater, times(1)).inflate(TestFragmentWithMenuOptions.MENU_RESOURCE, mockMenu);
+	}
+
+	@Test
+	public void testOnCreateOptionsMenuWithoutMenuResource() {
+		final ActionBarFragment fragment = new TestFragmentWithMenuOptionsWithoutResource();
+		final Menu mockMenu = mock(Menu.class);
+		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
+		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
+		verify(mockMenu, times(1)).clear();
+		verifyNoMoreInteractions(mockMenu);
+		verifyZeroInteractions(mockMenuInflater);
+	}
+
+	@Test
+	public void testOnCreateOptionsMenuForFragmentWithoutMenu() {
+		final ActionBarFragment fragment = new TestFragmentWithoutAnnotation();
+		final Menu mockMenu = mock(Menu.class);
+		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
+		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
+		verifyZeroInteractions(mockMenu);
+		verifyZeroInteractions(mockMenuInflater);
+	}
+
+	@Test
+	public void testOnCreateOptionsMenuWhenAnnotationsAreDisabled() {
+		FragmentAnnotations.setEnabled(false);
+		final ActionBarFragment fragment = new TestFragment();
+		final Menu mockMenu = mock(Menu.class);
+		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
+		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
+		verifyZeroInteractions(mockMenu);
+		verifyZeroInteractions(mockMenuInflater);
+	}
+
+	@Test
+	@UiThreadTest
+	public void testOnActivityCreated() {
+		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final ActionBarFragment fragment = new TestFragment();
+		fragmentManager.beginTransaction().add(fragment, null).commit();
+		fragmentManager.executePendingTransactions();
+		assertThat(fragment.isActionBarAvailable(), is(true));
+		assertThat(fragment.getActionBarDelegate(), is(not(nullValue())));
+	}
+
 
 	@Test
 	public void testIsActionBarAvailable() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragment();
+		fragment.mActionBarDelegate = mock(ActionBarDelegate.class);
+		assertThat(fragment.isActionBarAvailable(), is(true));
 	}
 
 	@Test
-	public void testGetActionBarDelegate() {
-		// todo:: implement test
+	public void testIsActionBarAvailableWhenNotAttached() {
+		assertThat(new TestFragment().isActionBarAvailable(), is(false));
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testGetActionBarDelegateWhenNotAttached() {
+		new TestFragment().getActionBarDelegate();
 	}
 
 	@Test
 	public void testGetActionBar() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragment();
+		final ActivityDelegate mockDelegate = mock(ActivityDelegate.class);
+		fragment.mActivityDelegate = mockDelegate;
+		final ActionBar mockActionBar = mock(ActionBar.class);
+		when(mockDelegate.getActionBar()).thenReturn(mockActionBar);
+		assertThat(fragment.getActionBar(), is(mockActionBar));
+		verify(mockDelegate, times(1)).getActionBar();
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testGetActionBarWhenNotAvailable() {
+		new TestFragment().getActionBar();
 	}
 
 	@Test
 	public void testGetSupportActionBar() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragment();
+		final ActivityDelegate mockDelegate = mock(ActivityDelegate.class);
+		fragment.mActivityDelegate = mockDelegate;
+		final android.support.v7.app.ActionBar mockActionBar = mock(android.support.v7.app.ActionBar.class);
+		when(mockDelegate.getSupportActionBar()).thenReturn(mockActionBar);
+		assertThat(fragment.getSupportActionBar(), is(mockActionBar));
+		verify(mockDelegate, times(1)).getSupportActionBar();
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testGetSupportActionBarWhenNotAvailable() {
+		new TestFragment().getSupportActionBar();
 	}
 
 	@Test
 	public void testInvalidateActionBar() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragment();
+		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		fragment.mActionBarDelegate = mockActionBarDelegate;
+		fragment.invalidateActionBar();
+		verify(mockActionBarDelegate, times(1)).setIcon(TestFragment.ICON_RESOURCE);
+		verify(mockActionBarDelegate, times(1)).setTitle(TestFragment.TITLE_RESOURCE);
+	}
+
+	@Test
+	public void testInvalidateActionBarForFragmentWithoutMenu() {
+		final ActionBarFragment fragment = new TestFragmentWithoutAnnotation();
+		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		fragment.mActionBarDelegate = mockActionBarDelegate;
+		fragment.invalidateActionBar();
+		verifyZeroInteractions(mockActionBarDelegate);
+	}
+
+	@Test
+	public void testInvalidateActionBarWhenNotAttached() {
+		// Only ensure that invocation of the method does not cause any troubles.
+		new TestFragment().invalidateActionBar();
+	}
+
+	@Test
+	public void testInvalidateActionBarWhenAnnotationsAreDisabled() {
+		FragmentAnnotations.setEnabled(false);
+		// Only ensure that invocation of the method does not cause any troubles.
+		final ActionBarFragment fragment = new TestFragment();
+		fragment.mActivityDelegate = mock(ActivityDelegate.class);
+		fragment.invalidateActionBar();
 	}
 
 	@Test
 	public void testStartActionMode() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragment();
+		final ActivityDelegate mockActivityDelegate = mock(ActivityDelegate.class);
+		final ActionMode mockActionMode = mock(ActionMode.class);
+		when(mockActivityDelegate.startActionMode(any(ActionMode.Callback.class))).thenReturn(mockActionMode);
+		fragment.mActivityDelegate = mockActivityDelegate;
+		assertThat(fragment.startActionMode(), is(true));
+		assertThat(fragment.isInActionMode(), is(true));
+		assertThat(fragment.getActionMode(), is(mockActionMode));
+	}
+
+	@Test
+	public void testStartActionModeWhenAlreadyIn() {
+		final ActionBarFragment fragment = new TestFragment();
+		final ActivityDelegate mockActivityDelegate = mock(ActivityDelegate.class);
+		final ActionMode mockActionMode = mock(ActionMode.class);
+		when(mockActivityDelegate.startActionMode(any(ActionMode.Callback.class))).thenReturn(mockActionMode);
+		fragment.mActivityDelegate = mockActivityDelegate;
+		assertThat(fragment.startActionMode(), is(true));
+		assertThat(fragment.isInActionMode(), is(true));
+		assertThat(fragment.getActionMode(), is(mockActionMode));
+		assertThat(fragment.startActionMode(), is(false));
+	}
+
+	@Test
+	public void testStartActionModeWhenNotAttached() {
+		final ActionBarFragment fragment = new TestFragment();
+		assertThat(fragment.startActionMode(), is(false));
+		assertThat(fragment.isInActionMode(), is(false));
+		assertThat(fragment.getActionMode(), is(nullValue()));
+	}
+
+	@Test
+	public void testStartActionModeForInvalidActionMode() {
+		final ActionBarFragment fragment = new TestFragment();
+		final ActivityDelegate mockActivityDelegate = mock(ActivityDelegate.class);
+		when(mockActivityDelegate.startActionMode(any(ActionMode.Callback.class))).thenReturn(null);
+		fragment.mActivityDelegate = mockActivityDelegate;
+		assertThat(fragment.startActionMode(), is(false));
+		assertThat(fragment.isInActionMode(), is(false));
+		assertThat(fragment.getActionMode(), is(nullValue()));
 	}
 
 	@Test
 	public void testStartActionModeWithCallback() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragment();
+		final ActivityDelegate mockActivityDelegate = mock(ActivityDelegate.class);
+		final ActionMode mockActionMode = mock(ActionMode.class);
+		final ActionMode.Callback mockCallback = mock(ActionMode.Callback.class);
+		when(mockActivityDelegate.startActionMode(mockCallback)).thenReturn(mockActionMode);
+		fragment.mActivityDelegate = mockActivityDelegate;
+		assertThat(fragment.startActionMode(mockCallback), is(true));
+		assertThat(fragment.isInActionMode(), is(true));
+		assertThat(fragment.getActionMode(), is(mockActionMode));
 	}
 
 	@Test
 	public void testFinishActionMode() {
-		// todo:: implement test
+		final ActionBarFragment fragment = new TestFragment();
+		final ActionMode mockActionMode = mock(ActionMode.class);
+		fragment.onActionModeStarted(mockActionMode);
+		fragment.onActionModeFinished();
+		assertThat(fragment.isInActionMode(), is(false));
+		assertThat(fragment.getActionMode(), is(nullValue()));
+		verifyZeroInteractions(mockActionMode);
 	}
 
 	@Test
@@ -139,6 +358,44 @@ public final class ActionBarFragmentTest extends BaseInstrumentedTest {
 		assertThat(new TestFragment().onBackPress(), is(false));
 	}
 
+	@MenuOptions
+	@ActionBarOptions(
+			icon = TestFragment.ICON_RESOURCE,
+			title = TestFragment.TITLE_RESOURCE
+	)
 	public static class TestFragment extends ActionBarFragment {
+
+		static final int ICON_RESOURCE = android.R.drawable.ic_delete;
+		static final int TITLE_RESOURCE = android.R.string.ok;
+	}
+
+	@SuppressWarnings("ResourceType")
+	@MenuOptions(value = TestFragmentWithMenuOptions.MENU_RESOURCE)
+	public static class TestFragmentWithMenuOptions extends ActionBarFragment {
+
+		static final int MENU_RESOURCE = 1;
+	}
+
+	@MenuOptions(clear = true)
+	public static class TestFragmentWithMenuOptionsWithoutResource extends ActionBarFragment {
+	}
+
+	@SuppressWarnings("ResourceType")
+	@MenuOptions(
+			value = TestFragmentWithMenuOptions.MENU_RESOURCE,
+			flags = MenuOptions.IGNORE_SUPER
+	)
+	public static class TestFragmentWithMenuOptionsIgnoringSuper extends TestFragmentWithMenuOptions {
+	}
+
+	@SuppressWarnings("ResourceType")
+	@MenuOptions(
+			value = TestFragmentWithMenuOptions.MENU_RESOURCE,
+			flags = MenuOptions.BEFORE_SUPER
+	)
+	public static class TestFragmentWithMenuOptionsBeforeSuper extends TestFragmentWithMenuOptions {
+	}
+
+	public static class TestFragmentWithoutAnnotation extends ActionBarFragment {
 	}
 }

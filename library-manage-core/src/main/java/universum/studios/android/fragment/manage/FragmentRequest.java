@@ -876,8 +876,8 @@ public final class FragmentRequest {
 	 * or {@code null} if this option has not been specified yet.
 	 * @see #allowReturnTransitionOverlap(boolean)
 	 */
-	public boolean allowReturnTransitionOverlap() {
-		return mAllowReturnTransitionOverlap != null && mAllowReturnTransitionOverlap;
+	public Boolean allowReturnTransitionOverlap() {
+		return mAllowReturnTransitionOverlap;
 	}
 
 	/**
