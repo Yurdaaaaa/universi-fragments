@@ -22,7 +22,7 @@
 <resources>
 
 	<!-- Test theme requesting ActionBar feature. -->
-	<style name="Test.Theme.ActionBar" parent="android:Theme">
+	<style name="Test.Theme.ActionBar" parent="android:Theme.Holo">
 		<item name="android:windowActionBar">true</item>
 	</style>
 

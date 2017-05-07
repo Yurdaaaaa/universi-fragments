@@ -26,5 +26,8 @@
 	<application
 		android:theme="@style/Theme.AppCompat"
 		android:label="Fragments Tests"
-		tools:replace="android:label"/>
+		tools:replace="android:label">
+
+		<activity android:name="universum.studios.android.fragment.manage.FragmentControllerTest$TestActivityWithAlInterfaces"/>
+	</application>
 </manifest>

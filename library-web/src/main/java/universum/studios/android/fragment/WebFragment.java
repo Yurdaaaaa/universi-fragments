@@ -443,16 +443,16 @@ public class WebFragment extends ActionBarFragment {
 	@Override
 	public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 		this.mWebView = new WebView(inflater.getContext());
-		mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-		mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+		this.mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+		this.mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 		// Set custom WebViewClient and WebChromeClient.
 		final WebViewClient client = onCreateWebViewClient();
 		if (client != null) {
-			mWebView.setWebViewClient(client);
+			this.mWebView.setWebViewClient(client);
 		}
 		final WebChromeClient chromeClient = onCreateWebChromeClient();
 		if (chromeClient != null) {
-			mWebView.setWebChromeClient(chromeClient);
+			this.mWebView.setWebChromeClient(chromeClient);
 		}
 		return mWebView;
 	}

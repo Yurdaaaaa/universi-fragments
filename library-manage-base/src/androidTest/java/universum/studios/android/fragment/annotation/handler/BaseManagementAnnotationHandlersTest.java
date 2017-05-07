@@ -22,7 +22,17 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import universum.studios.android.fragment.manage.BaseFragmentFactory;
 import universum.studios.android.test.BaseInstrumentedTest;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.nullValue;
 
 /**
  * @author Martin Albedinsky
@@ -33,8 +43,25 @@ public final class BaseManagementAnnotationHandlersTest extends BaseInstrumented
 	@SuppressWarnings("unused")
 	private static final String TAG = "BaseManagementAnnotationHandlersTest";
 
-    @Test
-	public void test() {
-		// todo:: implement test
+	@Test(expected = UnsupportedOperationException.class)
+	public void testInstantiation() throws Exception {
+		new BaseManagementAnnotationHandlers();
+	}
+
+	@Test(expected = InvocationTargetException.class)
+	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		final Constructor<BaseManagementAnnotationHandlers> constructor = BaseManagementAnnotationHandlers.class.getDeclaredConstructor();
+		constructor.setAccessible(true);
+		constructor.newInstance();
+	}
+
+	@Test
+	public void testObtainFragmentHandler() {
+		final FragmentFactoryAnnotationHandler handler = BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactory.class);
+		assertThat(handler, is(not(nullValue())));
+		assertThat(handler, instanceOf(BaseManagementAnnotationHandlers.FragmentFactoryHandler.class));
+	}
+
+	public static final class TestFactory extends BaseFragmentFactory {
 	}
 }

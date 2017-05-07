@@ -66,7 +66,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * A {@link FragmentFactoryAnnotationHandler} implementation for {@link BaseFragmentFactory} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static final class FragmentFactoryHandler extends BaseAnnotationHandler implements FragmentFactoryAnnotationHandler {
+	static final class FragmentFactoryHandler extends BaseAnnotationHandler implements FragmentFactoryAnnotationHandler {
 
 		/**
 		 * Array of fragment items populated from the {@link FactoryFragments @FactoryFragments} or
@@ -117,9 +117,11 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 									)
 							));
 						} catch (IllegalAccessException e) {
+							// This exception should not be thrown as we are changing accessibility
+							// of the field via field.setAccessible(true);
 							Log.e(
 									FragmentFactoryAnnotationHandler.class.getSimpleName(),
-									"Failed to obtain id value from @FactoryFragment " + name + "!",
+									"Failed to obtain id value from @FactoryFragment " + name + " of " + annotatedClass.getName() + "!",
 									e
 							);
 						}
@@ -131,8 +133,8 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 
 		/**
 		 */
-		@Override
 		@Nullable
+		@Override
 		public SparseArray<FragmentItem> getFragmentItems() {
 			return items;
 		}

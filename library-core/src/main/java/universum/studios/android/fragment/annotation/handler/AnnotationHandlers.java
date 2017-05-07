@@ -158,7 +158,10 @@ public abstract class AnnotationHandlers {
 	 */
 	static void clearHandlers() {
 		synchronized (LOCK) {
-			if (sHandlers != null) sHandlers.clear();
+			if (sHandlers != null) {
+				sHandlers.clear();
+				sHandlers = null;
+			}
 		}
 	}
 

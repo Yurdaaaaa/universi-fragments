@@ -98,6 +98,12 @@ public final class AnnotationHandlersTest extends BaseInstrumentedTest {
 		FragmentAnnotations.setEnabled(true);
 	}
 
+	@Test
+	public void testClearHandlersWhenAlreadyCleared() {
+		AnnotationHandlers.clearHandlers();
+		AnnotationHandlers.clearHandlers();
+	}
+
 	private static final class Handler implements AnnotationHandler {
 
 		private final Class<?> annotatedClass;

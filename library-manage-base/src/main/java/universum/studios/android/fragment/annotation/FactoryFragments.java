@@ -18,6 +18,8 @@
  */
 package universum.studios.android.fragment.annotation;
 
+import android.support.annotation.Size;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
@@ -44,5 +46,6 @@ public @interface FactoryFragments {
 	 *
 	 * @see FragmentFactory#isFragmentProvided(int)
 	 */
+	@Size(min = 1)
 	int[] value();
 }

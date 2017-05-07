@@ -15,6 +15,7 @@ Change-Log
   with **translate** animations. When these animations (animators) are used to transition between
   fragments and the animator duration scale setting is set to off, views of those fragments are just
   not shown/drawn even thought the fragments are properly added/shown.
+- Removed deprecated methods of `FragmentRequest` class from the previous release.
 
 ### [Release 1.1.1](https://github.com/universum-studios/android_fragments/releases/tag/1.1.1) ###
 > 03.03.2017

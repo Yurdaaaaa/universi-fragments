@@ -57,7 +57,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends BaseInstrument
 
 	@Test
 	public void testActionBarOptions() {
-		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragment.class);
+		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentActionBarOptions.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
 		annotationHandler.configureActionBar(mockActionBarDelegate);
 		verify(mockActionBarDelegate, times(1)).setDisplayHomeAsUpEnabled(true);
@@ -207,13 +207,33 @@ public final class ActionBarFragmentAnnotationHandlerTest extends BaseInstrument
 		verifyZeroInteractions(mockMenu);
 	}
 
+	@Test
+	public void testFragmentWithoutAnnotation() {
+		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithoutAnnotation.class);
+		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		annotationHandler.configureActionBar(mockActionBarDelegate);
+		verifyZeroInteractions(mockActionBarDelegate);
+		assertThat(annotationHandler.hasOptionsMenu(), is(false));
+		assertThat(annotationHandler.shouldClearOptionsMenu(), is(false));
+		assertThat(annotationHandler.getOptionsMenuResource(-1), is(-1));
+		assertThat(annotationHandler.getOptionsMenuFlags(-1), is(-1));
+		final ActionMode mockActionMode = mock(ActionMode.class);
+		final Menu mockMenu = mock(Menu.class);
+		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
+		when(mockActionMode.getMenuInflater()).thenReturn(mockMenuInflater);
+		assertThat(annotationHandler.handleCreateActionMode(mockActionMode, mockMenu), is(false));
+		verifyZeroInteractions(mockActionMode);
+		verifyZeroInteractions(mockMenuInflater);
+		verifyZeroInteractions(mockMenu);
+	}
+
 	@ActionBarOptions(
 			title = android.R.string.ok,
 			icon = android.R.drawable.ic_delete,
 			homeAsUp = ActionBarOptions.HOME_AS_UP_ENABLED,
 			homeAsUpIndicator = android.R.drawable.ic_lock_lock
 	)
-	public static class TestFragment extends ActionBarFragment {
+	public static class TestFragmentActionBarOptions extends ActionBarFragment {
 	}
 
 	@ActionBarOptions
@@ -268,5 +288,8 @@ public final class ActionBarFragmentAnnotationHandlerTest extends BaseInstrument
 
 	@ActionModeOptions
 	public static class TestFragmentWithEmptyActionModeOptions extends ActionBarFragment {
+	}
+
+	public static class TestFragmentWithoutAnnotation extends ActionBarFragment {
 	}
 }
