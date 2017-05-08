@@ -18,14 +18,21 @@
  */
 package universum.studios.android.fragment.manage;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.transition.Transition;
+import android.view.View;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -35,15 +42,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import universum.studios.android.fragment.FragmentPolicies;
+import universum.studios.android.fragment.util.FragmentUtils;
 import universum.studios.android.test.BaseInstrumentedTest;
 import universum.studios.android.test.TestActivity;
 import universum.studios.android.test.TestFragment;
+import universum.studios.android.test.TestResources;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
+import static org.junit.Assume.assumeTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -366,13 +378,106 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 	}
 
 	@Test
+	@SuppressLint("CommitTransaction")
 	public void testCreateTransaction() {
-		// todo:: implement test
+		final FragmentManager mockManager = mock(FragmentManager.class);
+		final FragmentController controller = new FragmentController(mockManager);
+		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		final Fragment mockFragment = mock(TestFragment.class);
+		final FragmentRequest request = controller.newRequest(mockFragment);
+		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
+		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		final FragmentTransaction transaction = controller.createTransaction(request);
+		assertThat(transaction, is(notNullValue()));
+		// todo: verify
+	}
+
+	@Test
+	@SuppressLint("CommitTransaction")
+	public void testCreateTransactionForEmptyRequest() {
+		final FragmentManager mockManager = mock(FragmentManager.class);
+		final FragmentController controller = new FragmentController(mockManager);
+		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		final Fragment mockFragment = mock(TestFragment.class);
+		final FragmentRequest request = controller.newRequest(mockFragment);
+		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
+		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		final FragmentTransaction transaction = controller.createTransaction(request);
+		assertThat(transaction, is(notNullValue()));
+		verify(mockFragment, times(0)).setArguments(any(Bundle.class));
+		verify(mockTransaction, times(0)).setCustomAnimations(anyInt(), anyInt(), anyInt(), anyInt());
+		verify(mockTransaction, times(0)).setTransitionStyle(anyInt());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			verify(mockTransaction, times(0)).addSharedElement(any(View.class), anyString());
+		}
+		verify(mockTransaction, times(0)).addToBackStack(anyString());
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testCreateTransactionWhenDestroyed() {
+		final FragmentManager mockManager = mock(FragmentManager.class);
+		final FragmentController controller = new FragmentController(mockManager);
+		final FragmentRequest request = controller.newRequest(new TestFragment());
+		controller.destroy();
+		controller.createTransaction(request);
+	}
+
+	@Test
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+	public void testAttachTransitionsToFragment() {
+		assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+		final Fragment mockFragment = mock(TestFragment.class);
+		final Transition enterTransition = inflateTestTransition();
+		final Transition exitTransition = inflateTestTransition();
+		final Transition reenterTransition = inflateTestTransition();
+		final Transition returnTransition = inflateTestTransition();
+		final Transition sharedElementEnterTransition = inflateTestTransition();
+		final Transition sharedElementEnterReturnTransition = inflateTestTransition();
+		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), mockFragment)
+				.enterTransition(enterTransition)
+				.exitTransition(exitTransition)
+				.reenterTransition(reenterTransition)
+				.returnTransition(returnTransition)
+				.sharedElementEnterTransition(sharedElementEnterTransition)
+				.sharedElementReturnTransition(sharedElementEnterReturnTransition)
+				.allowEnterTransitionOverlap(true)
+				.allowReturnTransitionOverlap(false);
+		FragmentController.attachTransitionsToFragment(request, mockFragment);
+		verify(mockFragment, times(1)).setEnterTransition(enterTransition);
+		verify(mockFragment, times(1)).setExitTransition(exitTransition);
+		verify(mockFragment, times(1)).setReenterTransition(reenterTransition);
+		verify(mockFragment, times(1)).setReturnTransition(returnTransition);
+		verify(mockFragment, times(1)).setSharedElementEnterTransition(sharedElementEnterTransition);
+		verify(mockFragment, times(1)).setSharedElementReturnTransition(sharedElementEnterReturnTransition);
+		verify(mockFragment, times(1)).setAllowEnterTransitionOverlap(true);
+		verify(mockFragment, times(1)).setAllowReturnTransitionOverlap(false);
+		verifyNoMoreInteractions(mockFragment);
+	}
+
+	@Test
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+	public void testAttachTransitionsToFragmentForRequestWithoutTransitions() {
+		assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+		final Fragment mockFragment = mock(TestFragment.class);
+		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), mockFragment);
+		FragmentController.attachTransitionsToFragment(request, mockFragment);
+		verifyZeroInteractions(mockFragment);
 	}
 
 	@Test
 	public void testFindCurrentFragment() {
-		// todo:: implement test
+		final FragmentManager mockManager = mock(FragmentManager.class);
+		final FragmentController controller = new FragmentController(mockManager);
+		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		final Fragment mockFragment = mock(TestFragment.class);
+		when(mockManager.findFragmentById(controller.getViewContainerId())).thenReturn(mockFragment);
+		assertThat(controller.findCurrentFragment(), is(mockFragment));
+		verify(mockManager, times(1)).findFragmentById(controller.getViewContainerId());
+	}
+
+	@Test(expected = UnsupportedOperationException.class)
+	public void testFindCurrentFragmentWithoutViewContainerIdSpecified() {
+		new FragmentController(mock(FragmentManager.class)).findCurrentFragment();
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -382,7 +487,36 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 
 	@Test
 	public void testFindFragmentByFactoryId() {
-		// todo:: implement test
+		final FragmentManager mockManager = mock(FragmentManager.class);
+		final FragmentController controller = new FragmentController(mockManager);
+		final FragmentFactory mockFactory = mock(FragmentFactory.class);
+		controller.setFactory(mockFactory);
+		when(mockFactory.isFragmentProvided(TestFactory.FRAGMENT_1)).thenReturn(true);
+		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn("TAG.TestFragment");
+		final Fragment mockFragmnet = mock(TestFragment.class);
+		when(mockManager.findFragmentByTag("TAG.TestFragment")).thenReturn(mockFragmnet);
+		assertThat(controller.findFragmentByFactoryId(TestFactory.FRAGMENT_1), is(mockFragmnet));
+		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory, times(1)).createFragmentTag(TestFactory.FRAGMENT_1);
+		verify(mockManager, times(1)).findFragmentByTag("TAG.TestFragment");
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testFindFragmentByFactoryIdWithoutFactoryAttached() {
+		new FragmentController(mock(FragmentManager.class)).findFragmentByFactoryId(TestFactory.FRAGMENT_1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFindFragmentByFactoryIdWithFactoryNotProvidingFragment() {
+		final FragmentManager mockManager = mock(FragmentManager.class);
+		final FragmentController controller = new FragmentController(mockManager);
+		final FragmentFactory mockFactory = mock(FragmentFactory.class);
+		controller.setFactory(mockFactory);
+		when(mockFactory.isFragmentProvided(anyInt())).thenReturn(false);
+		controller.findFragmentByFactoryId(TestFactory.FRAGMENT_1);
+		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verifyNoMoreInteractions(mockFactory);
+		verifyZeroInteractions(mockManager);
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -537,6 +671,11 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 		final FragmentController controller = new FragmentController(ACTIVITY_RULE.getActivity().getFragmentManager());
 		controller.destroy();
 		return controller;
+	}
+
+	@Nullable
+	private Transition inflateTestTransition() {
+		return FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(mContext, TestResources.TRANSITION, "transition_fade"));
 	}
 
 	public static final class TestActivityWithAlInterfaces extends TestActivity

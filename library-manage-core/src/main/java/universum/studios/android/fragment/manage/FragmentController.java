@@ -27,6 +27,7 @@ import android.os.Build;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
 import android.transition.Transition;
@@ -728,7 +729,7 @@ public class FragmentController {
 		}
 		// Attach transitions with shared elements, if specified and supported.
 		if (CAN_ATTACH_TRANSITIONS) {
-			this.attachTransitionsToFragment(request, fragment);
+			attachTransitionsToFragment(request, fragment);
 			if (request.mSharedElements != null && !request.mSharedElements.isEmpty()) {
 				final List<Pair<View, String>> elements = request.mSharedElements;
 				for (final Pair<View, String> pair : elements) {
@@ -749,8 +750,8 @@ public class FragmentController {
 	 * @param request  Request caring the specified transitions for the fragment.
 	 * @param fragment The fragment instance to which to attach the transitions.
 	 */
-	@SuppressWarnings("NewApi")
-	private void attachTransitionsToFragment(final FragmentRequest request, final Fragment fragment) {
+	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+	static void attachTransitionsToFragment(final FragmentRequest request, final Fragment fragment) {
 		if (request.hasTransition(FragmentRequest.TRANSITION_ENTER)) {
 			fragment.setEnterTransition(request.mEnterTransition);
 		}

@@ -61,11 +61,6 @@ public final class FragmentRequestTest extends BaseInstrumentedTest {
 		assertThat(FragmentRequest.NO_STYLE, is(-1));
     }
 
-    @Nullable
-    private Transition inflateTestTransition() {
-	    return FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(mContext, TestResources.TRANSITION, "transition_fade"));
-    }
-
 	@Test
 	public void testInstantiation() {
 		final FragmentController mockController = mock(FragmentController.class);
@@ -525,5 +520,10 @@ public final class FragmentRequestTest extends BaseInstrumentedTest {
 	@Test
 	public void testExecutedDefault() {
 		assertThat(new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID).executed(), is(false));
+	}
+
+	@Nullable
+	private Transition inflateTestTransition() {
+		return FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(mContext, TestResources.TRANSITION, "transition_fade"));
 	}
 }
