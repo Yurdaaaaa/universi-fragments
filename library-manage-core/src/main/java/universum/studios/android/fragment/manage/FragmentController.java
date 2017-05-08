@@ -578,15 +578,13 @@ public class FragmentController {
 				return null;
 			}
 			request.mFragment = fragment;
-			if (request.mTag == null) {
-				request.tag(mFactory.createFragmentTag(fragmentId));
-			}
+			request.tag(mFactory.createFragmentTag(fragmentId));
 		}
 		fragment = mRequestInterceptor == null ? null : mRequestInterceptor.interceptFragmentRequest(request);
 		if (fragment == null) {
 			fragment = onExecuteRequest(request);
 		}
-		this.notifyRequestExecuted(request);
+		notifyRequestExecuted(request);
 		return fragment;
 	}
 

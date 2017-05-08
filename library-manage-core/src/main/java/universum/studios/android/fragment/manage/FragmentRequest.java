@@ -66,8 +66,8 @@ import java.util.List;
  * <li>{@link #sharedElements(Pair[])}</li>
  * <li>{@link #replaceSame(boolean)}</li>
  * <li>{@link #addToBackStack(boolean)}</li>
- * <li>{@link #executeAllowingStateLoss(boolean)}</li>
- * <li>{@link #executeImmediate(boolean)}</li>
+ * <li>{@link #allowStateLoss(boolean)}</li>
+ * <li>{@link #immediate(boolean)}</li>
  * </ul>
  * <p>
  * <b>Note, that each fragment request may be executed only once.</b>
