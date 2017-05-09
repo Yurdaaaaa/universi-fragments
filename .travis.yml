@@ -4,7 +4,7 @@ sudo: false
 
 # Install wait script which ensures that even when the tests will run more than 10 minutes, the CI
 # build will continue without interuption.
-install: travis_wait mvn install
+install: travis_wait ./ci/tests.sh
 
 # Android components
 android:
