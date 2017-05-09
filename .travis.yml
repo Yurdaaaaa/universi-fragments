@@ -30,6 +30,7 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
+  - ./ci/assemble.sh
   # Not running tests because on slow Travis-CI server they may run more than 10 mins and
   # `travis_wait` command just does not work.
   # - travis_wait ./ci/tests.sh
