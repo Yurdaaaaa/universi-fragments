@@ -31,8 +31,6 @@ before_script:
 
 script:
   - ./ci/assemble.sh
-  - ./gradlew :library:clean
-  - ./gradlew :library:check
   - travis_wait 30 ./gradlew :library:connectedAndroidTest
 
 after_success:
