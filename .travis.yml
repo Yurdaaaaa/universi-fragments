@@ -2,10 +2,6 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
-# Install wait script which ensures that even when the tests will run more than 10 minutes, the CI
-# build will continue without interuption.
-install: travis_wait ./ci/tests.sh
-
 # Android components
 android:
   components:
@@ -34,10 +30,10 @@ before_script:
   - adb shell input keyevent 82 &
 
 script:
-  - ./ci/tests.sh
+  - travis_wait 30 ./ci/tests.sh
 
 after_success:
-  - ./ci/coverage.sh
+  - travis_wait 30 ./ci/coverage.sh
   - ./ci/deploy.sh
 
 # Notications
