@@ -1,9 +1,11 @@
 Change-Log
 ===============
 
-### Release 1.2.0 ###
-> --.05.2017
+### [Release 1.2.0](https://github.com/universum-studios/android_fragments/releases/tag/1.2.0) ###
+> 09.05.2017
 
+- **Annotations processing via reflection is by default DISABLED**. If desired, may be enabled via
+  `FragmentAnnotations.setEnabled(true)`.
 - Deprecated `FragmentsConfig` and added `FragmentsLogging` along with `FragmentPolicies` in order
   to control log output of the library or to check what features are available for the Fragments
   API at the current **Android** API level.
