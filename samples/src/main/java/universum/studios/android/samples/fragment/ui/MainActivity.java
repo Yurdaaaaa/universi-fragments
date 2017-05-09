@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
 import universum.studios.android.fragment.BackPressWatcher;
+import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.manage.FragmentController;
 import universum.studios.android.samples.fragment.R;
 import universum.studios.android.samples.fragment.ui.web.SampleWebFragment;
@@ -41,6 +42,10 @@ public final class MainActivity extends SamplesNavigationActivity {
 	@SuppressWarnings("unused")
 	private static final String TAG = "MainActivity";
 
+	static {
+		FragmentAnnotations.setEnabled(true);
+	}
+
 	private FragmentController fragmentController;
 
 	@Override
@@ -54,10 +59,10 @@ public final class MainActivity extends SamplesNavigationActivity {
 	protected boolean onHandleNavigationItemSelected(@NonNull MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.navigation_item_home:
-				fragmentController.newRequest(new SamplesMainFragment()).execute();
+				fragmentController.newRequest(new SamplesMainFragment()).replaceSame(true).execute();
 				return true;
 			case R.id.navigation_item_web:
-				fragmentController.newRequest(new SampleWebFragment()).execute();
+				fragmentController.newRequest(new SampleWebFragment()).replaceSame(true).execute();
 				return true;
 			case R.id.navigation_item_welcome:
 				startActivity(new Intent(this, WelcomeActivity.class));

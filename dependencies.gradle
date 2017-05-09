@@ -38,11 +38,12 @@ def test = [
 ]
 
 def universumStudios = [
-        logger  : "universum.studios.android:logger:${versions.universumStudiosLoggerVersion}@aar",
-        samples : "universum.studios.android:samples:${versions.universumStudiosSamplesVersion}@aar",
-        ui      : "universum.studios.android:ui:0.9.1@aar",
-        fontCore: "universum.studios.android:font-core:1.0.0@aar",
-        fontUtil: "universum.studios.android:font-util:1.0.0@aar"
+        logger           : "universum.studios.android:logger:${versions.universumStudiosLoggerVersion}@aar",
+        samples          : "universum.studios.android:samples:${versions.universumStudiosSamplesVersion}@aar",
+        ui               : "universum.studios.android:ui:0.9.1@aar",
+        graphicsColorUtil: "universum.studios.android:graphics-color-util:1.0.0@aar",
+        fontCore         : "universum.studios.android:font-core:1.0.0@aar",
+        fontUtil         : "universum.studios.android:font-util:1.0.0@aar"
 ]
 
 def other = [

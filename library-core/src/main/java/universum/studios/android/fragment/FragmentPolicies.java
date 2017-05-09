@@ -58,12 +58,22 @@ public final class FragmentPolicies {
 	 *
 	 * @return {@code True} if animations will be played, {@code false} otherwise.
 	 */
+	@SuppressWarnings("deprecation")
 	public static boolean willBeCustomAnimationsPlayed(@NonNull final Context context) {
-		return Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 ||
-				Settings.Global.getFloat(
-						context.getContentResolver(),
-						Settings.Global.ANIMATOR_DURATION_SCALE,
-						0
-				) > 0f;
+		float animatorDurationScale = -1;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			animatorDurationScale = Settings.Global.getFloat(
+					context.getContentResolver(),
+					Settings.Global.ANIMATOR_DURATION_SCALE,
+					animatorDurationScale
+			);
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			animatorDurationScale = Settings.System.getFloat(
+					context.getContentResolver(),
+					Settings.System.ANIMATOR_DURATION_SCALE,
+					animatorDurationScale
+			);
+		}
+		return animatorDurationScale == -1 || animatorDurationScale > 0;
 	}
 }
