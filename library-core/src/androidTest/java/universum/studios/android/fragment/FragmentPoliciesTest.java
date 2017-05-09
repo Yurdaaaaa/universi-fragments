@@ -25,6 +25,9 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 import universum.studios.android.test.BaseInstrumentedTest;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -43,8 +46,20 @@ public final class FragmentPoliciesTest extends BaseInstrumentedTest {
 	private static final String TAG = "FragmentPoliciesTest";
 
 	@Test
-	public void testFlags() {
+	public void testConstants() {
 		assertThat(FragmentPolicies.TRANSITIONS_SUPPORTED, is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP));
+	}
+
+	@Test(expected = IllegalAccessException.class)
+	public void testInstantiation() throws Exception {
+		FragmentPolicies.class.newInstance();
+	}
+
+	@Test(expected = InvocationTargetException.class)
+	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		final Constructor<FragmentPolicies> constructor = FragmentPolicies.class.getDeclaredConstructor();
+		constructor.setAccessible(true);
+		constructor.newInstance();
 	}
 
 	@Test

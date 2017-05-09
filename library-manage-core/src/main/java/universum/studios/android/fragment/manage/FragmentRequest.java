@@ -66,8 +66,8 @@ import java.util.List;
  * <li>{@link #sharedElements(Pair[])}</li>
  * <li>{@link #replaceSame(boolean)}</li>
  * <li>{@link #addToBackStack(boolean)}</li>
- * <li>{@link #executeAllowingStateLoss(boolean)}</li>
- * <li>{@link #executeImmediate(boolean)}</li>
+ * <li>{@link #allowStateLoss(boolean)}</li>
+ * <li>{@link #immediate(boolean)}</li>
  * </ul>
  * <p>
  * <b>Note, that each fragment request may be executed only once.</b>
@@ -435,9 +435,11 @@ public final class FragmentRequest {
 	 *
 	 * @param controller Fragment controller that creates the new request and will be also responsible
 	 *                   for its execution.
+	 * @param fragmentId Id of the factory fragment to be associated with this request.
 	 */
-	FragmentRequest(final FragmentController controller) {
+	FragmentRequest(final FragmentController controller, int fragmentId) {
 		this(controller, null);
+		this.mFragmentId = fragmentId;
 	}
 
 	/**
@@ -876,8 +878,8 @@ public final class FragmentRequest {
 	 * or {@code null} if this option has not been specified yet.
 	 * @see #allowReturnTransitionOverlap(boolean)
 	 */
-	public boolean allowReturnTransitionOverlap() {
-		return mAllowReturnTransitionOverlap != null && mAllowReturnTransitionOverlap;
+	public Boolean allowReturnTransitionOverlap() {
+		return mAllowReturnTransitionOverlap;
 	}
 
 	/**
@@ -1063,16 +1065,6 @@ public final class FragmentRequest {
 	}
 
 	/**
-	 * <b>This method will be removed in the next release.</b>
-	 *
-	 * @deprecated Use {@link #allowStateLoss(boolean)} instead.
-	 */
-	@Deprecated
-	public FragmentRequest executeAllowingStateLoss(final boolean allowing) {
-		return allowStateLoss(allowing);
-	}
-
-	/**
 	 * Sets a boolean flag indicating whether {@link FragmentTransaction} for the associated fragment
 	 * may be committed allowing state loss or not.
 	 *
@@ -1083,16 +1075,6 @@ public final class FragmentRequest {
 	 */
 	public FragmentRequest allowStateLoss(final boolean allow) {
 		return setHasFlag(ALLOW_STATE_LOSS, allow);
-	}
-
-	/**
-	 * <b>This method will be removed in the next release.</b>
-	 *
-	 * @deprecated Use {@link #allowStateLoss()} instead.
-	 */
-	@Deprecated
-	public boolean executeAllowingStateLoss() {
-		return allowStateLoss();
 	}
 
 	/**
@@ -1108,16 +1090,6 @@ public final class FragmentRequest {
 	}
 
 	/**
-	 * <b>This method will be removed in the next release.</b>
-	 *
-	 * @deprecated Use {@link #immediate(boolean)} instead.
-	 */
-	@Deprecated
-	public FragmentRequest executeImmediate(final boolean immediate) {
-		return immediate(immediate);
-	}
-
-	/**
 	 * Sets a boolean flag indicating whether {@link FragmentTransaction} for the associated fragment
 	 * should be executed immediately or not.
 	 *
@@ -1129,16 +1101,6 @@ public final class FragmentRequest {
 	 */
 	public FragmentRequest immediate(final boolean immediate) {
 		return setHasFlag(IMMEDIATE, immediate);
-	}
-
-	/**
-	 * <b>This method will be removed in the next release.</b>
-	 *
-	 * @deprecated Use {@link #immediate()} instead.
-	 */
-	@Deprecated
-	public boolean executeImmediate() {
-		return immediate();
 	}
 
 	/**

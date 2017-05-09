@@ -24,7 +24,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 
 /**
- * Class containing policies related to the Android fragments API.
+ * Class that declares policies related to the Android {@code Fragments} API.
  *
  * @author Martin Albedinsky
  */

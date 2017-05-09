@@ -38,19 +38,11 @@ import universum.studios.android.fragment.annotation.MenuOptions;
  *
  * @author Martin Albedinsky
  */
-@SuppressWarnings("unused")
 public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 
 	/*
 	 * Constructors ================================================================================
 	 */
-
-	/**
-	 */
-	private ActionBarAnnotationHandlers() {
-		super();
-		// Not allowed to be instantiated publicly.
-	}
 
 	/*
 	 * Methods =====================================================================================
@@ -73,7 +65,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * An {@link ActionBarFragmentAnnotationHandler} implementation for {@link ActionBarFragment} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static class ActionBarFragmentHandler extends BaseAnnotationHandlers.FragmentHandler implements ActionBarFragmentAnnotationHandler {
+	static class ActionBarFragmentHandler extends BaseAnnotationHandlers.FragmentHandler implements ActionBarFragmentAnnotationHandler {
 
 		/**
 		 * Action bar's home as up flag obtained from the annotated class.
@@ -147,21 +139,13 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		private int actionModeMenuResource = NO_RES;
 
 		/**
-		 * Same as {@link #ActionBarFragmentHandler(Class, Class)} with {@link ActionBarFragment}
-		 * as <var>maxSuperClass</var>.
+		 * Creates a new instance of ActionBarFragmentHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
 		public ActionBarFragmentHandler(@NonNull final Class<?> annotatedClass) {
-			this(annotatedClass, ActionBarFragment.class);
-		}
-
-		/**
-		 * Creates a new instance of ActionBarFragmentHandler for the specified <var>annotatedClass</var>.
-		 *
-		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)
-		 */
-		ActionBarFragmentHandler(final Class<?> annotatedClass, final Class<?> maxSuperClass) {
-			super(annotatedClass, maxSuperClass);
-			final ActionBarOptions actionBarOptions = findAnnotationRecursive(ActionBarOptions.class);
+			super(annotatedClass);
+			final ActionBarOptions actionBarOptions = findAnnotation(ActionBarOptions.class);
 			if (actionBarOptions != null) {
 				this.homeAsUp = actionBarOptions.homeAsUp();
 				this.homeAsUpVectorIndicator = actionBarOptions.homeAsUpVectorIndicator();
@@ -169,14 +153,14 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 				this.icon = actionBarOptions.icon();
 				this.title = actionBarOptions.title();
 			}
-			final MenuOptions menuOptions = findAnnotationRecursive(MenuOptions.class);
+			final MenuOptions menuOptions = findAnnotation(MenuOptions.class);
 			if (menuOptions != null) {
 				this.hasOptionsMenu = true;
 				this.clearOptionsMenu = menuOptions.clear();
 				this.optionsMenuFlags = menuOptions.flags();
 				this.optionsMenuResource = menuOptions.value();
 			}
-			final ActionModeOptions actionModeOptions = findAnnotationRecursive(ActionModeOptions.class);
+			final ActionModeOptions actionModeOptions = findAnnotation(ActionModeOptions.class);
 			if (actionModeOptions != null) {
 				this.actionModeMenuResource = actionModeOptions.menu();
 			}
@@ -187,12 +171,12 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		@Override
 		public void configureActionBar(@NonNull final ActionBarDelegate actionBarDelegate) {
 			switch (homeAsUp) {
-				case ActionBarOptions.HOME_AS_UP_DISABLED:
-					actionBarDelegate.setDisplayHomeAsUpEnabled(false);
-					break;
 				case ActionBarOptions.HOME_AS_UP_ENABLED:
 					actionBarDelegate.setDisplayHomeAsUpEnabled(true);
 					this.hasOptionsMenu = true;
+					break;
+				case ActionBarOptions.HOME_AS_UP_DISABLED:
+					actionBarDelegate.setDisplayHomeAsUpEnabled(false);
 					break;
 				default:
 					// Do not "touch" ActionBar's enabled state.

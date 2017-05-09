@@ -112,10 +112,10 @@ public class BasicFragmentTransition implements FragmentTransition {
 
 	/**
 	 * Same as {@link #BasicFragmentTransition(int, int, int, int, String)} with name specified
-	 * as {@code "UNKNOWN"}.
+	 * as {@code "UNSPECIFIED"}.
 	 */
 	public BasicFragmentTransition(@AnimatorRes final int inAnim, @AnimatorRes final int outAnim, @AnimatorRes final int inBackAnim, @AnimatorRes final int outBackAnim) {
-		this(inAnim, outAnim, inBackAnim, outBackAnim, "UNKNOWN");
+		this(inAnim, outAnim, inBackAnim, outBackAnim, "UNSPECIFIED");
 	}
 
 	/**

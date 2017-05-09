@@ -107,24 +107,25 @@ public abstract class AnnotationHandlers {
 	@Nullable
 	@SuppressWarnings({"unchecked", "ConstantConditions"})
 	public static <T extends AnnotationHandler> T obtainHandler(@NonNull final Class<T> classOfHandler, @NonNull final Class<?> annotatedClass) {
-		if (!FragmentAnnotations.isEnabled()) return null;
-		Object handler;
-		synchronized (LOCK) {
-			if (sHandlers == null) {
-				sHandlers = new HashMap<>(HANDLERS_INITIAL_CAPACITY);
-			}
-			handler = sHandlers.get(annotatedClass);
-			if (handler == null) {
-				handler = instantiateHandler(classOfHandler, annotatedClass);
-				sHandlers.put(annotatedClass, handler);
-			} else if (!handler.getClass().equals(classOfHandler)) {
-				final String newHandlerName = classOfHandler.getSimpleName();
-				final String currentHandlerName = handler.getClass().getSimpleName();
-				final String className = annotatedClass.getSimpleName();
-				throw new ClassCastException(
-						"Trying to obtain handler(" + newHandlerName + ") for class(" + className + ") while there " +
-								"is already handler(" + currentHandlerName + ") of different type for that class!"
-				);
+		Object handler = null;
+		if (FragmentAnnotations.isEnabled()) {
+			synchronized (LOCK) {
+				if (sHandlers == null) {
+					sHandlers = new HashMap<>(HANDLERS_INITIAL_CAPACITY);
+				}
+				handler = sHandlers.get(annotatedClass);
+				if (handler == null) {
+					handler = instantiateHandler(classOfHandler, annotatedClass);
+					sHandlers.put(annotatedClass, handler);
+				} else if (!handler.getClass().equals(classOfHandler)) {
+					final String newHandlerName = classOfHandler.getSimpleName();
+					final String currentHandlerName = handler.getClass().getSimpleName();
+					final String className = annotatedClass.getSimpleName();
+					throw new ClassCastException(
+							"Trying to obtain handler(" + newHandlerName + ") for class(" + className + ") while there " +
+									"is already handler(" + currentHandlerName + ") of different type for that class!"
+					);
+				}
 			}
 		}
 		return (T) handler;
@@ -150,6 +151,18 @@ public abstract class AnnotationHandlers {
 			final String handlerName = classOfHandler.getSimpleName();
 			final String className = annotatedClass.getSimpleName();
 			throw new IllegalStateException("Failed to instantiate annotation handler(" + handlerName + ") for(" + className + ").", e);
+		}
+	}
+
+	/**
+	 * Clears cache with already obtained/instantiated annotation handlers.
+	 */
+	static void clearHandlers() {
+		synchronized (LOCK) {
+			if (sHandlers != null) {
+				sHandlers.clear();
+				sHandlers = null;
+			}
 		}
 	}
 

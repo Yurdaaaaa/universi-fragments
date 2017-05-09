@@ -33,20 +33,11 @@ import universum.studios.android.fragment.annotation.ContentView;
  *
  * @author Martin Albedinsky
  */
-@SuppressWarnings("unused")
 public final class BaseAnnotationHandlers extends AnnotationHandlers {
 
 	/*
 	 * Constructors ================================================================================
 	 */
-
-	/**
-	 */
-	private BaseAnnotationHandlers() {
-		super();
-		// Not allowed to be instantiated publicly.
-		throw new UnsupportedOperationException();
-	}
 
 	/*
 	 * Methods =====================================================================================
@@ -69,7 +60,7 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * A {@link FragmentAnnotationHandler} implementation for {@link BaseFragment} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static class FragmentHandler extends BaseAnnotationHandler implements FragmentAnnotationHandler {
+	static class FragmentHandler extends BaseAnnotationHandler implements FragmentAnnotationHandler {
 
 		/**
 		 * Boolean flat determining whether to attach content view to the related fragment's parent
@@ -95,20 +86,13 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 		private int contentViewBackgroundResId = NO_RES;
 
 		/**
-		 * Same as {@link #FragmentHandler(Class, Class)} with {@link BaseFragment} as <var>maxSuperClass</var>.
+		 * Creates a new instance of FragmentHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
 		public FragmentHandler(@NonNull final Class<?> annotatedClass) {
-			this(annotatedClass, BaseFragment.class);
-		}
-
-		/**
-		 * Creates a new instance of FragmentHandler for the specified <var>annotatedClass</var>.
-		 *
-		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)
-		 */
-		FragmentHandler(final Class<?> annotatedClass, final Class<?> maxSuperClass) {
-			super(annotatedClass, maxSuperClass);
-			final ContentView contentView = findAnnotationRecursive(ContentView.class);
+			super(annotatedClass);
+			final ContentView contentView = findAnnotation(ContentView.class);
 			if (contentView != null) {
 				this.attachContentViewToContainer = contentView.attachToContainer();
 				this.contentViewResource = contentView.value();
@@ -119,16 +103,16 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 		/**
 		 */
 		@Override
-		public boolean shouldAttachContentViewToContainer() {
-			return attachContentViewToContainer;
+		@LayoutRes
+		public int getContentViewResource(@LayoutRes final int defaultViewResource) {
+			return contentViewResource == NO_RES ? defaultViewResource : contentViewResource;
 		}
 
 		/**
 		 */
 		@Override
-		@LayoutRes
-		public int getContentViewResource(@LayoutRes final int defaultViewResource) {
-			return contentViewResource == NO_RES ? defaultViewResource : contentViewResource;
+		public boolean shouldAttachContentViewToContainer() {
+			return attachContentViewToContainer;
 		}
 
 		/**

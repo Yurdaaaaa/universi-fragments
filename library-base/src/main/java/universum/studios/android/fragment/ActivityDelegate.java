@@ -22,6 +22,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ActionMode;
 
@@ -31,7 +32,7 @@ import android.view.ActionMode;
  *
  * @author Martin Albedinsky
  */
-@SuppressWarnings("WeakerAccess") public abstract class ActivityDelegate {
+public abstract class ActivityDelegate {
 
 	/*
 	 * Constants ===================================================================================
@@ -57,7 +58,7 @@ import android.view.ActionMode;
 	/**
 	 * Wrapped activity instance to which will be this delegate delegating its calls.
 	 */
-	protected final Activity mActivity;
+	@NonNull protected final Activity mActivity;
 
 	/*
 	 * Constructors ================================================================================
@@ -126,7 +127,7 @@ import android.view.ActionMode;
 	/**
 	 * An {@link ActivityDelegate} implementation used to wrap basic {@link Activity}.
 	 */
-	private static class Impl extends ActivityDelegate {
+	@VisibleForTesting static class Impl extends ActivityDelegate {
 
 		/**
 		 * Creates a new instance of Impl to wrap the given <var>activity</var>.
@@ -179,7 +180,7 @@ import android.view.ActionMode;
 	/**
 	 * A {@link Impl} implementation used to wrap {@link AppCompatActivity}.
 	 */
-	private static final class AppCompatImpl extends Impl {
+	@VisibleForTesting static final class AppCompatImpl extends Impl {
 
 		/**
 		 * Creates a new instance of AppCompatImpl to wrap the given <var>activity</var>.

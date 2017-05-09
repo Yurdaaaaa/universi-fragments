@@ -147,7 +147,7 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 		if (TextUtils.isEmpty(fragmentName)) {
 			return null;
 		}
-		return classOfFactory.getPackage().getName() + "." + classOfFactory.getSimpleName() + ".TAG." + fragmentName;
+		return classOfFactory.getName() + ".TAG." + fragmentName;
 	}
 
 	/**
@@ -212,6 +212,9 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 */
 	@NonNull
 	protected Fragment onCreateFragment(int fragmentId) {
+		if (mItems.indexOfKey(fragmentId) < 0) {
+			throw new IllegalArgumentException("Factory does not provide fragment instance for id(" + fragmentId + ")!");
+		}
 		final Fragment fragment = mItems.get(fragmentId).newFragmentInstance(null);
 		if (fragment == null) {
 			throw new IllegalArgumentException("Failed to instantiate fragment for the requested id(" + fragmentId + ")!");

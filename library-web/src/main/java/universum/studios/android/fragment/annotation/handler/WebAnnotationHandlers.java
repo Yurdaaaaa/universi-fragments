@@ -38,14 +38,6 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	 * Constructors ================================================================================
 	 */
 
-	/**
-	 */
-	private WebAnnotationHandlers() {
-		super();
-		// Not allowed to be instantiated publicly.
-		throw new UnsupportedOperationException();
-	}
-
 	/*
 	 * Methods =====================================================================================
 	 */
@@ -67,7 +59,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * A {@link WebFragmentAnnotationHandler} implementation for {@link WebFragment} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static final class WebFragmentHandler extends ActionBarAnnotationHandlers.ActionBarFragmentHandler implements WebFragmentAnnotationHandler {
+	static final class WebFragmentHandler extends ActionBarAnnotationHandlers.ActionBarFragmentHandler implements WebFragmentAnnotationHandler {
 
 		/**
 		 * String resource id of a web content obtained from the annotated class.
@@ -84,11 +76,12 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		private final String webContent;
 
 		/**
-		 * Same as {@link BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)} with
-		 * {@link WebFragment} as <var>maxSuperClass</var>.
+		 * Creates a new instance of WebFragmentHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
 		public WebFragmentHandler(@NonNull final Class<?> annotatedClass) {
-			super(annotatedClass, WebFragment.class);
+			super(annotatedClass);
 			final WebContent webContent = findAnnotation(WebContent.class);
 			this.webContentResId = webContent == null ? NO_RES : webContent.valueRes();
 			this.webContent = webContent == null ? null : webContent.value();
