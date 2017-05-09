@@ -69,7 +69,7 @@ public final class FragmentAnnotations {
 	/**
 	 * Flag indicating whether the processing of annotations for the Fragments library is enabled.
 	 */
-	private static final AtomicBoolean sEnabled = new AtomicBoolean(true);
+	private static final AtomicBoolean sEnabled = new AtomicBoolean(false);
 
 	/*
 	 * Members =====================================================================================
@@ -96,7 +96,7 @@ public final class FragmentAnnotations {
 	 * If annotations processing is enabled, it may decrease performance for the parts of an Android
 	 * application depending on the classes from the Fragments library that uses annotations.
 	 * <p>
-	 * Default value: {@code true}
+	 * Default value: {@code false}
 	 *
 	 * @param enabled {@code True} to enable annotations processing, {@code false} to disabled it.
 	 * @see #isEnabled()
