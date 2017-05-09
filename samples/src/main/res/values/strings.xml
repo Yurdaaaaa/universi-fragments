@@ -31,5 +31,6 @@
 	<!-- ### NAVIGATION ======================================================================== -->
 
 	<string name="navigation_item_home">Home</string>
+	<string name="navigation_item_web">Web</string>
 	<string name="navigation_item_welcome">Welcome</string>
 </resources>

@@ -33,7 +33,6 @@ import universum.studios.android.fragment.annotation.ContentView;
  *
  * @author Martin Albedinsky
  */
-@SuppressWarnings("unused")
 public final class BaseAnnotationHandlers extends AnnotationHandlers {
 
 	/*
@@ -61,7 +60,7 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * A {@link FragmentAnnotationHandler} implementation for {@link BaseFragment} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static class FragmentHandler extends BaseAnnotationHandler implements FragmentAnnotationHandler {
+	static class FragmentHandler extends BaseAnnotationHandler implements FragmentAnnotationHandler {
 
 		/**
 		 * Boolean flat determining whether to attach content view to the related fragment's parent
