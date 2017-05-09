@@ -31,7 +31,7 @@ before_script:
 
 script:
   - ./ci/assemble.sh
-  - travis_wait 30 ./gradlew :library:connectedAndroidTest
+  - travis_wait ./gradlew :library:connectedAndroidTest
 
 after_success:
   # Not running tests coverage because on slow Travis-CI server the tests may run more than 10 mins
