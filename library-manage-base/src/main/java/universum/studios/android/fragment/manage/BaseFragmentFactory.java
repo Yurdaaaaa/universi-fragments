@@ -24,7 +24,6 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
-import universum.studios.android.fragment.FragmentsConfig;
 import universum.studios.android.fragment.annotation.FactoryFragment;
 import universum.studios.android.fragment.annotation.FactoryFragments;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
@@ -64,7 +63,7 @@ import universum.studios.android.fragment.annotation.handler.FragmentFactoryAnno
  */
 public abstract class BaseFragmentFactory implements FragmentFactory {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -73,15 +72,15 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 */
 	// private static final String TAG = "BaseFragmentFactory";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -108,22 +107,22 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 */
 	private boolean mFragmentProvided;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
 	/**
 	 * Creates a new instance of BaseFragmentFactory.
 	 * <p>
-	 * If annotations processing is enabled via {@link FragmentsConfig} all annotations supported by
-	 * this class will be processed/obtained here so they can be later used.
+	 * If annotations processing is enabled via {@link FragmentAnnotations} all annotations supported
+	 * by this class will be processed/obtained here so they can be later used.
 	 */
 	public BaseFragmentFactory() {
 		this.mAnnotationHandler = onCreateAnnotationHandler();
 		this.mItems = mAnnotationHandler == null ? null : mAnnotationHandler.getFragmentItems();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -148,7 +147,7 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 		if (TextUtils.isEmpty(fragmentName)) {
 			return null;
 		}
-		return classOfFactory.getPackage().getName() + "." + classOfFactory.getSimpleName() + ".TAG." + fragmentName;
+		return classOfFactory.getName() + ".TAG." + fragmentName;
 	}
 
 	/**
@@ -213,6 +212,9 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 */
 	@NonNull
 	protected Fragment onCreateFragment(int fragmentId) {
+		if (mItems.indexOfKey(fragmentId) < 0) {
+			throw new IllegalArgumentException("Factory does not provide fragment instance for id(" + fragmentId + ")!");
+		}
 		final Fragment fragment = mItems.get(fragmentId).newFragmentInstance(null);
 		if (fragment == null) {
 			throw new IllegalArgumentException("Failed to instantiate fragment for the requested id(" + fragmentId + ")!");
@@ -242,7 +244,7 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 		return mItems.indexOfKey(fragmentId) >= 0 ? mItems.get(fragmentId).tag : createFragmentTag(getClass(), Integer.toString(fragmentId));
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

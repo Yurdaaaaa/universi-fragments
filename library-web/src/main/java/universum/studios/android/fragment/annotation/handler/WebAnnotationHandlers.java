@@ -34,18 +34,11 @@ import universum.studios.android.fragment.annotation.WebContent;
  */
 public final class WebAnnotationHandlers extends AnnotationHandlers {
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
-	/**
-	 */
-	private WebAnnotationHandlers() {
-		super();
-		// Creation of instances of this class is not publicly allowed.
-	}
-
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -55,18 +48,18 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable
-	public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull Class<?> classOfFragment) {
+	public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(WebFragmentHandler.class, classOfFragment);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
 	/**
 	 * A {@link WebFragmentAnnotationHandler} implementation for {@link WebFragment} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static final class WebFragmentHandler extends ActionBarAnnotationHandlers.ActionBarFragmentHandler implements WebFragmentAnnotationHandler {
+	static final class WebFragmentHandler extends ActionBarAnnotationHandlers.ActionBarFragmentHandler implements WebFragmentAnnotationHandler {
 
 		/**
 		 * String resource id of a web content obtained from the annotated class.
@@ -83,11 +76,12 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		private final String webContent;
 
 		/**
-		 * Same as {@link BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)} with
-		 * {@link WebFragment} as <var>maxSuperClass</var>.
+		 * Creates a new instance of WebFragmentHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
-		public WebFragmentHandler(@NonNull Class<?> annotatedClass) {
-			super(annotatedClass, WebFragment.class);
+		public WebFragmentHandler(@NonNull final Class<?> annotatedClass) {
+			super(annotatedClass);
 			final WebContent webContent = findAnnotation(WebContent.class);
 			this.webContentResId = webContent == null ? NO_RES : webContent.valueRes();
 			this.webContent = webContent == null ? null : webContent.value();
@@ -97,7 +91,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		 */
 		@Override
 		@StringRes
-		public int getWebContentResId(@StringRes int defaultResId) {
+		public int getWebContentResId(@StringRes final int defaultResId) {
 			return webContentResId == NO_RES ? defaultResId : webContentResId;
 		}
 
@@ -105,7 +99,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 		 */
 		@Nullable
 		@Override
-		public String getWebContent(@Nullable String defaultContent) {
+		public String getWebContent(@Nullable final String defaultContent) {
 			return TextUtils.isEmpty(webContent) ? defaultContent : webContent;
 		}
 	}

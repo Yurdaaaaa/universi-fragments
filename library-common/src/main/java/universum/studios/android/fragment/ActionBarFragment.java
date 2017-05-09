@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -53,7 +54,7 @@ import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAn
  * <h3>Accepted annotations</h3>
  * <ul>
  * <li>
- * {@link universum.studios.android.fragment.annotation.ActionBarOptions @ActionBarOptions} <b>[class - inherited]</b>
+ * {@link ActionBarOptions @ActionBarOptions} <b>[class - inherited]</b>
  * <p>
  * If this annotation is presented, all options specified via this annotation will be used to set
  * up an instance of ActionBar accessible from within context of a sub-class of ActionBarFragment.
@@ -79,7 +80,7 @@ import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAn
  */
 public class ActionBarFragment extends BaseFragment {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -88,15 +89,15 @@ public class ActionBarFragment extends BaseFragment {
 	 */
 	// private static final String TAG = "ActionBarFragment";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -110,13 +111,13 @@ public class ActionBarFragment extends BaseFragment {
 	 * Delegate for ActionBar obtained from the parent activity of this fragment. This delegate is
 	 * available between calls to {@link #onActivityCreated(Bundle)} and {@link #onDetach()}.
 	 */
-	private ActionBarDelegate mActionBarDelegate;
+	@VisibleForTesting ActionBarDelegate mActionBarDelegate;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -139,7 +140,7 @@ public class ActionBarFragment extends BaseFragment {
 	/**
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (mAnnotationHandler != null) {
 			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) mAnnotationHandler;
@@ -152,46 +153,44 @@ public class ActionBarFragment extends BaseFragment {
 	/**
 	 */
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+	public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
 		if (mAnnotationHandler == null) {
 			super.onCreateOptionsMenu(menu, inflater);
 			return;
 		}
 		final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) mAnnotationHandler;
-		if (!annotationHandler.hasOptionsMenu()) {
-			super.onCreateOptionsMenu(menu, inflater);
-			return;
-		}
-		final int menuResource = annotationHandler.getOptionsMenuResource(-1);
-		if (menuResource != -1) {
+		if (annotationHandler.hasOptionsMenu()) {
 			if (annotationHandler.shouldClearOptionsMenu()) {
 				menu.clear();
 			}
+			final int menuResource = annotationHandler.getOptionsMenuResource(0);
 			if (menuResource == 0) {
 				super.onCreateOptionsMenu(menu, inflater);
-				return;
+			} else {
+				switch (annotationHandler.getOptionsMenuFlags(0)) {
+					case MenuOptions.IGNORE_SUPER:
+						inflater.inflate(menuResource, menu);
+						break;
+					case MenuOptions.BEFORE_SUPER:
+						inflater.inflate(menuResource, menu);
+						super.onCreateOptionsMenu(menu, inflater);
+						break;
+					case MenuOptions.DEFAULT:
+					default:
+						super.onCreateOptionsMenu(menu, inflater);
+						inflater.inflate(menuResource, menu);
+						break;
+				}
 			}
-			switch (annotationHandler.getOptionsMenuFlags(0)) {
-				case MenuOptions.IGNORE_SUPER:
-					inflater.inflate(menuResource, menu);
-					break;
-				case MenuOptions.BEFORE_SUPER:
-					inflater.inflate(menuResource, menu);
-					super.onCreateOptionsMenu(menu, inflater);
-					break;
-				case MenuOptions.DEFAULT:
-				default:
-					super.onCreateOptionsMenu(menu, inflater);
-					inflater.inflate(menuResource, menu);
-					break;
-			}
+		} else {
+			super.onCreateOptionsMenu(menu, inflater);
 		}
 	}
 
 	/**
 	 */
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
+	public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.mActionBarDelegate = ActionBarDelegate.create(getActivity());
 		this.invalidateActionBar();
@@ -306,7 +305,7 @@ public class ActionBarFragment extends BaseFragment {
 	 * @see #isInActionMode()
 	 * @see #isAttached()
 	 */
-	protected boolean startActionMode(@NonNull ActionMode.Callback callback) {
+	protected boolean startActionMode(@NonNull final ActionMode.Callback callback) {
 		if (!isInActionMode() && mActivityDelegate != null) {
 			final ActionMode actionMode = mActivityDelegate.startActionMode(callback);
 			if (actionMode != null) {
@@ -327,7 +326,7 @@ public class ActionBarFragment extends BaseFragment {
 	 * @param actionMode Currently started action mode.
 	 */
 	@CallSuper
-	protected void onActionModeStarted(@NonNull ActionMode actionMode) {
+	protected void onActionModeStarted(@NonNull final ActionMode actionMode) {
 		this.mActionMode = actionMode;
 	}
 
@@ -390,7 +389,7 @@ public class ActionBarFragment extends BaseFragment {
 		return finishActionMode() || super.onBackPress();
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
@@ -422,30 +421,31 @@ public class ActionBarFragment extends BaseFragment {
 		 *
 		 * @param fragment The instance of fragment in which is action mode started.
 		 */
-		public ActionModeCallback(@Nullable ActionBarFragment fragment) {
+		public ActionModeCallback(@Nullable final ActionBarFragment fragment) {
 			this.fragment = fragment;
 		}
 
 		/**
 		 */
 		@Override
-		public boolean onCreateActionMode(@NonNull ActionMode actionMode, @NonNull Menu menu) {
-			if (fragment == null || fragment.mAnnotationHandler == null) return false;
-			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) fragment.mAnnotationHandler;
-			return annotationHandler.handleCreateActionMode(actionMode, menu);
+		public boolean onCreateActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
+			if (fragment == null || !FragmentAnnotations.isEnabled()) {
+				return false;
+			}
+			return fragment.getAnnotationHandler().handleCreateActionMode(actionMode, menu);
 		}
 
 		/**
 		 */
 		@Override
-		public boolean onPrepareActionMode(@NonNull ActionMode actionMode, @NonNull Menu menu) {
+		public boolean onPrepareActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
 			return false;
 		}
 
 		/**
 		 */
 		@Override
-		public boolean onActionItemClicked(@NonNull ActionMode actionMode, @NonNull MenuItem menuItem) {
+		public boolean onActionItemClicked(@NonNull final ActionMode actionMode, @NonNull final MenuItem menuItem) {
 			if (fragment != null && fragment.onOptionsItemSelected(menuItem)) {
 				actionMode.finish();
 				return true;
@@ -456,7 +456,7 @@ public class ActionBarFragment extends BaseFragment {
 		/**
 		 */
 		@Override
-		public void onDestroyActionMode(@NonNull ActionMode actionMode) {
+		public void onDestroyActionMode(@NonNull final ActionMode actionMode) {
 			if (fragment != null) fragment.onActionModeFinished();
 		}
 	}

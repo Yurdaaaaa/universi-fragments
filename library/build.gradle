@@ -30,6 +30,8 @@ android {
         targetSdkVersion config.build.targetSdkVersion
         consumerProguardFiles 'proguard-rules.pro'
         testInstrumentationRunner config.test.instrumentationRunner
+        // Enabled only for purpose of tests.
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -76,6 +78,15 @@ android {
                 '../library-transition-common/src/androidTest/java',
                 '../library-transition-extra/src/androidTest/java'
         ]
+        androidTest.res.srcDirs = [
+                '../library/src/androidTest/res',
+                '../library-core/src/androidTest/res',
+                '../library-base/src/androidTest/res',
+                '../library-common/src/androidTest/res',
+                '../library-web/src/androidTest/res',
+                '../library-manage-core/src/androidTest/res',
+                '../library-transition-core/src/androidTest/res'
+        ]
     }
 
     compileOptions {
@@ -91,6 +102,11 @@ android {
 /**
  * Library dependencies ============================================================================
  */
+repositories {
+    mavenLocal()
+    maven { url repos.bintray.universumStudiosAndroid }
+}
+
 dependencies {
     /*
      * RELEASE DEPENDENCIES ------------------------------------------------------------------------
@@ -98,6 +114,7 @@ dependencies {
     compile deps.androidSupport.annotations
     compile deps.androidSupport.appCompatV7
     compile deps.androidSupport.vectorDrawable
+    compile deps.universumStudios.logger
 
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
@@ -105,8 +122,7 @@ dependencies {
     androidTestCompile project(':test-core')
 }
 
-// Apply DEPLOY script.
-apply from: '../deploy/deploy.gradle'
-
-// Apply CODACY script.
+// Apply additional scripts.
+apply from: 'analysis.gradle'
 apply from: 'codacy.gradle'
+apply from: '../deploy/deploy.gradle'

@@ -33,21 +33,13 @@ import universum.studios.android.fragment.annotation.ContentView;
  *
  * @author Martin Albedinsky
  */
-@SuppressWarnings("unused")
 public final class BaseAnnotationHandlers extends AnnotationHandlers {
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
-	/**
-	 */
-	private BaseAnnotationHandlers() {
-		super();
-		// Creation of instances of this class is not publicly allowed.
-	}
-
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -57,18 +49,18 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable
-	public static FragmentAnnotationHandler obtainFragmentHandler(@NonNull Class<?> classOfFragment) {
+	public static FragmentAnnotationHandler obtainFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(FragmentHandler.class, classOfFragment);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
 	/**
 	 * A {@link FragmentAnnotationHandler} implementation for {@link BaseFragment} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static class FragmentHandler extends BaseAnnotationHandler implements FragmentAnnotationHandler {
+	static class FragmentHandler extends BaseAnnotationHandler implements FragmentAnnotationHandler {
 
 		/**
 		 * Boolean flat determining whether to attach content view to the related fragment's parent
@@ -94,25 +86,26 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 		private int contentViewBackgroundResId = NO_RES;
 
 		/**
-		 * Same as {@link #FragmentHandler(Class, Class)} with {@link BaseFragment} as <var>maxSuperClass</var>.
-		 */
-		public FragmentHandler(@NonNull Class<?> annotatedClass) {
-			this(annotatedClass, BaseFragment.class);
-		}
-
-		/**
-		 * Creates a new instance of FragmentHandler for the specified <var>annotatedClass</var>.
+		 * Creates a new instance of FragmentHandler for the given <var>annotatedClass</var>.
 		 *
-		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
-		FragmentHandler(Class<?> annotatedClass, Class<?> maxSuperClass) {
-			super(annotatedClass, maxSuperClass);
-			final ContentView contentView = findAnnotationRecursive(ContentView.class);
+		public FragmentHandler(@NonNull final Class<?> annotatedClass) {
+			super(annotatedClass);
+			final ContentView contentView = findAnnotation(ContentView.class);
 			if (contentView != null) {
 				this.attachContentViewToContainer = contentView.attachToContainer();
 				this.contentViewResource = contentView.value();
 				this.contentViewBackgroundResId = contentView.background();
 			}
+		}
+
+		/**
+		 */
+		@Override
+		@LayoutRes
+		public int getContentViewResource(@LayoutRes final int defaultViewResource) {
+			return contentViewResource == NO_RES ? defaultViewResource : contentViewResource;
 		}
 
 		/**
@@ -125,17 +118,9 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 		/**
 		 */
 		@Override
-		@LayoutRes
-		public int getContentViewResource(@LayoutRes int defaultViewResource) {
-			return contentViewResource == NO_RES ? defaultViewResource : contentViewResource;
-		}
-
-		/**
-		 */
-		@Override
 		@ColorRes
 		@DrawableRes
-		public int getContentViewBackgroundResId(int defaultResId) {
+		public int getContentViewBackgroundResId(final int defaultResId) {
 			return contentViewBackgroundResId == NO_RES ? defaultResId : contentViewBackgroundResId;
 		}
 	}

@@ -27,6 +27,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
 import universum.studios.android.fragment.util.FragmentUtils;
@@ -37,9 +38,9 @@ import universum.studios.android.fragment.util.FragmentUtils;
  *
  * @author Martin Albedinsky
  */
-@SuppressWarnings("WeakerAccess") public abstract class ActionBarDelegate {
+public abstract class ActionBarDelegate {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -48,15 +49,15 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	 */
 	// private static final String TAG = "ActionBarDelegate";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -65,7 +66,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	 */
 	protected final Context mContext;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
@@ -74,11 +75,11 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	 *
 	 * @param context The context used to access application data.
 	 */
-	protected ActionBarDelegate(@NonNull Context context) {
+	protected ActionBarDelegate(@NonNull final Context context) {
 		this.mContext = context;
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -95,14 +96,13 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	 * @see AppCompatActivity#getSupportActionBar()
 	 */
 	@Nullable
-	public static ActionBarDelegate create(@NonNull Activity activity) {
+	public static ActionBarDelegate create(@NonNull final Activity activity) {
 		if (activity instanceof AppCompatActivity) {
 			final android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
 			return actionBar == null ? null : create(activity, actionBar);
-		} else {
-			final ActionBar actionBar = activity.getActionBar();
-			return actionBar == null ? null : create(activity, actionBar);
 		}
+		final ActionBar actionBar = activity.getActionBar();
+		return actionBar == null ? null : create(activity, actionBar);
 	}
 
 	/**
@@ -113,7 +113,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	 * @return New instance of ActionBarDelegate with the given action bar.
 	 */
 	@NonNull
-	public static ActionBarDelegate create(@NonNull Context context, @Nullable ActionBar actionBar) {
+	public static ActionBarDelegate create(@NonNull final Context context, @Nullable final ActionBar actionBar) {
 		return new Impl(context, actionBar);
 	}
 
@@ -125,7 +125,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	 * @return New instance of ActionBarDelegate with the given action bar.
 	 */
 	@NonNull
-	public static ActionBarDelegate create(@NonNull Context context, @Nullable android.support.v7.app.ActionBar actionBar) {
+	public static ActionBarDelegate create(@NonNull final Context context, @Nullable final android.support.v7.app.ActionBar actionBar) {
 		return new SupportImpl(context, actionBar);
 	}
 
@@ -169,14 +169,14 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	 */
 	public abstract void setTitle(@Nullable CharSequence title);
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
 	/**
 	 * An {@link ActionBarDelegate} implementation used to wrap {@link ActionBar}.
 	 */
-	private static final class Impl extends ActionBarDelegate {
+	@VisibleForTesting static final class Impl extends ActionBarDelegate {
 
 		/**
 		 * Wrapped action bar instance.
@@ -189,7 +189,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		 * @param context   Context used to access application data.
 		 * @param actionBar The native action bar to be wrapped.
 		 */
-		private Impl(Context context, ActionBar actionBar) {
+		Impl(final Context context, final ActionBar actionBar) {
 			super(context);
 			this.actionBar = actionBar;
 		}
@@ -197,14 +197,14 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		/**
 		 */
 		@Override
-		public void setDisplayHomeAsUpEnabled(boolean enabled) {
+		public void setDisplayHomeAsUpEnabled(final boolean enabled) {
 			if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(enabled);
 		}
 
 		/**
 		 */
 		@Override
-		public void setHomeAsUpIndicator(@DrawableRes int resId) {
+		public void setHomeAsUpIndicator(@DrawableRes final int resId) {
 			if (actionBar != null && Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2)
 				actionBar.setHomeAsUpIndicator(resId);
 		}
@@ -212,7 +212,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		/**
 		 */
 		@Override
-		public void setHomeAsUpVectorIndicator(@DrawableRes int resId) {
+		public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
 			setHomeAsUpIndicator(FragmentUtils.getVectorDrawable(
 					mContext.getResources(),
 					resId,
@@ -223,7 +223,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		/**
 		 */
 		@Override
-		public void setHomeAsUpIndicator(@Nullable Drawable indicator) {
+		public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
 			if (actionBar != null && Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2)
 				actionBar.setHomeAsUpIndicator(indicator);
 		}
@@ -231,28 +231,28 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		/**
 		 */
 		@Override
-		public void setTitle(@StringRes int resId) {
-			if (actionBar != null) actionBar.setTitle(resId);
+		public void setTitle(@StringRes final int resId) {
+			setTitle(mContext.getText(resId));
 		}
 
 		/**
 		 */
 		@Override
-		public void setTitle(@Nullable CharSequence title) {
+		public void setTitle(@Nullable final CharSequence title) {
 			if (actionBar != null) actionBar.setTitle(title);
 		}
 
 		/**
 		 */
 		@Override
-		public void setIcon(@DrawableRes int resId) {
+		public void setIcon(@DrawableRes final int resId) {
 			if (actionBar != null) actionBar.setIcon(resId);
 		}
 
 		/**
 		 */
 		@Override
-		public void setIcon(@Nullable Drawable icon) {
+		public void setIcon(@Nullable final Drawable icon) {
 			if (actionBar != null) actionBar.setIcon(icon);
 		}
 	}
@@ -260,7 +260,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 	/**
 	 * An {@link ActionBarDelegate} implementation used to wrap {@link android.support.v7.app.ActionBar}.
 	 */
-	private static final class SupportImpl extends ActionBarDelegate {
+	@VisibleForTesting static final class SupportImpl extends ActionBarDelegate {
 
 		/**
 		 * Wrapped support action bar instance.
@@ -273,7 +273,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		 * @param context   Context used to access application data.
 		 * @param actionBar The support action bar to be wrapped.
 		 */
-		private SupportImpl(Context context, android.support.v7.app.ActionBar actionBar) {
+		SupportImpl(final Context context, final android.support.v7.app.ActionBar actionBar) {
 			super(context);
 			this.actionBar = actionBar;
 		}
@@ -281,21 +281,21 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		/**
 		 */
 		@Override
-		public void setDisplayHomeAsUpEnabled(boolean enabled) {
+		public void setDisplayHomeAsUpEnabled(final boolean enabled) {
 			if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(enabled);
 		}
 
 		/**
 		 */
 		@Override
-		public void setHomeAsUpIndicator(@DrawableRes int resId) {
+		public void setHomeAsUpIndicator(@DrawableRes final int resId) {
 			if (actionBar != null) actionBar.setHomeAsUpIndicator(resId);
 		}
 
 		/**
 		 */
 		@Override
-		public void setHomeAsUpVectorIndicator(@DrawableRes int resId) {
+		public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
 			setHomeAsUpIndicator(FragmentUtils.getVectorDrawable(
 					mContext.getResources(),
 					resId,
@@ -306,35 +306,35 @@ import universum.studios.android.fragment.util.FragmentUtils;
 		/**
 		 */
 		@Override
-		public void setHomeAsUpIndicator(@Nullable Drawable indicator) {
+		public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
 			if (actionBar != null) actionBar.setHomeAsUpIndicator(indicator);
 		}
 
 		/**
 		 */
 		@Override
-		public void setIcon(@DrawableRes int resId) {
+		public void setIcon(@DrawableRes final int resId) {
 			if (actionBar != null) actionBar.setIcon(resId);
 		}
 
 		/**
 		 */
 		@Override
-		public void setIcon(@Nullable Drawable icon) {
+		public void setIcon(@Nullable final Drawable icon) {
 			if (actionBar != null) actionBar.setIcon(icon);
 		}
 
 		/**
 		 */
 		@Override
-		public void setTitle(@StringRes int resId) {
-			if (actionBar != null) actionBar.setTitle(resId);
+		public void setTitle(@StringRes final int resId) {
+			setTitle(mContext.getText(resId));
 		}
 
 		/**
 		 */
 		@Override
-		public void setTitle(@Nullable CharSequence title) {
+		public void setTitle(@Nullable final CharSequence title) {
 			if (actionBar != null) actionBar.setTitle(title);
 		}
 	}

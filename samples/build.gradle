@@ -77,4 +77,8 @@ dependencies {
     compile deps.other.butterknife
     annotationProcessor deps.apt.butterknife
     compile deps.universumStudios.samples
+    compile deps.universumStudios.ui
+    compile deps.universumStudios.graphicsColorUtil
+    compile deps.universumStudios.fontCore
+    compile deps.universumStudios.fontUtil
 }

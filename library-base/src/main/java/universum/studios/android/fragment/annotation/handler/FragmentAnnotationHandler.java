@@ -35,7 +35,7 @@ import universum.studios.android.fragment.annotation.ContentView;
  */
 public interface FragmentAnnotationHandler extends AnnotationHandler {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -44,18 +44,9 @@ public interface FragmentAnnotationHandler extends AnnotationHandler {
 	 */
 	int NO_RES = 0;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
-
-	/**
-	 * Returns a boolean flag obtained from {@link ContentView @ContentView} annotation (if presented)
-	 * from {@link ContentView#attachToContainer()} attribute.
-	 *
-	 * @return {@code True} if attaching to container has been requested via annotation, {@code false}
-	 * otherwise.
-	 */
-	boolean shouldAttachContentViewToContainer();
 
 	/**
 	 * Returns the content view layout resource obtained from {@link ContentView @ContentView}
@@ -67,6 +58,15 @@ public interface FragmentAnnotationHandler extends AnnotationHandler {
 	 */
 	@LayoutRes
 	int getContentViewResource(@LayoutRes int defaultViewResource);
+
+	/**
+	 * Returns a boolean flag obtained from {@link ContentView @ContentView} annotation (if presented)
+	 * from {@link ContentView#attachToContainer()} attribute.
+	 *
+	 * @return {@code True} if attaching to container has been requested via annotation, {@code false}
+	 * otherwise.
+	 */
+	boolean shouldAttachContentViewToContainer();
 
 	/**
 	 * Returns the background resource id obtained from {@link ContentView @ContentView} annotation

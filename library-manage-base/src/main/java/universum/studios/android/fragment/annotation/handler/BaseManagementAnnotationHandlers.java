@@ -41,18 +41,11 @@ import universum.studios.android.fragment.manage.FragmentItem;
  */
 public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
-	/**
-	 */
-	private BaseManagementAnnotationHandlers() {
-		super();
-		// Creation of instances of this class is not publicly allowed.
-	}
-
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -62,33 +55,34 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable
-	public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull Class<?> classOfFactory) {
+	public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull final Class<?> classOfFactory) {
 		return obtainHandler(FragmentFactoryHandler.class, classOfFactory);
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 
 	/**
 	 * A {@link FragmentFactoryAnnotationHandler} implementation for {@link BaseFragmentFactory} class.
 	 */
-	@SuppressWarnings("WeakerAccess") static final class FragmentFactoryHandler extends BaseAnnotationHandler implements FragmentFactoryAnnotationHandler {
+	static final class FragmentFactoryHandler extends BaseAnnotationHandler implements FragmentFactoryAnnotationHandler {
 
 		/**
 		 * Array of fragment items populated from the {@link FactoryFragments @FactoryFragments} or
 		 * {@link FactoryFragment @FactoryFragment} annotations if presented.
 		 */
-		private final SparseArray<FragmentItem> items;
+		final SparseArray<FragmentItem> items;
 
 		/**
-		 * Same as {@link BaseAnnotationHandler#BaseAnnotationHandler(Class, Class)} with
-		 * {@link BaseFragmentFactory} as <var>maxSuperClass</var>.
+		 * Creates a new instance of FragmentFactoryHandler for the given <var>annotatedClass</var>.
+		 *
+		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
-		public FragmentFactoryHandler(@NonNull Class<?> annotatedClass) {
-			super(annotatedClass, BaseFragmentFactory.class);
+		public FragmentFactoryHandler(@NonNull final Class<?> annotatedClass) {
+			super(annotatedClass);
 			final SparseArray<FragmentItem> items = new SparseArray<>();
-			final FactoryFragments fragments = findAnnotationRecursive(FactoryFragments.class);
+			final FactoryFragments fragments = findAnnotation(FactoryFragments.class);
 			if (fragments != null) {
 				final int[] ids = fragments.value();
 				if (ids.length > 0) {
@@ -123,22 +117,24 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 									)
 							));
 						} catch (IllegalAccessException e) {
+							// This exception should not be thrown as we are changing accessibility
+							// of the field via field.setAccessible(true);
 							Log.e(
 									FragmentFactoryAnnotationHandler.class.getSimpleName(),
-									"Failed to obtain id value from @FactoryFragment " + name + "!",
+									"Failed to obtain id value from @FactoryFragment " + name + " of " + annotatedClass.getName() + "!",
 									e
 							);
 						}
 					}
 				}
-			}, mAnnotatedClass, mMaxSuperClass);
+			}, mAnnotatedClass, BaseFragmentFactory.class);
 			this.items = items.size() > 0 ? items : null;
 		}
 
 		/**
 		 */
-		@Override
 		@Nullable
+		@Override
 		public SparseArray<FragmentItem> getFragmentItems() {
 			return items;
 		}

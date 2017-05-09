@@ -20,6 +20,7 @@ package universum.studios.android.fragment.annotation;
 
 import android.app.Fragment;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,6 +34,7 @@ import universum.studios.android.fragment.manage.BaseFragmentFactory;
  *
  * @author Martin Albedinsky
  */
+@Documented
 @Target({ElementType.FIELD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FactoryFragment {

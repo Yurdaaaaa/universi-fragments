@@ -9,8 +9,8 @@ android:
     - tools
     - build-tools-25.0.2
     - android-25
-    - android-22
-    - sys-img-armeabi-v7a-android-22
+    # - android-22
+    # - sys-img-armeabi-v7a-android-22
     - extra-android-m2repository
 
 # Branches
@@ -24,16 +24,21 @@ branches:
 before_script:
   - ./ci/permissions.sh
   # Emulator management (create, start and wait)
-  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  # - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  # - emulator -avd test -no-skin -no-audio -no-window &
+  # - android-wait-for-emulator
+  # - adb shell input keyevent 82 &
 
 script:
-  - ./ci/tests.sh
+  - ./ci/assemble.sh
+  # Not running tests because on slow Travis-CI server they may run more than 10 mins and
+  # `travis_wait` command just does not work.
+  # - travis_wait ./ci/tests.sh
 
 after_success:
-  - ./ci/coverage.sh
+  # Not running tests coverage because on slow Travis-CI server the tests may run more than 10 mins
+  # and `travis_wait` command just does not work.
+  # - travis_wait ./ci/coverage.sh
   - ./ci/deploy.sh
 
 # Notications

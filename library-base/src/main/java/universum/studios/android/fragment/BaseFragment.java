@@ -29,7 +29,10 @@ import android.support.annotation.IntDef;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.TransitionRes;
+import android.support.annotation.VisibleForTesting;
 import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +86,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
  */
 public abstract class BaseFragment extends Fragment implements BackPressWatcher, ViewClickWatcher {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -95,42 +98,42 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>attached</b> to the parent context.
 	 */
-	private static final int LIFECYCLE_ATTACHED = 0x00000001;
+	static final int LIFECYCLE_ATTACHED = 0x00000001;
 
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>created</b>.
 	 */
-	private static final int LIFECYCLE_CREATED = 0x00000001 << 1;
+	static final int LIFECYCLE_CREATED = 0x00000001 << 1;
 
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>started</b>.
 	 */
-	private static final int LIFECYCLE_STARTED = 0x00000001 << 2;
+	static final int LIFECYCLE_STARTED = 0x00000001 << 2;
 
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>resumed</b>.
 	 */
-	private static final int LIFECYCLE_RESUMED = 0x00000001 << 3;
+	static final int LIFECYCLE_RESUMED = 0x00000001 << 3;
 
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>paused</b>.
 	 */
-	private static final int LIFECYCLE_PAUSED = 0x00000001 << 4;
+	static final int LIFECYCLE_PAUSED = 0x00000001 << 4;
 
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>stopped</b>.
 	 */
-	private static final int LIFECYCLE_STOPPED = 0x00000001 << 5;
+	static final int LIFECYCLE_STOPPED = 0x00000001 << 5;
 
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>destroyed</b>.
 	 */
-	private static final int LIFECYCLE_DESTROYED = 0x00000001 << 6;
+	static final int LIFECYCLE_DESTROYED = 0x00000001 << 6;
 
 	/**
 	 * Lifecycle flag used to indicate that fragment is <b>detached</b>.
 	 */
-	private static final int LIFECYCLE_DETACHED = 0x00000001 << 7;
+	static final int LIFECYCLE_DETACHED = 0x00000001 << 7;
 
 	/**
 	 * Defines an annotation for determining set of available lifecycle flags.
@@ -149,15 +152,15 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	private @interface LifecycleFlag {
 	}
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
-	/**
+	/*
 	 * Members =====================================================================================
 	 */
 
@@ -178,22 +181,22 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 */
 	private int mLifecycleFlags;
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
 	/**
 	 * Creates a new instance of BaseFragment.
 	 * <p>
-	 * If annotations processing is enabled via {@link FragmentsConfig} all annotations supported by
-	 * this class will be processed/obtained here so they can be later used.
+	 * If annotations processing is enabled via {@link FragmentAnnotations} all annotations supported
+	 * by this class will be processed/obtained here so they can be later used.
 	 */
 	public BaseFragment() {
 		super();
 		this.mAnnotationHandler = onCreateAnnotationHandler();
 	}
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
@@ -208,7 +211,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 */
 	@Nullable
 	@SuppressWarnings("TryWithIdenticalCatches")
-	public static <F extends Fragment> F newInstanceWithArguments(@NonNull Class<F> classOfFragment, @Nullable Bundle args) {
+	public static <F extends Fragment> F newInstanceWithArguments(@NonNull final Class<F> classOfFragment, @Nullable final Bundle args) {
 		try {
 			final F fragment = classOfFragment.newInstance();
 			fragment.setArguments(args);
@@ -250,7 +253,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @param add  Boolean flag indicating whether to add or remove the specified <var>flag</var>.
 	 * @see #hasLifecycleFlag(int)
 	 */
-	private void updateLifecycleFlags(@LifecycleFlag int flag, boolean add) {
+	private void updateLifecycleFlags(@LifecycleFlag final int flag, final boolean add) {
 		if (add) this.mLifecycleFlags |= flag;
 		else this.mLifecycleFlags &= ~flag;
 	}
@@ -263,7 +266,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @return {@code True} if the requested flag is contained, {@code false} otherwise.
 	 * @see #updateLifecycleFlags(int, boolean)
 	 */
-	private boolean hasLifecycleFlag(@LifecycleFlag int flag) {
+	@VisibleForTesting boolean hasLifecycleFlag(@LifecycleFlag final int flag) {
 		return (mLifecycleFlags & flag) != 0;
 	}
 
@@ -271,7 +274,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 */
 	@Override
 	@SuppressWarnings("deprecation")
-	public void onAttach(Activity activity) {
+	public void onAttach(@NonNull final Activity activity) {
 		super.onAttach(activity);
 		this.mActivityDelegate = ActivityDelegate.create(activity);
 		this.updateLifecycleFlags(LIFECYCLE_DETACHED, false);
@@ -301,7 +304,9 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	@NonNull
 	protected Resources.Theme getContextTheme() {
 		final Activity activity = getActivity();
-		if (activity == null) throw new IllegalStateException("Fragment is not attached to parent context.");
+		if (activity == null) {
+			throw new IllegalStateException("Fragment is not attached to parent context.");
+		}
 		return activity.getTheme();
 	}
 
@@ -311,7 +316,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @return {@code True} if parent activity is available and action was posted, {@code false}
 	 * otherwise.
 	 */
-	public final boolean runOnUiThread(@NonNull Runnable action) {
+	public final boolean runOnUiThread(@NonNull final Runnable action) {
 		final Activity activity = getActivity();
 		if (activity != null) {
 			activity.runOnUiThread(action);
@@ -323,7 +328,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	/**
 	 */
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.updateLifecycleFlags(LIFECYCLE_DESTROYED, false);
 		this.updateLifecycleFlags(LIFECYCLE_CREATED, true);
@@ -369,7 +374,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	/**
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
 		if (mAnnotationHandler != null) {
 			final int viewResource = mAnnotationHandler.getContentViewResource(-1);
 			if (viewResource != -1) {
@@ -386,7 +391,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	/**
 	 */
 	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
+	public void onViewCreated(@NonNull final View view, @Nullable final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		if (mAnnotationHandler != null) {
 			final int backgroundResId = mAnnotationHandler.getContentViewBackgroundResId(-1);
@@ -408,69 +413,89 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	/**
 	 */
 	@Override
-	public void setAllowEnterTransitionOverlap(boolean allow) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setAllowEnterTransitionOverlap(allow);
+	public void setAllowEnterTransitionOverlap(final boolean allow) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setAllowEnterTransitionOverlap(allow);
 	}
 
 	/**
 	 */
 	@Override
-	public void setAllowReturnTransitionOverlap(boolean allow) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setAllowReturnTransitionOverlap(allow);
-	}
-
-	/**
-	 * @see FragmentUtils#inflateTransition(Context, int)
-	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
-	 */
-	@Override
-	public void setEnterTransition(Transition transition) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setEnterTransition(transition);
+	public void setAllowReturnTransitionOverlap(final boolean allow) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setAllowReturnTransitionOverlap(allow);
 	}
 
 	/**
 	 * @see FragmentUtils#inflateTransition(Context, int)
 	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
+	 * @see #inflateTransition(int)
 	 */
 	@Override
-	public void setExitTransition(Transition transition) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setExitTransition(transition);
+	public void setEnterTransition(@Nullable final Transition transition) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setEnterTransition(transition);
 	}
 
 	/**
 	 * @see FragmentUtils#inflateTransition(Context, int)
 	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
+	 * @see #inflateTransition(int)
 	 */
 	@Override
-	public void setReenterTransition(Transition transition) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setReenterTransition(transition);
+	public void setExitTransition(@Nullable final Transition transition) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setExitTransition(transition);
 	}
 
 	/**
 	 * @see FragmentUtils#inflateTransition(Context, int)
 	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
+	 * @see #inflateTransition(int)
 	 */
 	@Override
-	public void setReturnTransition(Transition transition) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setReturnTransition(transition);
+	public void setReenterTransition(@Nullable final Transition transition) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setReenterTransition(transition);
 	}
 
 	/**
 	 * @see FragmentUtils#inflateTransition(Context, int)
 	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
+	 * @see #inflateTransition(int)
 	 */
 	@Override
-	public void setSharedElementEnterTransition(Transition transition) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setSharedElementEnterTransition(transition);
+	public void setReturnTransition(@Nullable final Transition transition) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setReturnTransition(transition);
 	}
 
 	/**
 	 * @see FragmentUtils#inflateTransition(Context, int)
 	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
+	 * @see #inflateTransition(int)
 	 */
 	@Override
-	public void setSharedElementReturnTransition(Transition transition) {
-		if (FragmentsConfig.TRANSITIONS_SUPPORTED) super.setSharedElementReturnTransition(transition);
+	public void setSharedElementEnterTransition(@Nullable final Transition transition) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setSharedElementEnterTransition(transition);
+	}
+
+	/**
+	 * @see FragmentUtils#inflateTransition(Context, int)
+	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
+	 * @see #inflateTransition(int)
+	 */
+	@Override
+	public void setSharedElementReturnTransition(@Nullable final Transition transition) {
+		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setSharedElementReturnTransition(transition);
+	}
+
+	/**
+	 * Inflates a desired Transition from the specified <var>resource</var>.
+	 *
+	 * @param resource Resource id of the desired transition to inflate.
+	 * @return Inflated transition or {@code null} if the current API level does not support transitions
+	 * or this fragment is not attached to its parent context.
+	 * @see TransitionInflater#inflateTransition(int)
+	 */
+	@Nullable
+	protected Transition inflateTransition(@TransitionRes int resource) {
+		final Activity activity = getActivity();
+		return activity != null && FragmentPolicies.TRANSITIONS_SUPPORTED ? TransitionInflater.from(activity).inflateTransition(resource) : null;
 	}
 
 	/**
@@ -482,20 +507,32 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 		this.updateLifecycleFlags(LIFECYCLE_RESUMED, true);
 	}
 
+	// This lifecycle state method is already available for the parent Fragment class.
+	/*public final boolean isResumed();*/
+
 	/**
+	 * Invalidates the attached activity's options menu as necessary.
+	 * <p>
+	 * Note that the invalidation request is ignored if this fragment instance is not added or it is
+	 * hidden at this time.
+	 *
+	 * @return {@code True} if menu has been invalidated, {@code false} otherwise.
 	 */
-	/*@Override
-	public final boolean isResumed() {
-		return hasLifecycleFlag(LIFECYCLE_RESUMED);
-	}*/
+	public boolean invalidateOptionsMenu() {
+		if (isAdded() && !isHidden()) {
+			getFragmentManager().invalidateOptionsMenu();
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Dispatches to {@link #onViewClick(View)}.
 	 * <p>
-	 * By default returns {@code false} for all passed views.
+	 * This implementation by default returns {@code false} for all passed views.
 	 */
 	@Override
-	public boolean dispatchViewClick(@NonNull View view) {
+	public boolean dispatchViewClick(@NonNull final View view) {
 		onViewClick(view);
 		return false;
 	}
@@ -524,10 +561,11 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see #destroyLoader(int)
 	 */
 	@Nullable
-	public <D> Loader<D> startLoader(@IntRange(from = 0) int id, @Nullable Bundle params, @NonNull LoaderManager.LoaderCallbacks<D> callbacks) {
+	public <D> Loader<D> startLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
 		final LoaderManager manager = getLoaderManager();
-		if (manager.getLoader(id) == null) return initLoader(id, params, callbacks);
-		else return restartLoader(id, params, callbacks);
+		return manager.getLoader(id) == null ?
+				initLoader(id, params, callbacks) :
+				restartLoader(id, params, callbacks);
 	}
 
 	/**
@@ -544,7 +582,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see LoaderManager#initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 */
 	@Nullable
-	public <D> Loader<D> initLoader(@IntRange(from = 0) int id, @Nullable Bundle params, @NonNull LoaderManager.LoaderCallbacks<D> callbacks) {
+	public <D> Loader<D> initLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
 		return getLoaderManager().initLoader(id, params, callbacks);
 	}
 
@@ -562,7 +600,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see LoaderManager#restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 */
 	@Nullable
-	public <D> Loader<D> restartLoader(@IntRange(from = 0) int id, @Nullable Bundle params, @NonNull LoaderManager.LoaderCallbacks<D> callbacks) {
+	public <D> Loader<D> restartLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
 		return getLoaderManager().restartLoader(id, params, callbacks);
 	}
 
@@ -574,7 +612,7 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see #restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 * @see LoaderManager#destroyLoader(int)
 	 */
-	public void destroyLoader(@IntRange(from = 0) int id) {
+	public void destroyLoader(@IntRange(from = 0) final int id) {
 		getLoaderManager().destroyLoader(id);
 	}
 
@@ -674,14 +712,10 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 		this.mActivityDelegate = null;
 	}
 
-	/**
-	 */
-	/*@Override
-	public final boolean isDetached() {
-		return hasLifecycleFlag(LIFECYCLE_DETACHED);
-	}*/
+	// This lifecycle state method is already available for the parent Fragment class.
+	/*public final boolean isDetached();*/
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

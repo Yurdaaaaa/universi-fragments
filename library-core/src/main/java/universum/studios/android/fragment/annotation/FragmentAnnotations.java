@@ -23,8 +23,7 @@ import android.support.annotation.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-
-import universum.studios.android.fragment.FragmentsConfig;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Annotation utils for the Fragments library.
@@ -33,7 +32,7 @@ import universum.studios.android.fragment.FragmentsConfig;
  */
 public final class FragmentAnnotations {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -42,7 +41,7 @@ public final class FragmentAnnotations {
 	 */
 	// private static final String TAG = "FragmentAnnotations";
 
-	/**
+	/*
 	 * Interface ===================================================================================
 	 */
 
@@ -63,27 +62,59 @@ public final class FragmentAnnotations {
 		void onProcessField(@NonNull Field field, @NonNull String name);
 	}
 
-	/**
+	/*
 	 * Static members ==============================================================================
 	 */
 
 	/**
+	 * Flag indicating whether the processing of annotations for the Fragments library is enabled.
+	 */
+	private static final AtomicBoolean sEnabled = new AtomicBoolean(false);
+
+	/*
 	 * Members =====================================================================================
 	 */
 
-	/**
+	/*
 	 * Constructors ================================================================================
 	 */
 
 	/**
 	 */
 	private FragmentAnnotations() {
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
+	}
+
+	/*
+	 * Methods =====================================================================================
+	 */
+
+	/**
+	 * Enables/disables processing of annotations for the Fragments library.
+	 * <p>
+	 * If annotations processing is enabled, it may decrease performance for the parts of an Android
+	 * application depending on the classes from the Fragments library that uses annotations.
+	 * <p>
+	 * Default value: {@code false}
+	 *
+	 * @param enabled {@code True} to enable annotations processing, {@code false} to disabled it.
+	 * @see #isEnabled()
+	 */
+	public static void setEnabled(final boolean enabled) {
+		sEnabled.set(enabled);
 	}
 
 	/**
-	 * Methods =====================================================================================
+	 * Returns a boolean flag indicating whether the annotations processing for the Fragments library
+	 * is enabled or not.
+	 *
+	 * @return {@code True} if annotations processing is enabled, {@code false} if it is disabled.
+	 * @see #setEnabled(boolean)
 	 */
+	public static boolean isEnabled() {
+		return sEnabled.get();
+	}
 
 	/**
 	 * Performs check for enabled state of the annotations processing for the Fragments library.
@@ -92,12 +123,13 @@ public final class FragmentAnnotations {
 	 * processing enabled.
 	 *
 	 * @throws IllegalStateException If annotations processing is disabled.
+	 * @see #setEnabled(boolean)
 	 */
 	public static void checkIfEnabledOrThrow() {
-		if (!FragmentsConfig.ANNOTATIONS_PROCESSING_ENABLED) {
+		if (!sEnabled.get()) {
 			throw new IllegalStateException(
 					"Trying to access logic that requires annotations processing to be enabled, " +
-					"but it appears that the annotations processing is disabled for the Fragments library."
+							"but it appears that the annotations processing is disabled for the Fragments library."
 			);
 		}
 	}
@@ -117,7 +149,7 @@ public final class FragmentAnnotations {
 	 * for the given class or its supers if requested.
 	 */
 	@Nullable
-	public static <A extends Annotation> A obtainAnnotationFrom(@NonNull Class<A> classOfAnnotation, @NonNull Class<?> fromClass, @Nullable Class<?> maxSuperClass) {
+	public static <A extends Annotation> A obtainAnnotationFrom(@NonNull final Class<A> classOfAnnotation, @NonNull final Class<?> fromClass, @Nullable final Class<?> maxSuperClass) {
 		final A annotation = fromClass.getAnnotation(classOfAnnotation);
 		if (annotation != null) {
 			return annotation;
@@ -139,7 +171,7 @@ public final class FragmentAnnotations {
 	 *                      super classes of the given class (max to the specified <var>maxSuperClass</var>
 	 *                      excluding), otherwise only fields of the given class will be iterated.
 	 */
-	public static void iterateFields(@NonNull FieldProcessor processor, @NonNull Class<?> ofClass, @Nullable Class<?> maxSuperClass) {
+	public static void iterateFields(@NonNull final FieldProcessor processor, @NonNull final Class<?> ofClass, @Nullable final Class<?> maxSuperClass) {
 		final Field[] fields = ofClass.getDeclaredFields();
 		if (fields.length > 0) {
 			for (final Field field : fields) {
@@ -154,7 +186,7 @@ public final class FragmentAnnotations {
 		}
 	}
 
-	/**
+	/*
 	 * Inner classes ===============================================================================
 	 */
 }

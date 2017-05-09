@@ -41,7 +41,13 @@ public final class FragmentTransitions {
 	/**
 	 * Transition that may be used for changing of two fragments without any animation.
 	 */
-	public static final FragmentTransition NONE = new BasicFragmentTransition(0, 0, 0, 0, "NONE");
+	public static final FragmentTransition NONE = new BasicFragmentTransition(
+			FragmentTransition.NO_ANIMATION,
+			FragmentTransition.NO_ANIMATION,
+			FragmentTransition.NO_ANIMATION,
+			FragmentTransition.NO_ANIMATION,
+			"NONE"
+	);
 
 	/**
 	 * Transition that may be used to fade a new incoming fragment into the screen and an outgoing
@@ -191,6 +197,7 @@ public final class FragmentTransitions {
 	/**
 	 */
 	private FragmentTransitions() {
-		// Creation of instances of this class is not publicly allowed.
+		// Not allowed to be instantiated publicly.
+		throw new UnsupportedOperationException();
 	}
 }

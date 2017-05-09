@@ -33,7 +33,7 @@ import android.support.annotation.NonNull;
  */
 public interface FragmentTransition extends Parcelable {
 
-	/**
+	/*
 	 * Constants ===================================================================================
 	 */
 
@@ -42,7 +42,7 @@ public interface FragmentTransition extends Parcelable {
 	 */
 	int NO_ANIMATION = 0;
 
-	/**
+	/*
 	 * Methods =====================================================================================
 	 */
 
