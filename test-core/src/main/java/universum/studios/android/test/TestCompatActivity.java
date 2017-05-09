@@ -22,7 +22,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.widget.FrameLayout;
 
 /**
  * Simple compatibility activity that may be used in <b>Android Instrumented Tests</b> in order to
@@ -39,10 +39,17 @@ public class TestCompatActivity extends AppCompatActivity {
 	private static final String TAG = "TestCompatActivity";
 
 	/**
+	 * Id of the TestActivity's content view.
+	 */
+	public static final int CONTENT_VIEW_ID = android.R.id.custom;
+
+	/**
 	 */
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(new View(this));
+		final FrameLayout contentView = new FrameLayout(this);
+		contentView.setId(CONTENT_VIEW_ID);
+		setContentView(contentView);
 	}
 }
