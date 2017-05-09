@@ -26,6 +26,7 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.test.BaseInstrumentedTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -42,6 +43,13 @@ public final class ActionBarAnnotationHandlersTest extends BaseInstrumentedTest 
     
 	@SuppressWarnings("unused")
 	private static final String TAG = "ActionBarAnnotationHandlersTest";
+
+	@Override
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
+		FragmentAnnotations.setEnabled(true);
+	}
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void testInstantiation() throws Exception {

@@ -47,9 +47,9 @@ public final class BaseFragmentFactoryTest extends BaseInstrumentedTest {
 	private static final String TAG = "BaseFragmentFactoryTest";
 
 	@Override
-	public void afterTest() throws Exception {
-		super.afterTest();
-		// Ensure that the annotations processing is kept enabled.
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 

@@ -76,9 +76,9 @@ public final class BaseFragmentTest extends BaseInstrumentedTest {
 	public final ActivityTestRule<TestActivity> ACTIVITY_RULE = new ActivityTestRule<>(TestActivity.class);
 
 	@Override
-	public void afterTest() throws Exception {
-		super.afterTest();
-		// Ensure that the annotations processing is kept enabled.
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 
@@ -377,7 +377,7 @@ public final class BaseFragmentTest extends BaseInstrumentedTest {
 		final BaseFragment fragment = new TestFragment();
 		fragment.setSharedElementEnterTransition(transition);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			assertThat(fragment.getSharedElementReturnTransition(), is(transition));
+			assertThat(fragment.getSharedElementEnterTransition(), is(transition));
 		}
 	}
 

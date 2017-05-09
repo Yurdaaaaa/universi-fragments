@@ -48,6 +48,13 @@ public final class BaseAnnotationHandlerTest extends BaseInstrumentedTest {
 	@SuppressWarnings("unused")
 	private static final String TAG = "BaseAnnotationHandlerTest";
 
+	@Override
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
+		FragmentAnnotations.setEnabled(true);
+	}
+
 	@Test
 	public void testInstantiation() {
 		final Handler handler = new Handler(Fragment.class);

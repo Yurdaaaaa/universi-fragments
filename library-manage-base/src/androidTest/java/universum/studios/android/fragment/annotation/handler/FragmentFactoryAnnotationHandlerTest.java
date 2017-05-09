@@ -27,6 +27,7 @@ import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.annotation.FactoryFragment;
 import universum.studios.android.fragment.annotation.FactoryFragments;
+import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.manage.BaseFragmentFactory;
 import universum.studios.android.fragment.manage.FragmentItem;
 import universum.studios.android.test.BaseInstrumentedTest;
@@ -45,6 +46,13 @@ public final class FragmentFactoryAnnotationHandlerTest extends BaseInstrumented
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentFactoryAnnotationHandlerTest";
+
+	@Override
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
+		FragmentAnnotations.setEnabled(true);
+	}
 
 	@Test
 	@SuppressWarnings("ConstantConditions")

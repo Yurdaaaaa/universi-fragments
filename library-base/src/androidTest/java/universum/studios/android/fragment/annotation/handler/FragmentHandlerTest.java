@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.annotation.ContentView;
+import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.test.BaseInstrumentedTest;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,6 +38,13 @@ public final class FragmentHandlerTest extends BaseInstrumentedTest {
     
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentHandlerTest";
+
+	@Override
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
+		FragmentAnnotations.setEnabled(true);
+	}
 
 	@Test
 	public void testGetContentViewResource() {

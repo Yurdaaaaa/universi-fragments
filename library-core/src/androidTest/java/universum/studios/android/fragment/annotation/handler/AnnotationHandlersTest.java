@@ -45,6 +45,8 @@ public final class AnnotationHandlersTest extends BaseInstrumentedTest {
 	@Override
 	public void beforeTest() throws Exception {
 		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
+		FragmentAnnotations.setEnabled(true);
 		// Ensure that we have a clean slate before each test.
 		AnnotationHandlers.clearHandlers();
 	}

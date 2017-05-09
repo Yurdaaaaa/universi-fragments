@@ -32,6 +32,7 @@ import universum.studios.android.fragment.ActionBarDelegate;
 import universum.studios.android.fragment.ActionBarFragment;
 import universum.studios.android.fragment.annotation.ActionBarOptions;
 import universum.studios.android.fragment.annotation.ActionModeOptions;
+import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.MenuOptions;
 import universum.studios.android.test.BaseInstrumentedTest;
 
@@ -54,6 +55,13 @@ public final class ActionBarFragmentAnnotationHandlerTest extends BaseInstrument
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "ActionBarFragmentAnnotationHandlerTest";
+
+	@Override
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
+		FragmentAnnotations.setEnabled(true);
+	}
 
 	@Test
 	public void testActionBarOptions() {
