@@ -2,6 +2,10 @@ language: android
 jdk: oraclejdk8
 sudo: false
 
+# Install wait script which ensures that even when the tests will run more than 10 minutes, the CI
+# build will continue without interuption.
+install: travis_wait mvn install
+
 # Android components
 android:
   components:
