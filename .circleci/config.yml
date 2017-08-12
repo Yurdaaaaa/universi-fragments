@@ -63,15 +63,15 @@ workflows:
 #    branches:
 #      only:
 #        - /^feature.*$/
-  release:
-    jobs:
-      - build
-      - test:
-          requires:
-            - build
-      - deploy:
-          requires:
-            - test
-    branches:
-      only:
-        - /^release.*$/
+#  release:
+#    jobs:
+#      - build
+#      - test:
+#          requires:
+#            - build
+#      - deploy:
+#          requires:
+#            - test
+#    branches:
+#      only:
+#        - /^release.*$/
