@@ -51,15 +51,15 @@ workflows:
   feature:
     jobs:
       - build
-      - test
+      - test:
           requires:
             - build
   release:
     jobs:
       - build
-      - test
+      - test:
           requires:
             - build
-      - deploy
+      - deploy:
           requires:
             - test
