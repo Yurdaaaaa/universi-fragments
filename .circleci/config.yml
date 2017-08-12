@@ -48,12 +48,18 @@ jobs:
 
 workflows:
   version: 2
-    feature:
-      jobs:
-        - build
-        - test
-    release:
-      jobs:
-        - build
-        - test
-        - deploy
+  feature:
+    jobs:
+      - build
+      - test
+          requires:
+            - build
+  release:
+    jobs:
+      - build
+      - test
+          requires:
+            - build
+      - deploy
+          requires:
+            - test
