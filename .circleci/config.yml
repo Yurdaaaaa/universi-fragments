@@ -1,8 +1,12 @@
 version: 2
 
+### CONFIGURATION ==================================================================================
+
 machine:
   environment:
     QEMU_AUDIO_DRV: none
+
+### JOBS ===========================================================================================
 
 jobs:
   build:
@@ -17,7 +21,9 @@ jobs:
           paths:
             - ~/.gradle
           key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
-      - run: ./ci/permissions.sh
+      - run:
+          name: Grant Permissions
+          command: ./ci/permissions.sh
       - run:
           name: Build Project
           command: ./ci/build.sh
@@ -27,19 +33,22 @@ jobs:
       - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
-    pre:
-      - emulator -avd circleci-android24 -no-window:
-          background: true
-          parallel: true
-      - circle-android wait-for-boot
     steps:
       - checkout
       - restore_cache:
           key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
-      - run: ./ci/permissions.sh
+      - run:
+          name: Grant Permissions
+          command: ./ci/permissions.sh
+      - emulator -avd circleci-android24 -no-window:
+          background: true
+          parallel: true
+      - run: circle-android wait-for-boot
       - run:
           name: Execute Tests
           command: ./ci/test.sh
+
+### WORK-FLOWS =====================================================================================
 
 workflows:
   version: 2
