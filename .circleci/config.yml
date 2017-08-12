@@ -37,13 +37,14 @@ jobs:
       - checkout
       - restore_cache:
           key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
+      - pre:
+        - emulator -avd circleci-android24 -no-window:
+            background: true
+            parallel: true
+        - circle-android wait-for-boot
       - run:
           name: Grant Permissions
           command: ./ci/permissions.sh
-      - emulator -avd circleci-android24 -no-window:
-          background: true
-          parallel: true
-      - run: circle-android wait-for-boot
       - run:
           name: Execute Tests
           command: ./ci/test.sh
