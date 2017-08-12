@@ -11,16 +11,13 @@ jobs:
       - run:
           name: Grant Permissions
           command: ./ci/permissions.sh
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
+          key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
       - run:
           name: Build Project
-          command: ./gradlew assembleDebug
+          command: ./ci/build.sh
   test:
     working_directory: ~/repo
     docker:
@@ -29,12 +26,14 @@ jobs:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - restore_cache:
+          key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
       - run:
           name: Grant Permissions
           command: ./ci/permissions.sh
       - run:
           name: Execute Tests
-          command: ./ci/tests.sh
+          command: ./ci/test.sh
 
 workflows:
   version: 2
