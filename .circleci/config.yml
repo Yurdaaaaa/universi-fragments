@@ -10,7 +10,7 @@ jobs:
       - checkout
       - run:
           name: Grant Permissions
-          command: ci/permissions.sh
+          command: ./ci/permissions.sh
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
@@ -31,10 +31,10 @@ jobs:
       - checkout
       - run:
           name: Grant Permissions
-          command: ci/permissions.sh
+          command: ./ci/permissions.sh
       - run:
           name: Execute Tests
-          command: ci/tests.sh
+          command: ./ci/tests.sh
   deploy:
     working_directory: ~/repo
     docker:
@@ -47,10 +47,10 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
       - run:
           name: Grant Permissions
-          command: ci/permissions.sh
+          command: ./ci/permissions.sh
       - run:
           name: Deploy Artifacts
-          command: ci/deploy.sh
+          command: ./ci/deploy.sh
 
 workflows:
   version: 2
