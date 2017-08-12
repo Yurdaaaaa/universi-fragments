@@ -1,4 +1,9 @@
 version: 2
+
+machine:
+  environment:
+    QEMU_AUDIO_DRV: none
+
 jobs:
   build:
     working_directory: ~/repo
@@ -6,11 +11,10 @@ jobs:
       - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+    pre:
+      - run: ./ci/permissions.sh
     steps:
       - checkout
-      - run:
-          name: Grant Permissions
-          command: ./ci/permissions.sh
       - save_cache:
           paths:
             - ~/.gradle
@@ -24,13 +28,16 @@ jobs:
       - image: circleci/android:api-26-alpha
     environment:
       JVM_OPTS: -Xmx3200m
+    pre:
+      - run: ./ci/permissions.sh
+      - emulator -avd circleci-android24 -no-window:
+          background: true
+          parallel: true
+      - circle-android wait-for-boot
     steps:
       - checkout
       - restore_cache:
           key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
-      - run:
-          name: Grant Permissions
-          command: ./ci/permissions.sh
       - run:
           name: Execute Tests
           command: ./ci/test.sh
