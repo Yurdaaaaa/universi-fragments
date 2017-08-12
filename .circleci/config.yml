@@ -60,9 +60,9 @@ workflows:
       - test:
           requires:
             - build
-    branches:
-      only:
-        - /^feature.*$/
+#    branches:
+#      only:
+#        - /^feature.*$/
   release:
     jobs:
       - build
