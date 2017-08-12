@@ -45,20 +45,15 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
+
 workflows:
   version: 2
     feature:
       jobs:
         - build
         - test
-            requires:
-              - build
     release:
       jobs:
         - build
         - test
-            requires:
-              - build
         - deploy
-            requires:
-              - test
