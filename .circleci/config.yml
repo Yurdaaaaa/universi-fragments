@@ -45,6 +45,12 @@ jobs:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
+      - run:
+          name: Grant Permissions
+          command: ci/permissions.sh
+      - run:
+          name: Deploy Artifacts
+          command: ci/deploy.sh
 
 workflows:
   version: 2
