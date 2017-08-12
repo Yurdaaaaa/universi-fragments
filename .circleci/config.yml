@@ -9,15 +9,15 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Grant Permissions
+          command: ci/permissions.sh
+      - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "library/build.gradle" }}
-      - run:
-          name: Grant Permissions
-          command: ci/permissions.sh
       - run:
           name: Build Project
           command: ./gradlew assembleDebug
@@ -60,6 +60,9 @@ workflows:
       - test:
           requires:
             - build
+    branches:
+      only:
+        - /^feature.*$/
   release:
     jobs:
       - build
@@ -69,3 +72,6 @@ workflows:
       - deploy:
           requires:
             - test
+    branches:
+      only:
+        - /^release.*$/
