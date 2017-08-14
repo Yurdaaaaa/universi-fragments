@@ -1,6 +1,12 @@
 Change-Log
 ===============
 
+### Release 1.3.0 ###
+> --.08.2017
+
+- **Dropped support** for _Android_ versions **below** _API Level 14_ for both versions of the library.
+- TODO
+
 ### [Release 1.2.0](https://github.com/universum-studios/android_fragments/releases/tag/1.2.0) ###
 > 09.05.2017
 

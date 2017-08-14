@@ -546,6 +546,10 @@ public class FragmentController {
 	Fragment executeRequest(final FragmentRequest request) {
 		this.assertNotDestroyed("EXECUTE REQUEST");
 		Fragment fragment = request.mFragment;
+		// todo: 1) a request may be executed also for factory fragment but with custom tag specified
+		// todo: 2) a request may be executed also for fragment that is already showing but without
+		// todo: instance of such fragment but with its tag specified so such fragment should be
+		// todo: looked up and used in the request
 		if (fragment == null) {
 			this.assertHasFactory();
 			final int fragmentId = request.mFragmentId;

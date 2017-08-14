@@ -16,7 +16,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  * =================================================================================================
  */
-package universum.studios.android.test;
+package universum.studios.android.test.instrumented;
 
 import android.app.Instrumentation;
 import android.content.Context;
@@ -32,13 +32,13 @@ import org.junit.Before;
  *
  * @author Martin Albedinsky
  */
-public abstract class BaseInstrumentedTest {
+public abstract class InstrumentedTestCase {
 
 	/**
 	 * Log TAG.
 	 */
 	@SuppressWarnings("unused")
-	private static final String TAG = "BaseInstrumentedTest";
+	private static final String TAG = "InstrumentedTestCase";
 
 	/**
 	 * Target context obtained from the {@link InstrumentationRegistry}.

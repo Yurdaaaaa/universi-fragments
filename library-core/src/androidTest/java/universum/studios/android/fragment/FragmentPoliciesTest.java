@@ -28,7 +28,7 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.test.BaseInstrumentedTest;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -37,7 +37,7 @@ import static org.junit.Assert.assertThat;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class FragmentPoliciesTest extends BaseInstrumentedTest {
+public final class FragmentPoliciesTest extends InstrumentedTestCase {
 
 	/**
 	 * Log TAG.

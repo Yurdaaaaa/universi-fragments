@@ -32,9 +32,9 @@ import org.junit.runner.RunWith;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.test.BaseInstrumentedTest;
-import universum.studios.android.test.TestResources;
-import universum.studios.android.test.TestUtils;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.instrumented.TestResources;
+import universum.studios.android.test.instrumented.TestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -47,7 +47,7 @@ import static org.junit.Assume.assumeTrue;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class FragmentUtilsTest extends BaseInstrumentedTest {
+public final class FragmentUtilsTest extends InstrumentedTestCase {
     
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentUtilsTest";

@@ -16,38 +16,40 @@
  * See the License for the specific language governing permissions and limitations under the License.
  * =================================================================================================
  */
-repositories {
-    maven { url repos.jitpack }
-    maven { url repos.bintray.typesafeMavenReleases }
-}
+apply plugin: 'com.android.library'
 
-configurations { codacy }
+/**
+ * Library options =================================================================================
+ */
+android {
+    compileSdkVersion config.build.compileSdkVersion
+    buildToolsVersion config.build.buildToolsVersion
 
-dependencies {
-    codacy 'com.github.codacy:codacy-coverage-reporter:-SNAPSHOT'
+    defaultConfig {
+        minSdkVersion config.build.minSdkVersion
+        targetSdkVersion config.build.targetSdkVersion
+        testInstrumentationRunner config.test.instrumentationRunner
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
 /**
- * Task that uploads code coverage up to the Codacy cloud.
+ * Library dependencies ============================================================================
  */
-task uploadCoverageToCodacy(type: JavaExec, dependsOn: 'createDebugCoverageReport') {
-    final String token
-    final File tokensFile = file(config.codacy.tokensPath)
-    if (tokensFile.exists()) {
-        def Properties tokens = new Properties();
-        tokens.load(new FileInputStream(tokensFile))
-        token = tokens[config.codacy.projectName]
-    } else {
-        token = System.getenv('CODACY_PROJECT_TOKEN')
-    }
-    main = "com.codacy.CodacyCoverageReporter"
-    classpath = configurations.codacy
-    args = [
-            "-l",
-            "Java",
-            "-r",
-            "${buildDir}/reports/coverage/debug/report.xml",
-            "--projectToken",
-            token == null ? "NO_TOKEN" : token
-    ]
+dependencies {
+    // Local JUnit test dependencies.
+    compile deps.test.junit
+    compile deps.test.mockitoCore
+    compile deps.test.mockitoAndroid
+    compile deps.test.robolectric
+    compile deps.test.robolectricShadowsSupportV4
+    compile deps.androidSupport.annotations
 }
