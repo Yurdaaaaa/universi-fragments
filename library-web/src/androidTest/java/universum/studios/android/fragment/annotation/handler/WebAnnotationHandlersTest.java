@@ -27,7 +27,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.fragment.WebFragment;
-import universum.studios.android.test.BaseInstrumentedTest;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -39,7 +39,7 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class WebAnnotationHandlersTest extends BaseInstrumentedTest {
+public final class WebAnnotationHandlersTest extends InstrumentedTestCase {
     
 	@SuppressWarnings("unused")
 	private static final String TAG = "WebAnnotationHandlersTest";

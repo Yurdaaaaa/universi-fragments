@@ -44,10 +44,10 @@ import java.lang.annotation.RetentionPolicy;
 
 import universum.studios.android.fragment.FragmentPolicies;
 import universum.studios.android.fragment.util.FragmentUtils;
-import universum.studios.android.test.BaseInstrumentedTest;
-import universum.studios.android.test.TestActivity;
-import universum.studios.android.test.TestFragment;
-import universum.studios.android.test.TestResources;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.instrumented.TestActivity;
+import universum.studios.android.test.instrumented.TestFragment;
+import universum.studios.android.test.instrumented.TestResources;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -68,7 +68,7 @@ import static org.mockito.Mockito.when;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class FragmentControllerTest extends BaseInstrumentedTest {
+public final class FragmentControllerTest extends InstrumentedTestCase {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentControllerTest";
@@ -99,7 +99,9 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 		final FragmentController controller = new FragmentController(activity);
 		assertThat(controller.getFragmentManager(), is(activity.getFragmentManager()));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
-		final FragmentRequest request = new FragmentRequest(controller, new TestFragment()).viewContainerId(TestActivity.CONTENT_VIEW_ID);
+		final FragmentRequest request = new FragmentRequest(controller, new TestFragment())
+				.viewContainerId(TestActivity.CONTENT_VIEW_ID)
+				.allowStateLoss(true);
 		controller.executeRequest(request);
 		controller.notifyRequestExecuted(request);
 		controller.notifyBackStackEntryChange(mock(FragmentManager.BackStackEntry.class), false);

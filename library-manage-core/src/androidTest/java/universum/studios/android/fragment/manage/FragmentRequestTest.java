@@ -32,8 +32,8 @@ import org.junit.runner.RunWith;
 import java.util.List;
 
 import universum.studios.android.fragment.util.FragmentUtils;
-import universum.studios.android.test.BaseInstrumentedTest;
-import universum.studios.android.test.TestResources;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.instrumented.TestResources;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -50,7 +50,7 @@ import static org.mockito.Mockito.when;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class FragmentRequestTest extends BaseInstrumentedTest {
+public final class FragmentRequestTest extends InstrumentedTestCase {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentRequestTest";

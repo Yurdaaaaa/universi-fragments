@@ -24,7 +24,7 @@ import android.support.test.runner.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import universum.studios.android.test.BaseInstrumentedTest;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -35,7 +35,7 @@ import static org.mockito.Mockito.verify;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class ActionBarDelegateSupportTest extends BaseInstrumentedTest {
+public final class ActionBarDelegateSupportTest extends InstrumentedTestCase {
 
 	/**
 	 * Log TAG.

@@ -7,7 +7,8 @@ def versions = [
         universumStudiosSamples   : '0.1.3',
         butterknife               : '8.5.1',
         junit                     : '4.12',
-        mockito                   : '2.7.20'
+        mockito                   : '2.7.20',
+        robolectric               : '3.3.2'
 ]
 
 ext.versions = versions
@@ -22,15 +23,17 @@ def androidSupport = [
 ]
 
 def test = [
-        androidSupportAnnotations: androidSupport.annotations,
-        androidRunner            : "com.android.support.test:runner:${versions.androidSupportTest}",
-        androidRules             : "com.android.support.test:rules:${versions.androidSupportTest}",
-        androidEspressoCore      : "com.android.support.test.espresso:espresso-core:${versions.androidSupportTestEspresso}",
-        androidEspressoIntents   : "com.android.support.test.espresso:espresso-intents:${versions.androidSupportTestEspresso}",
-        androidEspressoContrib   : "com.android.support.test.espresso:espresso-contrib:${versions.androidSupportTestEspresso}",
-        junit                    : "junit:junit:${versions.junit}",
-        mockitoCore              : "org.mockito:mockito-core:${versions.mockito}",
-        mockitoAndroid           : "org.mockito:mockito-android:${versions.mockito}"
+        androidRunner              : "com.android.support.test:runner:${versions.androidSupportTest}",
+        androidRules               : "com.android.support.test:rules:${versions.androidSupportTest}",
+        androidEspressoCore        : "com.android.support.test.espresso:espresso-core:${versions.androidSupportTestEspresso}",
+        androidEspressoIntents     : "com.android.support.test.espresso:espresso-intents:${versions.androidSupportTestEspresso}",
+        androidEspressoContrib     : "com.android.support.test.espresso:espresso-contrib:${versions.androidSupportTestEspresso}",
+        junit                      : "junit:junit:${versions.junit}",
+        mockitoCore                : "org.mockito:mockito-core:${versions.mockito}",
+        mockitoAndroid             : "org.mockito:mockito-android:${versions.mockito}",
+        robolectric                : "org.robolectric:robolectric:${versions.robolectric}",
+        robolectricMultidex        : "org.robolectric:shadows-multidex:${versions.robolectric}",
+        robolectricShadowsSupportV4: "org.robolectric:shadows-support-v4:${versions.robolectric}"
 ]
 
 def universumStudios = [
@@ -43,7 +46,7 @@ def universumStudios = [
 ]
 
 def other = [
-        butterknife: "com.jakewharton:butterknife:${versions.butterknife}",
+        butterknife         : "com.jakewharton:butterknife:${versions.butterknife}",
         butterknifeProcessor: "com.jakewharton:butterknife-compiler:${versions.butterknife}"
 ]
 
