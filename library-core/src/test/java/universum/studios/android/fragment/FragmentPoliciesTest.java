@@ -18,26 +18,26 @@
  */
 package universum.studios.android.fragment;
 
+import android.content.Context;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.LocalTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class FragmentPoliciesTest extends InstrumentedTestCase {
+public final class FragmentPoliciesTest extends LocalTestCase {
 
 	/**
 	 * Log TAG.
@@ -64,14 +64,6 @@ public final class FragmentPoliciesTest extends InstrumentedTestCase {
 
 	@Test
 	public void testWillBeCustomAnimationsPlayed() {
-		assertThat(
-				FragmentPolicies.willBeCustomAnimationsPlayed(mContext),
-				is(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1 ||
-						Settings.Global.getFloat(
-								mContext.getContentResolver(),
-								Settings.Global.ANIMATOR_DURATION_SCALE,
-								0
-						) > 0f)
-		);
+		assertThat(FragmentPolicies.willBeCustomAnimationsPlayed(RuntimeEnvironment.application), is(true));
 	}
 }

@@ -18,20 +18,24 @@
  */
 package universum.studios.android.test.local;
 
+import android.os.Build;
 import android.support.annotation.CallSuper;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 /**
- * Class that may be used as base for <b>Local Tests</b>.
+ * Class that may be used to group suite of <b>local tests</b>.
  * <p>
- * Implementations of this test class will run with {@link RobolectricTestRunner}.
+ * Implementations of this test class will be run with {@link RobolectricTestRunner}.
  *
  * @author Martin Albedinsky
  */
+@Config(constants = BuildConfig.class,
+		sdk = Build.VERSION_CODES.N_MR1)
 @RunWith(RobolectricTestRunner.class)
 public abstract class LocalTestCase {
 

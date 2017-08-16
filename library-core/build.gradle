@@ -71,6 +71,7 @@ dependencies {
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
+    testCompile project(':test-local')
     androidTestCompile project(':test-instrumented')
 }
 

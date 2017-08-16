@@ -28,7 +28,7 @@ import org.junit.After;
 import org.junit.Before;
 
 /**
- * Class that may be used as base for <b>Android Instrumented Tests</b>.
+ * Class that may be used to group suite of <b>Android instrumented tests</b>.
  *
  * @author Martin Albedinsky
  */
