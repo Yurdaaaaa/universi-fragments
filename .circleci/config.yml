@@ -40,10 +40,9 @@ jobs:
       - run:
           name: Grant Permissions
           command: ./ci/permissions.sh
-      # todo: start the emulator
-      #- run:
-      #    name: Execute Tests
-      #    command: ./ci/test.sh
+      - run:
+          name: Execute Tests
+          command: ./ci/test.sh
   deploy:
     working_directory: ~/repo
     docker:
