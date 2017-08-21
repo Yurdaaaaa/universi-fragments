@@ -49,9 +49,9 @@ import java.util.concurrent.Executors;
 import universum.studios.android.fragment.annotation.ContentView;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.handler.FragmentAnnotationHandler;
-import universum.studios.android.test.BaseInstrumentedTest;
-import universum.studios.android.test.TestActivity;
-import universum.studios.android.test.TestResources;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.instrumented.TestActivity;
+import universum.studios.android.test.instrumented.TestResources;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -67,7 +67,7 @@ import static org.mockito.Mockito.when;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class BaseFragmentTest extends BaseInstrumentedTest {
+public final class BaseFragmentTest extends InstrumentedTestCase {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "BaseFragmentTest";

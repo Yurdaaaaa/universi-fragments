@@ -76,8 +76,7 @@ dependencies {
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
-    androidTestCompile project(':test-core')
+    androidTestCompile project(':test-instrumented')
 }
 
-// Apply DEPLOY script.
-apply from: '../deploy/deploy.gradle'
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

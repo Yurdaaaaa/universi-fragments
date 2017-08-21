@@ -28,7 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.fragment.R;
 import universum.studios.android.fragment.manage.FragmentTransition;
-import universum.studios.android.test.BaseInstrumentedTest;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -39,7 +39,7 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class FragmentTransitionsTest extends BaseInstrumentedTest {
+public final class FragmentTransitionsTest extends InstrumentedTestCase {
     
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentTransitionsTest";

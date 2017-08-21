@@ -31,7 +31,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.logging.Logger;
 import universum.studios.android.logging.SimpleLogger;
-import universum.studios.android.test.BaseInstrumentedTest;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -43,7 +43,7 @@ import static org.mockito.Mockito.verify;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class FragmentsLoggingTest extends BaseInstrumentedTest {
+public final class FragmentsLoggingTest extends InstrumentedTestCase {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentsLoggingTest";

@@ -46,8 +46,8 @@ android {
 
     sourceSets {
         release.java.srcDirs = [
-                '../library-manage-core/src/main/java',
-                '../library-manage-base/src/main/java'
+                "${rootProject.rootDir}/library-manage-core/src/main/java",
+                "${rootProject.rootDir}/library-manage-base/src/main/java"
         ]
         debug.java.srcDirs = release.java.srcDirs
     }
@@ -86,8 +86,7 @@ dependencies {
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
-    androidTestCompile project(':test-core')
+    androidTestCompile project(':test-instrumented')
 }
 
-// Apply DEPLOY script.
-apply from: '../deploy/deploy.gradle'
+apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

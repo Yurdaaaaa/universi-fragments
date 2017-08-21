@@ -1,0 +1,84 @@
+version: 2
+
+### CONFIGURATION ==================================================================================
+
+machine:
+  environment:
+    QEMU_AUDIO_DRV: none
+
+### JOBS ===========================================================================================
+
+jobs:
+  build:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
+      - run:
+          name: Grant Permissions
+          command: ./ci/permissions.sh
+      - run:
+          name: Build Project
+          command: ./ci/build.sh
+  test:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
+      - run:
+          name: Grant Permissions
+          command: ./ci/permissions.sh
+      - run:
+          name: Execute Tests
+          command: ./ci/test.sh
+  deploy:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/android:api-26-alpha
+    environment:
+      JVM_OPTS: -Xmx3200m
+    steps:
+      - checkout
+      - restore_cache:
+          key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
+      - run:
+          name: Grant Permissions
+          command: ./ci/permissions.sh
+      - run:
+          name: Deploy Artifacts
+          command: ./ci/deploy.sh
+
+### WORK-FLOWS =====================================================================================
+
+workflows:
+  version: 2
+  assemble:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - approve-deploy:
+          type: approval
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - /^release.*$/
+                - /^support-release.*$/
+      - deploy:
+          requires:
+            - approve-deploy

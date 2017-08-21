@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
-import universum.studios.android.test.BaseInstrumentedTest;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static junit.framework.Assert.assertSame;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -37,7 +37,7 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class AnnotationHandlersTest extends BaseInstrumentedTest {
+public final class AnnotationHandlersTest extends InstrumentedTestCase {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "AnnotationHandlersTest";

@@ -44,10 +44,10 @@ import java.lang.annotation.RetentionPolicy;
 
 import universum.studios.android.fragment.FragmentPolicies;
 import universum.studios.android.fragment.util.FragmentUtils;
-import universum.studios.android.test.BaseInstrumentedTest;
-import universum.studios.android.test.TestActivity;
-import universum.studios.android.test.TestFragment;
-import universum.studios.android.test.TestResources;
+import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.instrumented.TestActivity;
+import universum.studios.android.test.instrumented.TestFragment;
+import universum.studios.android.test.instrumented.TestResources;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -68,7 +68,7 @@ import static org.mockito.Mockito.when;
  * @author Martin Albedinsky
  */
 @RunWith(AndroidJUnit4.class)
-public final class FragmentControllerTest extends BaseInstrumentedTest {
+public final class FragmentControllerTest extends InstrumentedTestCase {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentControllerTest";
@@ -99,7 +99,9 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 		final FragmentController controller = new FragmentController(activity);
 		assertThat(controller.getFragmentManager(), is(activity.getFragmentManager()));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
-		final FragmentRequest request = new FragmentRequest(controller, new TestFragment()).viewContainerId(TestActivity.CONTENT_VIEW_ID);
+		final FragmentRequest request = new FragmentRequest(controller, new TestFragment())
+				.viewContainerId(TestActivity.CONTENT_VIEW_ID)
+				.allowStateLoss(true);
 		controller.executeRequest(request);
 		controller.notifyRequestExecuted(request);
 		controller.notifyBackStackEntryChange(mock(FragmentManager.BackStackEntry.class), false);
@@ -329,20 +331,14 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 	}
 
 	@Test
-	public void testNewRequestForFactoryFragment() {
-		final Activity activity = ACTIVITY_RULE.getActivity();
-		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+	public void testNewRequest() {
+		final FragmentController controller = new FragmentController(ACTIVITY_RULE.getActivity().getFragmentManager());
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
-		final FragmentRequest request = controller.newRequest(TestFactory.FRAGMENT_1);
+		final FragmentRequest request = controller.newRequest();
 		assertThat(request, is(notNullValue()));
-		assertThat(request.fragmentId(), is(TestFactory.FRAGMENT_1));
+		assertThat(request.fragmentId(), is(FragmentRequest.NO_ID));
 		assertThat(request.tag(), is(nullValue()));
 		assertThat(request.viewContainerId(), is(controller.getViewContainerId()));
-	}
-
-	@Test(expected = IllegalStateException.class)
-	public void testNewRequestForFactoryFragmentWhenDestroyed() {
-		createDestroyedController().newRequest(TestFactory.FRAGMENT_1);
 	}
 
 	@Test
@@ -361,6 +357,23 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 	@Test(expected = IllegalStateException.class)
 	public void testNewRequestForFragmentWhenDestroyed() {
 		createDestroyedController().newRequest(new TestFragment());
+	}
+
+	@Test
+	public void testNewRequestForFactoryFragment() {
+		final Activity activity = ACTIVITY_RULE.getActivity();
+		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		final FragmentRequest request = controller.newRequest(TestFactory.FRAGMENT_1);
+		assertThat(request, is(notNullValue()));
+		assertThat(request.fragmentId(), is(TestFactory.FRAGMENT_1));
+		assertThat(request.tag(), is(nullValue()));
+		assertThat(request.viewContainerId(), is(controller.getViewContainerId()));
+	}
+
+	@Test(expected = IllegalStateException.class)
+	public void testNewRequestForFactoryFragmentWhenDestroyed() {
+		createDestroyedController().newRequest(TestFactory.FRAGMENT_1);
 	}
 
 	@Test
@@ -480,8 +493,8 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn(factory.createFragmentTag(TestFactory.FRAGMENT_1));
 		when(mockManager.findFragmentByTag(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1))).thenReturn(fragment);
 		assertThat(controller.executeRequest(request), is(fragment));
-		verify(mockFactory, times(2)).isFragmentProvided(TestFactory.FRAGMENT_1);
-		verify(mockFactory, times(3)).createFragmentTag(TestFactory.FRAGMENT_1);
+		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory, times(2)).createFragmentTag(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(0)).createFragment(TestFactory.FRAGMENT_1);
 		verify(mockManager, times(1)).beginTransaction();
 		verify(mockListener, times(1)).onRequestExecuted(request);
@@ -504,7 +517,7 @@ public final class FragmentControllerTest extends BaseInstrumentedTest {
 		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn(factory.createFragmentTag(TestFactory.FRAGMENT_1));
 		when(mockManager.findFragmentByTag(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1))).thenReturn(null);
 		assertThat(controller.executeRequest(request), is(nullValue()));
-		verify(mockFactory, times(2)).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(2)).createFragmentTag(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(0)).createFragment(TestFactory.FRAGMENT_1);
 		verify(mockManager, times(0)).beginTransaction();
