@@ -54,6 +54,9 @@ jobs:
       - restore_cache:
           key: gradle-{{ checksum "build.gradle" }}-{{ checksum  "dependencies.gradle" }}
       - run:
+          name: Grant Permissions
+          command: ./ci/permissions.sh
+      - run:
           name: Deploy Artifacts
           command: ./ci/deploy.sh
 
