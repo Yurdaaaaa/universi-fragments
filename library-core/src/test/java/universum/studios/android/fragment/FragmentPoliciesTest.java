@@ -18,16 +18,14 @@
  */
 package universum.studios.android.fragment;
 
-import android.content.Context;
 import android.os.Build;
-import android.provider.Settings;
 
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.test.local.LocalTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -37,7 +35,7 @@ import org.robolectric.annotation.Config;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentPoliciesTest extends LocalTestCase {
+public final class FragmentPoliciesTest extends RobolectricTestCase {
 
 	/**
 	 * Log TAG.
@@ -64,6 +62,6 @@ public final class FragmentPoliciesTest extends LocalTestCase {
 
 	@Test
 	public void testWillBeCustomAnimationsPlayed() {
-		assertThat(FragmentPolicies.willBeCustomAnimationsPlayed(RuntimeEnvironment.application), is(true));
+		assertThat(FragmentPolicies.willBeCustomAnimationsPlayed(mApplication), is(true));
 	}
 }

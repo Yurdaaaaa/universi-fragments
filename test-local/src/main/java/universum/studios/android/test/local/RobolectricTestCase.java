@@ -18,39 +18,57 @@
  */
 package universum.studios.android.test.local;
 
+import android.app.Application;
+import android.os.Build;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
 /**
- * Class that may be used to group <b>suite of tests</b> to be executed on local <i>JVM</i>.
+ * Class that may be used to group <b>suite of tests</b> to be executed on local <i>JVM</i> using
+ * {@link RobolectricTestRunner}.
  *
  * @author Martin Albedinsky
  */
-public abstract class LocalTestCase {
+@Config(constants = BuildConfig.class,
+		sdk = Build.VERSION_CODES.N_MR1)
+@RunWith(RobolectricTestRunner.class)
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
+public abstract class RobolectricTestCase extends LocalTestCase {
 
 	/**
 	 * Log TAG.
 	 */
 	@SuppressWarnings("unused")
-	private static final String TAG = "LocalTestCase";
+	private static final String TAG = "RobolectricTestCase";
 
 	/**
-	 * Called before execution of each test method starts.
+	 * Application instance accessible via {@link RuntimeEnvironment#application}.
+	 * <p>
+	 * It is always valid between calls to {@link #beforeTest()} and {@link #afterTest()}.
 	 */
-	@Before
+	@NonNull
+	protected Application mApplication;
+
+	/**
+	 */
+	@Override
 	@CallSuper
 	public void beforeTest() throws Exception {
-		// Inheritance hierarchies may for example acquire here resources needed for each test.
+		super.beforeTest();
+		this.mApplication = RuntimeEnvironment.application;
 	}
 
 	/**
-	 * Called after execution of each test method finishes.
 	 */
-	@After
+	@Override
 	@CallSuper
 	public void afterTest() throws Exception {
-		// Inheritance hierarchies may for example release here resources acquired in beforeTest() call.
+		super.afterTest();
+		this.mApplication = null;
 	}
 }
