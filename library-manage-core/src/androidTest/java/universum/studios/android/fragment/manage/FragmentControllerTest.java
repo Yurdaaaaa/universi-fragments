@@ -332,8 +332,7 @@ public final class FragmentControllerTest extends InstrumentedTestCase {
 
 	@Test
 	public void testNewRequest() {
-		final Activity activity = ACTIVITY_RULE.getActivity();
-		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		final FragmentController controller = new FragmentController(ACTIVITY_RULE.getActivity().getFragmentManager());
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentRequest request = controller.newRequest();
 		assertThat(request, is(notNullValue()));
