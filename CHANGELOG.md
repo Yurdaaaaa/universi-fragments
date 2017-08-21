@@ -5,7 +5,7 @@ Change-Log
 > --.08.2017
 
 - **Dropped support** for _Android_ versions **below** _API Level 14_ for both versions of the library.
-- TODO
+- Fixed [Issue #29](https://github.com/universum-studios/android_fragments/issues/29).
 
 ### [Release 1.2.0](https://github.com/universum-studios/android_fragments/releases/tag/1.2.0) ###
 > 09.05.2017

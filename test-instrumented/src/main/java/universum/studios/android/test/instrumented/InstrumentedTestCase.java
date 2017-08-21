@@ -21,6 +21,7 @@ package universum.studios.android.test.instrumented;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.annotation.NonNull;
 import android.support.annotation.WorkerThread;
 import android.support.test.InstrumentationRegistry;
 
@@ -28,10 +29,11 @@ import org.junit.After;
 import org.junit.Before;
 
 /**
- * Class that may be used as base for <b>Android Instrumented Tests</b>.
+ * Class that may be used to group suite of <b>Android instrumented tests</b>.
  *
  * @author Martin Albedinsky
  */
+@SuppressWarnings({"NullableProblems", "ConstantConditions"})
 public abstract class InstrumentedTestCase {
 
 	/**
@@ -44,7 +46,10 @@ public abstract class InstrumentedTestCase {
 	 * Target context obtained from the {@link InstrumentationRegistry}.
 	 * <p>
 	 * It is always valid between calls to {@link #beforeTest()} and {@link #afterTest()}.
+	 *
+	 * @see InstrumentationRegistry#getTargetContext()
 	 */
+	@NonNull
 	protected Context mContext;
 
 	/**

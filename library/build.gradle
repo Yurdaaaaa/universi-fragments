@@ -87,6 +87,15 @@ android {
                 "${rootProject.rootDir}/library-manage-core/src/androidTest/res",
                 "${rootProject.rootDir}/library-transition-core/src/androidTest/res"
         ]
+        test.java.srcDirs = [
+                "${rootProject.rootDir}/library/src/test/java",
+                "${rootProject.rootDir}/library-core/src/test/java",
+                "${rootProject.rootDir}/library-base/src/test/java",
+                "${rootProject.rootDir}/library-common/src/test/java",
+                "${rootProject.rootDir}/library-web/src/test/java",
+                "${rootProject.rootDir}/library-manage-core/src/test/java",
+                "${rootProject.rootDir}/library-transition-core/src/test/java"
+        ]
     }
 
     compileOptions {
@@ -119,6 +128,7 @@ dependencies {
     /*
      * TEST DEPENDENCIES ---------------------------------------------------------------------------
      */
+    testCompile project(':test-local')
     androidTestCompile project(':test-instrumented')
 }
 
@@ -126,6 +136,7 @@ dependencies {
  * Additional configuration ========================================================================
  */
 apply from: 'analysis/analysis.gradle'
+apply from: 'coverage/jacoco.gradle'
 apply from: 'coverage/codacy.gradle'
 apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
 apply from: 'github/github.gradle'

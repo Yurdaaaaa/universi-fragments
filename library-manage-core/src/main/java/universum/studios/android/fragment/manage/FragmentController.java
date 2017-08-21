@@ -487,6 +487,42 @@ public class FragmentController {
 	}
 
 	/**
+	 * Creates a new FragmentRequest for already committed fragment. The new request will have
+	 * specified view container id via {@link FragmentRequest#viewContainerId(int)} that has been
+	 * specified for this controller via {@link #setViewContainerId(int)}.
+	 *
+	 * @return New fragment request with view container id specified for this controller.
+	 * @see FragmentRequest#tag(String)
+	 * @see FragmentRequest#viewContainerId(int)
+	 */
+	@NonNull
+	public final FragmentRequest newRequest() {
+		this.assertNotDestroyed("NEW REQUEST");
+		return new FragmentRequest(this, null).viewContainerId(mViewContainerId);
+	}
+
+	/**
+	 * Creates a new FragmentRequest for the given <var>fragment</var>. The new request will have
+	 * the given fragment attached along with this controller which will be responsible for execution
+	 * of the new request when its {@link FragmentRequest#execute()} is called.
+	 * <p>
+	 * The returned request will have default {@link #FRAGMENT_TAG} specified via {@link FragmentRequest#tag(String)}
+	 * and also view container id via {@link FragmentRequest#viewContainerId(int)} that has been
+	 * specified for this controller via {@link #setViewContainerId(int)}.
+	 *
+	 * @param fragment The fragment for which to create the new request.
+	 * @return New fragment request with default {@link #FRAGMENT_TAG} and view container id specified
+	 * for this controller.
+	 * @see FragmentRequest#tag(String)
+	 * @see FragmentRequest#viewContainerId(int)
+	 */
+	@NonNull
+	public final FragmentRequest newRequest(@NonNull final Fragment fragment) {
+		this.assertNotDestroyed("NEW REQUEST");
+		return new FragmentRequest(this, fragment).tag(FRAGMENT_TAG).viewContainerId(mViewContainerId);
+	}
+
+	/**
 	 * Creates a new instance of FragmentRequest for the given <var>fragmentId</var>. The new request
 	 * will have the given fragment id attached along with this controller which will be responsible
 	 * for execution of the new request when its {@link FragmentRequest#execute()} is called.
@@ -496,34 +532,12 @@ public class FragmentController {
 	 * otherwise an exception will be thrown.
 	 *
 	 * @param fragmentId Id of the desired factory fragment for which to crate the new request.
-	 * @return New fragment request with the specified fragmentId id attached. Also
-	 * specified id.
+	 * @return New fragment request with view container id specified for this controller.
 	 */
 	@NonNull
 	public final FragmentRequest newRequest(final int fragmentId) {
 		this.assertNotDestroyed("NEW REQUEST");
 		return new FragmentRequest(this, fragmentId).viewContainerId(mViewContainerId);
-	}
-
-	/**
-	 * Creates a new FragmentRequest for the given <var>fragment</var>. The new request will have
-	 * the given fragment attached along with this controller which will be responsible for execution
-	 * of the new request when its {@link FragmentRequest#execute()} is called.
-	 * <p>
-	 * The returned request will have default {@link #FRAGMENT_TAG} attached via {@link FragmentRequest#tag(String)}
-	 * and also view container id via {@link FragmentRequest#viewContainerId(int)} specified for this
-	 * controller via {@link #setViewContainerId(int)}.
-	 *
-	 * @param fragment The fragment for which to create the new request.
-	 * @return New fragment request with default {@link #FRAGMENT_TAG} and container id specified for
-	 * this controller via {@link #setViewContainerId(int)}.
-	 * @see FragmentRequest#tag(String)
-	 * @see FragmentRequest#viewContainerId(int)
-	 */
-	@NonNull
-	public final FragmentRequest newRequest(@NonNull final Fragment fragment) {
-		this.assertNotDestroyed("NEW REQUEST");
-		return new FragmentRequest(this, fragment).tag(FRAGMENT_TAG).viewContainerId(mViewContainerId);
 	}
 
 	/**
@@ -546,43 +560,59 @@ public class FragmentController {
 	Fragment executeRequest(final FragmentRequest request) {
 		this.assertNotDestroyed("EXECUTE REQUEST");
 		Fragment fragment = request.mFragment;
-		// todo: 1) a request may be executed also for factory fragment but with custom tag specified
-		// todo: 2) a request may be executed also for fragment that is already showing but without
-		// todo: instance of such fragment but with its tag specified so such fragment should be
-		// todo: looked up and used in the request
 		if (fragment == null) {
-			this.assertHasFactory();
+			String fragmentTag = request.mTag;
 			final int fragmentId = request.mFragmentId;
-			if (!mFactory.isFragmentProvided(fragmentId)) {
-				throw new IllegalArgumentException(
-						"Cannot execute request for factory fragment. Current factory(" + mFactory.getClass() + ") " +
-								"does not provide fragment for the requested id(" + fragmentId + ")!");
+			if (fragmentId == FragmentRequest.NO_ID) {
+				switch (request.mTransaction) {
+					case FragmentRequest.REMOVE:
+					case FragmentRequest.SHOW:
+					case FragmentRequest.HIDE:
+					case FragmentRequest.ATTACH:
+					case FragmentRequest.DETACH:
+						fragment = mManager.findFragmentByTag(fragmentTag);
+						break;
+					case FragmentRequest.ADD:
+					case FragmentRequest.REPLACE:
+					default:
+						// Fragment should be provided for these transaction types.
+						break;
+				}
+			} else {
+				this.assertHasFactory();
+				if (!mFactory.isFragmentProvided(fragmentId)) {
+					throw new IllegalArgumentException(
+							"Cannot execute request for factory fragment. Current factory(" + mFactory.getClass() + ") " +
+									"does not provide fragment for the requested id(" + fragmentId + ")!");
+				}
+				if (fragmentTag == null) {
+					fragmentTag = mFactory.createFragmentTag(fragmentId);
+				}
+				switch (request.mTransaction) {
+					case FragmentRequest.REMOVE:
+					case FragmentRequest.SHOW:
+					case FragmentRequest.HIDE:
+					case FragmentRequest.ATTACH:
+					case FragmentRequest.DETACH:
+						fragment = mManager.findFragmentByTag(fragmentTag);
+						break;
+					case FragmentRequest.REPLACE:
+					case FragmentRequest.ADD:
+					default:
+						fragment = mFactory.createFragment(fragmentId);
+						if (fragment == null) {
+							throw new IllegalArgumentException(
+									"Cannot execute request for factory fragment. Current factory(" + mFactory.getClass() + ") is cheating. " +
+											"FragmentFactory.isFragmentProvided(...) returned true, but FragmentFactory.createFragment(...) returned null!"
+							);
+						}
+						break;
+				}
+				request.mTag = fragmentTag;
 			}
-			switch (request.mTransaction) {
-				case FragmentRequest.REMOVE:
-				case FragmentRequest.SHOW:
-				case FragmentRequest.HIDE:
-				case FragmentRequest.ATTACH:
-				case FragmentRequest.DETACH:
-					fragment = findFragmentByFactoryId(fragmentId);
-					break;
-				case FragmentRequest.REPLACE:
-				case FragmentRequest.ADD:
-				default:
-					fragment = mFactory.createFragment(fragmentId);
-					if (fragment == null) {
-						throw new IllegalArgumentException(
-								"Cannot execute request for factory fragment. Current factory(" + mFactory.getClass() + ") is cheating. " +
-										"FragmentFactory.isFragmentProvided(...) returned true, but FragmentFactory.createFragment(...) returned null!"
-						);
-					}
-					break;
-			}
-			if (fragment == null) {
-				return null;
-			}
-			request.mFragment = fragment;
-			request.tag(mFactory.createFragmentTag(fragmentId));
+		}
+		if ((request.mFragment = fragment) == null) {
+			return null;
 		}
 		fragment = mRequestInterceptor == null ? null : mRequestInterceptor.interceptFragmentRequest(request);
 		if (fragment == null) {
