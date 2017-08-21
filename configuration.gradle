@@ -11,7 +11,7 @@ def testConfig = [
 ]
 
 def libraryConfig = [
-        version: '1.2.0'
+        version: '1.3.0'
 ]
 
 def githubConfig = [
@@ -24,7 +24,7 @@ def mavenConfig = [
         localUrl                 : System.getenv('MAVEN_URL_LOCAL'),
         groupId                  : 'universum.studios.android',
         artifactId               : 'fragments',
-        version                  : /*libraryConfig.version*/'1.3.0',
+        version                  : libraryConfig.version,
         packaging                : 'pom',
         projectName              : 'Android Fragments',
         projectDescription       : 'Simplified management of fragments for the Android platform.',
