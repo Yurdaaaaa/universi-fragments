@@ -46,6 +46,9 @@ jobs:
       - run:
           name: Execute Tests
           command: ./ci/test.sh
+      - run:
+          name: Upload Coverage
+          command: ./ci/coverage.sh
   deploy:
     working_directory: ~/repo
     docker:

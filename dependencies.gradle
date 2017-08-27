@@ -22,17 +22,19 @@ def androidSupport = [
 ]
 
 def test = [
-        androidRunner              : "com.android.support.test:runner:${versions.androidSupportTest}",
-        androidRules               : "com.android.support.test:rules:${versions.androidSupportTest}",
-        androidEspressoCore        : "com.android.support.test.espresso:espresso-core:${versions.androidSupportTestEspresso}",
-        androidEspressoIntents     : "com.android.support.test.espresso:espresso-intents:${versions.androidSupportTestEspresso}",
-        androidEspressoContrib     : "com.android.support.test.espresso:espresso-contrib:${versions.androidSupportTestEspresso}",
         junit                      : "junit:junit:${versions.junit}",
         mockitoCore                : "org.mockito:mockito-core:${versions.mockito}",
         mockitoAndroid             : "org.mockito:mockito-android:${versions.mockito}",
         robolectric                : "org.robolectric:robolectric:${versions.robolectric}",
         robolectricMultidex        : "org.robolectric:shadows-multidex:${versions.robolectric}",
-        robolectricShadowsSupportV4: "org.robolectric:shadows-support-v4:${versions.robolectric}"
+        robolectricShadowsSupportV4: "org.robolectric:shadows-support-v4:${versions.robolectric}",
+        androidRunner              : "com.android.support.test:runner:${versions.androidSupportTest}",
+        androidRules               : "com.android.support.test:rules:${versions.androidSupportTest}",
+        androidEspressoCore        : "com.android.support.test.espresso:espresso-core:${versions.androidSupportTestEspresso}",
+        androidEspressoIntents     : "com.android.support.test.espresso:espresso-intents:${versions.androidSupportTestEspresso}",
+        androidEspressoContrib     : "com.android.support.test.espresso:espresso-contrib:${versions.androidSupportTestEspresso}",
+        androidSupportAnnotations  : androidSupport.annotations,
+        androidSupportAppCompatV7  : androidSupport.appCompatV7
 ]
 
 def universumStudios = [

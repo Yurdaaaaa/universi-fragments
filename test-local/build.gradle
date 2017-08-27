@@ -51,5 +51,5 @@ dependencies {
     compile deps.test.mockitoAndroid
     compile deps.test.robolectric
     compile deps.test.robolectricShadowsSupportV4
-    compile deps.androidSupport.annotations
+    compile deps.test.androidSupportAnnotations
 }
