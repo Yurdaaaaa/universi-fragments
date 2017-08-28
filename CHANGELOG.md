@@ -1,13 +1,13 @@
 Change-Log
 ===============
 
-### [Version 1.3.0](https://github.com/universum-studios/android_fragments/releases/tag/1.3.0) ###
+### [Version 1.3.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.0) ###
 > 21.08.2017
 
 - **Dropped support** for _Android_ versions **below** _API Level 14_ for both versions of the library.
 - Fixed [Issue #29](https://github.com/universum-studios/android_fragments/issues/29).
 
-### [Version 1.2.0](https://github.com/universum-studios/android_fragments/releases/tag/1.2.0) ###
+### [Version 1.2.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.2.0) ###
 > 09.05.2017
 
 - **Annotations processing via reflection is by default DISABLED**. If desired, may be enabled via
@@ -25,7 +25,7 @@ Change-Log
   not shown/drawn even thought the fragments are properly added/shown.
 - Removed deprecated methods of `FragmentRequest` class from the previous release.
 
-### [Version 1.1.1](https://github.com/universum-studios/android_fragments/releases/tag/1.1.1) ###
+### [Version 1.1.1](https://github.com/universum-studios/android_fragments/releases/tag/v1.1.1) ###
 > 03.03.2017
 
 - Deprecated some not properly named methods of `FragmentRequest` and replaced with better named ones.
@@ -33,7 +33,7 @@ Change-Log
   See **[#3 Issue](https://github.com/universum-studios/android_fragments/issues/3)** for more info.
 - Code quality improvements.
 
-### [Version 1.1.0](https://github.com/universum-studios/android_fragments/releases/tag/1.1.0) ###
+### [Version 1.1.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.1.0) ###
 > 19.01.2017
 
 - `FragmentTransition` interface now extends `Parcelable`, this extension relation has been before
@@ -43,13 +43,13 @@ Change-Log
   that implement `FragmentTransition` interface directly are now required to meet `Parcelable`
   implementation requirements.
 
-### [Version 1.0.1](https://github.com/universum-studios/android_fragments/releases/tag/1.0.1) ###
+### [Version 1.0.1](https://github.com/universum-studios/android_fragments/releases/tag/v1.0.1) ###
 > 17.01.2017
 
 - Removed interpolator from **alpha** animations/transitions.
 - Updated **JavaDoc** for annotations.
 
-### [Version 1.0.0](https://github.com/universum-studios/android_fragments/releases/tag/1.0.0) ###
+### [Version 1.0.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.0.0) ###
 > 02.01.2017
 
 - First production release.
