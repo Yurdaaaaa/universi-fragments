@@ -48,7 +48,6 @@ dependencies {
     // Local JUnit test dependencies.
     compile deps.test.junit
     compile deps.test.mockitoCore
-    compile deps.test.mockitoAndroid
     compile deps.test.robolectric
     compile deps.test.robolectricShadowsSupportV4
     compile deps.test.androidSupportAnnotations
