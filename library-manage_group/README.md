@@ -11,7 +11,7 @@ This module groups the following modules into one **single group**:
 
 ### Gradle ###
 
-    compile "universum.studios.android:fragments-manage:${DESIRED_VERSION}@aar"
+    implementation "universum.studios.android:fragments-manage:${DESIRED_VERSION}@aar"
 
 _depends on:_
 [fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core)

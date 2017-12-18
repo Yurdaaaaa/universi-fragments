@@ -25,12 +25,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
 /**
- * Simple compatibility activity that may be used in <b>Android Instrumented Tests</b> in order to
+ * Simple compatibility activity that may be used in <b>Android instrumented tests</b> in order to
  * set up {@link ActivityTestRule}.
  *
  * @author Martin Albedinsky
  */
-public class TestCompatActivity extends AppCompatActivity {
+public final class TestCompatActivity extends AppCompatActivity {
 
 	/**
 	 * Log TAG.

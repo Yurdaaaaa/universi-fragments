@@ -17,7 +17,7 @@ Download the latest **[release](https://github.com/universum-studios/android_fra
 
 ### Gradle ###
 
-    compile "universum.studios.android:fragments:${DESIRED_VERSION}@aar"
+    implementation "universum.studios.android:fragments:${DESIRED_VERSION}@aar"
 
 ## Modules ##
 

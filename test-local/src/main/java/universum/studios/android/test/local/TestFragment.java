@@ -16,7 +16,7 @@
 * See the License for the specific language governing permissions and limitations under the License.
 * =================================================================================================
 */
-package universum.studios.android.test.instrumented;
+package universum.studios.android.test.local;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -28,7 +28,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 /**
- * Simple fragment that may be used in <b>Android instrumented tests</b>.
+ * Simple fragment that may be used in <b>Robolectric tests</b>.
  *
  * @author Martin Albedinsky
  */

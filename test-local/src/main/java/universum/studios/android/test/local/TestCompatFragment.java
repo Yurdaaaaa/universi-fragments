@@ -16,29 +16,29 @@
 * See the License for the specific language governing permissions and limitations under the License.
 * =================================================================================================
 */
-package universum.studios.android.test.instrumented;
+package universum.studios.android.test.local;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 /**
- * Simple fragment that may be used in <b>Android instrumented tests</b>.
+ * Simple compatibility fragment that may be used in <b>Robolectric tests</b>.
  *
  * @author Martin Albedinsky
  */
-public final class TestFragment extends Fragment {
+public final class TestCompatFragment extends Fragment {
 
 	/**
 	 * Log TAG.
 	 */
 	@SuppressWarnings("unused")
-	private static final String TAG = "TestActivity";
+	private static final String TAG = "TestCompatFragment";
 
 	/**
 	 * Id of the TestActivity's content view.

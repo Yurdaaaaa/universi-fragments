@@ -8,7 +8,7 @@ This module contains core components for this library.
 
 ### Gradle ###
 
-    compile "universum.studios.android:fragments-core:${DESIRED_VERSION}@aar"
+    implementation "universum.studios.android:fragments-core:${DESIRED_VERSION}@aar"
 
 ## Components ##
 

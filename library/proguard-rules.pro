@@ -16,6 +16,7 @@
 # See the License for the specific language governing permissions and limitations under the License.
 # ==================================================================================================
 ##
+
 # Keep all fragment annotations.
 -keep public @interface universum.studios.android.fragment.annotation.** { *; }
 -keep @interface universum.studios.android.fragment.**$** { *; }

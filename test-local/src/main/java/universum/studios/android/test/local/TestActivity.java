@@ -16,23 +16,19 @@
 * See the License for the specific language governing permissions and limitations under the License.
 * =================================================================================================
 */
-package universum.studios.android.test.instrumented;
+package universum.studios.android.test.local;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 /**
- * Simple fragment that may be used in <b>Android instrumented tests</b>.
+ * Simple activity that may be used in <b>Robolectric tests</b>.
  *
  * @author Martin Albedinsky
  */
-public final class TestFragment extends Fragment {
+public class TestActivity extends Activity {
 
 	/**
 	 * Log TAG.
@@ -43,15 +39,15 @@ public final class TestFragment extends Fragment {
 	/**
 	 * Id of the TestActivity's content view.
 	 */
-	public static final int CONTENT_VIEW_ID = android.R.id.empty;
+	public static final int CONTENT_VIEW_ID = android.R.id.custom;
 
 	/**
 	 */
-	@NonNull
 	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		final FrameLayout contentView = new FrameLayout(inflater.getContext());
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		final FrameLayout contentView = new FrameLayout(this);
 		contentView.setId(CONTENT_VIEW_ID);
-		return contentView;
+		setContentView(contentView);
 	}
 }

@@ -8,7 +8,7 @@ This module contains common implementations of `Fragment` class.
 
 ### Gradle ###
 
-    compile "universum.studios.android:fragments-common:${DESIRED_VERSION}@aar"
+    implementation "universum.studios.android:fragments-common:${DESIRED_VERSION}@aar"
 
 _depends on:_
 [fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core),
