@@ -17,10 +17,7 @@
  * =================================================================================================
  */
 package universum.studios.android.fragment.annotation; 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -30,7 +27,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.LocalTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -44,12 +41,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class FragmentAnnotationsTest extends InstrumentedTestCase {
+public final class FragmentAnnotationsTest extends LocalTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentAnnotationsTest";
-
 	@Override
 	public void beforeTest() throws Exception {
 		super.beforeTest();

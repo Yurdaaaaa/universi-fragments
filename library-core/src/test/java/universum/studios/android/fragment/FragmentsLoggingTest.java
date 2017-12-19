@@ -18,20 +18,18 @@
  */
 package universum.studios.android.fragment;
 
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.hamcrest.core.IsNot;
 import org.hamcrest.core.IsNull;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.logging.Logger;
 import universum.studios.android.logging.SimpleLogger;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -42,8 +40,7 @@ import static org.mockito.Mockito.verify;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class FragmentsLoggingTest extends InstrumentedTestCase {
+public final class FragmentsLoggingTest extends RobolectricTestCase {
 
 	@SuppressWarnings("unused")
 	private static final String TAG = "FragmentsLoggingTest";

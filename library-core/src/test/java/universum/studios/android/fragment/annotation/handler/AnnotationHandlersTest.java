@@ -19,13 +19,11 @@
 package universum.studios.android.fragment.annotation.handler;
 
 import android.support.annotation.NonNull;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static junit.framework.Assert.assertSame;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -36,11 +34,7 @@ import static org.hamcrest.core.IsNull.nullValue;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class AnnotationHandlersTest extends InstrumentedTestCase {
-
-	@SuppressWarnings("unused")
-	private static final String TAG = "AnnotationHandlersTest";
+public final class AnnotationHandlersTest extends RobolectricTestCase {
 
 	@Override
 	public void beforeTest() throws Exception {
