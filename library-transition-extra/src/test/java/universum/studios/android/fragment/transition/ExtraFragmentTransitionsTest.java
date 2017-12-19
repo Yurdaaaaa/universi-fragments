@@ -18,17 +18,14 @@
  */
 package universum.studios.android.fragment.transition;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.fragment.R;
 import universum.studios.android.fragment.manage.FragmentTransition;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.fragment.transition.extra.R;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -38,11 +35,7 @@ import static org.hamcrest.core.IsNull.nullValue;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class ExtraFragmentTransitionsTest extends InstrumentedTestCase {
-    
-	@SuppressWarnings("unused")
-	private static final String TAG = "ExtraFragmentTransitionsTest";
+public final class ExtraFragmentTransitionsTest extends RobolectricTestCase {
 
 	@Test(expected = IllegalAccessException.class)
 	public void testInstantiation() throws Exception {

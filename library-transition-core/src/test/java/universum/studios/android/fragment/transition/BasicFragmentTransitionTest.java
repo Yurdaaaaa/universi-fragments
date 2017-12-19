@@ -18,49 +18,39 @@
  */
 package universum.studios.android.fragment.transition; 
 import android.os.Parcel;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
-import universum.studios.android.test.instrumented.TestResources;
-import universum.studios.android.test.instrumented.TestUtils;
+import universum.studios.android.fragment.manage.FragmentTransition;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assume.assumeTrue;
 
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class BasicFragmentTransitionTest extends InstrumentedTestCase {
+public final class BasicFragmentTransitionTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "BasicFragmentTransitionTest";
-
     @Test
 	public void testInstantiationInOut() {
-	    assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
-	    final int inAnimation = obtainTransitionResource("transition_in");
-	    final int outAnimation = obtainTransitionResource("transition_in");
+	    final int inAnimation = android.R.anim.fade_in;
+	    final int outAnimation = android.R.anim.fade_out;
 		final BasicFragmentTransition transition = new BasicFragmentTransition(inAnimation, outAnimation);
 	    assertThat(transition.getIncomingAnimation(), is(inAnimation));
-	    assertThat(transition.getIncomingBackStackAnimation(), is(inAnimation));
+	    assertThat(transition.getIncomingBackStackAnimation(), is(FragmentTransition.NO_ANIMATION));
 	    assertThat(transition.getOutgoingAnimation(), is(outAnimation));
-	    assertThat(transition.getOutgoingBackStackAnimation(), is(outAnimation));
+	    assertThat(transition.getOutgoingBackStackAnimation(), is(FragmentTransition.NO_ANIMATION));
 	    assertThat(transition.getName(), is("UNSPECIFIED"));
 	}
 
 	@Test
 	public void testInstantiationInOutBack() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
-		final int inAnimation = obtainTransitionResource("transition_in");
-		final int inAnimationBack = obtainTransitionResource("transition_in_back");
-		final int outAnimation = obtainTransitionResource("transition_in");
-		final int outAnimationBack = obtainTransitionResource("transition_in_back");
+		final int inAnimation = android.R.anim.fade_in;
+		final int inAnimationBack = android.R.anim.fade_out;
+		final int outAnimation = android.R.anim.slide_in_left;
+		final int outAnimationBack = android.R.anim.slide_out_right;
 		final BasicFragmentTransition transition = new BasicFragmentTransition(inAnimation, outAnimation, inAnimationBack, outAnimationBack);
 		assertThat(transition.getIncomingAnimation(), is(inAnimation));
 		assertThat(transition.getIncomingBackStackAnimation(), is(inAnimationBack));
@@ -71,11 +61,10 @@ public final class BasicFragmentTransitionTest extends InstrumentedTestCase {
 
 	@Test
 	public void testInstantiationInOutBackAndName() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
-		final int inAnimation = obtainTransitionResource("transition_in");
-		final int inAnimationBack = obtainTransitionResource("transition_in_back");
-		final int outAnimation = obtainTransitionResource("transition_in");
-		final int outAnimationBack = obtainTransitionResource("transition_in_back");
+		final int inAnimation = android.R.anim.fade_in;
+		final int inAnimationBack = android.R.anim.fade_out;
+		final int outAnimation = android.R.anim.slide_in_left;
+		final int outAnimationBack = android.R.anim.slide_out_right;
 		final BasicFragmentTransition transition = new BasicFragmentTransition(inAnimation, outAnimation, inAnimationBack, outAnimationBack, "TEST_TRANSITION");
 		assertThat(transition.getIncomingAnimation(), is(inAnimation));
 		assertThat(transition.getIncomingBackStackAnimation(), is(inAnimationBack));
@@ -86,11 +75,10 @@ public final class BasicFragmentTransitionTest extends InstrumentedTestCase {
 
 	@Test
 	public void testCreatorCreateFromParcel() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
-		final int inAnimation = obtainTransitionResource("transition_in");
-		final int inAnimationBack = obtainTransitionResource("transition_in_back");
-		final int outAnimation = obtainTransitionResource("transition_in");
-		final int outAnimationBack = obtainTransitionResource("transition_in_back");
+		final int inAnimation = android.R.anim.fade_in;
+		final int inAnimationBack = android.R.anim.fade_out;
+		final int outAnimation = android.R.anim.slide_in_left;
+		final int outAnimationBack = android.R.anim.slide_out_right;
 		final Parcel parcel = Parcel.obtain();
 		parcel.writeInt(inAnimation);
 		parcel.writeInt(outAnimation);
@@ -117,11 +105,10 @@ public final class BasicFragmentTransitionTest extends InstrumentedTestCase {
 
 	@Test
 	public void testWriteToParcel() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
-		final int inAnimation = obtainTransitionResource("transition_in");
-		final int inAnimationBack = obtainTransitionResource("transition_in_back");
-		final int outAnimation = obtainTransitionResource("transition_in");
-		final int outAnimationBack = obtainTransitionResource("transition_in_back");
+		final int inAnimation = android.R.anim.fade_in;
+		final int inAnimationBack = android.R.anim.fade_out;
+		final int outAnimation = android.R.anim.slide_in_left;
+		final int outAnimationBack = android.R.anim.slide_out_right;
 		final BasicFragmentTransition transition = new BasicFragmentTransition(inAnimation, outAnimation, inAnimationBack, outAnimationBack, "TEST_TRANSITION");
 		final Parcel parcel = Parcel.obtain();
 		transition.writeToParcel(parcel, 0);
@@ -137,9 +124,5 @@ public final class BasicFragmentTransitionTest extends InstrumentedTestCase {
 	@Test
 	public void testDescribeContents() {
 		assertThat(new BasicFragmentTransition(0, 0).describeContents(), is(0));
-	}
-
-	private int obtainTransitionResource(String transitionName) {
-		return TestResources.resourceIdentifier(mContext, TestResources.TRANSITION, transitionName);
 	}
 }
