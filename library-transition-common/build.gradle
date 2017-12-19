@@ -31,16 +31,6 @@ android {
         testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
@@ -60,24 +50,19 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
-    compile deps.androidSupport.annotations
-    compile deps.androidSupport.appCompatV7
-    releaseCompile "universum.studios.android:fragments-core:${config.library.version}@aar"
-    releaseCompile "universum.studios.android:fragments-manage-core:${config.library.version}@aar"
-    releaseCompile "universum.studios.android:fragments-transition-core:${config.library.version}@aar"
+    // PRODUCTION ----------------------------------------------------------------------------------
+    implementation deps.androidSupport.annotations
+    implementation deps.androidSupport.appCompatV7
+    releaseImplementation "universum.studios.android:fragments-core:${config.library.version}@aar"
+    releaseImplementation "universum.studios.android:fragments-manage-core:${config.library.version}@aar"
+    releaseImplementation "universum.studios.android:fragments-transition-core:${config.library.version}@aar"
 
-    /*
-     * DEBUG DEPENDENCIES --------------------------------------------------------------------------
-     */
-    debugCompile project(':library-transition-core')
+    // DEVELOPMENT ---------------------------------------------------------------------------------
+    debugApi project(':library-transition-core')
 
-    /*
-     * TEST DEPENDENCIES ---------------------------------------------------------------------------
-     */
-    androidTestCompile project(':test-instrumented')
+    // TEST ----------------------------------------------------------------------------------------
+    testImplementation project(':test-local')
+    androidTestImplementation project(':test-instrumented')
 }
 
 apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

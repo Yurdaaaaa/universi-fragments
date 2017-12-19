@@ -7,7 +7,7 @@ This module groups the following modules into one **single group**:
 - [Manage-Base](https://github.com/universum-studios/android_fragments/tree/master/library-manage-base)
 
 ## Download ##
-[![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
+[![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
 
 ### Gradle ###
 

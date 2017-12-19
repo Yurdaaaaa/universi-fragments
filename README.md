@@ -11,7 +11,7 @@ Simplified management of fragments for the Android platform.
 For more information please visit the **[Wiki](https://github.com/universum-studios/android_fragments/wiki)**.
 
 ## Download ##
-[![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
+[![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
 
 Download the latest **[release](https://github.com/universum-studios/android_fragments/releases "Latest Releases page")** or **add as dependency** in your project via:
 

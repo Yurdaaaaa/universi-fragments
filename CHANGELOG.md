@@ -5,6 +5,9 @@ Change-Log
 
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
 
+### 1.3.1 ###
+> upcoming
+
 ### [1.3.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.0) ###
 > 21.08.2017
 

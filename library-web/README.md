@@ -4,7 +4,7 @@ Fragments-Web
 This module contains web related `Fragment` implementations.
 
 ## Download ##
-[![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
+[![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
 
 ### Gradle ###
 
