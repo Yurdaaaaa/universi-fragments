@@ -20,23 +20,19 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.app.FragmentManager;
-import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 
 import universum.studios.android.fragment.annotation.ActionBarOptions;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.MenuOptions;
 import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAnnotationHandler;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
-import universum.studios.android.test.instrumented.TestActivity;
+import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.local.TestActivity;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -53,15 +49,8 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class ActionBarFragmentTest extends InstrumentedTestCase {
+public final class ActionBarFragmentTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "ActionBarFragmentTest";
-
-	@Rule
-	public final ActivityTestRule<TestActivity> ACTIVITY_RULE = new ActivityTestRule<>(TestActivity.class);
-
 	@Override
 	public void beforeTest() throws Exception {
 		super.beforeTest();
@@ -89,28 +78,25 @@ public final class ActionBarFragmentTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testOnCreate() {
-		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
 	}
 
 	@Test
-	@UiThreadTest
 	public void testOnCreateForFragmentWithoutMenu() {
-		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
 		final ActionBarFragment fragment = new TestFragmentWithoutAnnotation();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
 	}
 
 	@Test
-	@UiThreadTest
 	public void testOnCreateWhenAnnotationsAreDisabled() {
 		FragmentAnnotations.setEnabled(false);
-		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
@@ -182,9 +168,8 @@ public final class ActionBarFragmentTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testOnActivityCreated() {
-		final FragmentManager fragmentManager = ACTIVITY_RULE.getActivity().getFragmentManager();
+		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();

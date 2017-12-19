@@ -26,20 +26,15 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.app.AppCompatActivity;
 
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
-import universum.studios.android.test.instrumented.TestActivity;
-import universum.studios.android.test.instrumented.TestCompatActivity;
+import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.local.TestActivity;
+import universum.studios.android.test.local.TestCompatActivity;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
@@ -51,19 +46,9 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class ActionBarDelegateTest extends InstrumentedTestCase {
-
-	/**
-	 * Log TAG.
-	 */
-	@SuppressWarnings("unused")
-	private static final String TAG = "ActionBarDelegate";
-
-	@Rule public final UiThreadTestRule UI_RULE = new UiThreadTestRule();
+public final class ActionBarDelegateTest extends RobolectricTestCase {
 
 	@Test
-	@UiThreadTest
 	public void testInstantiation() throws Throwable {
 		final Activity activity = new Activity();
 		assertThat(new Delegate(activity).mContext, Matchers.<Context>is(activity));
@@ -108,8 +93,8 @@ public final class ActionBarDelegateTest extends InstrumentedTestCase {
 
 	@Test
 	public void testCreateForNullActionBar() {
-		assertThat(ActionBarDelegate.create(mContext, (ActionBar) null), is(not(nullValue())));
-		assertThat(ActionBarDelegate.create(mContext, (android.support.v7.app.ActionBar) null), is(not(nullValue())));
+		assertThat(ActionBarDelegate.create(mApplication, (ActionBar) null), is(not(nullValue())));
+		assertThat(ActionBarDelegate.create(mApplication, (android.support.v7.app.ActionBar) null), is(not(nullValue())));
 	}
 
 	private static final class Delegate extends ActionBarDelegate {

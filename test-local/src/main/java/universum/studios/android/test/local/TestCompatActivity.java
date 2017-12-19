@@ -21,6 +21,7 @@ package universum.studios.android.test.local;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 /**
@@ -28,7 +29,7 @@ import android.widget.FrameLayout;
  *
  * @author Martin Albedinsky
  */
-public final class TestCompatActivity extends AppCompatActivity {
+public class TestCompatActivity extends AppCompatActivity {
 
 	/**
 	 * Log TAG.
@@ -45,6 +46,7 @@ public final class TestCompatActivity extends AppCompatActivity {
 	 */
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		super.onCreate(savedInstanceState);
 		final FrameLayout contentView = new FrameLayout(this);
 		contentView.setId(CONTENT_VIEW_ID);

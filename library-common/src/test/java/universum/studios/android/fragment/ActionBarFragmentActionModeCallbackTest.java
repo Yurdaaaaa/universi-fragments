@@ -18,17 +18,15 @@
  */
 package universum.studios.android.fragment;
 
-import android.support.test.runner.AndroidJUnit4;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAnnotationHandler;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -42,12 +40,8 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class ActionBarFragmentActionModeCallbackTest extends InstrumentedTestCase {
+public final class ActionBarFragmentActionModeCallbackTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "ActionBarFragmentActionModeCallbackTest";
-
 	@Override
 	public void afterTest() throws Exception {
 		super.afterTest();

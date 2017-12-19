@@ -21,6 +21,7 @@ package universum.studios.android.test.local;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 /**
@@ -45,6 +46,7 @@ public class TestActivity extends Activity {
 	 */
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		super.onCreate(savedInstanceState);
 		final FrameLayout contentView = new FrameLayout(this);
 		contentView.setId(CONTENT_VIEW_ID);
