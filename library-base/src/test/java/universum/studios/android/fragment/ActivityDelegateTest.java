@@ -22,18 +22,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ActionMode;
 
 import org.hamcrest.core.Is;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -43,23 +38,15 @@ import static org.hamcrest.core.IsNull.nullValue;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class ActivityDelegateTest extends InstrumentedTestCase {
+public final class ActivityDelegateTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "ActivityDelegateTest";
-
-	@Rule public final UiThreadTestRule UI_RULE = new UiThreadTestRule();
-
 	@Test
-	@UiThreadTest
 	public void testInstantiation() {
 		final Activity activity = new Activity();
 		assertThat(new Delegate(activity).mActivity, is(activity));
 	}
 
     @Test
-    @UiThreadTest
 	public void testCreateForFrameworkActivity() {
 		final Activity activity = new Activity();
 	    final ActivityDelegate activityDelegate = ActivityDelegate.create(activity);
@@ -68,7 +55,6 @@ public final class ActivityDelegateTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testCreateForCompatActivity() {
 		final AppCompatActivity activity = new AppCompatActivity();
 		final ActivityDelegate activityDelegate = ActivityDelegate.create(activity);

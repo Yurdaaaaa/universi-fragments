@@ -20,17 +20,12 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.view.ActionMode;
 import android.view.Window;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -44,16 +39,9 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class ActivityDelegateImplTest extends InstrumentedTestCase {
+public final class ActivityDelegateImplTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "ActivityDelegateTest";
-
-	@Rule public final UiThreadTestRule UI_RULE = new UiThreadTestRule();
-
     @Test
-    @UiThreadTest
 	public void testInstantiation() {
 	    final Activity activity = new Activity();
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(activity);
@@ -61,7 +49,6 @@ public final class ActivityDelegateImplTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testRequestWindowFeature() {
 		final Activity mockActivity = mock(Activity.class);
 		final Window mockWindow = mock(Window.class);
@@ -71,11 +58,10 @@ public final class ActivityDelegateImplTest extends InstrumentedTestCase {
 				delegate.requestWindowFeature(Window.FEATURE_ACTION_BAR),
 				is(mockWindow.requestFeature(Window.FEATURE_ACTION_BAR))
 		);
-		verify(mockWindow, times(2)).requestFeature(Window.FEATURE_ACTION_BAR);
+		verify(mockWindow, times(1)).requestFeature(Window.FEATURE_ACTION_BAR);
 	}
 
 	@Test
-	@UiThreadTest
 	public void testInvalidateOptionsMenu() {
 		final Activity mockActivity = mock(Activity.class);
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(mockActivity);
@@ -84,7 +70,6 @@ public final class ActivityDelegateImplTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testGetActionBar() {
 		final Activity mockActivity = mock(Activity.class);
 		final ActionBar mockActionBar = mock(ActionBar.class);
@@ -95,7 +80,6 @@ public final class ActivityDelegateImplTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testGetSupportActionBar() {
 		final Activity mockActivity = mock(Activity.class);
 		assertThat(new ActivityDelegate.Impl(mockActivity).getSupportActionBar(), is(nullValue()));
@@ -103,7 +87,6 @@ public final class ActivityDelegateImplTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testStartActionMode() {
 		final Activity mockActivity = mock(Activity.class);
 		final ActionMode mockActionMode = mock(ActionMode.class);

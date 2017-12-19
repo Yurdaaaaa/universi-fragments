@@ -16,21 +16,17 @@
  * See the License for the specific language governing permissions and limitations under the License.
  * =================================================================================================
  */
-package universum.studios.android.fragment; 
+package universum.studios.android.fragment;
+
 import android.app.ActionBar;
 import android.app.Activity;
-import android.support.test.annotation.UiThreadTest;
-import android.support.test.rule.UiThreadTestRule;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
 import org.hamcrest.core.Is;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -42,16 +38,9 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class ActivityDelegateCompatTest extends InstrumentedTestCase {
-    
-	@SuppressWarnings("unused")
-	private static final String TAG = "ActivityDelegateTest";
-
-	@Rule public final UiThreadTestRule UI_RULE = new UiThreadTestRule();
+public final class ActivityDelegateCompatTest extends RobolectricTestCase {
 
 	@Test
-	@UiThreadTest
 	public void testInstantiation() {
 		final AppCompatActivity activity = new AppCompatActivity();
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(activity);
@@ -59,7 +48,6 @@ public final class ActivityDelegateCompatTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testRequestWindowFeature() {
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
@@ -71,7 +59,6 @@ public final class ActivityDelegateCompatTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testInvalidateOptionsMenu() {
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
@@ -80,7 +67,6 @@ public final class ActivityDelegateCompatTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testGetActionBar() {
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final ActionBar mockActionBar = mock(ActionBar.class);
@@ -92,7 +78,6 @@ public final class ActivityDelegateCompatTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	@UiThreadTest
 	public void testGetSupportActionBar() {
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final android.support.v7.app.ActionBar mockSupportActionBar = mock(android.support.v7.app.ActionBar.class);

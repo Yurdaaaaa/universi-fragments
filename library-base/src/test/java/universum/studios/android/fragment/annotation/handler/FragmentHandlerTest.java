@@ -18,14 +18,12 @@
  */
 package universum.studios.android.fragment.annotation.handler; 
 import android.app.Fragment;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.annotation.ContentView;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -33,12 +31,8 @@ import static org.hamcrest.core.Is.is;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class FragmentHandlerTest extends InstrumentedTestCase {
+public final class FragmentHandlerTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentHandlerTest";
-
 	@Override
 	public void beforeTest() throws Exception {
 		super.beforeTest();
