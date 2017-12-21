@@ -19,21 +19,20 @@
 package universum.studios.android.fragment.manage;
 
 import android.app.Fragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.util.Pair;
+import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import universum.studios.android.fragment.util.FragmentUtils;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
-import universum.studios.android.test.instrumented.TestResources;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -49,11 +48,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class FragmentRequestTest extends InstrumentedTestCase {
-
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentRequestTest";
+public final class FragmentRequestTest extends RobolectricTestCase {
 
     @Test
 	public void testConstants() {
@@ -178,9 +173,10 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	public void testEnterTransition() {
+	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
+	public void testEnterTransitionOnJellyBeanApiLevel() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = inflateTestTransition();
+		final Transition transition = createTestTransition();
 		assertThat(request.enterTransition(transition).enterTransition(), is(transition));
 		assertThat(request.hasTransition(FragmentRequest.TRANSITION_ENTER), is(true));
 	}
@@ -193,9 +189,10 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	}
 
 	@Test
+	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	public void testExitTransition() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = inflateTestTransition();
+		final Transition transition = createTestTransition();
 		assertThat(request.exitTransition(transition).exitTransition(), is(transition));
 		assertThat(request.hasTransition(FragmentRequest.TRANSITION_EXIT), is(true));
 	}
@@ -208,9 +205,10 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	}
 
 	@Test
+	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	public void testReenterTransition() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = inflateTestTransition();
+		final Transition transition = createTestTransition();
 		assertThat(request.reenterTransition(transition).reenterTransition(), is(transition));
 		assertThat(request.hasTransition(FragmentRequest.TRANSITION_REENTER), is(true));
 	}
@@ -223,9 +221,10 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	}
 
 	@Test
+	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	public void testReturnTransition() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = inflateTestTransition();
+		final Transition transition = createTestTransition();
 		assertThat(request.returnTransition(transition).returnTransition(), is(transition));
 		assertThat(request.hasTransition(FragmentRequest.TRANSITION_RETURN), is(true));
 	}
@@ -263,9 +262,9 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSharedElements() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mContext);
-		final View secondElement = new View(mContext);
-		final View thirdElement = new View(mContext);
+		final View firstElement = new View(mApplication);
+		final View secondElement = new View(mApplication);
+		final View thirdElement = new View(mApplication);
 		request.sharedElements(
 				new Pair<>(firstElement, "first_element"),
 				new Pair<>(secondElement, "second_element")
@@ -291,9 +290,9 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSharedElement() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mContext);
-		final View secondElement = new View(mContext);
-		final View thirdElement = new View(mContext);
+		final View firstElement = new View(mApplication);
+		final View secondElement = new View(mApplication);
+		final View thirdElement = new View(mApplication);
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElement(secondElement, "second_element");
 		request.sharedElement(thirdElement, "third_element");
@@ -312,12 +311,12 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSingleSharedElement() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mContext);
+		final View firstElement = new View(mApplication);
 		request.sharedElement(firstElement, "first_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
 		assertThat(request.singleSharedElement().second, is("first_element"));
-		final View secondElement = new View(mContext);
+		final View secondElement = new View(mApplication);
 		request.sharedElement(secondElement, "second_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
@@ -328,7 +327,7 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSingleSharedElementOnEmptySharedElements() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mContext);
+		final View firstElement = new View(mApplication);
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElements().clear();
 		assertThat(request.singleSharedElement(), is(nullValue()));
@@ -340,9 +339,10 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	}
 
 	@Test
+	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	public void testSharedElementEnterTransition() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = inflateTestTransition();
+		final Transition transition = createTestTransition();
 		assertThat(request.sharedElementEnterTransition(transition).sharedElementEnterTransition(), is(transition));
 		assertThat(request.hasTransition(FragmentRequest.TRANSITION_SHARED_ELEMENT_ENTER), is(true));
 	}
@@ -355,9 +355,10 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	}
 
 	@Test
+	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	public void testSharedElementReturnTransition() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = inflateTestTransition();
+		final Transition transition = createTestTransition();
 		assertThat(request.sharedElementReturnTransition(transition).sharedElementReturnTransition(), is(transition));
 		assertThat(request.hasTransition(FragmentRequest.TRANSITION_SHARED_ELEMENT_RETURN), is(true));
 	}
@@ -523,7 +524,7 @@ public final class FragmentRequestTest extends InstrumentedTestCase {
 	}
 
 	@Nullable
-	private Transition inflateTestTransition() {
-		return FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(mContext, TestResources.TRANSITION, "transition_fade"));
+	private static Transition createTestTransition() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? new Fade() : null;
 	}
 }

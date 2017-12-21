@@ -60,7 +60,7 @@ dependencies {
     // None.
 
     // TEST ----------------------------------------------------------------------------------------
-    testCompile project(':test-local')
+    testImplementation project(':test-local')
     androidTestImplementation project(':test-instrumented')
 }
 

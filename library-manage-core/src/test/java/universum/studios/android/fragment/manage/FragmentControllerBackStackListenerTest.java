@@ -18,12 +18,10 @@
  */
 package universum.studios.android.fragment.manage; 
 import android.app.FragmentManager;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -36,12 +34,8 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class FragmentControllerBackStackListenerTest extends InstrumentedTestCase {
+public final class FragmentControllerBackStackListenerTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentControllerBackStackListenerTest";
-
     @Test
 	public void testInstantiation() {
 	    final FragmentController mockController = mock(FragmentController.class);

@@ -18,16 +18,14 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.fragment.WebFragment;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.fragment.annotation.FragmentAnnotations;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -38,12 +36,15 @@ import static org.hamcrest.core.IsNull.nullValue;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class WebAnnotationHandlersTest extends InstrumentedTestCase {
-    
-	@SuppressWarnings("unused")
-	private static final String TAG = "WebAnnotationHandlersTest";
+public final class WebAnnotationHandlersTest extends RobolectricTestCase {
 
+	@Override
+	public void beforeTest() throws Exception {
+		super.beforeTest();
+		// Ensure that we have always annotations processing enabled.
+		FragmentAnnotations.setEnabled(true);
+	}
+    
 	@Test(expected = UnsupportedOperationException.class)
 	public void testInstantiation() throws Exception {
 		new WebAnnotationHandlers();

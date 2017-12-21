@@ -1,9 +1,9 @@
 Change-Log
 ===============
 
-## Version 1.x ##
-
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
+
+## Version 1.x ##
 
 ### 1.3.1 ###
 > upcoming

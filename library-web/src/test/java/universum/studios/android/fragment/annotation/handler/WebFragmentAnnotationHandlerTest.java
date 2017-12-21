@@ -17,14 +17,11 @@
  * =================================================================================================
  */
 package universum.studios.android.fragment.annotation.handler;
-import android.support.test.runner.AndroidJUnit4;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.WebFragment;
 import universum.studios.android.fragment.annotation.WebContent;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -32,12 +29,8 @@ import static org.hamcrest.core.Is.is;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class WebFragmentAnnotationHandlerTest extends InstrumentedTestCase {
+public final class WebFragmentAnnotationHandlerTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "WebFragmentAnnotationHandlerTest";
-
     @Test
 	public void testGetWebContentResId() {
 	    final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithContentResource.class);
