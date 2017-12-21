@@ -29,21 +29,14 @@ android {
         minSdkVersion config.build.minSdkVersion
         targetSdkVersion config.build.targetSdkVersion
         consumerProguardFiles 'proguard-rules.pro'
-        testInstrumentationRunner config.test.instrumentationRunner
+        testInstrumentationRunner config.test.instrumentationRunner.androidJUnit
         // Enabled only for purpose of tests.
         vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-        }
         modules {
-            minifyEnabled false
-        }
-        debug {
-            minifyEnabled false
-            testCoverageEnabled true
+            matchingFallbacks = ['debug', 'release']
         }
     }
 
@@ -117,19 +110,18 @@ repositories {
 }
 
 dependencies {
-    /*
-     * RELEASE DEPENDENCIES ------------------------------------------------------------------------
-     */
-    compile deps.androidSupport.annotations
-    compile deps.androidSupport.appCompatV7
-    compile deps.androidSupport.vectorDrawable
-    compile deps.universumStudios.logger
+    // PRODUCTION ----------------------------------------------------------------------------------
+    implementation deps.androidSupport.annotations
+    implementation deps.androidSupport.appCompatV7
+    implementation deps.androidSupport.vectorDrawable
+    implementation deps.universumStudios.logger
 
-    /*
-     * TEST DEPENDENCIES ---------------------------------------------------------------------------
-     */
-    testCompile project(':test-local')
-    androidTestCompile project(':test-instrumented')
+    // DEVELOPMENT ---------------------------------------------------------------------------------
+    // None.
+
+    // TEST ----------------------------------------------------------------------------------------
+    testImplementation project(':test-local')
+    androidTestImplementation project(':test-instrumented')
 }
 
 /**

@@ -29,19 +29,11 @@ import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
 
 /**
  * @author Martin Albedinsky
  */
 public final class FragmentPoliciesTest extends RobolectricTestCase {
-
-	/**
-	 * Log TAG.
-	 */
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentPoliciesTest";
 
 	@Test
 	public void testConstants() {

@@ -4,11 +4,11 @@ Fragments-Base
 This module contains base `Fragment` implementations and interfaces.
 
 ## Download ##
-[![Download](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
+[![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
 
 ### Gradle ###
 
-    compile "universum.studios.android:fragments-base:${DESIRED_VERSION}@aar"
+    implementation "universum.studios.android:fragments-base:${DESIRED_VERSION}@aar"
 
 _depends on:_
 [fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core)

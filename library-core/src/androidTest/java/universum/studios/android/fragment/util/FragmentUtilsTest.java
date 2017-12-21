@@ -19,7 +19,6 @@
 package universum.studios.android.fragment.util;
 
 import android.os.Build;
-import android.support.test.runner.AndroidJUnit4;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -27,7 +26,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -46,12 +44,8 @@ import static org.junit.Assume.assumeTrue;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
 public final class FragmentUtilsTest extends InstrumentedTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentUtilsTest";
-
 	@Test
 	public void testConstants() {
 		assertThat(FragmentUtils.ACCESS_LOLLIPOP, is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP));
