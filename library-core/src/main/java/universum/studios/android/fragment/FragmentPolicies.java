@@ -23,6 +23,8 @@ import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 
+import universum.studios.android.fragment.util.FragmentUtils;
+
 /**
  * Class that declares policies related to the Android {@code Fragments} API.
  *
@@ -44,6 +46,8 @@ public final class FragmentPolicies {
 	}
 
 	/**
+	 * <b>This method has been deprecated and will be removed in the next release.</b>
+	 * <p>
 	 * Checks whether the custom animations specified via {@link android.app.FragmentTransaction#setCustomAnimations(int, int, int, int)
 	 * FragmentTransaction.setCustomAnimations(int, int, int, int)} will be actually played.
 	 * <p>
@@ -57,23 +61,11 @@ public final class FragmentPolicies {
 	 * played by the Android framework.
 	 *
 	 * @return {@code True} if animations will be played, {@code false} otherwise.
+	 * @deprecated Use {@link FragmentUtils#willBeCustomAnimationsPlayed(Context)} instead.
 	 */
+	@Deprecated
 	@SuppressWarnings("deprecation")
 	public static boolean willBeCustomAnimationsPlayed(@NonNull final Context context) {
-		float animatorDurationScale = -1;
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			animatorDurationScale = Settings.Global.getFloat(
-					context.getContentResolver(),
-					Settings.Global.ANIMATOR_DURATION_SCALE,
-					animatorDurationScale
-			);
-		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			animatorDurationScale = Settings.System.getFloat(
-					context.getContentResolver(),
-					Settings.System.ANIMATOR_DURATION_SCALE,
-					animatorDurationScale
-			);
-		}
-		return animatorDurationScale == -1 || animatorDurationScale > 0;
+		return FragmentUtils.willBeCustomAnimationsPlayed(context);
 	}
 }

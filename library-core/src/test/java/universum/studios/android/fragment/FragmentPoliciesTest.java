@@ -53,6 +53,7 @@ public final class FragmentPoliciesTest extends RobolectricTestCase {
 	}
 
 	@Test
+	@SuppressWarnings("deprecation")
 	public void testWillBeCustomAnimationsPlayed() {
 		assertThat(FragmentPolicies.willBeCustomAnimationsPlayed(mApplication), is(true));
 	}

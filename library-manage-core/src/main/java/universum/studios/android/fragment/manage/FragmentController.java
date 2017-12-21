@@ -38,6 +38,7 @@ import java.util.List;
 
 import universum.studios.android.fragment.FragmentPolicies;
 import universum.studios.android.fragment.FragmentsLogging;
+import universum.studios.android.fragment.util.FragmentUtils;
 
 /**
  * FragmentController class is designed primarily to simplify {@link Fragment Fragments} management
@@ -297,7 +298,7 @@ public class FragmentController {
 	 * Creates a new instance of FragmentController with the given <var>context</var> and <var>fragmentManager</var>.
 	 *
 	 * @param context         Context used to resolve whether custom fragment animations (if specified)
-	 *                        will be played or not. {@link FragmentPolicies#willBeCustomAnimationsPlayed(Context)}.
+	 *                        will be played or not. {@link FragmentUtils#willBeCustomAnimationsPlayed(Context)}.
 	 * @param fragmentManager Fragment manager that will be used to perform fragments related operations.
 	 * @see #FragmentController(Activity)
 	 * @see #FragmentController(Fragment)
@@ -716,7 +717,7 @@ public class FragmentController {
 		}
 		// Attach animations to the transaction from the FragmentTransition parameter.
 		if (request.mTransition != null) {
-			if (mContext == null || FragmentPolicies.willBeCustomAnimationsPlayed(mContext)) {
+			if (mContext == null || FragmentUtils.willBeCustomAnimationsPlayed(mContext)) {
 				transaction.setCustomAnimations(
 						request.mTransition.getIncomingAnimation(),
 						request.mTransition.getOutgoingAnimation(),

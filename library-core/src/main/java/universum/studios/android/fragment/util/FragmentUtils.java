@@ -23,6 +23,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -84,6 +86,72 @@ public final class FragmentUtils {
 	/*
 	 * Methods =====================================================================================
 	 */
+
+	/**
+	 * Checks whether the custom animations specified via {@link android.app.FragmentTransaction#setCustomAnimations(int, int, int, int)
+	 * FragmentTransaction.setCustomAnimations(int, int, int, int)} will be actually played.
+	 * <p>
+	 * Implementation of this check combines results of {@link #isPowerSaveModeActive(Context)} and
+	 * {@link #areAnimationsEnabled(Context)}.
+	 * <p>
+	 * If this check returns {@code false} it is useless to specify any custom animations to a
+	 * {@link android.app.FragmentTransaction FragmentTransaction} as such animations will not be
+	 * played by the Android framework.
+	 *
+	 * @param context Context used to obtain required information about the system in order to perform
+	 *                the check.
+	 * @return {@code True} if animations will be played, that is, power save mode is not active and
+	 * animations are enabled, {@code false} otherwise.
+	 */
+	public static boolean willBeCustomAnimationsPlayed(@NonNull final Context context) {
+		return !isPowerSaveModeActive(context) && areAnimationsEnabled(context);
+	}
+
+	/**
+	 * Checks whether power save mode is active or not.
+	 *
+	 * @param context Context used to obtain power service.
+	 * @return {@code True} if power save mode is active at this time, {@code false} otherwise.
+	 * @see PowerManager#isPowerSaveMode()
+	 */
+	public static boolean isPowerSaveModeActive(@NonNull final Context context) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			final PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+			return powerManager != null && powerManager.isPowerSaveMode();
+		}
+		return false;
+	}
+
+	/**
+	 * Checks whether fragment related animations are enabled by the system.
+	 * <p>
+	 * Implementation of this check queries value of {@link Settings.Global#ANIMATOR_DURATION_SCALE}
+	 * setting and checks if {@code animatorDurationScale > 0} for Android versions above
+	 * {@link Build.VERSION_CODES#JELLY_BEAN_MR1 JELLY_BEAN} API level. For older Android versions
+	 * this check always returns {@code true}.
+	 *
+	 * @param context Context used to obtain required information about the system in order to perform
+	 *                the check.
+	 * @return {@code True} if fragment related animations are enabled, {@code false} otherwise.
+	 */
+	@SuppressWarnings("deprecation")
+	public static boolean areAnimationsEnabled(@NonNull final Context context) {
+		float animatorDurationScale = -1;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			animatorDurationScale = Settings.Global.getFloat(
+					context.getContentResolver(),
+					Settings.Global.ANIMATOR_DURATION_SCALE,
+					animatorDurationScale
+			);
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			animatorDurationScale = Settings.System.getFloat(
+					context.getContentResolver(),
+					Settings.System.ANIMATOR_DURATION_SCALE,
+					animatorDurationScale
+			);
+		}
+		return animatorDurationScale == -1 || animatorDurationScale > 0;
+	}
 
 	/**
 	 * Inflates a desired Transition from the specified <var>resource</var>.

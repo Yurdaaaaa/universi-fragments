@@ -1,7 +1,7 @@
 // Defines configuration used across the library project.
 def libraryConfig = [
         name   : 'fragments',
-        version: '1.3.0'
+        version: '1.3.1'
 ]
 
 def buildConfig = [

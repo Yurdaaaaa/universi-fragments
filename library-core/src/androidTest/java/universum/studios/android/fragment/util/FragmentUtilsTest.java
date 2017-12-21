@@ -27,9 +27,6 @@ import android.widget.FrameLayout;
 
 import org.junit.Test;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import universum.studios.android.test.instrumented.InstrumentedTestCase;
 import universum.studios.android.test.instrumented.TestResources;
 import universum.studios.android.test.instrumented.TestUtils;
@@ -46,23 +43,6 @@ import static org.junit.Assume.assumeTrue;
  */
 public final class FragmentUtilsTest extends InstrumentedTestCase {
     
-	@Test
-	public void testConstants() {
-		assertThat(FragmentUtils.ACCESS_LOLLIPOP, is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP));
-	}
-
-	@Test(expected = IllegalAccessException.class)
-	public void testInstantiation() throws Exception {
-		FragmentUtils.class.newInstance();
-	}
-
-	@Test(expected = InvocationTargetException.class)
-	public void testInstantiationWithAccessibleConstructor() throws Exception {
-		final Constructor<FragmentUtils> constructor = FragmentUtils.class.getDeclaredConstructor();
-		constructor.setAccessible(true);
-		constructor.newInstance();
-	}
-
     @Test
     public void testInflateTransition() {
 		final Transition transition = FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(
@@ -109,7 +89,7 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	public void testDrawable() {
+	public void testGetDrawable() {
 		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
 		assertThat(FragmentUtils.getDrawable(mContext.getResources(), TestResources.resourceIdentifier(
 				mContext,
@@ -119,7 +99,7 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	public void testDrawableWithNoResource() {
+	public void testGetDrawableWithNoResource() {
 		assertThat(FragmentUtils.getDrawable(mContext.getResources(), 0, null), is(nullValue()));
 	}
 }
