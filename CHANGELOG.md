@@ -8,6 +8,8 @@ More **detailed changelog** for each respective version may be viewed by pressin
 ### 1.3.1 ###
 > upcoming
 
+- Removed deprecated components from previous versions.
+
 ### [1.3.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.0) ###
 > 21.08.2017
 
