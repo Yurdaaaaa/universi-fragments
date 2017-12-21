@@ -20,16 +20,14 @@ package universum.studios.android.fragment.manage;
 
 import android.app.Fragment;
 import android.support.annotation.NonNull;
-import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import universum.studios.android.fragment.annotation.FactoryFragment;
 import universum.studios.android.fragment.annotation.FactoryFragments;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.handler.FragmentFactoryAnnotationHandler;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -40,12 +38,8 @@ import static org.hamcrest.core.IsNull.nullValue;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
-public final class BaseFragmentFactoryTest extends InstrumentedTestCase {
+public final class BaseFragmentFactoryTest extends RobolectricTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "BaseFragmentFactoryTest";
-
 	@Override
 	public void beforeTest() throws Exception {
 		super.beforeTest();
