@@ -19,7 +19,6 @@
 package universum.studios.android.fragment.util;
 
 import android.os.Build;
-import android.support.test.runner.AndroidJUnit4;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -27,10 +26,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.test.instrumented.InstrumentedTestCase;
 import universum.studios.android.test.instrumented.TestResources;
@@ -46,29 +41,8 @@ import static org.junit.Assume.assumeTrue;
 /**
  * @author Martin Albedinsky
  */
-@RunWith(AndroidJUnit4.class)
 public final class FragmentUtilsTest extends InstrumentedTestCase {
     
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentUtilsTest";
-
-	@Test
-	public void testConstants() {
-		assertThat(FragmentUtils.ACCESS_LOLLIPOP, is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP));
-	}
-
-	@Test(expected = IllegalAccessException.class)
-	public void testInstantiation() throws Exception {
-		FragmentUtils.class.newInstance();
-	}
-
-	@Test(expected = InvocationTargetException.class)
-	public void testInstantiationWithAccessibleConstructor() throws Exception {
-		final Constructor<FragmentUtils> constructor = FragmentUtils.class.getDeclaredConstructor();
-		constructor.setAccessible(true);
-		constructor.newInstance();
-	}
-
     @Test
     public void testInflateTransition() {
 		final Transition transition = FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(
@@ -115,7 +89,7 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	public void testDrawable() {
+	public void testGetDrawable() {
 		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
 		assertThat(FragmentUtils.getDrawable(mContext.getResources(), TestResources.resourceIdentifier(
 				mContext,
@@ -125,7 +99,7 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 	}
 
 	@Test
-	public void testDrawableWithNoResource() {
+	public void testGetDrawableWithNoResource() {
 		assertThat(FragmentUtils.getDrawable(mContext.getResources(), 0, null), is(nullValue()));
 	}
 }

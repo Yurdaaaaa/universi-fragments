@@ -205,7 +205,7 @@ public abstract class ActionBarDelegate {
 		 */
 		@Override
 		public void setHomeAsUpIndicator(@DrawableRes final int resId) {
-			if (actionBar != null && Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2)
+			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
 				actionBar.setHomeAsUpIndicator(resId);
 		}
 
@@ -224,7 +224,7 @@ public abstract class ActionBarDelegate {
 		 */
 		@Override
 		public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
-			if (actionBar != null && Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2)
+			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
 				actionBar.setHomeAsUpIndicator(indicator);
 		}
 
