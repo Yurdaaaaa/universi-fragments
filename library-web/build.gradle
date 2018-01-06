@@ -63,9 +63,9 @@ dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
     implementation deps.androidSupport.appCompatV7
-    releaseImplementation "universum.studios.android:fragments-core:${config.library.version}@aar"
-    releaseImplementation "universum.studios.android:fragments-base:${config.library.version}@aar"
-    releaseImplementation "universum.studios.android:fragments-common:${config.library.version}@aar"
+    releaseImplementation deps.modules.libraryCore
+    releaseImplementation deps.modules.libraryBase
+    releaseImplementation deps.modules.libraryCommon
 
     // DEVELOPMENT ---------------------------------------------------------------------------------
     debugApi project(':library-common')

@@ -53,10 +53,10 @@ dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidSupport.annotations
     implementation deps.androidSupport.appCompatV7
-    releaseImplementation "universum.studios.android:fragments-core:${config.library.version}@aar"
-    releaseImplementation "universum.studios.android:fragments-manage-core:${config.library.version}@aar"
-    releaseImplementation "universum.studios.android:fragments-transition-core:${config.library.version}@aar"
-    releaseImplementation "universum.studios.android:fragments-transition-common:${config.library.version}@aar"
+    releaseImplementation deps.modules.libraryCore
+    releaseImplementation deps.modules.libraryManageCore
+    releaseImplementation deps.modules.libraryTransitionCore
+    releaseImplementation deps.modules.libraryTransitionCommon
 
     // DEVELOPMENT ---------------------------------------------------------------------------------
     debugApi project(':library-transition-common')
