@@ -59,6 +59,15 @@ android {
                 "${rootProject.rootDir}/library-transition-extra/src/main/res"
         ]
         debug.res.srcDirs = release.res.srcDirs
+        test.java.srcDirs = [
+                "${rootProject.rootDir}/library/src/test/java",
+                "${rootProject.rootDir}/library-core/src/test/java",
+                "${rootProject.rootDir}/library-base/src/test/java",
+                "${rootProject.rootDir}/library-common/src/test/java",
+                "${rootProject.rootDir}/library-web/src/test/java",
+                "${rootProject.rootDir}/library-manage-core/src/test/java",
+                "${rootProject.rootDir}/library-transition-core/src/test/java"
+        ]
         androidTest.java.srcDirs = [
                 "${rootProject.rootDir}/library/src/androidTest/java",
                 "${rootProject.rootDir}/library-core/src/androidTest/java",
@@ -79,15 +88,6 @@ android {
                 "${rootProject.rootDir}/library-web/src/androidTest/res",
                 "${rootProject.rootDir}/library-manage-core/src/androidTest/res",
                 "${rootProject.rootDir}/library-transition-core/src/androidTest/res"
-        ]
-        test.java.srcDirs = [
-                "${rootProject.rootDir}/library/src/test/java",
-                "${rootProject.rootDir}/library-core/src/test/java",
-                "${rootProject.rootDir}/library-base/src/test/java",
-                "${rootProject.rootDir}/library-common/src/test/java",
-                "${rootProject.rootDir}/library-web/src/test/java",
-                "${rootProject.rootDir}/library-manage-core/src/test/java",
-                "${rootProject.rootDir}/library-transition-core/src/test/java"
         ]
     }
 
