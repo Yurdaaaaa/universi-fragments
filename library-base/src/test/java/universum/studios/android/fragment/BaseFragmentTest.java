@@ -52,6 +52,7 @@ import universum.studios.android.test.local.TestActivity;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -433,7 +434,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		fragmentManager.executePendingTransactions();
 		assertThat(
 				fragment.inflateTransition(android.R.transition.fade),
-				is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? not(nullValue()) : nullValue())
+				is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? notNullValue() : nullValue())
 		);
 	}
 

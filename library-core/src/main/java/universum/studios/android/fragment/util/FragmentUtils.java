@@ -165,7 +165,7 @@ public final class FragmentUtils {
 	@Nullable
 	@SuppressLint("NewApi")
 	public static Transition inflateTransition(@NonNull final Context context, @TransitionRes final int resource) {
-		return FragmentPolicies.TRANSITIONS_SUPPORTED ? TransitionInflater.from(context).inflateTransition(resource) : null;
+		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ? TransitionInflater.from(context).inflateTransition(resource) : null;
 	}
 
 	/**
@@ -182,7 +182,7 @@ public final class FragmentUtils {
 	@Nullable
 	@SuppressLint("NewApi")
 	public static TransitionManager inflateTransitionManager(@NonNull final Context context, @TransitionRes final int resource, @NonNull final ViewGroup sceneRoot) {
-		return FragmentPolicies.TRANSITIONS_SUPPORTED ? TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) : null;
+		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ? TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) : null;
 	}
 
 	/**

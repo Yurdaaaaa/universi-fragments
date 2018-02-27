@@ -19,8 +19,6 @@
 package universum.studios.android.fragment.util;
 
 import android.os.Build;
-import android.transition.Fade;
-import android.transition.Transition;
 import android.transition.TransitionManager;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -33,7 +31,6 @@ import universum.studios.android.test.instrumented.TestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.hamcrest.core.IsNot.not;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assume.assumeTrue;
@@ -43,21 +40,6 @@ import static org.junit.Assume.assumeTrue;
  */
 public final class FragmentUtilsTest extends InstrumentedTestCase {
     
-    @Test
-    public void testInflateTransition() {
-		final Transition transition = FragmentUtils.inflateTransition(mContext, TestResources.resourceIdentifier(
-				mContext,
-				TestResources.TRANSITION,
-				"transition_fade"
-		));
-	    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-		    assertThat(transition, is(not(nullValue())));
-		    assertThat(transition, instanceOf(Fade.class));
-	    } else {
-		    assertThat(transition, is(nullValue()));
-	    }
-    }
-
 	@Test
 	public void testInflateTransitionManager() {
 		final ViewGroup sceneRoot = new FrameLayout(mContext);
@@ -66,7 +48,7 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 				TestResources.TRANSITION,
 				"transition_manager"
 		), sceneRoot);
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			assertThat(transitionManager, is(not(nullValue())));
 		} else {
 			assertThat(transitionManager, is(nullValue()));
