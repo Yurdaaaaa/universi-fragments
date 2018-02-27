@@ -18,9 +18,13 @@
  */
 package universum.studios.android.fragment.util;
 
+import android.content.Context;
 import android.os.Build;
+import android.transition.Fade;
+import android.transition.Transition;
 
 import org.junit.Test;
+import org.robolectric.annotation.Config;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -28,7 +32,12 @@ import java.lang.reflect.InvocationTargetException;
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.core.IsInstanceOf.instanceOf;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * @author Martin Albedinsky
@@ -65,5 +74,27 @@ public final class FragmentUtilsTest extends RobolectricTestCase {
 	@Test
 	public void testIsPowerSaveModeActive() {
 		assertThat(FragmentUtils.isPowerSaveModeActive(mApplication), is(false));
+	}
+
+	@Test
+	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
+	public void testInflateTransitionOnLollipopApiLevel() {
+		final Transition transition = FragmentUtils.inflateTransition(mApplication, android.R.transition.fade);
+		assertThat(transition, is(notNullValue()));
+		assertThat(transition, instanceOf(Fade.class));
+	}
+
+	@Test
+	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN)
+	public void testInflateTransitionOnJellyBeanApiLevel() {
+		assertThat(FragmentUtils.inflateTransition(mApplication, android.R.anim.fade_in), is(nullValue()));
+	}
+
+	@Test
+	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
+	public void testInflateTransitionInContextWithoutResources() {
+		final Context mockContext = mock(Context.class);
+		when(mockContext.getResources()).thenReturn(null);
+		assertThat(FragmentUtils.inflateTransition(mockContext, android.R.anim.fade_in), is(nullValue()));
 	}
 }

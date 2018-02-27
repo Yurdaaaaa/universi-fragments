@@ -494,8 +494,8 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 */
 	@Nullable
 	protected Transition inflateTransition(@TransitionRes int resource) {
-		final Activity activity = getActivity();
-		return activity != null && FragmentPolicies.TRANSITIONS_SUPPORTED ? TransitionInflater.from(activity).inflateTransition(resource) : null;
+		final Context context = getActivity();
+		return context == null ? null : FragmentUtils.inflateTransition(context, resource);
 	}
 
 	/**
