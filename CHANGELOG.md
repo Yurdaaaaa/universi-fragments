@@ -1,5 +1,6 @@
 Change-Log
 ===============
+> Regular configuration update: _29.03.2018_
 
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
 
@@ -15,7 +16,7 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 - `FragmentController` now does not attach **custom animations** to `FragmentTransaction` also when
   a device is in **power save mode**.
-- Removed deprecated components from previous versions.
+- Removed deprecated elements from previous versions.
 
 ### [1.3.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.0) ###
 > 21.08.2017

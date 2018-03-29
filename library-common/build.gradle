@@ -51,8 +51,8 @@ repositories {
 
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
-    implementation deps.androidSupport.annotations
-    implementation deps.androidSupport.appCompatV7
+    implementation deps.android.support.annotations
+    implementation deps.android.support.appCompatV7
     releaseImplementation deps.modules.libraryCore
     releaseImplementation deps.modules.libraryBase
 

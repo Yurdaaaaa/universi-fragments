@@ -14,8 +14,8 @@ _depends on:_
 [fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core),
 [fragments-base](https://github.com/universum-studios/android_fragments/tree/master/library-base)
 
-## Components ##
+## Elements ##
 
-Below are listed some of **primary components** that are available in this module:
+Below are listed some of **primary elements** that are available in this module:
 
 - [ActionBarFragment](https://github.com/universum-studios/android_fragments/tree/master/library-common/src/main/java/universum/studios/android/fragment/ActionBarFragment.java)

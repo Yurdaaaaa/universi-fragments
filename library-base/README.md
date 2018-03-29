@@ -13,9 +13,9 @@ This module contains base `Fragment` implementations and interfaces.
 _depends on:_
 [fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core)
 
-## Components ##
+## Elements ##
 
-Below are listed some of **primary components** that are available in this module:
+Below are listed some of **primary elements** that are available in this module:
 
 - [BaseFragment](https://github.com/universum-studios/android_fragments/tree/master/library-base/src/main/java/universum/studios/android/fragment/BaseFragment.java)
 - [BackPressWatcher](https://github.com/universum-studios/android_fragments/tree/master/library-base/src/main/java/universum/studios/android/fragment/BackPressWatcher.java)
