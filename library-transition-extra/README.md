@@ -16,8 +16,8 @@ _depends on:_
 [fragments-transition-core](https://github.com/universum-studios/android_fragments/tree/master/library-transition-core),
 [fragments-transition-common](https://github.com/universum-studios/android_fragments/tree/master/library-transition-common)
 
-## Components ##
+## Elements ##
 
-Below are listed some of **primary components** that are available in this module:
+Below are listed some of **primary elements** that are available in this module:
 
 - [ExtraFragmentTransitions](https://github.com/universum-studios/android_fragments/tree/master/library-transition-extra/src/main/java/universum/studios/android/fragment/transition/ExtraFragmentTransitions.java)

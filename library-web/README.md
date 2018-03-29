@@ -15,8 +15,8 @@ _depends on:_
 [fragments-base](https://github.com/universum-studios/android_fragments/tree/master/library-base),
 [fragments-common](https://github.com/universum-studios/android_fragments/tree/master/library-common)
 
-## Components ##
+## Elements ##
 
-Below are listed some of **primary components** that are available in this module:
+Below are listed some of **primary elements** that are available in this module:
 
 - [WebFragment](https://github.com/universum-studios/android_fragments/tree/master/library-web/src/main/java/universum/studios/android/fragment/WebFragment.java)

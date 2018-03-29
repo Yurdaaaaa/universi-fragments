@@ -1,7 +1,7 @@
 Android Fragments
 ===============
 
-[![CircleCI](https://circleci.com/gh/universum-studios/android_fragments.svg?style=svg)](https://circleci.com/gh/universum-studios/android_fragments)
+[![CircleCI](https://circleci.com/gh/universum-studios/android_fragments.svg?style=shield)](https://circleci.com/gh/universum-studios/android_fragments)
 [![Codecov](https://codecov.io/gh/universum-studios/android_fragments/branch/master/graph/badge.svg)](https://codecov.io/gh/universum-studios/android_fragments)
 [![Codacy](https://api.codacy.com/project/badge/Grade/08a4a09365f543cca7b7201f5beb56a3)](https://www.codacy.com/app/universum-studios/android_fragments?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_fragments&amp;utm_campaign=Badge_Grade)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragments-green.svg?style=flat)](https://android-arsenal.com/details/1/5408)
@@ -13,7 +13,7 @@ For more information please visit the **[Wiki](https://github.com/universum-stud
 ## Download ##
 [![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
 
-Download the latest **[release](https://github.com/universum-studios/android_fragments/releases "Latest Releases page")** or **add as dependency** in your project via:
+Download the latest **[release](https://github.com/universum-studios/android_fragments/releases "Releases page")** or **add as dependency** in your project via:
 
 ### Gradle ###
 

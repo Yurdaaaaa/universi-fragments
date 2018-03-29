@@ -21,7 +21,7 @@ as usually.
     }
 
 ## Available modules ##
-> Following modules are available in the [latest](https://github.com/universum-studios/android_fragments/releases "Latest Releases page") stable release.
+> Following modules are available in the [latest](https://github.com/universum-studios/android_fragments/releases "Releases page") stable release.
 
 - **[Core](https://github.com/universum-studios/android_fragments/tree/master/library-core)**
 - **[Base](https://github.com/universum-studios/android_fragments/tree/master/library-base)**
