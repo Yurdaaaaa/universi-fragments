@@ -905,7 +905,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
-		final FragmentController controller = new FragmentController(mApplication, mockManager);
+		final FragmentController controller = new FragmentController(application, mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentTransition transition = new TestTransition();
 		final FragmentRequest request = controller.newRequest(mockFragment).transition(transition);
@@ -947,8 +947,8 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
-		final View elementFirst = new View(mApplication);
-		final View elementSecond = new View(mApplication);
+		final View elementFirst = new View(application);
+		final View elementSecond = new View(application);
 		final FragmentRequest request = controller.newRequest(mockFragment)
 				.sharedElement(elementFirst, "Element.First")
 				.sharedElement(elementSecond, "Element.Second");
@@ -970,8 +970,8 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
-		final View elementFirst = new View(mApplication);
-		final View elementSecond = new View(mApplication);
+		final View elementFirst = new View(application);
+		final View elementSecond = new View(application);
 		final FragmentRequest request = controller.newRequest(mockFragment)
 				.sharedElement(elementFirst, "Element.First")
 				.sharedElement(elementSecond, "Element.Second");

@@ -63,23 +63,23 @@ public final class FragmentUtilsTest extends RobolectricTestCase {
 
 	@Test
 	public void testWillBeCustomAnimationsPlayed() {
-		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(mApplication), is(true));
+		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(application), is(true));
 	}
 
 	@Test
 	public void testAreAnimationsEnabled() {
-		assertThat(FragmentUtils.areAnimationsEnabled(mApplication), is(true));
+		assertThat(FragmentUtils.areAnimationsEnabled(application), is(true));
 	}
 
 	@Test
 	public void testIsPowerSaveModeActive() {
-		assertThat(FragmentUtils.isPowerSaveModeActive(mApplication), is(false));
+		assertThat(FragmentUtils.isPowerSaveModeActive(application), is(false));
 	}
 
 	@Test
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
 	public void testInflateTransitionOnLollipopApiLevel() {
-		final Transition transition = FragmentUtils.inflateTransition(mApplication, android.R.transition.fade);
+		final Transition transition = FragmentUtils.inflateTransition(application, android.R.transition.fade);
 		assertThat(transition, is(notNullValue()));
 		assertThat(transition, instanceOf(Fade.class));
 	}
@@ -87,7 +87,7 @@ public final class FragmentUtilsTest extends RobolectricTestCase {
 	@Test
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN)
 	public void testInflateTransitionOnJellyBeanApiLevel() {
-		assertThat(FragmentUtils.inflateTransition(mApplication, android.R.anim.fade_in), is(nullValue()));
+		assertThat(FragmentUtils.inflateTransition(application, android.R.anim.fade_in), is(nullValue()));
 	}
 
 	@Test

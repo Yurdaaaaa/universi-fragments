@@ -93,8 +93,8 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 
 	@Test
 	public void testCreateForNullActionBar() {
-		assertThat(ActionBarDelegate.create(mApplication, (ActionBar) null), is(not(nullValue())));
-		assertThat(ActionBarDelegate.create(mApplication, (android.support.v7.app.ActionBar) null), is(not(nullValue())));
+		assertThat(ActionBarDelegate.create(application, (ActionBar) null), is(not(nullValue())));
+		assertThat(ActionBarDelegate.create(application, (android.support.v7.app.ActionBar) null), is(not(nullValue())));
 	}
 
 	private static final class Delegate extends ActionBarDelegate {

@@ -42,9 +42,9 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
     
 	@Test
 	public void testInflateTransitionManager() {
-		final ViewGroup sceneRoot = new FrameLayout(mContext);
-		final TransitionManager transitionManager = FragmentUtils.inflateTransitionManager(mContext, TestResources.resourceIdentifier(
-				mContext,
+		final ViewGroup sceneRoot = new FrameLayout(context);
+		final TransitionManager transitionManager = FragmentUtils.inflateTransitionManager(context, TestResources.resourceIdentifier(
+				context,
 				TestResources.TRANSITION,
 				"transition_manager"
 		), sceneRoot);
@@ -57,9 +57,9 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 
 	@Test
 	public void testGetVectorDrawable() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
-		assertThat(FragmentUtils.getVectorDrawable(mContext.getResources(), TestResources.resourceIdentifier(
-				mContext,
+		assumeTrue(TestUtils.hasLibraryRootPackageName(context));
+		assertThat(FragmentUtils.getVectorDrawable(context.getResources(), TestResources.resourceIdentifier(
+				context,
 				TestResources.DRAWABLE,
 				"vc_ic_android_24dp"
 		), null), is(not(nullValue())));
@@ -67,14 +67,14 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 
 	@Test
 	public void testGetVectorDrawableWithNoResource() {
-		assertThat(FragmentUtils.getVectorDrawable(mContext.getResources(), 0, null), is(nullValue()));
+		assertThat(FragmentUtils.getVectorDrawable(context.getResources(), 0, null), is(nullValue()));
 	}
 
 	@Test
 	public void testGetDrawable() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(mContext));
-		assertThat(FragmentUtils.getDrawable(mContext.getResources(), TestResources.resourceIdentifier(
-				mContext,
+		assumeTrue(TestUtils.hasLibraryRootPackageName(context));
+		assertThat(FragmentUtils.getDrawable(context.getResources(), TestResources.resourceIdentifier(
+				context,
 				TestResources.DRAWABLE,
 				"ic_android"
 		), null), is(not(nullValue())));
@@ -82,6 +82,6 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 
 	@Test
 	public void testGetDrawableWithNoResource() {
-		assertThat(FragmentUtils.getDrawable(mContext.getResources(), 0, null), is(nullValue()));
+		assertThat(FragmentUtils.getDrawable(context.getResources(), 0, null), is(nullValue()));
 	}
 }

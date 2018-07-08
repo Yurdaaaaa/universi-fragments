@@ -486,7 +486,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 	@Test
 	public void testDispatchViewClick() {
 		final TestFragment fragment = new TestFragment();
-		final View view = new Button(mApplication);
+		final View view = new Button(application);
 		assertThat(fragment.dispatchViewClick(view), is(false));
 		assertThat(fragment.dispatchedClickedView, is(view));
 	}
@@ -500,7 +500,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		fragmentManager.executePendingTransactions();
 		final LoaderManager loaderManager = fragment.getLoaderManager();
 		final LoaderManager.LoaderCallbacks mockLoaderCallbacks = mock(LoaderManager.LoaderCallbacks.class);
-		final Loader<Cursor> loader = new CursorLoader(mApplication, Uri.EMPTY, null, null, null, null);
+		final Loader<Cursor> loader = new CursorLoader(application, Uri.EMPTY, null, null, null, null);
 		when(mockLoaderCallbacks.onCreateLoader(1, null)).thenReturn(loader);
 		assertThat(fragment.startLoader(1, null, mockLoaderCallbacks), Is.<Loader>is(loader));
 		assertThat(loaderManager.getLoader(1), is(not(nullValue())));
@@ -516,8 +516,8 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		fragmentManager.executePendingTransactions();
 		final LoaderManager loaderManager = fragment.getLoaderManager();
 		final LoaderManager.LoaderCallbacks mockLoaderCallbacks = mock(LoaderManager.LoaderCallbacks.class);
-		final Loader firstLoader = new CursorLoader(mApplication, Uri.EMPTY, null, null, null, null);
-		final Loader secondLoader = new CursorLoader(mApplication, Uri.EMPTY, null, null, null, null);
+		final Loader firstLoader = new CursorLoader(application, Uri.EMPTY, null, null, null, null);
+		final Loader secondLoader = new CursorLoader(application, Uri.EMPTY, null, null, null, null);
 		when(mockLoaderCallbacks.onCreateLoader(1, null)).thenReturn(firstLoader);
 		loaderManager.initLoader(1, null, mockLoaderCallbacks);
 		when(mockLoaderCallbacks.onCreateLoader(1, null)).thenReturn(secondLoader);
@@ -535,7 +535,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		fragmentManager.executePendingTransactions();
 		final LoaderManager loaderManager = fragment.getLoaderManager();
 		final LoaderManager.LoaderCallbacks mockLoaderCallbacks = mock(LoaderManager.LoaderCallbacks.class);
-		final Loader loader = new CursorLoader(mApplication, Uri.EMPTY, null, null, null, null);
+		final Loader loader = new CursorLoader(application, Uri.EMPTY, null, null, null, null);
 		when(mockLoaderCallbacks.onCreateLoader(1, null)).thenReturn(loader);
 		assertThat(fragment.initLoader(1, null, mockLoaderCallbacks), is(loader));
 		assertThat(loaderManager.getLoader(1), is(loader));
@@ -551,7 +551,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		fragmentManager.executePendingTransactions();
 		final LoaderManager loaderManager = fragment.getLoaderManager();
 		final LoaderManager.LoaderCallbacks mockLoaderCallbacks = mock(LoaderManager.LoaderCallbacks.class);
-		final Loader loader = new CursorLoader(mApplication, Uri.EMPTY, null, null, null, null);
+		final Loader loader = new CursorLoader(application, Uri.EMPTY, null, null, null, null);
 		when(mockLoaderCallbacks.onCreateLoader(1, null)).thenReturn(loader);
 		assertThat(fragment.restartLoader(1, null, mockLoaderCallbacks), is(loader));
 		assertThat(loaderManager.getLoader(1), is(loader));
@@ -567,7 +567,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		fragmentManager.executePendingTransactions();
 		final LoaderManager loaderManager = fragment.getLoaderManager();
 		final LoaderManager.LoaderCallbacks mockLoaderCallbacks = mock(LoaderManager.LoaderCallbacks.class);
-		when(mockLoaderCallbacks.onCreateLoader(1, null)).thenReturn(new CursorLoader(mApplication, Uri.EMPTY, null, null, null, null));
+		when(mockLoaderCallbacks.onCreateLoader(1, null)).thenReturn(new CursorLoader(application, Uri.EMPTY, null, null, null, null));
 		loaderManager.initLoader(1, null, mockLoaderCallbacks);
 		fragment.destroyLoader(1);
 		assertThat(loaderManager.getLoader(1), is(nullValue()));

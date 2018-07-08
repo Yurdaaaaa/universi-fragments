@@ -118,7 +118,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 		final WebFragment fragment = new TestFragmentWithWebContentResource();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
-		assertThat(fragment.getContent(), is(mApplication.getString(TestFragmentWithWebContentResource.CONTENT_RES)));
+		assertThat(fragment.getContent(), is(application.getString(TestFragmentWithWebContentResource.CONTENT_RES)));
 	}
 
 	@Test
@@ -175,7 +175,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 	@Test
 	public void testOnCreateView() {
 		final WebFragment fragment = new WebFragment();
-		final View view = fragment.onCreateView(LayoutInflater.from(mApplication), null, null);
+		final View view = fragment.onCreateView(LayoutInflater.from(application), null, null);
 		assertThat(view, is(notNullValue()));
 		assertThat(view, instanceOf(WebView.class));
 		assertThat(fragment.getWebView(), is(view));

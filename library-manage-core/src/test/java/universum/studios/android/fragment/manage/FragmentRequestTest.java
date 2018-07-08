@@ -262,9 +262,9 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSharedElements() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mApplication);
-		final View secondElement = new View(mApplication);
-		final View thirdElement = new View(mApplication);
+		final View firstElement = new View(application);
+		final View secondElement = new View(application);
+		final View thirdElement = new View(application);
 		request.sharedElements(
 				new Pair<>(firstElement, "first_element"),
 				new Pair<>(secondElement, "second_element")
@@ -290,9 +290,9 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSharedElement() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mApplication);
-		final View secondElement = new View(mApplication);
-		final View thirdElement = new View(mApplication);
+		final View firstElement = new View(application);
+		final View secondElement = new View(application);
+		final View thirdElement = new View(application);
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElement(secondElement, "second_element");
 		request.sharedElement(thirdElement, "third_element");
@@ -311,12 +311,12 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSingleSharedElement() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mApplication);
+		final View firstElement = new View(application);
 		request.sharedElement(firstElement, "first_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
 		assertThat(request.singleSharedElement().second, is("first_element"));
-		final View secondElement = new View(mApplication);
+		final View secondElement = new View(application);
 		request.sharedElement(secondElement, "second_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
@@ -327,7 +327,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@SuppressWarnings("ConstantConditions")
 	public void testSingleSharedElementOnEmptySharedElements() {
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(mApplication);
+		final View firstElement = new View(application);
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElements().clear();
 		assertThat(request.singleSharedElement(), is(nullValue()));

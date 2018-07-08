@@ -44,7 +44,7 @@ public final class ActionBarDelegateImplTest extends InstrumentedTestCase {
 	public void testSetHomeAsUpVectorIndicator() {
 		assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
 		final ActionBar mockActionBar = mock(ActionBar.class);
-		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(mContext, mockActionBar);
+		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(context, mockActionBar);
 		delegate.setHomeAsUpVectorIndicator(android.R.drawable.ic_delete);
 		verify(mockActionBar, times(1)).setHomeAsUpIndicator(any(Drawable.class));
 	}
