@@ -1,22 +1,23 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
-package universum.studios.android.fragment.annotation.handler; 
+package universum.studios.android.fragment.annotation.handler;
+
 import android.app.Fragment;
 
 import org.junit.Test;
@@ -37,7 +38,7 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 public final class BaseAnnotationHandlersTest extends RobolectricTestCase {
-    
+
 	@Override
 	public void beforeTest() throws Exception {
 		super.beforeTest();
@@ -57,11 +58,11 @@ public final class BaseAnnotationHandlersTest extends RobolectricTestCase {
 		constructor.newInstance();
 	}
 
-    @Test
+	@Test
 	public void testObtainFragmentHandler() {
 		final FragmentAnnotationHandler handler = BaseAnnotationHandlers.obtainFragmentHandler(TestFragment.class);
-	    assertThat(handler, is(not(nullValue())));
-	    assertThat(handler, instanceOf(BaseAnnotationHandlers.FragmentHandler.class));
+		assertThat(handler, is(not(nullValue())));
+		assertThat(handler, instanceOf(BaseAnnotationHandlers.FragmentHandler.class));
 	}
 
 	public static final class TestFragment extends Fragment {

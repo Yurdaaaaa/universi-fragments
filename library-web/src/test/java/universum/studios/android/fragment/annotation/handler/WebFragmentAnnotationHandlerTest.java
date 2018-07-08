@@ -1,22 +1,23 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
+
 import org.junit.Test;
 
 import universum.studios.android.fragment.WebFragment;
@@ -30,19 +31,19 @@ import static org.hamcrest.core.Is.is;
  * @author Martin Albedinsky
  */
 public final class WebFragmentAnnotationHandlerTest extends RobolectricTestCase {
-    
-    @Test
+
+	@Test
 	public void testGetWebContentResId() {
-	    final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithContentResource.class);
-	    assertThat(annotationHandler.getWebContentResId(-1), is(TestFragmentWithContentResource.CONTENT_RES));
-	    assertThat(annotationHandler.getWebContent("default"), is("default"));
+		final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithContentResource.class);
+		assertThat(annotationHandler.getWebContentResId(-1), is(TestFragmentWithContentResource.CONTENT_RES));
+		assertThat(annotationHandler.getWebContent("default"), is("default"));
 	}
 
-    @Test
+	@Test
 	public void testGetWebContent() {
-	    final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithContent.class);
-	    assertThat(annotationHandler.getWebContentResId(-1), is(-1));
-	    assertThat(annotationHandler.getWebContent("default"), is(TestFragmentWithContent.CONTENT));
+		final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithContent.class);
+		assertThat(annotationHandler.getWebContentResId(-1), is(-1));
+		assertThat(annotationHandler.getWebContent("default"), is(TestFragmentWithContent.CONTENT));
 	}
 
 	@Test
