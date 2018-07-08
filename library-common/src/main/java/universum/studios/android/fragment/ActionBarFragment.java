@@ -77,6 +77,7 @@ import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAn
  * </ul>
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public class ActionBarFragment extends BaseFragment {
 
@@ -105,13 +106,13 @@ public class ActionBarFragment extends BaseFragment {
 	 * Current action mode started via {@link #startActionMode(ActionMode.Callback)}. May be {@code null}
 	 * if no action mode has been started yet or has been already finished.
 	 */
-	private ActionMode mActionMode;
+	private ActionMode actionMode;
 
 	/**
 	 * Delegate for ActionBar obtained from the parent activity of this fragment. This delegate is
 	 * available between calls to {@link #onActivityCreated(Bundle)} and {@link #onDetach()}.
 	 */
-	@VisibleForTesting ActionBarDelegate mActionBarDelegate;
+	@VisibleForTesting ActionBarDelegate actionBarDelegate;
 
 	/*
 	 * Constructors ================================================================================
@@ -123,24 +124,20 @@ public class ActionBarFragment extends BaseFragment {
 
 	/**
 	 */
-	@Override
-	ActionBarFragmentAnnotationHandler onCreateAnnotationHandler() {
+	@Override ActionBarFragmentAnnotationHandler onCreateAnnotationHandler() {
 		return ActionBarAnnotationHandlers.obtainActionBarFragmentHandler(getClass());
 	}
 
 	/**
 	 */
-	@NonNull
-	@Override
-	protected ActionBarFragmentAnnotationHandler getAnnotationHandler() {
+	@Override @NonNull protected ActionBarFragmentAnnotationHandler getAnnotationHandler() {
 		FragmentAnnotations.checkIfEnabledOrThrow();
 		return (ActionBarFragmentAnnotationHandler) annotationHandler;
 	}
 
 	/**
 	 */
-	@Override
-	public void onCreate(@Nullable final Bundle savedInstanceState) {
+	@Override public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		if (annotationHandler != null) {
 			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) this.annotationHandler;
@@ -152,8 +149,7 @@ public class ActionBarFragment extends BaseFragment {
 
 	/**
 	 */
-	@Override
-	public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
+	@Override public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
 		if (annotationHandler == null) {
 			super.onCreateOptionsMenu(menu, inflater);
 			return;
@@ -189,10 +185,9 @@ public class ActionBarFragment extends BaseFragment {
 
 	/**
 	 */
-	@Override
-	public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+	@Override public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.mActionBarDelegate = ActionBarDelegate.create(getActivity());
+		this.actionBarDelegate = ActionBarDelegate.create(getActivity());
 		this.invalidateActionBar();
 	}
 
@@ -201,10 +196,11 @@ public class ActionBarFragment extends BaseFragment {
 	 *
 	 * @return {@code True} if ActionBar obtained from the parent activity is available, {@code false}
 	 * otherwise.
+	 *
 	 * @see #getActionBarDelegate()
 	 */
 	protected final boolean isActionBarAvailable() {
-		return mActionBarDelegate != null;
+		return actionBarDelegate != null;
 	}
 
 	/**
@@ -214,14 +210,14 @@ public class ActionBarFragment extends BaseFragment {
 	 *
 	 * @return Delegate for ActionBar if the parent activity has ActionBar available, {@code null}
 	 * if the ActionBar is not available.
+	 *
 	 * @see #isActionBarAvailable()
 	 */
-	@NonNull
-	protected ActionBarDelegate getActionBarDelegate() {
-		if (mActionBarDelegate == null) {
+	@NonNull protected ActionBarDelegate getActionBarDelegate() {
+		if (actionBarDelegate == null) {
 			throw new IllegalStateException("The parent activity does not have ActionBar presented!");
 		}
-		return mActionBarDelegate;
+		return actionBarDelegate;
 	}
 
 	/**
@@ -236,8 +232,7 @@ public class ActionBarFragment extends BaseFragment {
 	 *                               yet or it has been already detached.
 	 * @see #isActionBarAvailable()
 	 */
-	@Nullable
-	protected ActionBar getActionBar() {
+	@Nullable protected ActionBar getActionBar() {
 		if (activityDelegate == null) {
 			throw new IllegalStateException(
 					"Cannot access ActionBar. " + getClass() + " is not attached " +
@@ -256,8 +251,7 @@ public class ActionBarFragment extends BaseFragment {
 	 * @throws IllegalStateException If this fragment is not attached to its parent activity
 	 *                               yet or it has been already detached.
 	 */
-	@Nullable
-	protected android.support.v7.app.ActionBar getSupportActionBar() {
+	@Nullable protected android.support.v7.app.ActionBar getSupportActionBar() {
 		if (activityDelegate == null) {
 			throw new IllegalStateException(
 					"Cannot access support ActionBar. " + getClass() + " is not attached " +
@@ -278,9 +272,9 @@ public class ActionBarFragment extends BaseFragment {
 	 * additional ActionBar's invalidation.
 	 */
 	public void invalidateActionBar() {
-		if (mActionBarDelegate != null && annotationHandler != null) {
+		if (actionBarDelegate != null && annotationHandler != null) {
 			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) this.annotationHandler;
-			annotationHandler.configureActionBar(mActionBarDelegate);
+			annotationHandler.configureActionBar(actionBarDelegate);
 			if (annotationHandler.hasOptionsMenu()) {
 				setHasOptionsMenu(true);
 			}
@@ -302,6 +296,7 @@ public class ActionBarFragment extends BaseFragment {
 	 * @return {@code True} if action mode has been started, {@code false} if this fragment
 	 * is already in the action mode or the parent activity of this fragment is not available or some
 	 * error occurs.
+	 *
 	 * @see #isInActionMode()
 	 * @see #isAttached()
 	 */
@@ -325,32 +320,32 @@ public class ActionBarFragment extends BaseFragment {
 	 *
 	 * @param actionMode Currently started action mode.
 	 */
-	@CallSuper
-	protected void onActionModeStarted(@NonNull final ActionMode actionMode) {
-		this.mActionMode = actionMode;
+	@CallSuper protected void onActionModeStarted(@NonNull final ActionMode actionMode) {
+		this.actionMode = actionMode;
 	}
 
 	/**
 	 * Returns a boolean flag indicating whether this fragment is in action mode or not.
 	 *
 	 * @return {@code True} if this fragment is in the action mode, {@code false} otherwise.
+	 *
 	 * @see #getActionMode()
 	 * @see #startActionMode(ActionMode.Callback)
 	 */
 	protected boolean isInActionMode() {
-		return mActionMode != null;
+		return actionMode != null;
 	}
 
 	/**
 	 * Returns the current action mode (if started).
 	 *
 	 * @return The current action mode, or {@code null} if this fragment is not in action mode.
+	 *
 	 * @see #isInActionMode()
 	 * @see #startActionMode(ActionMode.Callback)
 	 */
-	@Nullable
-	protected ActionMode getActionMode() {
-		return mActionMode;
+	@Nullable protected ActionMode getActionMode() {
+		return actionMode;
 	}
 
 	/**
@@ -358,11 +353,12 @@ public class ActionBarFragment extends BaseFragment {
 	 *
 	 * @return {@code True} if action mode has been finished, {@code false} if this fragment is not
 	 * in action mode.
+	 *
 	 * @see #isInActionMode()
 	 */
 	protected boolean finishActionMode() {
-		if (mActionMode != null) {
-			mActionMode.finish();
+		if (actionMode != null) {
+			actionMode.finish();
 			return true;
 		}
 		return false;
@@ -377,15 +373,13 @@ public class ActionBarFragment extends BaseFragment {
 	 *
 	 * @see #finishActionMode()
 	 */
-	@CallSuper
-	protected void onActionModeFinished() {
-		this.mActionMode = null;
+	@CallSuper protected void onActionModeFinished() {
+		this.actionMode = null;
 	}
 
 	/**
 	 */
-	@Override
-	protected boolean onBackPress() {
+	@Override protected boolean onBackPress() {
 		return finishActionMode() || super.onBackPress();
 	}
 
@@ -401,6 +395,7 @@ public class ActionBarFragment extends BaseFragment {
 	 * {@link #startActionMode()} is called.
 	 *
 	 * @author Martin Albedinsky
+	 * @since 1.0
 	 */
 	public static class ActionModeCallback implements ActionMode.Callback {
 
@@ -427,8 +422,7 @@ public class ActionBarFragment extends BaseFragment {
 
 		/**
 		 */
-		@Override
-		public boolean onCreateActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
+		@Override public boolean onCreateActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
 			if (fragment == null || !FragmentAnnotations.isEnabled()) {
 				return false;
 			}
@@ -437,15 +431,13 @@ public class ActionBarFragment extends BaseFragment {
 
 		/**
 		 */
-		@Override
-		public boolean onPrepareActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
+		@Override public boolean onPrepareActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
 			return false;
 		}
 
 		/**
 		 */
-		@Override
-		public boolean onActionItemClicked(@NonNull final ActionMode actionMode, @NonNull final MenuItem menuItem) {
+		@Override public boolean onActionItemClicked(@NonNull final ActionMode actionMode, @NonNull final MenuItem menuItem) {
 			if (fragment != null && fragment.onOptionsItemSelected(menuItem)) {
 				actionMode.finish();
 				return true;
@@ -455,8 +447,7 @@ public class ActionBarFragment extends BaseFragment {
 
 		/**
 		 */
-		@Override
-		public void onDestroyActionMode(@NonNull final ActionMode actionMode) {
+		@Override public void onDestroyActionMode(@NonNull final ActionMode actionMode) {
 			if (fragment != null) fragment.onActionModeFinished();
 		}
 	}

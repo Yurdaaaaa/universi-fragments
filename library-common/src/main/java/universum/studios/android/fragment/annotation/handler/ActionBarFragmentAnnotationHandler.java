@@ -36,6 +36,8 @@ import universum.studios.android.fragment.annotation.MenuOptions;
  * <b>ActionBar Fragment</b> classes provided by this library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see ActionBarFragment
  */
 public interface ActionBarFragmentAnnotationHandler extends FragmentAnnotationHandler {
@@ -76,8 +78,7 @@ public interface ActionBarFragmentAnnotationHandler extends FragmentAnnotationHa
 	 *                        or resource is not specified.
 	 * @return Via annotation specified menu resource or <var>defaultResource</var>.
 	 */
-	@MenuRes
-	int getOptionsMenuResource(@MenuRes int defaultResource);
+	@MenuRes int getOptionsMenuResource(@MenuRes int defaultResource);
 
 	/**
 	 * Returns the menu flags obtained from {@link MenuOptions @MenuOptions} annotation (if presented)

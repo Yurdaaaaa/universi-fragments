@@ -35,6 +35,7 @@ import universum.studios.android.logging.SimpleLogger;
  * library by default does not print out any logs.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class FragmentsLogging {
 
@@ -46,8 +47,7 @@ public final class FragmentsLogging {
 	/**
 	 * Logger to which is this logging utility class delegating all log related requests.
 	 */
-	@NonNull
-	private static Logger sLogger = LOGGER;
+	@NonNull private static Logger logger = LOGGER;
 
 	/**
 	 */
@@ -63,7 +63,7 @@ public final class FragmentsLogging {
 	 * @see #getLogger()
 	 */
 	public static void setLogger(@Nullable final Logger logger) {
-		sLogger = logger == null ? LOGGER : logger;
+		FragmentsLogging.logger = logger == null ? LOGGER : logger;
 	}
 
 	/**
@@ -74,104 +74,104 @@ public final class FragmentsLogging {
 	 */
 	@NonNull
 	public static Logger getLogger() {
-		return sLogger;
+		return logger;
 	}
 
 	/**
 	 * Delegates to {@link Logger#d(String, String)}.
 	 */
 	public static void d(@NonNull final String tag, @NonNull final String msg) {
-		sLogger.d(tag, msg);
+		logger.d(tag, msg);
 	}
 
 	/**
 	 * Delegates to {@link Logger#d(String, String, Throwable)}.
 	 */
 	public static void d(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		sLogger.d(tag, msg, tr);
+		logger.d(tag, msg, tr);
 	}
 
 	/**
 	 * Delegates to {@link Logger#v(String, String)}.
 	 */
 	public static void v(@NonNull final String tag, @NonNull final String msg) {
-		sLogger.d(tag, msg);
+		logger.d(tag, msg);
 	}
 
 	/**
 	 * Delegates to {@link Logger#v(String, String, Throwable)}.
 	 */
 	public static void v(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		sLogger.v(tag, msg, tr);
+		logger.v(tag, msg, tr);
 	}
 
 	/**
 	 * Delegates to {@link Logger#i(String, String)}.
 	 */
 	public static void i(@NonNull final String tag, @NonNull final String msg) {
-		sLogger.i(tag, msg);
+		logger.i(tag, msg);
 	}
 
 	/**
 	 * Delegates to {@link Logger#i(String, String, Throwable)}.
 	 */
 	public static void i(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		sLogger.i(tag, msg, tr);
+		logger.i(tag, msg, tr);
 	}
 
 	/**
 	 * Delegates to {@link Logger#w(String, String)}.
 	 */
 	public static void w(@NonNull final String tag, @NonNull final String msg) {
-		sLogger.w(tag, msg);
+		logger.w(tag, msg);
 	}
 
 	/**
 	 * Delegates to {@link Logger#w(String, Throwable)}.
 	 */
 	public static void w(@NonNull final String tag, @Nullable final Throwable tr) {
-		sLogger.w(tag, tr);
+		logger.w(tag, tr);
 	}
 
 	/**
 	 * Delegates to {@link Logger#w(String, String, Throwable)}.
 	 */
 	public static void w(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		sLogger.w(tag, msg, tr);
+		logger.w(tag, msg, tr);
 	}
 
 	/**
 	 * Delegates to {@link Logger#e(String, String)}.
 	 */
 	public static void e(@NonNull final String tag, @NonNull final String msg) {
-		sLogger.e(tag, msg);
+		logger.e(tag, msg);
 	}
 
 	/**
 	 * Delegates to {@link Logger#e(String, String, Throwable)}.
 	 */
 	public static void e(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		sLogger.e(tag, msg, tr);
+		logger.e(tag, msg, tr);
 	}
 
 	/**
 	 * Delegates to {@link Logger#wtf(String, String)}.
 	 */
 	public static void wtf(@NonNull final String tag, @NonNull final String msg) {
-		sLogger.wtf(tag, msg);
+		logger.wtf(tag, msg);
 	}
 
 	/**
 	 * Delegates to {@link Logger#wtf(String, Throwable)}.
 	 */
 	public static void wtf(@NonNull final String tag, @Nullable final Throwable tr) {
-		sLogger.wtf(tag, tr);
+		logger.wtf(tag, tr);
 	}
 
 	/**
 	 * Delegates to {@link Logger#wtf(String, String, Throwable)}.
 	 */
 	public static void wtf(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		sLogger.wtf(tag, msg, tr);
+		logger.wtf(tag, msg, tr);
 	}
 }

@@ -38,6 +38,7 @@ import universum.studios.android.fragment.manage.FragmentItem;
  * <b>base management</b> associated fragments and classes.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 
@@ -54,8 +55,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
-	@Nullable
-	public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull final Class<?> classOfFactory) {
+	@Nullable public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull final Class<?> classOfFactory) {
 		return obtainHandler(FragmentFactoryHandler.class, classOfFactory);
 	}
 
@@ -133,9 +133,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 
 		/**
 		 */
-		@Nullable
-		@Override
-		public SparseArray<FragmentItem> getFragmentItems() {
+		@Override @Nullable public SparseArray<FragmentItem> getFragmentItems() {
 			return items;
 		}
 	}

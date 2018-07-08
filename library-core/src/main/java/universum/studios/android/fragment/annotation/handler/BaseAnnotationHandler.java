@@ -28,6 +28,7 @@ import universum.studios.android.fragment.annotation.FragmentAnnotations;
  * An {@link AnnotationHandler} base implementation.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 abstract class BaseAnnotationHandler implements AnnotationHandler {
 
@@ -55,7 +56,7 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	/**
 	 * Class for which has been this handler created.
 	 */
-	final Class<?> mAnnotatedClass;
+	final Class<?> annotatedClass;
 
 	/*
 	 * Constructors ================================================================================
@@ -67,7 +68,7 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	 * @param annotatedClass The class of which annotations processing should the new handler handle.
 	 */
 	BaseAnnotationHandler(@NonNull final Class<?> annotatedClass) {
-		this.mAnnotatedClass = annotatedClass;
+		this.annotatedClass = annotatedClass;
 	}
 
 	/*
@@ -76,22 +77,20 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 
 	/**
 	 */
-	@NonNull
-	@Override
-	public final Class<?> getAnnotatedClass() {
-		return mAnnotatedClass;
+	@Override @NonNull public final Class<?> getAnnotatedClass() {
+		return annotatedClass;
 	}
 
 	/**
 	 * Delegates to {@link FragmentAnnotations#obtainAnnotationFrom(Class, Class, Class)
-	 * FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, mAnnotatedClass, null)}.
+	 * FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, annotatedClass, null)}.
 	 *
 	 * @param classOfAnnotation Class of the annotation to find.
 	 * @param <A>               Type of the annotation to find.
 	 * @return Found annotation or {@code null} if there is no such annotation presented.
 	 */
 	final <A extends Annotation> A findAnnotation(final Class<A> classOfAnnotation) {
-		return FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, mAnnotatedClass, null);
+		return FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, annotatedClass, null);
 	}
 
 	/*

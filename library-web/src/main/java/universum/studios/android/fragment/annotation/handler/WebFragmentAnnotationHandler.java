@@ -30,6 +30,8 @@ import universum.studios.android.fragment.annotation.WebContent;
  * from {@link WebFragment} class provided by this library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see WebFragment
  */
 public interface WebFragmentAnnotationHandler extends ActionBarFragmentAnnotationHandler {
@@ -42,8 +44,7 @@ public interface WebFragmentAnnotationHandler extends ActionBarFragmentAnnotatio
 	 *                     presented or resource id is not specified.
 	 * @return Via annotation specified web content resource id or <var>defaultResId</var>.
 	 */
-	@StringRes
-	int getWebContentResId(@StringRes int defaultResId);
+	@StringRes int getWebContentResId(@StringRes int defaultResId);
 
 	/**
 	 * Returns the web content string obtained from {@link WebContent @WebContent} annotation
@@ -53,6 +54,5 @@ public interface WebFragmentAnnotationHandler extends ActionBarFragmentAnnotatio
 	 *                       content is not specified.
 	 * @return Via annotation specified web content or <var>defaultContent</var>.
 	 */
-	@Nullable
-	String getWebContent(@Nullable String defaultContent);
+	@Nullable String getWebContent(@Nullable String defaultContent);
 }

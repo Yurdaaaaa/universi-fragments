@@ -29,6 +29,7 @@ import android.support.annotation.NonNull;
  * The attached class may be obtained via {@link #getAnnotatedClass()}.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public interface AnnotationHandler {
 
@@ -37,6 +38,5 @@ public interface AnnotationHandler {
 	 *
 	 * @return Annotated class attached to this handler.
 	 */
-	@NonNull
-	Class<?> getAnnotatedClass();
+	@NonNull Class<?> getAnnotatedClass();
 }

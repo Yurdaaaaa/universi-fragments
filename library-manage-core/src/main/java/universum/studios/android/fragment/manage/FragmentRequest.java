@@ -73,6 +73,8 @@ import java.util.List;
  * <b>Note, that each fragment request may be executed only once.</b>
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see FragmentController
  * @see FragmentRequestInterceptor
  */
@@ -177,8 +179,7 @@ public final class FragmentRequest {
 			ATTACH, DETACH
 	})
 	@Retention(RetentionPolicy.SOURCE)
-	public @interface Transaction {
-	}
+	public @interface Transaction {}
 
 	/**
 	 * Flag indicating that a same fragment (currently displayed) can be replaced by the associated fragment.
@@ -219,36 +220,35 @@ public final class FragmentRequest {
 			IMMEDIATE
 	})
 	@Retention(RetentionPolicy.SOURCE)
-	private @interface Flag {
-	}
+	private @interface Flag {}
 
 	/**
-	 * Flag indicating whether {@link #mEnterTransition} has been specified or not.
+	 * Flag indicating whether {@link #enterTransition} has been specified or not.
 	 */
 	static final int TRANSITION_ENTER = 0x00000001;
 
 	/**
-	 * Flag indicating whether {@link #mExitTransition} has been specified or not.
+	 * Flag indicating whether {@link #exitTransition} has been specified or not.
 	 */
 	static final int TRANSITION_EXIT = 0x00000001 << 1;
 
 	/**
-	 * Flag indicating whether {@link #mReenterTransition} has been specified or not.
+	 * Flag indicating whether {@link #reenterTransition} has been specified or not.
 	 */
 	static final int TRANSITION_REENTER = 0x00000001 << 2;
 
 	/**
-	 * Flag indicating whether {@link #mReturnTransition} has been specified or not.
+	 * Flag indicating whether {@link #returnTransition} has been specified or not.
 	 */
 	static final int TRANSITION_RETURN = 0x00000001 << 3;
 
 	/**
-	 * Flag indicating whether {@link #mSharedElementEnterTransition} has been specified or not.
+	 * Flag indicating whether {@link #sharedElementEnterTransition} has been specified or not.
 	 */
 	static final int TRANSITION_SHARED_ELEMENT_ENTER = 0x00000001 << 4;
 
 	/**
-	 * Flag indicating whether {@link #mSharedElementReturnTransition} has been specified or not.
+	 * Flag indicating whether {@link #sharedElementReturnTransition} has been specified or not.
 	 */
 	static final int TRANSITION_SHARED_ELEMENT_RETURN = 0x00000001 << 5;
 
@@ -264,8 +264,7 @@ public final class FragmentRequest {
 			TRANSITION_SHARED_ELEMENT_RETURN
 	})
 	@Retention(RetentionPolicy.SOURCE)
-	private @interface TransitionFlag {
-	}
+	private @interface TransitionFlag {}
 
 	/*
 	 * Interface ===================================================================================
@@ -285,146 +284,143 @@ public final class FragmentRequest {
 	 *
 	 * @see #execute()
 	 */
-	private final FragmentController mController;
+	private final FragmentController controller;
 
 	/**
 	 * Fragment instance associated with this request.
 	 */
-	Fragment mFragment;
+	Fragment fragment;
 
 	/**
 	 * Id of the associated fragment.
 	 */
-	int mFragmentId = NO_ID;
+	int fragmentId = NO_ID;
 
 	/**
 	 * Id of the outgoing fragment that will be replaced by the associated fragment.
 	 */
-	private int mOutgoingFragmentId = NO_ID;
+	private int outgoingFragmentId = NO_ID;
 
 	/**
 	 * Arguments for the associated fragment.
 	 *
 	 * @see Fragment#setArguments(Bundle)
 	 */
-	Bundle mArguments;
+	Bundle arguments;
 
 	/**
 	 * Type determining what {@link FragmentTransaction} to perform for the associated fragment.
 	 *
 	 * @see Transaction @Transaction
 	 */
-	@Transaction
-	int mTransaction = REPLACE;
+	@Transaction int transaction = REPLACE;
 
 	/**
 	 * Tag for the associated fragment.
 	 */
-	String mTag;
+	String tag;
 
 	/**
 	 * Id of a view container where to place view hierarchy of the associated fragment.
 	 */
-	int mViewContainerId = FragmentController.NO_CONTAINER_ID;
+	int viewContainerId = FragmentController.NO_CONTAINER_ID;
 
 	/**
 	 * Transition object specifying transition resources for the associated {@link FragmentTransaction}.
 	 *
 	 * @see FragmentTransaction#setCustomAnimations(int, int, int, int)
 	 */
-	FragmentTransition mTransition;
+	FragmentTransition transition;
 
 	/**
 	 * Resource id of the style containing transitions used to animate fragment.
 	 *
 	 * @see FragmentTransaction#setTransitionStyle(int)
 	 */
-	int mTransitionStyle = -1;
+	int transitionStyle = -1;
 
 	/**
 	 * Enter transition the associated fragment.
 	 *
 	 * @see Fragment#setEnterTransition(Transition)
 	 */
-	Transition mEnterTransition;
+	Transition enterTransition;
 
 	/**
 	 * Exit transition the associated fragment.
 	 *
 	 * @see Fragment#setExitTransition(Transition)
 	 */
-	Transition mExitTransition;
+	Transition exitTransition;
 
 	/**
 	 * Reenter transition the associated fragment.
 	 *
 	 * @see Fragment#setReenterTransition(Transition)
 	 */
-	Transition mReenterTransition;
+	Transition reenterTransition;
 
 	/**
 	 * Return transition the associated fragment.
 	 *
 	 * @see Fragment#setReturnTransition(Transition)
 	 */
-	Transition mReturnTransition;
+	Transition returnTransition;
 
 	/**
 	 * Shared element's enter transition the associated fragment.
 	 *
 	 * @see Fragment#setSharedElementEnterTransition(Transition)
 	 */
-	Transition mSharedElementEnterTransition;
+	Transition sharedElementEnterTransition;
 
 	/**
 	 * Shared element's return transition the associated fragment.
 	 *
 	 * @see Fragment#setSharedElementReturnTransition(Transition)
 	 */
-	Transition mSharedElementReturnTransition;
+	Transition sharedElementReturnTransition;
 
 	/**
 	 * Transition flags determining which transitions has been specified for this request.
 	 *
 	 * @see TransitionFlag @TransitionFlag
 	 */
-	@TransitionFlag
-	private int mSpecifiedTransitions;
+	@TransitionFlag private int specifiedTransitions;
 
 	/**
 	 * Flag indicating whether enter transition for the associated fragment can overlap or not.
 	 *
 	 * @see Fragment#setAllowReturnTransitionOverlap(boolean)
 	 */
-	Boolean mAllowEnterTransitionOverlap;
+	Boolean allowEnterTransitionOverlap;
 
 	/**
 	 * Flag indicating whether return transition for the associated fragment can overlap or not.
 	 *
 	 * @see Fragment#setAllowEnterTransitionOverlap(boolean)
 	 */
-	Boolean mAllowReturnTransitionOverlap;
+	Boolean allowReturnTransitionOverlap;
 
 	/**
 	 * Set of shared elements for the associated fragment.
 	 *
 	 * @see FragmentTransaction#addSharedElement(View, String)
 	 */
-	List<Pair<View, String>> mSharedElements;
+	List<Pair<View, String>> sharedElements;
 
 	/**
 	 * Flags specified for this request.
 	 *
 	 * @see Flag @Flag
 	 */
-	@Flag
-	private int mFlags;
+	@Flag private int flags;
 
 	/**
 	 * Boolean flag indicating whether this request has been already executed via {@link #execute()}
 	 * or not.
 	 */
-	private boolean mExecuted;
+	private boolean executed;
 
 	/*
 	 * Constructors ============================================================================
@@ -439,7 +435,7 @@ public final class FragmentRequest {
 	 */
 	FragmentRequest(final FragmentController controller, int fragmentId) {
 		this(controller, null);
-		this.mFragmentId = fragmentId;
+		this.fragmentId = fragmentId;
 	}
 
 	/**
@@ -450,8 +446,8 @@ public final class FragmentRequest {
 	 * @param fragment   The fragment to associate with the new request.
 	 */
 	FragmentRequest(final FragmentController controller, final Fragment fragment) {
-		this.mController = controller;
-		this.mFragment = fragment;
+		this.controller = controller;
+		this.fragment = fragment;
 	}
 
 	/*
@@ -460,26 +456,25 @@ public final class FragmentRequest {
 
 	/**
 	 */
-	@Override
 	@SuppressWarnings("StringBufferReplaceableByString")
-	public String toString() {
+	@Override public String toString() {
 		final StringBuilder builder = new StringBuilder(128);
 		builder.append("FragmentRequest{fragmentId: ");
-		builder.append(mFragmentId);
+		builder.append(fragmentId);
 		builder.append(", outgoingFragmentId: ");
-		builder.append(mOutgoingFragmentId);
+		builder.append(outgoingFragmentId);
 		builder.append(", arguments: ");
-		builder.append(mArguments);
+		builder.append(arguments);
 		builder.append(", transactionType: ");
-		builder.append(mTransition);
+		builder.append(transition);
 		builder.append(", tag: ");
-		builder.append(mTag);
+		builder.append(tag);
 		builder.append(", viewContainerId: ");
-		builder.append(mViewContainerId);
+		builder.append(viewContainerId);
 		builder.append(", transition: ");
-		builder.append(mTransition == null ? "null" : mTransition.getName());
+		builder.append(transition == null ? "null" : transition.getName());
 		builder.append(", transitionStyle: ");
-		builder.append(mTransitionStyle);
+		builder.append(transitionStyle);
 		builder.append(", replaceSame: ");
 		builder.append(hasFlag(REPLACE_SAME));
 		builder.append(", addToBackStack: ");
@@ -489,7 +484,7 @@ public final class FragmentRequest {
 		builder.append(", immediate: ");
 		builder.append(hasFlag(IMMEDIATE));
 		builder.append(", executed: ");
-		builder.append(mExecuted);
+		builder.append(executed);
 		return builder.append("}").toString();
 	}
 
@@ -497,11 +492,11 @@ public final class FragmentRequest {
 	 * Returns the fragment instance associated with this request.
 	 *
 	 * @return This request's fragment.
+	 *
 	 * @see FragmentController#newRequest(Fragment)
 	 */
-	@NonNull
-	public Fragment fragment() {
-		return mFragment;
+	@NonNull public Fragment fragment() {
+		return fragment;
 	}
 
 	/**
@@ -512,11 +507,12 @@ public final class FragmentRequest {
 	 *
 	 * @param fragmentId The desired fragment id.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #fragmentId()
 	 * @see #outgoingFragmentId(int)
 	 */
 	public FragmentRequest fragmentId(final int fragmentId) {
-		this.mFragmentId = fragmentId;
+		this.fragmentId = fragmentId;
 		return this;
 	}
 
@@ -526,10 +522,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@link #NO_ID}</b>
 	 *
 	 * @return Fragment id or {@link #NO_ID} if no id has been specified.
+	 *
 	 * @see #fragmentId(int)
 	 */
 	public int fragmentId() {
-		return mFragmentId;
+		return fragmentId;
 	}
 
 	/**
@@ -541,11 +538,12 @@ public final class FragmentRequest {
 	 *
 	 * @param fragmentId The desired fragment id.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #outgoingFragmentId()
 	 * @see #fragmentId(int)
 	 */
 	public FragmentRequest outgoingFragmentId(final int fragmentId) {
-		this.mOutgoingFragmentId = fragmentId;
+		this.outgoingFragmentId = fragmentId;
 		return this;
 	}
 
@@ -555,10 +553,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@link #NO_ID}</b>
 	 *
 	 * @return Fragment id or {@link #NO_ID} if no id has been specified.
+	 *
 	 * @see #outgoingFragmentId(int)
 	 */
 	public int outgoingFragmentId() {
-		return mOutgoingFragmentId;
+		return outgoingFragmentId;
 	}
 
 	/**
@@ -566,11 +565,12 @@ public final class FragmentRequest {
 	 *
 	 * @param arguments The desired arguments for fragment. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see Fragment#setArguments(Bundle)
 	 * @see #arguments()
 	 */
 	public FragmentRequest arguments(@Nullable final Bundle arguments) {
-		this.mArguments = arguments;
+		this.arguments = arguments;
 		return this;
 	}
 
@@ -580,11 +580,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Arguments for fragment or {@code null} if no arguments have been specified yet.
+	 *
 	 * @see #arguments(Bundle)
 	 */
-	@Nullable
-	public Bundle arguments() {
-		return mArguments;
+	@Nullable public Bundle arguments() {
+		return arguments;
 	}
 
 	/**
@@ -594,10 +594,11 @@ public final class FragmentRequest {
 	 * @param transaction The desired transaction type. One of types defined by {@link Transaction @Transaction}
 	 *                    annotation.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #transaction()
 	 */
 	public FragmentRequest transaction(@Transaction final int transaction) {
-		this.mTransaction = transaction;
+		this.transaction = transaction;
 		return this;
 	}
 
@@ -609,9 +610,8 @@ public final class FragmentRequest {
 	 * @return One of transaction types defined by {@link Transaction @Transaction} annotation.
 	 * @see #transaction(int)
 	 */
-	@Transaction
-	public int transaction() {
-		return mTransaction;
+	@Transaction public int transaction() {
+		return transaction;
 	}
 
 	/**
@@ -619,11 +619,12 @@ public final class FragmentRequest {
 	 *
 	 * @param fragmentTag The desired fragment tag. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #tag()
 	 * @see Fragment#getTag()
 	 */
 	public FragmentRequest tag(@Nullable final String fragmentTag) {
-		this.mTag = fragmentTag;
+		this.tag = fragmentTag;
 		return this;
 	}
 
@@ -633,11 +634,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Tag for the associated fragment to be shown using these options.
+	 *
 	 * @see #tag(String)
 	 */
-	@Nullable
-	public String tag() {
-		return mTag;
+	@Nullable public String tag() {
+		return tag;
 	}
 
 	/**
@@ -645,10 +646,11 @@ public final class FragmentRequest {
 	 *
 	 * @param containerId The desired view container id.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #viewContainerId()
 	 */
 	public FragmentRequest viewContainerId(@IdRes final int containerId) {
-		this.mViewContainerId = containerId;
+		this.viewContainerId = containerId;
 		return this;
 	}
 
@@ -660,11 +662,11 @@ public final class FragmentRequest {
 	 *
 	 * @return View container id or {@link FragmentController#NO_CONTAINER_ID NO_CONTAINER_ID} if no
 	 * id has been specified.
+	 *
 	 * @see #viewContainerId(int)
 	 */
-	@IdRes
-	public int viewContainerId() {
-		return mViewContainerId;
+	@IdRes public int viewContainerId() {
+		return viewContainerId;
 	}
 
 	/**
@@ -673,11 +675,12 @@ public final class FragmentRequest {
 	 *
 	 * @param transition Transition providing animation resources.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see FragmentTransaction#setCustomAnimations(int, int, int, int)
 	 * @see #transition()
 	 */
 	public FragmentRequest transition(@Nullable final FragmentTransition transition) {
-		this.mTransition = transition;
+		this.transition = transition;
 		return this;
 	}
 
@@ -689,9 +692,8 @@ public final class FragmentRequest {
 	 * @return Transition with animation resources used to animate change of view between incoming
 	 * and outgoing fragment.
 	 */
-	@Nullable
-	public FragmentTransition transition() {
-		return mTransition;
+	@Nullable public FragmentTransition transition() {
+		return transition;
 	}
 
 	/**
@@ -700,11 +702,12 @@ public final class FragmentRequest {
 	 *
 	 * @param transitionStyle Resource id of the desired style.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see FragmentTransaction#setTransitionStyle(int)
 	 * @see #transitionStyle()
 	 */
 	public FragmentRequest transitionStyle(@StyleRes final int transitionStyle) {
-		this.mTransitionStyle = transitionStyle;
+		this.transitionStyle = transitionStyle;
 		return this;
 	}
 
@@ -715,9 +718,8 @@ public final class FragmentRequest {
 	 *
 	 * @return Transition style resource or {@link #NO_STYLE} if no style has been specified.
 	 */
-	@StyleRes
-	public int transitionStyle() {
-		return mTransitionStyle;
+	@StyleRes public int transitionStyle() {
+		return transitionStyle;
 	}
 
 	/**
@@ -725,12 +727,13 @@ public final class FragmentRequest {
 	 *
 	 * @param transition The desired enter transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #enterTransition()
 	 * @see Fragment#setEnterTransition(Transition)
 	 */
 	public FragmentRequest enterTransition(@Nullable final Transition transition) {
-		this.mSpecifiedTransitions |= TRANSITION_ENTER;
-		this.mEnterTransition = transition;
+		this.specifiedTransitions |= TRANSITION_ENTER;
+		this.enterTransition = transition;
 		return this;
 	}
 
@@ -740,11 +743,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no enter transition has been specified yet.
+	 *
 	 * @see #enterTransition(Transition)
 	 */
-	@Nullable
-	public Transition enterTransition() {
-		return mEnterTransition;
+	@Nullable public Transition enterTransition() {
+		return enterTransition;
 	}
 
 	/**
@@ -752,12 +755,13 @@ public final class FragmentRequest {
 	 *
 	 * @param transition The desired exit transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #exitTransition()
 	 * @see Fragment#setExitTransition(Transition)
 	 */
 	public FragmentRequest exitTransition(@Nullable final Transition transition) {
-		this.mSpecifiedTransitions |= TRANSITION_EXIT;
-		this.mExitTransition = transition;
+		this.specifiedTransitions |= TRANSITION_EXIT;
+		this.exitTransition = transition;
 		return this;
 	}
 
@@ -767,11 +771,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no exit transition has been specified yet.
+	 *
 	 * @see #exitTransition(Transition)
 	 */
-	@Nullable
-	public Transition exitTransition() {
-		return mExitTransition;
+	@Nullable public Transition exitTransition() {
+		return exitTransition;
 	}
 
 	/**
@@ -779,12 +783,13 @@ public final class FragmentRequest {
 	 *
 	 * @param transition The desired reenter transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #reenterTransition()
 	 * @see Fragment#setReenterTransition(Transition)
 	 */
 	public FragmentRequest reenterTransition(@Nullable final Transition transition) {
-		this.mSpecifiedTransitions |= TRANSITION_REENTER;
-		this.mReenterTransition = transition;
+		this.specifiedTransitions |= TRANSITION_REENTER;
+		this.reenterTransition = transition;
 		return this;
 	}
 
@@ -794,11 +799,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no reenter transition has been specified yet.
+	 *
 	 * @see #reenterTransition(Transition)
 	 */
-	@Nullable
-	public Transition reenterTransition() {
-		return mReenterTransition;
+	@Nullable public Transition reenterTransition() {
+		return reenterTransition;
 	}
 
 	/**
@@ -806,12 +811,13 @@ public final class FragmentRequest {
 	 *
 	 * @param transition The desired return transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #exitTransition()
 	 * @see Fragment#setReturnTransition(Transition)
 	 */
 	public FragmentRequest returnTransition(@Nullable final Transition transition) {
-		this.mSpecifiedTransitions |= TRANSITION_RETURN;
-		this.mReturnTransition = transition;
+		this.specifiedTransitions |= TRANSITION_RETURN;
+		this.returnTransition = transition;
 		return this;
 	}
 
@@ -821,11 +827,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no return transition has been specified yet.
+	 *
 	 * @see #returnTransition(Transition)
 	 */
-	@Nullable
-	public Transition returnTransition() {
-		return mReturnTransition;
+	@Nullable public Transition returnTransition() {
+		return returnTransition;
 	}
 
 	/**
@@ -834,11 +840,12 @@ public final class FragmentRequest {
 	 *
 	 * @param allowOverlap {@code True} to allow enter transition overlapping, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see Fragment#setAllowEnterTransitionOverlap(boolean)
 	 * @see #allowEnterTransitionOverlap()
 	 */
 	public FragmentRequest allowEnterTransitionOverlap(final boolean allowOverlap) {
-		this.mAllowEnterTransitionOverlap = allowOverlap;
+		this.allowEnterTransitionOverlap = allowOverlap;
 		return this;
 	}
 
@@ -849,10 +856,11 @@ public final class FragmentRequest {
 	 *
 	 * @return {@code True} if overlapping for enter transition is allowed, {@code false} otherwise
 	 * or {@code null} if this option has not been specified yet.
+	 *
 	 * @see #allowEnterTransitionOverlap(boolean)
 	 */
 	public Boolean allowEnterTransitionOverlap() {
-		return mAllowEnterTransitionOverlap;
+		return allowEnterTransitionOverlap;
 	}
 
 	/**
@@ -861,11 +869,12 @@ public final class FragmentRequest {
 	 *
 	 * @param allowOverlap {@code True} to allow return transition overlapping, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see Fragment#setAllowReturnTransitionOverlap(boolean)
 	 * @see #allowReturnTransitionOverlap()
 	 */
 	public FragmentRequest allowReturnTransitionOverlap(final boolean allowOverlap) {
-		this.mAllowReturnTransitionOverlap = allowOverlap;
+		this.allowReturnTransitionOverlap = allowOverlap;
 		return this;
 	}
 
@@ -876,10 +885,11 @@ public final class FragmentRequest {
 	 *
 	 * @return {@code True} if overlapping for return transition is allowed, {@code false} otherwise
 	 * or {@code null} if this option has not been specified yet.
+	 *
 	 * @see #allowReturnTransitionOverlap(boolean)
 	 */
 	public Boolean allowReturnTransitionOverlap() {
-		return mAllowReturnTransitionOverlap;
+		return allowReturnTransitionOverlap;
 	}
 
 	/**
@@ -887,14 +897,14 @@ public final class FragmentRequest {
 	 *
 	 * @param elements The desired shared elements pairs.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #sharedElement(View, String)
 	 */
-	@SafeVarargs
-	public final FragmentRequest sharedElements(@NonNull final Pair<View, String>... elements) {
-		if (mSharedElements == null) {
-			this.mSharedElements = new ArrayList<>(elements.length);
+	@SafeVarargs public final FragmentRequest sharedElements(@NonNull final Pair<View, String>... elements) {
+		if (sharedElements == null) {
+			this.sharedElements = new ArrayList<>(elements.length);
 		}
-		this.mSharedElements.addAll(Arrays.asList(elements));
+		this.sharedElements.addAll(Arrays.asList(elements));
 		return this;
 	}
 
@@ -906,14 +916,15 @@ public final class FragmentRequest {
 	 * @param element     The view to be shared via transition.
 	 * @param elementName The name of the shared element.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #sharedElements(Pair[])
 	 * @see FragmentTransaction#addSharedElement(View, String)
 	 */
 	public FragmentRequest sharedElement(@NonNull final View element, @NonNull final String elementName) {
-		if (mSharedElements == null) {
-			this.mSharedElements = new ArrayList<>(1);
+		if (sharedElements == null) {
+			this.sharedElements = new ArrayList<>(1);
 		}
-		this.mSharedElements.add(new Pair<>(element, elementName));
+		this.sharedElements.add(new Pair<>(element, elementName));
 		return this;
 	}
 
@@ -921,12 +932,12 @@ public final class FragmentRequest {
 	 * Returns a list of all shared elements specified for this request.
 	 *
 	 * @return List of shared elements or {@code null} if there are no shared elements specified.
+	 *
 	 * @see #sharedElement(View, String)
 	 * @see #sharedElements(Pair[])
 	 */
-	@Nullable
-	public List<Pair<View, String>> sharedElements() {
-		return mSharedElements;
+	@Nullable public List<Pair<View, String>> sharedElements() {
+		return sharedElements;
 	}
 
 	/**
@@ -936,12 +947,12 @@ public final class FragmentRequest {
 	 * this request.
 	 *
 	 * @return Single shared element or {@code null} if there are no shared elements specified.
+	 *
 	 * @see #sharedElements()
 	 * @see #sharedElement(View, String)
 	 */
-	@Nullable
-	public Pair<View, String> singleSharedElement() {
-		return mSharedElements == null || mSharedElements.isEmpty() ? null : mSharedElements.get(0);
+	@Nullable public Pair<View, String> singleSharedElement() {
+		return sharedElements == null || sharedElements.isEmpty() ? null : sharedElements.get(0);
 	}
 
 	/**
@@ -949,12 +960,13 @@ public final class FragmentRequest {
 	 *
 	 * @param transition The desired shared elements's enter transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #sharedElementEnterTransition()
 	 * @see Fragment#setSharedElementEnterTransition(Transition)
 	 */
 	public FragmentRequest sharedElementEnterTransition(@Nullable final Transition transition) {
-		this.mSpecifiedTransitions |= TRANSITION_SHARED_ELEMENT_ENTER;
-		this.mSharedElementEnterTransition = transition;
+		this.specifiedTransitions |= TRANSITION_SHARED_ELEMENT_ENTER;
+		this.sharedElementEnterTransition = transition;
 		return this;
 	}
 
@@ -964,11 +976,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no shared element enter transition has been specified yet.
+	 *
 	 * @see #sharedElementEnterTransition(Transition)
 	 */
-	@Nullable
-	public Transition sharedElementEnterTransition() {
-		return mSharedElementEnterTransition;
+	@Nullable public Transition sharedElementEnterTransition() {
+		return sharedElementEnterTransition;
 	}
 
 	/**
@@ -976,12 +988,13 @@ public final class FragmentRequest {
 	 *
 	 * @param transition The desired shared elements's return transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #sharedElementEnterTransition()
 	 * @see Fragment#setSharedElementReturnTransition(Transition)
 	 */
 	public FragmentRequest sharedElementReturnTransition(@Nullable final Transition transition) {
-		this.mSpecifiedTransitions |= TRANSITION_SHARED_ELEMENT_RETURN;
-		this.mSharedElementReturnTransition = transition;
+		this.specifiedTransitions |= TRANSITION_SHARED_ELEMENT_RETURN;
+		this.sharedElementReturnTransition = transition;
 		return this;
 	}
 
@@ -991,11 +1004,11 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no shared element return transition has been specified yet.
+	 *
 	 * @see #sharedElementReturnTransition(Transition)
 	 */
-	@Nullable
-	public Transition sharedElementReturnTransition() {
-		return mSharedElementReturnTransition;
+	@Nullable public Transition sharedElementReturnTransition() {
+		return sharedElementReturnTransition;
 	}
 
 	/**
@@ -1009,7 +1022,7 @@ public final class FragmentRequest {
 	 * @return {@code True} if transition has been specified, {@code false} otherwise.
 	 */
 	boolean hasTransition(@TransitionFlag final int transitionFlag) {
-		return (mSpecifiedTransitions & transitionFlag) != 0;
+		return (specifiedTransitions & transitionFlag) != 0;
 	}
 
 	/**
@@ -1019,6 +1032,7 @@ public final class FragmentRequest {
 	 * @param replace {@code True} to replace an existing fragment with the same TAG as specified
 	 *                via {@link #tag(String)} with the associated one, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see #replaceSame()
 	 */
 	public FragmentRequest replaceSame(final boolean replace) {
@@ -1033,6 +1047,7 @@ public final class FragmentRequest {
 	 *
 	 * @return {@code True} if already displayed fragment with the same TAG may be replaced, {@code false}
 	 * otherwise.
+	 *
 	 * @see #replaceSame(boolean)
 	 */
 	public boolean replaceSame() {
@@ -1045,6 +1060,7 @@ public final class FragmentRequest {
 	 *
 	 * @param add {@code True} to add fragment into back stack, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see FragmentTransaction#addToBackStack(String)
 	 * @see #addToBackStack()
 	 */
@@ -1058,6 +1074,7 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code false}</b>
 	 *
 	 * @return {@code True} if to add the associated fragment into back stack, {@code false} otherwise.
+	 *
 	 * @see #addToBackStack(boolean)
 	 */
 	public boolean addToBackStack() {
@@ -1070,6 +1087,7 @@ public final class FragmentRequest {
 	 *
 	 * @param allow {@code True} to allow state loss when committing transaction, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see FragmentTransaction#commitAllowingStateLoss()
 	 * @see #allowStateLoss()
 	 */
@@ -1083,6 +1101,7 @@ public final class FragmentRequest {
 	 * Default value: <b>{@code false}</b>
 	 *
 	 * @return {@code True} if transaction may be committed allowing state loss, {@code false} otherwise.
+	 *
 	 * @see #allowStateLoss(boolean)
 	 */
 	public boolean allowStateLoss() {
@@ -1096,6 +1115,7 @@ public final class FragmentRequest {
 	 * @param immediate {@code True} to execute immediately (synchronously), {@code false} otherwise
 	 *                  (asynchronously).
 	 * @return This request to allow methods chaining.
+	 *
 	 * @see FragmentManager#executePendingTransactions()
 	 * @see #immediate()
 	 */
@@ -1110,6 +1130,7 @@ public final class FragmentRequest {
 	 *
 	 * @return {@code True} if fragment transaction should be executed immediately (synchronously),
 	 * {@code false} otherwise (asynchronously).
+	 *
 	 * @see #immediate(boolean)
 	 */
 	public boolean immediate() {
@@ -1125,8 +1146,8 @@ public final class FragmentRequest {
 	 * @return This request to allow methods chaining.
 	 */
 	private FragmentRequest setHasFlag(@Flag final int flag, final boolean has) {
-		if (has) this.mFlags |= flag;
-		else this.mFlags &= ~flag;
+		if (has) this.flags |= flag;
+		else this.flags &= ~flag;
 		return this;
 	}
 
@@ -1137,7 +1158,7 @@ public final class FragmentRequest {
 	 * @return {@code True} if flag is registered, {@code false} otherwise.
 	 */
 	boolean hasFlag(@Flag final int flag) {
-		return (mFlags & flag) != 0;
+		return (flags & flag) != 0;
 	}
 
 	/**
@@ -1155,13 +1176,12 @@ public final class FragmentRequest {
 	 *                                  {@link #REPLACE} or {@link #ADD} cannot be executed without
 	 *                                  view container id specified.
 	 */
-	@Nullable
-	public Fragment execute() {
+	@Nullable public Fragment execute() {
 		this.assertNotExecuted();
-		switch (mTransaction) {
+		switch (transaction) {
 			case REPLACE:
 			case ADD:
-				if (mViewContainerId == FragmentController.NO_CONTAINER_ID) {
+				if (viewContainerId == FragmentController.NO_CONTAINER_ID) {
 					throw new IllegalArgumentException("Cannot execute request for REPLACE|ADD transaction. No view container id specified!");
 				}
 			case REMOVE:
@@ -1170,8 +1190,8 @@ public final class FragmentRequest {
 			case ATTACH:
 			case DETACH:
 			default:
-				final Fragment fragment = mController.executeRequest(this);
-				this.mExecuted = true;
+				final Fragment fragment = controller.executeRequest(this);
+				this.executed = true;
 				return fragment;
 		}
 	}
@@ -1181,7 +1201,7 @@ public final class FragmentRequest {
 	 * thrown.
 	 */
 	private void assertNotExecuted() {
-		if (mExecuted) throw new IllegalStateException("Already executed!");
+		if (executed) throw new IllegalStateException("Already executed!");
 	}
 
 	/**
@@ -1191,7 +1211,7 @@ public final class FragmentRequest {
 	 * otherwise.
 	 */
 	public boolean executed() {
-		return mExecuted;
+		return executed;
 	}
 
 	/*

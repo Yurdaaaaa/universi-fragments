@@ -57,10 +57,13 @@ public abstract class ActivityDelegate {
 	 */
 
 	/**
+	 * <b>This field has been deprecated and will be made private in version 1.4.0.</b>
+	 * <p>
 	 * Wrapped activity instance to which will be this delegate delegating its calls.
 	 *
-	 * todo: deprecate and create getActivity() method ... and then make package protected ...
+	 * @deprecated Use {@link #getActivity()} instead.
 	 */
+	@Deprecated
 	@NonNull protected final Activity mActivity;
 
 	/*
@@ -92,6 +95,17 @@ public abstract class ActivityDelegate {
 			return new AppCompatImpl((AppCompatActivity) activity);
 		}
 		return new Impl(activity);
+	}
+
+	/**
+	 * Returns the activity this delegate for created for.
+	 *
+	 * @return This delegate's activity.
+	 *
+	 * @see #ActivityDelegate(Activity)
+	 */
+	@NonNull protected final Activity getActivity() {
+		return mActivity;
 	}
 
 	/**

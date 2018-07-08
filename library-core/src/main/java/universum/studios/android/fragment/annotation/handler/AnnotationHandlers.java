@@ -31,6 +31,7 @@ import universum.studios.android.fragment.annotation.FragmentAnnotations;
  * Fragments library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public abstract class AnnotationHandlers {
 
@@ -65,7 +66,7 @@ public abstract class AnnotationHandlers {
 	 * Map with annotation handlers where each handler is mapped to a particular class for which
 	 * has been that handler instantiated.
 	 */
-	private static Map<Class<?>, Object> sHandlers;
+	private static Map<Class<?>, Object> handlers;
 
 	/*
 	 * Members =====================================================================================
@@ -102,21 +103,21 @@ public abstract class AnnotationHandlers {
 	 * is disabled for the Fragments library.
 	 * @throws ClassCastException If there is already an annotation handler instantiated for the
 	 *                            specified annotated class but it is of different type as requested.
+	 *
 	 * @see FragmentAnnotations#isEnabled()
 	 */
-	@Nullable
 	@SuppressWarnings({"unchecked", "ConstantConditions"})
-	public static <T extends AnnotationHandler> T obtainHandler(@NonNull final Class<T> classOfHandler, @NonNull final Class<?> annotatedClass) {
+	@Nullable public static <T extends AnnotationHandler> T obtainHandler(@NonNull final Class<T> classOfHandler, @NonNull final Class<?> annotatedClass) {
 		Object handler = null;
 		if (FragmentAnnotations.isEnabled()) {
 			synchronized (LOCK) {
-				if (sHandlers == null) {
-					sHandlers = new HashMap<>(HANDLERS_INITIAL_CAPACITY);
+				if (handlers == null) {
+					handlers = new HashMap<>(HANDLERS_INITIAL_CAPACITY);
 				}
-				handler = sHandlers.get(annotatedClass);
+				handler = handlers.get(annotatedClass);
 				if (handler == null) {
 					handler = instantiateHandler(classOfHandler, annotatedClass);
-					sHandlers.put(annotatedClass, handler);
+					handlers.put(annotatedClass, handler);
 				} else if (!handler.getClass().equals(classOfHandler)) {
 					final String newHandlerName = classOfHandler.getSimpleName();
 					final String currentHandlerName = handler.getClass().getSimpleName();
@@ -159,9 +160,9 @@ public abstract class AnnotationHandlers {
 	 */
 	static void clearHandlers() {
 		synchronized (LOCK) {
-			if (sHandlers != null) {
-				sHandlers.clear();
-				sHandlers = null;
+			if (handlers != null) {
+				handlers.clear();
+				handlers = null;
 			}
 		}
 	}

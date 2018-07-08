@@ -32,6 +32,7 @@ import universum.studios.android.fragment.manage.FragmentItem;
  * {@link BaseFragmentFactory} class provided by this library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public interface FragmentFactoryAnnotationHandler extends AnnotationHandler {
 
@@ -43,6 +44,5 @@ public interface FragmentFactoryAnnotationHandler extends AnnotationHandler {
 	 * @return Array with fragment items created from the processed annotations or {@code null} if
 	 * there were no annotations specified.
 	 */
-	@Nullable
-	SparseArray<FragmentItem> getFragmentItems();
+	@Nullable SparseArray<FragmentItem> getFragmentItems();
 }

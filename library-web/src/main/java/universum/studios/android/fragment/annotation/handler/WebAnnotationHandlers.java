@@ -31,6 +31,7 @@ import universum.studios.android.fragment.annotation.WebContent;
  * <b>web</b> associated fragments and classes.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class WebAnnotationHandlers extends AnnotationHandlers {
 
@@ -47,8 +48,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
-	@Nullable
-	public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull final Class<?> classOfFragment) {
+	@Nullable public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(WebFragmentHandler.class, classOfFragment);
 	}
 
@@ -89,17 +89,13 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 
 		/**
 		 */
-		@Override
-		@StringRes
-		public int getWebContentResId(@StringRes final int defaultResId) {
+		@Override @StringRes public int getWebContentResId(@StringRes final int defaultResId) {
 			return webContentResId == NO_RES ? defaultResId : webContentResId;
 		}
 
 		/**
 		 */
-		@Nullable
-		@Override
-		public String getWebContent(@Nullable final String defaultContent) {
+		@Override @Nullable public String getWebContent(@Nullable final String defaultContent) {
 			return TextUtils.isEmpty(webContent) ? defaultContent : webContent;
 		}
 	}

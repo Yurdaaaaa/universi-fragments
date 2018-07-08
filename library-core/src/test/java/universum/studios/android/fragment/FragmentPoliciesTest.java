@@ -51,10 +51,4 @@ public final class FragmentPoliciesTest extends RobolectricTestCase {
 		constructor.setAccessible(true);
 		constructor.newInstance();
 	}
-
-	@Test
-	@SuppressWarnings("deprecation")
-	public void testWillBeCustomAnimationsPlayed() {
-		assertThat(FragmentPolicies.willBeCustomAnimationsPlayed(application), is(true));
-	}
 }

@@ -60,6 +60,7 @@ import universum.studios.android.fragment.annotation.handler.FragmentFactoryAnno
  * </ul>
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public abstract class BaseFragmentFactory implements FragmentFactory {
 
@@ -88,24 +89,24 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 * Handler responsible for processing of all annotations of this class and also for handling all
 	 * annotations related operations for this class.
 	 */
-	private final FragmentFactoryAnnotationHandler mAnnotationHandler;
+	private final FragmentFactoryAnnotationHandler annotationHandler;
 
 	/**
 	 * Set of fragment item holders created from annotated fields ({@link FactoryFragment @FactoryDialog})
 	 * of this factory instance.
 	 */
-	private final SparseArray<FragmentItem> mItems;
+	private final SparseArray<FragmentItem> items;
 
 	/**
 	 * Id of the fragment that has been last checked via {@link #isFragmentProvided(int)}.
 	 */
-	private int mLastCheckedFragmentId = -1;
+	private int lastCheckedFragmentId = -1;
 
 	/**
-	 * Flag indicating whether an instance of fragment for {@link #mLastCheckedFragmentId} is
+	 * Flag indicating whether an instance of fragment for {@link #lastCheckedFragmentId} is
 	 * provided by this factory or not.
 	 */
-	private boolean mFragmentProvided;
+	private boolean fragmentProvided;
 
 	/*
 	 * Constructors ================================================================================
@@ -118,8 +119,8 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 * by this class will be processed/obtained here so they can be later used.
 	 */
 	public BaseFragmentFactory() {
-		this.mAnnotationHandler = onCreateAnnotationHandler();
-		this.mItems = mAnnotationHandler == null ? null : mAnnotationHandler.getFragmentItems();
+		this.annotationHandler = onCreateAnnotationHandler();
+		this.items = annotationHandler == null ? null : annotationHandler.getFragmentItems();
 	}
 
 	/*
@@ -142,8 +143,7 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 * @return Fragment tag in required format, or {@code null} if <var>fragmentName</var> is {@code null}
 	 * or empty.
 	 */
-	@Nullable
-	public static String createFragmentTag(@NonNull Class<?> classOfFactory, @NonNull String fragmentName) {
+	@Nullable public static String createFragmentTag(@NonNull final Class<?> classOfFactory, @NonNull final String fragmentName) {
 		if (TextUtils.isEmpty(fragmentName)) {
 			return null;
 		}
@@ -166,21 +166,19 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 * @return Annotations handler specific for this class.
 	 * @throws IllegalStateException If annotations processing is not enabled for the Fragments library.
 	 */
-	@NonNull
-	protected FragmentFactoryAnnotationHandler getAnnotationHandler() {
+	@NonNull protected FragmentFactoryAnnotationHandler getAnnotationHandler() {
 		FragmentAnnotations.checkIfEnabledOrThrow();
-		return mAnnotationHandler;
+		return annotationHandler;
 	}
 
 	/**
 	 */
-	@Override
-	public boolean isFragmentProvided(int fragmentId) {
-		if (fragmentId == mLastCheckedFragmentId) {
-			return mFragmentProvided;
+	@Override public boolean isFragmentProvided(final int fragmentId) {
+		if (fragmentId == lastCheckedFragmentId) {
+			return fragmentProvided;
 		}
-		this.mLastCheckedFragmentId = fragmentId;
-		return mFragmentProvided = providesFragment(fragmentId);
+		this.lastCheckedFragmentId = fragmentId;
+		return fragmentProvided = providesFragment(fragmentId);
 	}
 
 	/**
@@ -191,15 +189,13 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 * or {@link FactoryFragment @FactoryFragment} annotation presented for the specified <var>fragmentId</var>,
 	 * {@code false} otherwise.
 	 */
-	protected boolean providesFragment(int fragmentId) {
-		return mItems != null && mItems.indexOfKey(fragmentId) >= 0;
+	protected boolean providesFragment(final int fragmentId) {
+		return items != null && items.indexOfKey(fragmentId) >= 0;
 	}
 
 	/**
 	 */
-	@Nullable
-	@Override
-	public Fragment createFragment(int fragmentId) {
+	@Override @Nullable public Fragment createFragment(final int fragmentId) {
 		return isFragmentProvided(fragmentId) ? onCreateFragment(fragmentId) : null;
 	}
 
@@ -210,12 +206,11 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 * This implementation returns the requested fragment instance instantiated from class specified
 	 * via {@link FactoryFragment @FactoryFragment}. If instantiation fails an exception is thrown.
 	 */
-	@NonNull
-	protected Fragment onCreateFragment(int fragmentId) {
-		if (mItems.indexOfKey(fragmentId) < 0) {
+	@NonNull protected Fragment onCreateFragment(final int fragmentId) {
+		if (items.indexOfKey(fragmentId) < 0) {
 			throw new IllegalArgumentException("Factory does not provide fragment instance for id(" + fragmentId + ")!");
 		}
-		final Fragment fragment = mItems.get(fragmentId).newFragmentInstance(null);
+		final Fragment fragment = items.get(fragmentId).newFragmentInstance(null);
 		if (fragment == null) {
 			throw new IllegalArgumentException("Failed to instantiate fragment for the requested id(" + fragmentId + ")!");
 		}
@@ -224,9 +219,7 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 
 	/**
 	 */
-	@Nullable
-	@Override
-	public String createFragmentTag(int fragmentId) {
+	@Override @Nullable public String createFragmentTag(final int fragmentId) {
 		return isFragmentProvided(fragmentId) ? onCreateFragmentTag(fragmentId) : null;
 	}
 
@@ -239,9 +232,8 @@ public abstract class BaseFragmentFactory implements FragmentFactory {
 	 * If neither of these annotations is presented, the TAG is created via {@link #createFragmentTag(Class, String)}
 	 * with the fragment id as <var>fragmentName</var>.
 	 */
-	@Nullable
-	protected String onCreateFragmentTag(int fragmentId) {
-		return mItems.indexOfKey(fragmentId) >= 0 ? mItems.get(fragmentId).tag : createFragmentTag(getClass(), Integer.toString(fragmentId));
+	@Nullable protected String onCreateFragmentTag(final int fragmentId) {
+		return items.indexOfKey(fragmentId) >= 0 ? items.get(fragmentId).tag : createFragmentTag(getClass(), Integer.toString(fragmentId));
 	}
 
 	/*

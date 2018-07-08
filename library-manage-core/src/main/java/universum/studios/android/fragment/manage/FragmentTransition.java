@@ -30,6 +30,7 @@ import android.support.annotation.NonNull;
  * changes between desired fragments.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public interface FragmentTransition extends Parcelable {
 
@@ -52,8 +53,7 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * incoming fragment.
 	 */
-	@AnimatorRes
-	int getIncomingAnimation();
+	@AnimatorRes int getIncomingAnimation();
 
 	/**
 	 * Returns the animation resource for the current outgoing fragment.
@@ -61,8 +61,7 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * outgoing fragment.
 	 */
-	@AnimatorRes
-	int getOutgoingAnimation();
+	@AnimatorRes int getOutgoingAnimation();
 
 	/**
 	 * Returns the animation resource for an old incoming fragment when it is being popped from
@@ -71,8 +70,7 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * outgoing back-stacked fragment.
 	 */
-	@AnimatorRes
-	int getIncomingBackStackAnimation();
+	@AnimatorRes int getIncomingBackStackAnimation();
 
 	/**
 	 * Returns the animation resource for the current outgoing fragment when it is being popped from
@@ -81,14 +79,12 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * outgoing back-stacked fragment.
 	 */
-	@AnimatorRes
-	int getOutgoingBackStackAnimation();
+	@AnimatorRes int getOutgoingBackStackAnimation();
 
 	/**
 	 * Returns the name of this fragment transition.
 	 *
 	 * @return Name of this transition.
 	 */
-	@NonNull
-	String getName();
+	@NonNull String getName();
 }

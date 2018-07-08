@@ -181,7 +181,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 	@Test
 	public void testIsActionBarAvailable() {
 		final ActionBarFragment fragment = new TestFragment();
-		fragment.mActionBarDelegate = mock(ActionBarDelegate.class);
+		fragment.actionBarDelegate = mock(ActionBarDelegate.class);
 		assertThat(fragment.isActionBarAvailable(), is(true));
 	}
 
@@ -231,7 +231,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 	public void testInvalidateActionBar() {
 		final ActionBarFragment fragment = new TestFragment();
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
-		fragment.mActionBarDelegate = mockActionBarDelegate;
+		fragment.actionBarDelegate = mockActionBarDelegate;
 		fragment.invalidateActionBar();
 		verify(mockActionBarDelegate, times(1)).setIcon(TestFragment.ICON_RESOURCE);
 		verify(mockActionBarDelegate, times(1)).setTitle(TestFragment.TITLE_RESOURCE);
@@ -241,7 +241,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 	public void testInvalidateActionBarForFragmentWithoutMenu() {
 		final ActionBarFragment fragment = new TestFragmentWithoutAnnotation();
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
-		fragment.mActionBarDelegate = mockActionBarDelegate;
+		fragment.actionBarDelegate = mockActionBarDelegate;
 		fragment.invalidateActionBar();
 		verifyZeroInteractions(mockActionBarDelegate);
 	}

@@ -29,6 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Annotation utils for the Fragments library.
  *
  * @author Martin Albedinsky
+ * @Nullable
  */
 public final class FragmentAnnotations {
 
@@ -50,6 +51,7 @@ public final class FragmentAnnotations {
 	 * {@link #iterateFields(FragmentAnnotations.FieldProcessor, Class, Class)}.
 	 *
 	 * @author Martin Albedinsky
+	 * @Nullable
 	 */
 	public interface FieldProcessor {
 
@@ -69,7 +71,7 @@ public final class FragmentAnnotations {
 	/**
 	 * Flag indicating whether the processing of annotations for the Fragments library is enabled.
 	 */
-	private static final AtomicBoolean sEnabled = new AtomicBoolean(false);
+	private static final AtomicBoolean enabled = new AtomicBoolean(false);
 
 	/*
 	 * Members =====================================================================================
@@ -99,10 +101,11 @@ public final class FragmentAnnotations {
 	 * Default value: {@code false}
 	 *
 	 * @param enabled {@code True} to enable annotations processing, {@code false} to disabled it.
+	 *
 	 * @see #isEnabled()
 	 */
 	public static void setEnabled(final boolean enabled) {
-		sEnabled.set(enabled);
+		FragmentAnnotations.enabled.set(enabled);
 	}
 
 	/**
@@ -110,10 +113,11 @@ public final class FragmentAnnotations {
 	 * is enabled or not.
 	 *
 	 * @return {@code True} if annotations processing is enabled, {@code false} if it is disabled.
+	 *
 	 * @see #setEnabled(boolean)
 	 */
 	public static boolean isEnabled() {
-		return sEnabled.get();
+		return enabled.get();
 	}
 
 	/**
@@ -123,10 +127,11 @@ public final class FragmentAnnotations {
 	 * processing enabled.
 	 *
 	 * @throws IllegalStateException If annotations processing is disabled.
+	 *
 	 * @see #setEnabled(boolean)
 	 */
 	public static void checkIfEnabledOrThrow() {
-		if (!sEnabled.get()) {
+		if (!enabled.get()) {
 			throw new IllegalStateException(
 					"Trying to access logic that requires annotations processing to be enabled, " +
 							"but it appears that the annotations processing is disabled for the Fragments library."
@@ -148,8 +153,11 @@ public final class FragmentAnnotations {
 	 * @return Obtained annotation or {@code null} if the requested annotation is not presented
 	 * for the given class or its supers if requested.
 	 */
-	@Nullable
-	public static <A extends Annotation> A obtainAnnotationFrom(@NonNull final Class<A> classOfAnnotation, @NonNull final Class<?> fromClass, @Nullable final Class<?> maxSuperClass) {
+	@Nullable public static <A extends Annotation> A obtainAnnotationFrom(
+			@NonNull final Class<A> classOfAnnotation,
+			@NonNull final Class<?> fromClass,
+			@Nullable final Class<?> maxSuperClass
+	) {
 		final A annotation = fromClass.getAnnotation(classOfAnnotation);
 		if (annotation != null) {
 			return annotation;

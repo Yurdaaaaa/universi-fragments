@@ -26,6 +26,7 @@ import android.support.annotation.Nullable;
  * in order to provide fragment instances with theirs corresponding TAGs for that controller.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public interface FragmentFactory {
 
@@ -45,11 +46,11 @@ public interface FragmentFactory {
 	 * @param fragmentId Id of the desired fragment to create a new instance of.
 	 * @return Instance of fragment associated with the <var>fragmentId</var> or {@code null} if this
 	 * fragment factory does not provide fragment for the requested id.
+	 *
 	 * @see #createFragmentTag(int)
 	 * @see #isFragmentProvided(int)
 	 */
-	@Nullable
-	Fragment createFragment(int fragmentId);
+	@Nullable Fragment createFragment(int fragmentId);
 
 	/**
 	 * Creates a tag for the fragment associated with the specified <var>fragmentId</var>.
@@ -57,8 +58,8 @@ public interface FragmentFactory {
 	 * @param fragmentId Id of the desired fragment for which to create its TAG.
 	 * @return Tag for fragment associated with the <var>fragmentId</var> or {@code null} if this
 	 * fragment factory does not provide fragment for the requested id.
+	 *
 	 * @see #isFragmentProvided(int)
 	 */
-	@Nullable
-	String createFragmentTag(int fragmentId);
+	@Nullable String createFragmentTag(int fragmentId);
 }

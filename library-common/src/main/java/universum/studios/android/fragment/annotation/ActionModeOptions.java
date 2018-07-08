@@ -31,6 +31,7 @@ import java.lang.annotation.Target;
  * Defines an annotation for determining how an {@link android.view.ActionMode} should be set.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 @Inherited
 @Documented
@@ -45,6 +46,5 @@ public @interface ActionModeOptions {
 	 *
 	 * @see android.view.ActionMode.Callback#onCreateActionMode(android.view.ActionMode, android.view.Menu)
 	 */
-	@MenuRes
-	int menu() default 0;
+	@MenuRes int menu() default 0;
 }

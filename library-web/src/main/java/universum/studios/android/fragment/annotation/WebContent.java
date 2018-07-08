@@ -30,6 +30,7 @@ import java.lang.annotation.Target;
  * Defines an annotation for determining a content to be loaded into {@link android.webkit.WebView WebView}.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 @Documented
 @Target(ElementType.TYPE)
@@ -49,6 +50,5 @@ public @interface WebContent {
 	 * <p>
 	 * Default value: <b>-1</b>
 	 */
-	@StringRes
-	int valueRes() default -1;
+	@StringRes int valueRes() default -1;
 }

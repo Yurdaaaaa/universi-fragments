@@ -34,6 +34,7 @@ import universum.studios.android.fragment.R;
  * </ul>
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 @SuppressWarnings("unused")
 public final class FragmentTransitions {

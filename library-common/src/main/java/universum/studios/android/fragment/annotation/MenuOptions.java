@@ -32,6 +32,7 @@ import java.lang.annotation.Target;
  * Defines an annotation for determining how a {@link android.view.Menu Menu} should be set.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 @Inherited
 @Documented
@@ -63,8 +64,7 @@ public @interface MenuOptions {
 	 */
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({DEFAULT, IGNORE_SUPER, BEFORE_SUPER})
-	@interface Flags {
-	}
+	@interface Flags {}
 
 	/*
 	 * Methods =====================================================================================
@@ -75,8 +75,7 @@ public @interface MenuOptions {
 	 * <p>
 	 * Default value: <b>0</b>
 	 */
-	@MenuRes
-	int value() default 0;
+	@MenuRes int value() default 0;
 
 	/**
 	 * Flag indicating whether to clear the already created menu or not.
@@ -86,6 +85,5 @@ public @interface MenuOptions {
 	/**
 	 * Flags for determining a menu set up.
 	 */
-	@Flags
-	int flags() default DEFAULT;
+	@Flags int flags() default DEFAULT;
 }

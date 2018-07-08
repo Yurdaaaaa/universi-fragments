@@ -34,6 +34,7 @@ import universum.studios.android.fragment.manage.FragmentFactory;
  * {@link FragmentFactory}.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 @Inherited
 @Documented
@@ -46,6 +47,5 @@ public @interface FactoryFragments {
 	 *
 	 * @see FragmentFactory#isFragmentProvided(int)
 	 */
-	@Size(min = 1)
-	int[] value();
+	@Size(min = 1) int[] value();
 }

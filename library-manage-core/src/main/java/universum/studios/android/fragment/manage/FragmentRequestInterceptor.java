@@ -27,6 +27,8 @@ import android.support.annotation.Nullable;
  * via its associated {@link FragmentController}.
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see FragmentController#setRequestInterceptor(FragmentRequestInterceptor)
  */
 public interface FragmentRequestInterceptor {
@@ -41,6 +43,5 @@ public interface FragmentRequestInterceptor {
 	 * @return Fragment associated with the request as result of the handled execution, {@code null}
 	 * to let the fragment controller handle the execution.
 	 */
-	@Nullable
-	Fragment interceptFragmentRequest(@NonNull FragmentRequest request);
+	@Nullable Fragment interceptFragmentRequest(@NonNull FragmentRequest request);
 }

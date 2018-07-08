@@ -52,8 +52,8 @@ public final class BaseAnnotationHandlerTest extends RobolectricTestCase {
 	@Test
 	public void testInstantiation() {
 		final Handler handler = new Handler(Fragment.class);
-		assertThat(handler.mAnnotatedClass, is(not(nullValue())));
-		assertSame(handler.mAnnotatedClass, Fragment.class);
+		assertThat(handler.annotatedClass, is(not(nullValue())));
+		assertSame(handler.annotatedClass, Fragment.class);
 	}
 
     @Test

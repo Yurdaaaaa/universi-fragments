@@ -42,6 +42,7 @@ import universum.studios.android.fragment.FragmentPolicies;
  * Utility class for the Fragments library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class FragmentUtils {
 
@@ -112,6 +113,7 @@ public final class FragmentUtils {
 	 *
 	 * @param context Context used to obtain power service.
 	 * @return {@code True} if power save mode is active at this time, {@code false} otherwise.
+	 *
 	 * @see PowerManager#isPowerSaveMode()
 	 */
 	public static boolean isPowerSaveModeActive(@NonNull final Context context) {
@@ -159,12 +161,12 @@ public final class FragmentUtils {
 	 * @param context  Context used for inflation process.
 	 * @param resource Resource id of the desired transition to inflate.
 	 * @return Inflated transition or {@code null} if the current API level does not support transitions.
+	 *
 	 * @see TransitionInflater#inflateTransition(int)
 	 * @see #inflateTransitionManager(Context, int, ViewGroup)
 	 */
-	@Nullable
 	@SuppressLint("NewApi")
-	public static Transition inflateTransition(@NonNull final Context context, @TransitionRes final int resource) {
+	@Nullable public static Transition inflateTransition(@NonNull final Context context, @TransitionRes final int resource) {
 		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ? TransitionInflater.from(context).inflateTransition(resource) : null;
 	}
 
@@ -176,13 +178,19 @@ public final class FragmentUtils {
 	 * @param sceneRoot Root of the scene for which to inflate transition manager.
 	 * @return Inflated transition manager or {@code null} if the current API level does not support
 	 * transitions.
+	 *
 	 * @see TransitionInflater#inflateTransitionManager(int, ViewGroup)
 	 * @see #inflateTransition(Context, int)
 	 */
-	@Nullable
 	@SuppressLint("NewApi")
-	public static TransitionManager inflateTransitionManager(@NonNull final Context context, @TransitionRes final int resource, @NonNull final ViewGroup sceneRoot) {
-		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ? TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) : null;
+	@Nullable public static TransitionManager inflateTransitionManager(
+			@NonNull final Context context,
+			@TransitionRes final int resource,
+			@NonNull final ViewGroup sceneRoot
+	) {
+		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ?
+				TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) :
+				null;
 	}
 
 	/**
@@ -197,11 +205,15 @@ public final class FragmentUtils {
 	 *                  on {@link Build.VERSION_CODES#LOLLIPOP} and above Android versions.
 	 * @return Instance of the requested vector drawable or {@code null} if the specified resource
 	 * id is {@code 0}.
+	 *
 	 * @see #getDrawable(Resources, int, Resources.Theme)
 	 * @see VectorDrawableCompat#create(Resources, int, Resources.Theme)
 	 */
-	@Nullable
-	public static Drawable getVectorDrawable(@NonNull final Resources resources, @DrawableRes final int resId, @Nullable final Resources.Theme theme) throws Resources.NotFoundException {
+	@Nullable public static Drawable getVectorDrawable(
+			@NonNull final Resources resources,
+			@DrawableRes final int resId,
+			@Nullable final Resources.Theme theme
+	) throws Resources.NotFoundException {
 		if (resId == 0) return null;
 		else return ACCESS_LOLLIPOP ? getDrawable(resources, resId, theme) : VectorDrawableCompat.create(resources, resId, theme);
 	}
@@ -217,12 +229,16 @@ public final class FragmentUtils {
 	 * @param theme     Theme that will be used to resolve theme attributes for the requested drawable
 	 *                  on {@link Build.VERSION_CODES#LOLLIPOP} and above Android versions.
 	 * @return Instance of the requested drawable or {@code null} if the specified resource id is {@code 0}.
+	 *
 	 * @see Resources#getDrawable(int, Resources.Theme)
 	 * @see Resources#getDrawable(int)
 	 */
-	@Nullable
 	@SuppressWarnings({"NewApi", "deprecation"})
-	public static Drawable getDrawable(@NonNull final Resources resources, @DrawableRes final int resId, @Nullable final Resources.Theme theme) throws Resources.NotFoundException {
+	@Nullable public static Drawable getDrawable(
+			@NonNull final Resources resources,
+			@DrawableRes final int resId,
+			@Nullable final Resources.Theme theme
+	) throws Resources.NotFoundException {
 		if (resId == 0) return null;
 		else return ACCESS_LOLLIPOP ? resources.getDrawable(resId, theme) : resources.getDrawable(resId);
 	}

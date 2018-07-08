@@ -33,6 +33,7 @@ import universum.studios.android.fragment.manage.BaseFragmentFactory;
  * specific {@link universum.studios.android.fragment.manage.BaseFragmentFactory BaseFragmentFactory}.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 @Documented
 @Target({ElementType.FIELD, ElementType.TYPE})
