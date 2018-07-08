@@ -134,7 +134,7 @@ public class ActionBarFragment extends BaseFragment {
 	@Override
 	protected ActionBarFragmentAnnotationHandler getAnnotationHandler() {
 		FragmentAnnotations.checkIfEnabledOrThrow();
-		return (ActionBarFragmentAnnotationHandler) mAnnotationHandler;
+		return (ActionBarFragmentAnnotationHandler) annotationHandler;
 	}
 
 	/**
@@ -142,8 +142,8 @@ public class ActionBarFragment extends BaseFragment {
 	@Override
 	public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (mAnnotationHandler != null) {
-			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) mAnnotationHandler;
+		if (annotationHandler != null) {
+			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) this.annotationHandler;
 			if (annotationHandler.hasOptionsMenu()) {
 				setHasOptionsMenu(true);
 			}
@@ -154,11 +154,11 @@ public class ActionBarFragment extends BaseFragment {
 	 */
 	@Override
 	public void onCreateOptionsMenu(@NonNull final Menu menu, @NonNull final MenuInflater inflater) {
-		if (mAnnotationHandler == null) {
+		if (annotationHandler == null) {
 			super.onCreateOptionsMenu(menu, inflater);
 			return;
 		}
-		final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) mAnnotationHandler;
+		final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) this.annotationHandler;
 		if (annotationHandler.hasOptionsMenu()) {
 			if (annotationHandler.shouldClearOptionsMenu()) {
 				menu.clear();
@@ -238,13 +238,13 @@ public class ActionBarFragment extends BaseFragment {
 	 */
 	@Nullable
 	protected ActionBar getActionBar() {
-		if (mActivityDelegate == null) {
+		if (activityDelegate == null) {
 			throw new IllegalStateException(
 					"Cannot access ActionBar. " + getClass() + " is not attached " +
 							"to the parent activity yet or it has been already detached!"
 			);
 		}
-		return mActivityDelegate.getActionBar();
+		return activityDelegate.getActionBar();
 	}
 
 	/**
@@ -258,13 +258,13 @@ public class ActionBarFragment extends BaseFragment {
 	 */
 	@Nullable
 	protected android.support.v7.app.ActionBar getSupportActionBar() {
-		if (mActivityDelegate == null) {
+		if (activityDelegate == null) {
 			throw new IllegalStateException(
 					"Cannot access support ActionBar. " + getClass() + " is not attached " +
 							"to the parent activity yet or it has been already detached!"
 			);
 		}
-		return mActivityDelegate.getSupportActionBar();
+		return activityDelegate.getSupportActionBar();
 	}
 
 	/**
@@ -278,8 +278,8 @@ public class ActionBarFragment extends BaseFragment {
 	 * additional ActionBar's invalidation.
 	 */
 	public void invalidateActionBar() {
-		if (mActionBarDelegate != null && mAnnotationHandler != null) {
-			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) mAnnotationHandler;
+		if (mActionBarDelegate != null && annotationHandler != null) {
+			final ActionBarFragmentAnnotationHandler annotationHandler = (ActionBarFragmentAnnotationHandler) this.annotationHandler;
 			annotationHandler.configureActionBar(mActionBarDelegate);
 			if (annotationHandler.hasOptionsMenu()) {
 				setHasOptionsMenu(true);
@@ -306,8 +306,8 @@ public class ActionBarFragment extends BaseFragment {
 	 * @see #isAttached()
 	 */
 	protected boolean startActionMode(@NonNull final ActionMode.Callback callback) {
-		if (!isInActionMode() && mActivityDelegate != null) {
-			final ActionMode actionMode = mActivityDelegate.startActionMode(callback);
+		if (!isInActionMode() && activityDelegate != null) {
+			final ActionMode actionMode = activityDelegate.startActionMode(callback);
 			if (actionMode != null) {
 				onActionModeStarted(actionMode);
 				return true;

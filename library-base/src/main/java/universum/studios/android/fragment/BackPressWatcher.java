@@ -18,11 +18,14 @@
  */
 package universum.studios.android.fragment;
 
+import android.support.annotation.CheckResult;
+
 /**
  * The BackPressWatcher interface specifies one callback that may be used to dispatch a back button
  * press event to a watcher that implements this interface.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public interface BackPressWatcher {
 
@@ -31,5 +34,5 @@ public interface BackPressWatcher {
 	 *
 	 * @return {@code True} if this watcher processed the back press event, {@code false} otherwise.
 	 */
-	boolean dispatchBackPress();
+	@CheckResult boolean dispatchBackPress();
 }

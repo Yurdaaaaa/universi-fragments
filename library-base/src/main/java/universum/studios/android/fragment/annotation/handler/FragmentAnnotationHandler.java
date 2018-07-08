@@ -31,6 +31,8 @@ import universum.studios.android.fragment.annotation.ContentView;
  * class provided by this library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see BaseFragment
  */
 public interface FragmentAnnotationHandler extends AnnotationHandler {
@@ -56,8 +58,7 @@ public interface FragmentAnnotationHandler extends AnnotationHandler {
 	 *                            presented or resource is not specified.
 	 * @return Via annotation specified layout resource or <var>defaultViewResource</var>.
 	 */
-	@LayoutRes
-	int getContentViewResource(@LayoutRes int defaultViewResource);
+	@LayoutRes int getContentViewResource(@LayoutRes int defaultViewResource);
 
 	/**
 	 * Returns a boolean flag obtained from {@link ContentView @ContentView} annotation (if presented)
@@ -76,7 +77,5 @@ public interface FragmentAnnotationHandler extends AnnotationHandler {
 	 *                     presented or resource is not specified.
 	 * @return Via annotation specified background resource id or <var>defaultResId</var>.
 	 */
-	@ColorRes
-	@DrawableRes
-	int getContentViewBackgroundResId(int defaultResId);
+	@ColorRes @DrawableRes int getContentViewBackgroundResId(int defaultResId);
 }

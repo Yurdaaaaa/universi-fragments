@@ -199,7 +199,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 	public void testGetActionBar() {
 		final ActionBarFragment fragment = new TestFragment();
 		final ActivityDelegate mockDelegate = mock(ActivityDelegate.class);
-		fragment.mActivityDelegate = mockDelegate;
+		fragment.activityDelegate = mockDelegate;
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		when(mockDelegate.getActionBar()).thenReturn(mockActionBar);
 		assertThat(fragment.getActionBar(), is(mockActionBar));
@@ -215,7 +215,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 	public void testGetSupportActionBar() {
 		final ActionBarFragment fragment = new TestFragment();
 		final ActivityDelegate mockDelegate = mock(ActivityDelegate.class);
-		fragment.mActivityDelegate = mockDelegate;
+		fragment.activityDelegate = mockDelegate;
 		final android.support.v7.app.ActionBar mockActionBar = mock(android.support.v7.app.ActionBar.class);
 		when(mockDelegate.getSupportActionBar()).thenReturn(mockActionBar);
 		assertThat(fragment.getSupportActionBar(), is(mockActionBar));
@@ -257,7 +257,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 		FragmentAnnotations.setEnabled(false);
 		// Only ensure that invocation of the method does not cause any troubles.
 		final ActionBarFragment fragment = new TestFragment();
-		fragment.mActivityDelegate = mock(ActivityDelegate.class);
+		fragment.activityDelegate = mock(ActivityDelegate.class);
 		fragment.invalidateActionBar();
 	}
 
@@ -267,7 +267,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 		final ActivityDelegate mockActivityDelegate = mock(ActivityDelegate.class);
 		final ActionMode mockActionMode = mock(ActionMode.class);
 		when(mockActivityDelegate.startActionMode(any(ActionMode.Callback.class))).thenReturn(mockActionMode);
-		fragment.mActivityDelegate = mockActivityDelegate;
+		fragment.activityDelegate = mockActivityDelegate;
 		assertThat(fragment.startActionMode(), is(true));
 		assertThat(fragment.isInActionMode(), is(true));
 		assertThat(fragment.getActionMode(), is(mockActionMode));
@@ -279,7 +279,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 		final ActivityDelegate mockActivityDelegate = mock(ActivityDelegate.class);
 		final ActionMode mockActionMode = mock(ActionMode.class);
 		when(mockActivityDelegate.startActionMode(any(ActionMode.Callback.class))).thenReturn(mockActionMode);
-		fragment.mActivityDelegate = mockActivityDelegate;
+		fragment.activityDelegate = mockActivityDelegate;
 		assertThat(fragment.startActionMode(), is(true));
 		assertThat(fragment.isInActionMode(), is(true));
 		assertThat(fragment.getActionMode(), is(mockActionMode));
@@ -299,7 +299,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 		final ActionBarFragment fragment = new TestFragment();
 		final ActivityDelegate mockActivityDelegate = mock(ActivityDelegate.class);
 		when(mockActivityDelegate.startActionMode(any(ActionMode.Callback.class))).thenReturn(null);
-		fragment.mActivityDelegate = mockActivityDelegate;
+		fragment.activityDelegate = mockActivityDelegate;
 		assertThat(fragment.startActionMode(), is(false));
 		assertThat(fragment.isInActionMode(), is(false));
 		assertThat(fragment.getActionMode(), is(nullValue()));
@@ -312,7 +312,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 		final ActionMode mockActionMode = mock(ActionMode.class);
 		final ActionMode.Callback mockCallback = mock(ActionMode.Callback.class);
 		when(mockActivityDelegate.startActionMode(mockCallback)).thenReturn(mockActionMode);
-		fragment.mActivityDelegate = mockActivityDelegate;
+		fragment.activityDelegate = mockActivityDelegate;
 		assertThat(fragment.startActionMode(mockCallback), is(true));
 		assertThat(fragment.isInActionMode(), is(true));
 		assertThat(fragment.getActionMode(), is(mockActionMode));

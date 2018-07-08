@@ -34,6 +34,7 @@ import java.lang.annotation.Target;
  * view.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 @Inherited
 @Documented
@@ -46,8 +47,7 @@ public @interface ContentView {
 	 *
 	 * @see #attachToContainer()
 	 */
-	@LayoutRes
-	int value();
+	@LayoutRes int value();
 
 	/**
 	 * Flag indicating whether to attach inflated content view to its parent container or not.
@@ -62,7 +62,5 @@ public @interface ContentView {
 	 * <p>
 	 * Default value: <b>-1</b>
 	 */
-	@ColorRes
-	@DrawableRes
-	int background() default -1;
+	@ColorRes @DrawableRes int background() default -1;
 }

@@ -32,6 +32,7 @@ import universum.studios.android.fragment.annotation.ContentView;
  * classes from the fragments base package.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class BaseAnnotationHandlers extends AnnotationHandlers {
 
@@ -48,8 +49,7 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
-	@Nullable
-	public static FragmentAnnotationHandler obtainFragmentHandler(@NonNull final Class<?> classOfFragment) {
+	@Nullable public static FragmentAnnotationHandler obtainFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(FragmentHandler.class, classOfFragment);
 	}
 
@@ -102,25 +102,19 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 
 		/**
 		 */
-		@Override
-		@LayoutRes
-		public int getContentViewResource(@LayoutRes final int defaultViewResource) {
+		@Override @LayoutRes public int getContentViewResource(@LayoutRes final int defaultViewResource) {
 			return contentViewResource == NO_RES ? defaultViewResource : contentViewResource;
 		}
 
 		/**
 		 */
-		@Override
-		public boolean shouldAttachContentViewToContainer() {
+		@Override public boolean shouldAttachContentViewToContainer() {
 			return attachContentViewToContainer;
 		}
 
 		/**
 		 */
-		@Override
-		@ColorRes
-		@DrawableRes
-		public int getContentViewBackgroundResId(final int defaultResId) {
+		@Override @ColorRes @DrawableRes public int getContentViewBackgroundResId(final int defaultResId) {
 			return contentViewBackgroundResId == NO_RES ? defaultResId : contentViewBackgroundResId;
 		}
 	}

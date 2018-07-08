@@ -18,6 +18,7 @@
  */
 package universum.studios.android.fragment;
 
+import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.view.View;
 
@@ -26,6 +27,7 @@ import android.view.View;
  * event to a watcher that implements this interface.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public interface ViewClickWatcher {
 
@@ -36,5 +38,5 @@ public interface ViewClickWatcher {
 	 * @return {@code True} if this watcher processed the click event for the specified <var>view</var>,
 	 * {@code false} otherwise.
 	 */
-	boolean dispatchViewClick(@NonNull View view);
+	@CheckResult boolean dispatchViewClick(@NonNull View view);
 }

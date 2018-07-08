@@ -299,7 +299,7 @@ public class WebFragment extends ActionBarFragment {
 	@Override
 	protected WebFragmentAnnotationHandler getAnnotationHandler() {
 		FragmentAnnotations.checkIfEnabledOrThrow();
-		return (WebFragmentAnnotationHandler) mAnnotationHandler;
+		return (WebFragmentAnnotationHandler) annotationHandler;
 	}
 
 	/**
@@ -318,8 +318,8 @@ public class WebFragment extends ActionBarFragment {
 	@Override
 	public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (mAnnotationHandler != null) {
-			final WebFragmentAnnotationHandler annotationHandler = (WebFragmentAnnotationHandler) mAnnotationHandler;
+		if (annotationHandler != null) {
+			final WebFragmentAnnotationHandler annotationHandler = (WebFragmentAnnotationHandler) this.annotationHandler;
 			final int contentResId = annotationHandler.getWebContentResId(-1);
 			if (contentResId == -1) {
 				this.mContent = annotationHandler.getWebContent(null);
