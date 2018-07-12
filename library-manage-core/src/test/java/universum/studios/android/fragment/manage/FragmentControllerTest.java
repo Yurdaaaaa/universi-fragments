@@ -593,9 +593,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 				.transaction(FragmentRequest.REPLACE)
 				.replaceSame(true);
 		final Fragment existingFragment = new TestFragment();
-		when(mockManager.findFragmentByTag(request.mTag)).thenReturn(existingFragment);
+		when(mockManager.findFragmentByTag(request.tag)).thenReturn(existingFragment);
 		assertThat(controller.onExecuteRequest(request), is(fragment));
-		verify(mockManager, times(0)).findFragmentByTag(request.mTag);
+		verify(mockManager, times(0)).findFragmentByTag(request.tag);
 		verify(mockManager, times(1)).beginTransaction();
 		verify(mockTransaction, times(1)).commit();
 	}
@@ -612,7 +612,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentRequest request = controller.newRequest(fragment)
 				.transaction(FragmentRequest.REPLACE)
 				.replaceSame(false);
-		when(mockManager.findFragmentByTag(request.mTag)).thenReturn(null);
+		when(mockManager.findFragmentByTag(request.tag)).thenReturn(null);
 		assertThat(controller.onExecuteRequest(request), is(fragment));
 		verify(mockManager, times(1)).beginTransaction();
 		verify(mockTransaction, times(1)).commit();
@@ -631,10 +631,10 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 				.transaction(FragmentRequest.REPLACE)
 				.replaceSame(false);
 		final Fragment existingFragment = new TestFragment();
-		when(mockManager.findFragmentByTag(request.mTag)).thenReturn(existingFragment);
+		when(mockManager.findFragmentByTag(request.tag)).thenReturn(existingFragment);
 		assertThat(controller.onExecuteRequest(request), is(existingFragment));
 		verifyZeroInteractions(mockTransaction);
-		verify(mockManager, times(1)).findFragmentByTag(request.mTag);
+		verify(mockManager, times(1)).findFragmentByTag(request.tag);
 	}
 
 	@Test
@@ -739,7 +739,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final FragmentTransaction transaction = controller.createTransaction(request);
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).replace(TestActivity.CONTENT_VIEW_ID, mockFragment, request.mTag);
+		verify(transaction, times(1)).replace(TestActivity.CONTENT_VIEW_ID, mockFragment, request.tag);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -761,7 +761,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final FragmentTransaction transaction = controller.createTransaction(request);
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).add(TestActivity.CONTENT_VIEW_ID, mockFragment, request.mTag);
+		verify(transaction, times(1)).add(TestActivity.CONTENT_VIEW_ID, mockFragment, request.tag);
 		verifyNoMoreInteractions(transaction);
 	}
 

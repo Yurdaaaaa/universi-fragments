@@ -26,7 +26,6 @@ import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -34,12 +33,14 @@ import static org.mockito.Mockito.verify;
  */
 public final class ActionBarDelegateSupportTest extends InstrumentedTestCase {
 
-	@Test
 	@SuppressWarnings("deprecation")
-	public void testSetHomeAsUpVectorIndicator() {
+	@Test public void testSetHomeAsUpVectorIndicator() {
+		// Arrange:
 		final android.support.v7.app.ActionBar mockActionBar = mock(android.support.v7.app.ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.SupportImpl(context, mockActionBar);
+		// Act:
 		delegate.setHomeAsUpVectorIndicator(android.R.drawable.ic_delete);
-		verify(mockActionBar, times(1)).setHomeAsUpIndicator(any(Drawable.class));
+		// Assert:
+		verify(mockActionBar).setHomeAsUpIndicator(any(Drawable.class));
 	}
 }

@@ -44,57 +44,62 @@ import static org.mockito.Mockito.when;
  */
 public final class FragmentUtilsTest extends RobolectricTestCase {
 
-	@Test
-	public void testConstants() {
+	@Test public void testContract() {
+		// Assert:
 		assertThat(FragmentUtils.ACCESS_LOLLIPOP, is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP));
 	}
 
 	@Test(expected = IllegalAccessException.class)
 	public void testInstantiation() throws Exception {
+		// Act:
 		FragmentUtils.class.newInstance();
 	}
 
 	@Test(expected = InvocationTargetException.class)
 	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		// Arrange:
 		final Constructor<FragmentUtils> constructor = FragmentUtils.class.getDeclaredConstructor();
 		constructor.setAccessible(true);
+		// Act:
 		constructor.newInstance();
 	}
 
-	@Test
-	public void testWillBeCustomAnimationsPlayed() {
+	@Test public void testWillBeCustomAnimationsPlayed() {
+		// Act + Assert:
 		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(application), is(true));
 	}
 
-	@Test
-	public void testAreAnimationsEnabled() {
+	@Test public void testAreAnimationsEnabled() {
+		// Act + Assert:
 		assertThat(FragmentUtils.areAnimationsEnabled(application), is(true));
 	}
 
-	@Test
-	public void testIsPowerSaveModeActive() {
+	@Test public void testIsPowerSaveModeActive() {
+		// Act + Assert:
 		assertThat(FragmentUtils.isPowerSaveModeActive(application), is(false));
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
-	public void testInflateTransitionOnLollipopApiLevel() {
+	@Test public void testInflateTransitionOnLollipopApiLevel() {
+		// Act:
 		final Transition transition = FragmentUtils.inflateTransition(application, android.R.transition.fade);
+		// Assert:
 		assertThat(transition, is(notNullValue()));
 		assertThat(transition, instanceOf(Fade.class));
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN)
-	public void testInflateTransitionOnJellyBeanApiLevel() {
+	@Test public void testInflateTransitionOnJellyBeanApiLevel() {
+		// Act + Assert:
 		assertThat(FragmentUtils.inflateTransition(application, android.R.anim.fade_in), is(nullValue()));
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
-	public void testInflateTransitionInContextWithoutResources() {
+	@Test public void testInflateTransitionInContextWithoutResources() {
+		// Arrange:
 		final Context mockContext = mock(Context.class);
 		when(mockContext.getResources()).thenReturn(null);
+		// Act + Assert:
 		assertThat(FragmentUtils.inflateTransition(mockContext, android.R.anim.fade_in), is(nullValue()));
 	}
 }

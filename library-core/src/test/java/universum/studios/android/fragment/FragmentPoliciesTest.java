@@ -35,20 +35,23 @@ import static org.junit.Assert.assertThat;
  */
 public final class FragmentPoliciesTest extends RobolectricTestCase {
 
-	@Test
-	public void testConstants() {
+	@Test public void testContract() {
+		// Assert:
 		assertThat(FragmentPolicies.TRANSITIONS_SUPPORTED, is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP));
 	}
 
 	@Test(expected = IllegalAccessException.class)
 	public void testInstantiation() throws Exception {
+		// Act:
 		FragmentPolicies.class.newInstance();
 	}
 
 	@Test(expected = InvocationTargetException.class)
 	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		// Arrange:
 		final Constructor<FragmentPolicies> constructor = FragmentPolicies.class.getDeclaredConstructor();
 		constructor.setAccessible(true);
+		// Act:
 		constructor.newInstance();
 	}
 }

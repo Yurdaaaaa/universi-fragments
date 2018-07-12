@@ -18,6 +18,7 @@
  */
 package universum.studios.android.fragment.util;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.transition.TransitionManager;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ import universum.studios.android.test.instrumented.TestUtils;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assume.assumeTrue;
 
@@ -40,48 +41,50 @@ import static org.junit.Assume.assumeTrue;
  */
 public final class FragmentUtilsTest extends InstrumentedTestCase {
     
-	@Test
-	public void testInflateTransitionManager() {
+	@Test public void testInflateTransitionManager() {
+		// Arrange:
 		final ViewGroup sceneRoot = new FrameLayout(context);
+		// Act:
 		final TransitionManager transitionManager = FragmentUtils.inflateTransitionManager(context, TestResources.resourceIdentifier(
 				context,
 				TestResources.TRANSITION,
 				"transition_manager"
 		), sceneRoot);
+		// Assert:
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			assertThat(transitionManager, is(not(nullValue())));
+			assertThat(transitionManager, is(notNullValue()));
 		} else {
 			assertThat(transitionManager, is(nullValue()));
 		}
 	}
 
-	@Test
-	public void testGetVectorDrawable() {
+	@Test public void testGetVectorDrawable() {
 		assumeTrue(TestUtils.hasLibraryRootPackageName(context));
-		assertThat(FragmentUtils.getVectorDrawable(context.getResources(), TestResources.resourceIdentifier(
-				context,
-				TestResources.DRAWABLE,
-				"vc_ic_android_24dp"
-		), null), is(not(nullValue())));
+		// Arrange:
+		final int resId = TestResources.resourceIdentifier(context, TestResources.DRAWABLE, "vc_ic_android_24dp");
+		// Act:
+		final Drawable drawable = FragmentUtils.getVectorDrawable(context.getResources(), resId, null);
+		// Assert:
+		assertThat(drawable, is(notNullValue()));
 	}
 
-	@Test
-	public void testGetVectorDrawableWithNoResource() {
+	@Test public void testGetVectorDrawableWithNoResource() {
+		// Arrange + Act + Assert:
 		assertThat(FragmentUtils.getVectorDrawable(context.getResources(), 0, null), is(nullValue()));
 	}
 
-	@Test
-	public void testGetDrawable() {
+	@Test public void testGetDrawable() {
 		assumeTrue(TestUtils.hasLibraryRootPackageName(context));
-		assertThat(FragmentUtils.getDrawable(context.getResources(), TestResources.resourceIdentifier(
-				context,
-				TestResources.DRAWABLE,
-				"ic_android"
-		), null), is(not(nullValue())));
+		// Arrange:
+		final int resId = TestResources.resourceIdentifier(context, TestResources.DRAWABLE, "ic_android");
+		// Act:
+		final Drawable drawable = FragmentUtils.getDrawable(context.getResources(), resId, null);
+		// Assert:
+		assertThat(drawable, is(notNullValue()));
 	}
 
-	@Test
-	public void testGetDrawableWithNoResource() {
+	@Test public void testGetDrawableWithNoResource() {
+		// Arrange + Act + Assert:
 		assertThat(FragmentUtils.getDrawable(context.getResources(), 0, null), is(nullValue()));
 	}
 }

@@ -41,28 +41,30 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 public final class BaseAnnotationHandlerTest extends RobolectricTestCase {
-    
-	@Override
-	public void beforeTest() throws Exception {
+
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 
-	@Test
-	public void testInstantiation() {
+	@Test public void testInstantiation() {
+		// Act:
 		final Handler handler = new Handler(Fragment.class);
+		// Assert:
 		assertThat(handler.annotatedClass, is(not(nullValue())));
 		assertSame(handler.annotatedClass, Fragment.class);
 	}
 
-    @Test
-	public void testGetAnnotatedClass() {
-	    assertSame(new Handler(Fragment.class).getAnnotatedClass(), Fragment.class);
+    @Test public void testGetAnnotatedClass() {
+	    // Arrange:
+	    final Handler handler = new Handler(Fragment.class);
+	    // Act + Assert:
+		assertSame(handler.getAnnotatedClass(), Fragment.class);
 	}
 
-	@Test
-	public void testFindAnnotation() {
+	@Test public void testFindAnnotation() {
+		// Arrange + Act + Assert:
 		assertThat(
 				new Handler(Component.class).findAnnotation(ComponentAnnotation.class),
 				is(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, Component.class, null))
@@ -75,20 +77,17 @@ public final class BaseAnnotationHandlerTest extends RobolectricTestCase {
 
 	private static final class Handler extends BaseAnnotationHandler {
 
-		Handler(@NonNull Class<?> annotatedClass) {
+		Handler(@NonNull final Class<?> annotatedClass) {
 			super(annotatedClass);
 		}
 	}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
-	private @interface ComponentAnnotation {
-	}
+	private @interface ComponentAnnotation {}
 
-	private static final class Component {
-	}
+	private static final class Component {}
 
 	@ComponentAnnotation
-	private static final class AnnotatedComponent {
-	}
+	private static final class AnnotatedComponent {}
 }

@@ -30,7 +30,6 @@ import universum.studios.android.test.instrumented.InstrumentedTestCase;
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -38,14 +37,16 @@ import static org.mockito.Mockito.verify;
  */
 public final class ActionBarDelegateImplTest extends InstrumentedTestCase {
 
-	@Test
 	@SuppressWarnings("deprecation")
 	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
-	public void testSetHomeAsUpVectorIndicator() {
+	@Test public void testSetHomeAsUpVectorIndicator() {
 		assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(context, mockActionBar);
+		// Act:
 		delegate.setHomeAsUpVectorIndicator(android.R.drawable.ic_delete);
-		verify(mockActionBar, times(1)).setHomeAsUpIndicator(any(Drawable.class));
+		// Assert:
+		verify(mockActionBar).setHomeAsUpIndicator(any(Drawable.class));
 	}
 }

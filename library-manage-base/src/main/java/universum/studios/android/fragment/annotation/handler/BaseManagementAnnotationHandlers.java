@@ -90,7 +90,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 						items.put(id, new FragmentItem(
 								id,
 								Fragment.class,
-								BaseFragmentFactory.createFragmentTag(mAnnotatedClass, Integer.toString(id))
+								BaseFragmentFactory.createFragmentTag(annotatedClass, Integer.toString(id))
 						));
 					}
 				}
@@ -110,7 +110,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 									id,
 									factoryFragment.value(),
 									BaseFragmentFactory.createFragmentTag(
-											mAnnotatedClass,
+											annotatedClass,
 											TextUtils.isEmpty(factoryFragment.taggedName()) ?
 													Integer.toString(id) :
 													factoryFragment.taggedName()
@@ -127,7 +127,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 						}
 					}
 				}
-			}, mAnnotatedClass, BaseFragmentFactory.class);
+			}, annotatedClass, BaseFragmentFactory.class);
 			this.items = items.size() > 0 ? items : null;
 		}
 

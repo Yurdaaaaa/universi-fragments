@@ -18,6 +18,7 @@
  */
 package universum.studios.android.fragment.annotation;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.lang.annotation.ElementType;
@@ -32,10 +33,9 @@ import universum.studios.android.test.local.LocalTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -44,8 +44,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
  */
 public final class FragmentAnnotationsTest extends LocalTestCase {
 
-	@Override
-	public void beforeTest() throws Exception {
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
@@ -53,109 +52,118 @@ public final class FragmentAnnotationsTest extends LocalTestCase {
 
 	@Test(expected = IllegalAccessException.class)
 	public void testInstantiation() throws Exception {
+		// Act:
 		FragmentAnnotations.class.newInstance();
 	}
 
 	@Test(expected = InvocationTargetException.class)
 	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		// Arrange:
 		final Constructor<FragmentAnnotations> constructor = FragmentAnnotations.class.getDeclaredConstructor();
 		constructor.setAccessible(true);
+		// Act:
 		constructor.newInstance();
 	}
 
-	@Test
-	public void testSetIsEnabled() {
+	@Test public void testContract() {
+		// Act + Assert:
+		assertThat(FragmentAnnotations.isEnabled(), is(true));
+	}
+
+	@Test public void testEnabled() {
+		// Act + Assert:
 		FragmentAnnotations.setEnabled(false);
 		assertThat(FragmentAnnotations.isEnabled(), is(false));
 	}
 
-	@Test
-	public void testIsEnabledDefault() {
-		assertThat(FragmentAnnotations.isEnabled(), is(true));
-	}
-
-	@Test
-	public void testCheckIfEnabledOrThrowWhenEnabled() {
+	@Test public void testCheckIfEnabledOrThrowWhenEnabled() {
+		// Act:
 		FragmentAnnotations.checkIfEnabledOrThrow();
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testCheckIfEnabledOrThrowWhenDisabled() {
+		// Arrange:
 		FragmentAnnotations.setEnabled(false);
+		// Act:
 		FragmentAnnotations.checkIfEnabledOrThrow();
 	}
 
-	@Test
-	public void testObtainAnnotationFrom() {
-		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, AnnotatedComponent.class, null), is(not(nullValue())));
-		assertThat(FragmentAnnotations.obtainAnnotationFrom(ChildComponentAnnotation.class, ChildAnnotatedComponent.class, null), is(not(nullValue())));
+	@Test public void testObtainAnnotationFrom() {
+		// Act + Assert:
+		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, AnnotatedComponent.class, null), is(notNullValue()));
+		assertThat(FragmentAnnotations.obtainAnnotationFrom(ChildComponentAnnotation.class, ChildAnnotatedComponent.class, null), is(notNullValue()));
 		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, ChildAnnotatedComponent.class, null), is(nullValue()));
 	}
 
-	@Test
-	public void testObtainAnnotationFromWithMaxSuperClass() {
-		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, ChildAnnotatedComponent.class, BaseComponent.class), is(not(nullValue())));
+	@Test public void testObtainAnnotationFromWithMaxSuperClass() {
+		// Act + Assert:
+		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, ChildAnnotatedComponent.class, BaseComponent.class), is(notNullValue()));
 		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, Component.class, BaseComponent.class), is(nullValue()));
 	}
 
-	@Test
-	public void testObtainAnnotationFromWithMaxSuperClassForClassWithoutSuper() {
+	@Test public void testObtainAnnotationFromWithMaxSuperClassForClassWithoutSuper() {
+		// Act + Assert:
 		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, Object.class, BaseComponent.class), is(nullValue()));
 	}
 
-	@Test
-	public void testObtainAnnotationFromNotAnnotatedComponent() {
+	@Test public void testObtainAnnotationFromNotAnnotatedComponent() {
+		// Act + Assert:
 		assertThat(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, Component.class, null), is(nullValue()));
 	}
 
-	@Test
-	public void testIterateFields() throws Exception {
+	@Test public void testIterateFields() {
+		// Arrange:
 		final FragmentAnnotations.FieldProcessor mockProcessor = mock(FragmentAnnotations.FieldProcessor.class);
+		// Act:
 		FragmentAnnotations.iterateFields(mockProcessor, AnnotatedComponent.class, null);
+		// Assert:
 		final Field[] fields = AnnotatedComponent.class.getDeclaredFields();
 		for (final Field field : fields) {
-			verify(mockProcessor, times(1)).onProcessField(field, field.getName());
+			verify(mockProcessor).onProcessField(field, field.getName());
 		}
 	}
 
-	@Test
-	public void testIterateFieldsWithMaxSuperClass() {
+	@Test public void testIterateFieldsWithMaxSuperClass() {
+		// Arrange:
 		final FragmentAnnotations.FieldProcessor mockProcessor = mock(FragmentAnnotations.FieldProcessor.class);
+		// Act:
 		FragmentAnnotations.iterateFields(mockProcessor, ChildAnnotatedComponent.class, BaseComponent.class);
+		// Assert:
 		for (final Field field : AnnotatedComponent.class.getDeclaredFields()) {
-			verify(mockProcessor, times(1)).onProcessField(field, field.getName());
+			verify(mockProcessor).onProcessField(field, field.getName());
 		}
 		for (final Field field : ChildAnnotatedComponent.class.getDeclaredFields()) {
-			verify(mockProcessor, times(1)).onProcessField(field, field.getName());
+			verify(mockProcessor).onProcessField(field, field.getName());
 		}
 	}
 
-	@Test
-	public void testIterateFieldsWithMaxSuperClassForClassWithoutSuper() {
+	@Test public void testIterateFieldsWithMaxSuperClassForClassWithoutSuper() {
+		// Arrange:
 		final FragmentAnnotations.FieldProcessor mockProcessor = mock(FragmentAnnotations.FieldProcessor.class);
+		// Act:
 		FragmentAnnotations.iterateFields(mockProcessor, Object.class, BaseComponent.class);
 	}
 
-	// todo: @Test
-	// fixme: this test fails when running coverage report ...
-	public void testIterateFieldsOfComponentWithoutFields() {
+	@Ignore("Fails when running coverage report.")
+	@Test public void testIterateFieldsOfComponentWithoutFields() {
+		// Arrange:
 		final FragmentAnnotations.FieldProcessor mockProcessor = mock(FragmentAnnotations.FieldProcessor.class);
+		// Act:
 		FragmentAnnotations.iterateFields(mockProcessor, Component.class, null);
+		// Assert:
 		verifyZeroInteractions(mockProcessor);
 	}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
-	private @interface ComponentAnnotation {
-	}
+	private @interface ComponentAnnotation {}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
-	private @interface ChildComponentAnnotation {
-	}
+	private @interface ChildComponentAnnotation {}
 
-	private static abstract class BaseComponent {
-	}
+	private static abstract class BaseComponent {}
 
 	@ComponentAnnotation
 	@SuppressWarnings("unused")
@@ -173,6 +181,5 @@ public final class FragmentAnnotationsTest extends LocalTestCase {
 		public String secondChildField;
 	}
 
-	private static final class Component extends BaseComponent {
-	}
+	private static final class Component extends BaseComponent {}
 }

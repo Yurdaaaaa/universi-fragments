@@ -60,6 +60,7 @@ public final class FragmentsLogging {
 	 * Sets a logger to be used by this logging class to print out logs into console.
 	 *
 	 * @param logger The desired logger. May by {@code null} to use default logger.
+	 *
 	 * @see #getLogger()
 	 */
 	public static void setLogger(@Nullable final Logger logger) {
@@ -70,108 +71,108 @@ public final class FragmentsLogging {
 	 * Returns the logger used by this logging class.
 	 *
 	 * @return Either default or custom logger.
+	 *
 	 * @see #setLogger(Logger)
 	 */
-	@NonNull
-	public static Logger getLogger() {
+	@NonNull public static Logger getLogger() {
 		return logger;
 	}
 
 	/**
 	 * Delegates to {@link Logger#d(String, String)}.
 	 */
-	public static void d(@NonNull final String tag, @NonNull final String msg) {
-		logger.d(tag, msg);
+	public static void d(@NonNull final String tag, @NonNull final String message) {
+		logger.d(tag, message);
 	}
 
 	/**
 	 * Delegates to {@link Logger#d(String, String, Throwable)}.
 	 */
-	public static void d(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		logger.d(tag, msg, tr);
+	public static void d(@NonNull final String tag, @NonNull final String message, @Nullable final Throwable throwable) {
+		logger.d(tag, message, throwable);
 	}
 
 	/**
 	 * Delegates to {@link Logger#v(String, String)}.
 	 */
-	public static void v(@NonNull final String tag, @NonNull final String msg) {
-		logger.d(tag, msg);
+	public static void v(@NonNull final String tag, @NonNull final String message) {
+		logger.v(tag, message);
 	}
 
 	/**
 	 * Delegates to {@link Logger#v(String, String, Throwable)}.
 	 */
-	public static void v(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		logger.v(tag, msg, tr);
+	public static void v(@NonNull final String tag, @NonNull final String message, @Nullable final Throwable throwable) {
+		logger.v(tag, message, throwable);
 	}
 
 	/**
 	 * Delegates to {@link Logger#i(String, String)}.
 	 */
-	public static void i(@NonNull final String tag, @NonNull final String msg) {
-		logger.i(tag, msg);
+	public static void i(@NonNull final String tag, @NonNull final String message) {
+		logger.i(tag, message);
 	}
 
 	/**
 	 * Delegates to {@link Logger#i(String, String, Throwable)}.
 	 */
-	public static void i(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		logger.i(tag, msg, tr);
+	public static void i(@NonNull final String tag, @NonNull final String message, @Nullable final Throwable throwable) {
+		logger.i(tag, message, throwable);
 	}
 
 	/**
 	 * Delegates to {@link Logger#w(String, String)}.
 	 */
-	public static void w(@NonNull final String tag, @NonNull final String msg) {
-		logger.w(tag, msg);
+	public static void w(@NonNull final String tag, @NonNull final String message) {
+		logger.w(tag, message);
 	}
 
 	/**
 	 * Delegates to {@link Logger#w(String, Throwable)}.
 	 */
-	public static void w(@NonNull final String tag, @Nullable final Throwable tr) {
-		logger.w(tag, tr);
+	public static void w(@NonNull final String tag, @Nullable final Throwable throwable) {
+		logger.w(tag, throwable);
 	}
 
 	/**
 	 * Delegates to {@link Logger#w(String, String, Throwable)}.
 	 */
-	public static void w(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		logger.w(tag, msg, tr);
+	public static void w(@NonNull final String tag, @NonNull final String message, @Nullable final Throwable throwable) {
+		logger.w(tag, message, throwable);
 	}
 
 	/**
 	 * Delegates to {@link Logger#e(String, String)}.
 	 */
-	public static void e(@NonNull final String tag, @NonNull final String msg) {
-		logger.e(tag, msg);
+	public static void e(@NonNull final String tag, @NonNull final String message) {
+		logger.e(tag, message);
 	}
 
 	/**
 	 * Delegates to {@link Logger#e(String, String, Throwable)}.
 	 */
-	public static void e(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		logger.e(tag, msg, tr);
+	public static void e(@NonNull final String tag, @NonNull final String message, @Nullable final Throwable throwable) {
+		logger.e(tag, message, throwable);
 	}
 
 	/**
 	 * Delegates to {@link Logger#wtf(String, String)}.
 	 */
-	public static void wtf(@NonNull final String tag, @NonNull final String msg) {
-		logger.wtf(tag, msg);
+	public static void wtf(@NonNull final String tag, @NonNull final String message) {
+		logger.wtf(tag, message);
 	}
 
 	/**
 	 * Delegates to {@link Logger#wtf(String, Throwable)}.
 	 */
-	public static void wtf(@NonNull final String tag, @Nullable final Throwable tr) {
-		logger.wtf(tag, tr);
+	public static void wtf(@NonNull final String tag, @Nullable final Throwable throwable) {
+		logger.wtf(tag, throwable);
 	}
 
 	/**
 	 * Delegates to {@link Logger#wtf(String, String, Throwable)}.
 	 */
-	public static void wtf(@NonNull final String tag, @NonNull final String msg, @Nullable final Throwable tr) {
-		logger.wtf(tag, msg, tr);
+	public static void wtf(@NonNull final String tag, @NonNull final String message, @Nullable final Throwable throwable) {
+		logger.wtf(tag, message, throwable);
 	}
 }

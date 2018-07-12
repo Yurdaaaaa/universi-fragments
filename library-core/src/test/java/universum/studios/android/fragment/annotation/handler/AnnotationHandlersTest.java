@@ -28,7 +28,7 @@ import universum.studios.android.test.local.RobolectricTestCase;
 import static junit.framework.Assert.assertSame;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 
 /**
@@ -36,8 +36,11 @@ import static org.hamcrest.core.IsNull.nullValue;
  */
 public final class AnnotationHandlersTest extends RobolectricTestCase {
 
-	@Override
-	public void beforeTest() throws Exception {
+	// Arrange:
+	// Act:
+	// Assert:
+
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
@@ -47,55 +50,62 @@ public final class AnnotationHandlersTest extends RobolectricTestCase {
 
 	@Test(expected = InstantiationException.class)
 	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		// Act:
 		AnnotationHandlers.class.getDeclaredConstructor().newInstance();
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
-	public void testInstantiationDirect() throws Exception {
+	public void testInstantiationDirect() {
+		// Act:
 		new AnnotationHandlers(){};
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testObtainHandler() {
+	@Test public void testObtainHandler() {
+		// Act:
 		final Handler handler = AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class);
-		assertThat(handler, is(not(nullValue())));
+		// Assert:
+		assertThat(handler, is(notNullValue()));
 		assertSame(handler.getAnnotatedClass(), AnnotatedComponent.class);
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testObtainHandlerThatIsAbstract() {
+		// Act:
 		AnnotationHandlers.obtainHandler(AbstractHandler.class, AnnotatedComponent.class);
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testObtainHandlerWithPrivateConstructor() {
+		// Act:
 		AnnotationHandlers.obtainHandler(PrivateHandler.class, AnnotatedComponent.class);
 	}
 
-	@Test
-	public void testObtainHandlerAlreadyInstantiated() {
-		assertThat(
-				AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class),
-				is(AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class))
-		);
+	@Test public void testObtainHandlerAlreadyInstantiated() {
+		// Act:
+		final Handler handler = AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class);
+		// Assert:
+		assertThat(handler, is(AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class)));
 	}
 
 	@Test(expected = ClassCastException.class)
 	public void testObtainHandlerOfDifferentType() {
+		// Arrange:
 		AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class);
+		// Act:
 		AnnotationHandlers.obtainHandler(SecondHandler.class, AnnotatedComponent.class);
 	}
 
-	@Test
-	public void testObtainHandlerWhenAnnotationsAreDisabled() {
+	@Test public void testObtainHandlerWhenAnnotationsAreDisabled() {
+		// Arrange:
 		FragmentAnnotations.setEnabled(false);
+		// Act:
 		assertThat(AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class), is(nullValue()));
 		FragmentAnnotations.setEnabled(true);
 	}
 
-	@Test
-	public void testClearHandlersWhenAlreadyCleared() {
+	@Test public void testClearHandlersWhenAlreadyCleared() {
+		// Act:
 		AnnotationHandlers.clearHandlers();
 		AnnotationHandlers.clearHandlers();
 	}
@@ -104,13 +114,11 @@ public final class AnnotationHandlersTest extends RobolectricTestCase {
 
 		private final Class<?> annotatedClass;
 
-		public Handler(Class<?> annotatedClass) {
+		public Handler(final Class<?> annotatedClass) {
 			this.annotatedClass = annotatedClass;
 		}
 
-		@NonNull
-		@Override
-		public Class<?> getAnnotatedClass() {
+		@Override @NonNull public Class<?> getAnnotatedClass() {
 			return annotatedClass;
 		}
 	}
@@ -119,30 +127,24 @@ public final class AnnotationHandlersTest extends RobolectricTestCase {
 
 		private final Class<?> annotatedClass;
 
-		public SecondHandler(Class<?> annotatedClass) {
+		public SecondHandler(final Class<?> annotatedClass) {
 			this.annotatedClass = annotatedClass;
 		}
 
-		@NonNull
-		@Override
-		public Class<?> getAnnotatedClass() {
+		@Override @NonNull public Class<?> getAnnotatedClass() {
 			return annotatedClass;
 		}
 	}
 
-	private static abstract class AbstractHandler implements AnnotationHandler {
-	}
+	private static abstract class AbstractHandler implements AnnotationHandler {}
 
 	private static abstract class PrivateHandler implements AnnotationHandler {
 
-		private PrivateHandler() {
-		}
+		private PrivateHandler() {}
 	}
 
-	private @interface ComponentAnnotation {
-	}
+	private @interface ComponentAnnotation {}
 
 	@ComponentAnnotation
-	private static final class AnnotatedComponent {
-	}
+	private static final class AnnotatedComponent {}
 }
