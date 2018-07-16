@@ -37,6 +37,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
@@ -122,6 +123,7 @@ public final class FragmentAnnotationsTest extends LocalTestCase {
 		for (final Field field : fields) {
 			verify(mockProcessor).onProcessField(field, field.getName());
 		}
+		verifyNoMoreInteractions(mockProcessor);
 	}
 
 	@Test public void testIterateFieldsWithMaxSuperClass() {
@@ -136,6 +138,7 @@ public final class FragmentAnnotationsTest extends LocalTestCase {
 		for (final Field field : ChildAnnotatedComponent.class.getDeclaredFields()) {
 			verify(mockProcessor).onProcessField(field, field.getName());
 		}
+		verifyNoMoreInteractions(mockProcessor);
 	}
 
 	@Test public void testIterateFieldsWithMaxSuperClassForClassWithoutSuper() {

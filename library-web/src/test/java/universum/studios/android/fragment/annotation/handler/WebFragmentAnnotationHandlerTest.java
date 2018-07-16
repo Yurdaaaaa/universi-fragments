@@ -32,23 +32,26 @@ import static org.hamcrest.core.Is.is;
  */
 public final class WebFragmentAnnotationHandlerTest extends RobolectricTestCase {
 
-	@Test
-	public void testGetWebContentResId() {
+	@Test public void testWebContentResId() {
+		// Arrange:
 		final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithContentResource.class);
+		// Act + Assert:
 		assertThat(annotationHandler.getWebContentResId(-1), is(TestFragmentWithContentResource.CONTENT_RES));
 		assertThat(annotationHandler.getWebContent("default"), is("default"));
 	}
 
-	@Test
-	public void testGetWebContent() {
+	@Test public void testWebContent() {
+		// Arrange:
 		final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithContent.class);
+		// Act + Assert:
 		assertThat(annotationHandler.getWebContentResId(-1), is(-1));
 		assertThat(annotationHandler.getWebContent("default"), is(TestFragmentWithContent.CONTENT));
 	}
 
-	@Test
-	public void testFragmentWithoutAnnotation() {
+	@Test public void testFragmentWithoutAnnotation() {
+		// Arrange:
 		final WebFragmentAnnotationHandler annotationHandler = new WebAnnotationHandlers.WebFragmentHandler(TestFragmentWithoutAnnotation.class);
+		// Act + Assert:
 		assertThat(annotationHandler.getWebContentResId(-1), is(-1));
 		assertThat(annotationHandler.getWebContent("default"), is("default"));
 	}
@@ -65,6 +68,5 @@ public final class WebFragmentAnnotationHandlerTest extends RobolectricTestCase 
 		static final String CONTENT = "http://www.google.com";
 	}
 
-	public static class TestFragmentWithoutAnnotation extends WebFragment {
-	}
+	public static class TestFragmentWithoutAnnotation extends WebFragment {}
 }

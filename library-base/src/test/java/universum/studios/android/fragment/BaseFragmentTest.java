@@ -65,8 +65,11 @@ import static org.mockito.Mockito.when;
  */
 public final class BaseFragmentTest extends RobolectricTestCase {
 
-	@Override
-	public void beforeTest() throws Exception {
+	// Arrange:
+	// Act:
+	// Assert:
+
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
@@ -636,20 +639,17 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		boolean onBackPressResult;
 		View dispatchedClickedView;
 
-		@Override
-		protected boolean onBackPress() {
+		@Override protected boolean onBackPress() {
 			return onBackPressResult;
 		}
 
-		@Override
-		protected void onViewClick(@NonNull View view) {
+		@Override protected void onViewClick(@NonNull final View view) {
 			super.onViewClick(dispatchedClickedView = view);
 		}
 	}
 
 	@ContentView(value = android.R.layout.simple_list_item_1, attachToContainer = true)
-	public static class TestFragmentWithContentViewToBeAttachedToContainer extends BaseFragment {
-	}
+	public static class TestFragmentWithContentViewToBeAttachedToContainer extends BaseFragment {}
 
 	@ContentView(
 			value = android.R.layout.simple_list_item_1,
@@ -661,16 +661,13 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 	}
 
 	@ContentView(0)
-	public static class TestFragmentWithoutContentView extends BaseFragment {
-	}
+	public static class TestFragmentWithoutContentView extends BaseFragment {}
 
-	public static abstract class AbstractTestFragment extends BaseFragment {
-	}
+	public static abstract class AbstractTestFragment extends BaseFragment {}
 
 	public static class TestFragmentWithPrivateConstructor extends BaseFragment {
 
 		@SuppressLint("ValidFragment")
-		private TestFragmentWithPrivateConstructor() {
-		}
+		private TestFragmentWithPrivateConstructor() {}
 	}
 }

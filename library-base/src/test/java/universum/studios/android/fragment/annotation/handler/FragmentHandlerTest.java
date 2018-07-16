@@ -34,46 +34,41 @@ import static org.hamcrest.core.Is.is;
  */
 public final class FragmentHandlerTest extends RobolectricTestCase {
 
-	@Override
-	public void beforeTest() throws Exception {
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 
-	@Test
-	public void testGetContentViewResource() {
+	@Test public void testGetContentViewResource() {
+		// Arrange + Act + Assert:
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragment.class).getContentViewResource(-1), is(android.R.layout.simple_list_item_1));
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragmentWithAttachToContainer.class).getContentViewResource(-1), is(android.R.layout.simple_list_item_1));
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragmentWithoutAnnotation.class).getContentViewResource(-1), is(-1));
 	}
 
-	@Test
-	public void testShouldAttachContentViewToContainer() {
+	@Test public void testShouldAttachContentViewToContainer() {
+		// Arrange + Act + Assert:
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragment.class).shouldAttachContentViewToContainer(), is(false));
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragmentWithAttachToContainer.class).shouldAttachContentViewToContainer(), is(true));
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragmentWithoutAnnotation.class).shouldAttachContentViewToContainer(), is(false));
 	}
 
-	@Test
-	public void testGetContentViewBackgroundResId() {
+	@Test public void testGetContentViewBackgroundResId() {
+		// Arrange + Act + Assert:
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragment.class).getContentViewBackgroundResId(-1), is(-1));
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragmentWithBackground.class).getContentViewBackgroundResId(-1), is(android.R.color.white));
 		assertThat(new BaseAnnotationHandlers.FragmentHandler(TestFragmentWithoutAnnotation.class).getContentViewBackgroundResId(-1), is(-1));
 	}
 
 	@ContentView(android.R.layout.simple_list_item_1)
-	public static class TestFragment extends Fragment {
-	}
+	public static class TestFragment extends Fragment {}
 
 	@ContentView(value = android.R.layout.simple_list_item_1, attachToContainer = true)
-	public static final class TestFragmentWithAttachToContainer extends TestFragment {
-	}
+	public static final class TestFragmentWithAttachToContainer extends TestFragment {}
 
 	@ContentView(value = android.R.layout.simple_list_item_1, background = android.R.color.white)
-	public static final class TestFragmentWithBackground extends TestFragment {
-	}
+	public static final class TestFragmentWithBackground extends TestFragment {}
 
-	public static final class TestFragmentWithoutAnnotation extends Fragment {
-	}
+	public static final class TestFragmentWithoutAnnotation extends Fragment {}
 }

@@ -39,60 +39,57 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 public final class ActivityDelegateTest extends RobolectricTestCase {
-    
-	@Test
-	public void testInstantiation() {
+
+	@Test public void testInstantiation() {
+		// Arrange:
 		final Activity activity = new Activity();
-		assertThat(new Delegate(activity).mActivity, is(activity));
+		// Act:
+		final TestDelegate delegate = new TestDelegate(activity);
+		// Assert:
+		assertThat(delegate.getActivity(), is(activity));
 	}
 
-    @Test
-	public void testCreateForFrameworkActivity() {
+    @Test public void testCreateForFrameworkActivity() {
+	    // Arrange:
 		final Activity activity = new Activity();
+	    // Act:
 	    final ActivityDelegate activityDelegate = ActivityDelegate.create(activity);
+	    // Assert:
 	    assertThat(activityDelegate, is(not(nullValue())));
-	    assertThat(activityDelegate.mActivity, is(activity));
-	}
+	    assertThat(activityDelegate.getActivity(), is(activity));
+    }
 
-	@Test
-	public void testCreateForCompatActivity() {
+	@Test public void testCreateForCompatActivity() {
+		// Arrange:
 		final AppCompatActivity activity = new AppCompatActivity();
+		// Act:
 		final ActivityDelegate activityDelegate = ActivityDelegate.create(activity);
+		// Assert:
 		assertThat(activityDelegate, is(not(nullValue())));
-		assertThat(activityDelegate.mActivity, Is.<Activity>is(activity));
+		assertThat(activityDelegate.getActivity(), Is.<Activity>is(activity));
 	}
 
-	private static final class Delegate extends ActivityDelegate {
+	private static final class TestDelegate extends ActivityDelegate {
 
-		Delegate(@NonNull Activity activity) {
+		TestDelegate(@NonNull final Activity activity) {
 			super(activity);
 		}
 
-		@Override
-		public boolean requestWindowFeature(int featureId) {
+		@Override public boolean requestWindowFeature(final int featureId) {
 			return false;
 		}
 
-		@Override
-		public void invalidateOptionsMenu() {
+		@Override public void invalidateOptionsMenu() {}
 
-		}
-
-		@Nullable
-		@Override
-		public ActionBar getActionBar() {
+		@Override @Nullable public ActionBar getActionBar() {
 			return null;
 		}
 
-		@Nullable
-		@Override
-		public android.support.v7.app.ActionBar getSupportActionBar() {
+		@Override @Nullable public android.support.v7.app.ActionBar getSupportActionBar() {
 			return null;
 		}
 
-		@Nullable
-		@Override
-		public ActionMode startActionMode(@NonNull ActionMode.Callback callback) {
+		@Override @Nullable public ActionMode startActionMode(@NonNull final ActionMode.Callback callback) {
 			return null;
 		}
 	}

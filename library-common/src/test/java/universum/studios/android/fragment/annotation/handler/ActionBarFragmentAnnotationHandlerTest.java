@@ -19,7 +19,6 @@
 package universum.studios.android.fragment.annotation.handler;
 
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,11 +36,11 @@ import universum.studios.android.test.local.RobolectricTestCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
@@ -50,167 +49,185 @@ import static org.mockito.Mockito.when;
  */
 public final class ActionBarFragmentAnnotationHandlerTest extends RobolectricTestCase {
 
-	@Override
-	public void beforeTest() throws Exception {
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 
-	@Test
-	public void testActionBarOptions() {
+	@Test public void testActionBarOptions() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentActionBarOptions.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(1)).setDisplayHomeAsUpEnabled(true);
-		verify(mockActionBarDelegate, times(1)).setHomeAsUpIndicator(android.R.drawable.ic_lock_lock);
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpVectorIndicator(anyInt());
-		verify(mockActionBarDelegate, times(1)).setIcon(android.R.drawable.ic_delete);
-		verify(mockActionBarDelegate, times(1)).setTitle(android.R.string.ok);
+		// Assert:
 		assertThat(annotationHandler.hasOptionsMenu(), is(true));
 		assertThat(annotationHandler.shouldClearOptionsMenu(), is(false));
 		assertThat(annotationHandler.getOptionsMenuResource(0), is(0));
 		assertThat(annotationHandler.handleCreateActionMode(mock(ActionMode.class), mock(Menu.class)), is(false));
+		verify(mockActionBarDelegate).setDisplayHomeAsUpEnabled(true);
+		verify(mockActionBarDelegate).setHomeAsUpIndicator(android.R.drawable.ic_lock_lock);
+		verify(mockActionBarDelegate, times(0)).setHomeAsUpVectorIndicator(anyInt());
+		verify(mockActionBarDelegate).setIcon(android.R.drawable.ic_delete);
+		verify(mockActionBarDelegate).setTitle(android.R.string.ok);
+		verifyNoMoreInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithDisabledHomeAsUp() {
+	@Test public void testActionBarOptionsWithDisabledHomeAsUp() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithActionBarOptionsWithDisabledHomeAsUp.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(1)).setDisplayHomeAsUpEnabled(false);
+		// Assert:
+		verify(mockActionBarDelegate).setDisplayHomeAsUpEnabled(false);
+		verifyNoMoreInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithUnchangedHomeAsUp() {
+	@Test public void testActionBarOptionsWithUnchangedHomeAsUp() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithEmptyActionBarOptions.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(0)).setDisplayHomeAsUpEnabled(anyBoolean());
+		// Assert:
+		verifyZeroInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithNoneHomeAsUpIndicator() {
+	@Test public void testActionBarOptionsWithNoneHomeAsUpIndicator() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithActionBarOptionsWithNoneHomeAsUpIndicator.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(1)).setHomeAsUpIndicator(any(ColorDrawable.class));
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpVectorIndicator(anyInt());
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpIndicator(anyInt());
+		// Assert:
+		verify(mockActionBarDelegate).setHomeAsUpIndicator(any(ColorDrawable.class));
+		verifyNoMoreInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithUnchangedHomeAsUpIndicator() {
+	@Test public void testActionBarOptionsWithUnchangedHomeAsUpIndicator() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithEmptyActionBarOptions.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpIndicator(any(Drawable.class));
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpVectorIndicator(anyInt());
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpIndicator(anyInt());
+		// Assert:
+		verifyZeroInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithHomeAsUpVectorIndicator() {
+	@Test public void testActionBarOptionsWithHomeAsUpVectorIndicator() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithActionBarOptionsWithHomeAsUpVectorIndicator.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(1)).setHomeAsUpVectorIndicator(android.R.drawable.ic_lock_lock);
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpIndicator(anyInt());
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpIndicator(any(Drawable.class));
+		// Assert:
+		verify(mockActionBarDelegate).setHomeAsUpVectorIndicator(android.R.drawable.ic_lock_lock);
+		verifyNoMoreInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithNoneHomeAsUpVectorIndicator() {
+	@Test public void testActionBarOptionsWithNoneHomeAsUpVectorIndicator() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithActionBarOptionsWithNoneHomeAsUpVectorIndicator.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(1)).setHomeAsUpIndicator(any(ColorDrawable.class));
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpVectorIndicator(anyInt());
-		verify(mockActionBarDelegate, times(0)).setHomeAsUpIndicator(anyInt());
+		// Assert:
+		verify(mockActionBarDelegate).setHomeAsUpIndicator(any(ColorDrawable.class));
+		verifyNoMoreInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithUnchangedIcon() {
+	@Test public void testActionBarOptionsWithUnchangedIcon() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithEmptyActionBarOptions.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(0)).setIcon(anyInt());
-		verify(mockActionBarDelegate, times(0)).setIcon(any(Drawable.class));
+		// Assert:
+		verifyZeroInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithNoneIcon() {
+	@Test public void testActionBarOptionsWithNoneIcon() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithActionBarOptionsWithNoneIcon.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(1)).setIcon(any(ColorDrawable.class));
-		verify(mockActionBarDelegate, times(0)).setIcon(anyInt());
+		// Assert:
+		verify(mockActionBarDelegate).setIcon(any(ColorDrawable.class));
+		verifyNoMoreInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testActionBarOptionsWithNoneTitle() {
+	@Test public void testActionBarOptionsWithNoneTitle() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithActionBarOptionsWithNoneTitle.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(1)).setTitle("");
+		// Assert:
+		verify(mockActionBarDelegate).setTitle("");
 		verify(mockActionBarDelegate, times(0)).setTitle(anyInt());
 	}
 
-	@Test
-	public void testActionBarOptionsWithUnchangedTitle() {
+	@Test public void testActionBarOptionsWithUnchangedTitle() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithEmptyActionBarOptions.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
+		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verify(mockActionBarDelegate, times(0)).setTitle(anyInt());
-		verify(mockActionBarDelegate, times(0)).setTitle(any(CharSequence.class));
+		// Assert:
+		verifyZeroInteractions(mockActionBarDelegate);
 	}
 
-	@Test
-	public void testMenuOptions() {
+	@Test public void testMenuOptions() {
+		// Arrange + Act:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithMenuOptions.class);
+		// Assert:
 		assertThat(annotationHandler.hasOptionsMenu(), is(true));
 		assertThat(annotationHandler.shouldClearOptionsMenu(), is(true));
 		assertThat(annotationHandler.getOptionsMenuResource(-1), is(TestFragmentWithMenuOptions.MENU_RESOURCE));
 		assertThat(annotationHandler.getOptionsMenuFlags(-1), is(MenuOptions.IGNORE_SUPER));
 	}
 
-	@Test
-	public void testEmptyMenuOptions() {
+	@Test public void testEmptyMenuOptions() {
+		// Arrange + Act:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithEmptyMenuOptions.class);
+		// Assert:
 		assertThat(annotationHandler.hasOptionsMenu(), is(true));
 		assertThat(annotationHandler.shouldClearOptionsMenu(), is(false));
 		assertThat(annotationHandler.getOptionsMenuResource(-1), is(-1));
 		assertThat(annotationHandler.getOptionsMenuFlags(-1), is(MenuOptions.DEFAULT));
 	}
 
-	@Test
 	@SuppressWarnings("ResourceType")
-	public void testActionModeOptions() {
+	@Test public void testActionModeOptions() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithActionModeOptions.class);
 		final ActionMode mockActionMode = mock(ActionMode.class);
 		final Menu mockMenu = mock(Menu.class);
 		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
 		when(mockActionMode.getMenuInflater()).thenReturn(mockMenuInflater);
+		// Act + Assert:
 		assertThat(annotationHandler.handleCreateActionMode(mockActionMode, mockMenu), is(true));
-		verify(mockActionMode, times(1)).getMenuInflater();
-		verify(mockMenuInflater, times(1)).inflate(TestFragmentWithActionModeOptions.MENU_RESOURCE, mockMenu);
+		verify(mockActionMode).getMenuInflater();
+		verify(mockMenuInflater).inflate(TestFragmentWithActionModeOptions.MENU_RESOURCE, mockMenu);
 	}
 
-	@Test
-	public void testActionModeOptionsWithoutMenu() {
+	@Test public void testActionModeOptionsWithoutMenu() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithEmptyActionBarOptions.class);
 		final ActionMode mockActionMode = mock(ActionMode.class);
 		final Menu mockMenu = mock(Menu.class);
 		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
 		when(mockActionMode.getMenuInflater()).thenReturn(mockMenuInflater);
+		// Act + Assert:
 		assertThat(annotationHandler.handleCreateActionMode(mockActionMode, mockMenu), is(false));
-		verifyZeroInteractions(mockActionMode);
-		verifyZeroInteractions(mockMenuInflater);
-		verifyZeroInteractions(mockMenu);
+		verifyZeroInteractions(mockActionMode, mockMenuInflater, mockMenu);
 	}
 
-	@Test
-	public void testFragmentWithoutAnnotation() {
+	@Test public void testFragmentWithoutAnnotation() {
+		// Arrange:
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithoutAnnotation.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
 		annotationHandler.configureActionBar(mockActionBarDelegate);
@@ -223,10 +240,9 @@ public final class ActionBarFragmentAnnotationHandlerTest extends RobolectricTes
 		final Menu mockMenu = mock(Menu.class);
 		final MenuInflater mockMenuInflater = mock(MenuInflater.class);
 		when(mockActionMode.getMenuInflater()).thenReturn(mockMenuInflater);
+		// Act + Assert:
 		assertThat(annotationHandler.handleCreateActionMode(mockActionMode, mockMenu), is(false));
-		verifyZeroInteractions(mockActionMode);
-		verifyZeroInteractions(mockMenuInflater);
-		verifyZeroInteractions(mockMenu);
+		verifyZeroInteractions(mockActionMode, mockMenuInflater, mockMenu);
 	}
 
 	@ActionBarOptions(
@@ -235,36 +251,28 @@ public final class ActionBarFragmentAnnotationHandlerTest extends RobolectricTes
 			homeAsUp = ActionBarOptions.HOME_AS_UP_ENABLED,
 			homeAsUpIndicator = android.R.drawable.ic_lock_lock
 	)
-	public static class TestFragmentActionBarOptions extends ActionBarFragment {
-	}
+	public static class TestFragmentActionBarOptions extends ActionBarFragment {}
 
 	@ActionBarOptions
-	public static class TestFragmentWithEmptyActionBarOptions extends ActionBarFragment {
-	}
+	public static class TestFragmentWithEmptyActionBarOptions extends ActionBarFragment {}
 
 	@ActionBarOptions(homeAsUp = ActionBarOptions.HOME_AS_UP_DISABLED)
-	public static class TestFragmentWithActionBarOptionsWithDisabledHomeAsUp extends ActionBarFragment {
-	}
+	public static class TestFragmentWithActionBarOptionsWithDisabledHomeAsUp extends ActionBarFragment {}
 
 	@ActionBarOptions(homeAsUpIndicator = ActionBarOptions.NONE)
-	public static class TestFragmentWithActionBarOptionsWithNoneHomeAsUpIndicator extends ActionBarFragment {
-	}
+	public static class TestFragmentWithActionBarOptionsWithNoneHomeAsUpIndicator extends ActionBarFragment {}
 
 	@ActionBarOptions(homeAsUpVectorIndicator = android.R.drawable.ic_lock_lock)
-	public static class TestFragmentWithActionBarOptionsWithHomeAsUpVectorIndicator extends ActionBarFragment {
-	}
+	public static class TestFragmentWithActionBarOptionsWithHomeAsUpVectorIndicator extends ActionBarFragment {}
 
 	@ActionBarOptions(homeAsUpVectorIndicator = ActionBarOptions.NONE)
-	public static class TestFragmentWithActionBarOptionsWithNoneHomeAsUpVectorIndicator extends ActionBarFragment {
-	}
+	public static class TestFragmentWithActionBarOptionsWithNoneHomeAsUpVectorIndicator extends ActionBarFragment {}
 
 	@ActionBarOptions(icon = ActionBarOptions.NONE)
-	public static class TestFragmentWithActionBarOptionsWithNoneIcon extends ActionBarFragment {
-	}
+	public static class TestFragmentWithActionBarOptionsWithNoneIcon extends ActionBarFragment {}
 
 	@ActionBarOptions(title = ActionBarOptions.NONE)
-	public static class TestFragmentWithActionBarOptionsWithNoneTitle extends ActionBarFragment {
-	}
+	public static class TestFragmentWithActionBarOptionsWithNoneTitle extends ActionBarFragment {}
 
 	@SuppressWarnings("ResourceType")
 	@MenuOptions(
@@ -278,8 +286,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends RobolectricTes
 	}
 
 	@MenuOptions
-	public static class TestFragmentWithEmptyMenuOptions extends ActionBarFragment {
-	}
+	public static class TestFragmentWithEmptyMenuOptions extends ActionBarFragment {}
 
 	@SuppressWarnings("ResourceType")
 	@ActionModeOptions(menu = TestFragmentWithActionModeOptions.MENU_RESOURCE)
@@ -289,9 +296,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends RobolectricTes
 	}
 
 	@ActionModeOptions
-	public static class TestFragmentWithEmptyActionModeOptions extends ActionBarFragment {
-	}
+	public static class TestFragmentWithEmptyActionModeOptions extends ActionBarFragment {}
 
-	public static class TestFragmentWithoutAnnotation extends ActionBarFragment {
-	}
+	public static class TestFragmentWithoutAnnotation extends ActionBarFragment {}
 }

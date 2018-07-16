@@ -36,10 +36,6 @@ import static org.hamcrest.core.IsNull.nullValue;
  */
 public final class AnnotationHandlersTest extends RobolectricTestCase {
 
-	// Arrange:
-	// Act:
-	// Assert:
-
 	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.

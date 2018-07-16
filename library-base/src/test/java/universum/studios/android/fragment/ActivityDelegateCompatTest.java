@@ -33,6 +33,7 @@ import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -40,51 +41,60 @@ import static org.mockito.Mockito.when;
  */
 public final class ActivityDelegateCompatTest extends RobolectricTestCase {
 
-	@Test
-	public void testInstantiation() {
+	@Test public void testInstantiation() {
+		// Arrange:
 		final AppCompatActivity activity = new AppCompatActivity();
+		// Act:
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(activity);
-		assertThat(delegate.mActivity, Is.<Activity>is(activity));
+		// Assert:
+		assertThat(delegate.getActivity(), Is.<Activity>is(activity));
 	}
 
-	@Test
-	public void testRequestWindowFeature() {
+	@Test public void testRequestWindowFeature() {
+		// Arrange:
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
+		// Act + Assert:
 		assertThat(
 				delegate.requestWindowFeature(Window.FEATURE_ACTION_BAR),
 				is(mockActivity.supportRequestWindowFeature(Window.FEATURE_ACTION_BAR))
 		);
 		verify(mockActivity, times(2)).supportRequestWindowFeature(Window.FEATURE_ACTION_BAR);
+		verifyNoMoreInteractions(mockActivity);
 	}
 
-	@Test
-	public void testInvalidateOptionsMenu() {
+	@Test public void testInvalidateOptionsMenu() {
+		// Arrange:
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
+		// Act:
 		delegate.invalidateOptionsMenu();
-		verify(mockActivity, times(1)).supportInvalidateOptionsMenu();
+		// Assert:
+		verify(mockActivity).supportInvalidateOptionsMenu();
+		verifyNoMoreInteractions(mockActivity);
 	}
 
-	@Test
-	public void testGetActionBar() {
+	@Test public void testGetActionBar() {
+		// Arrange:
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		when(mockActivity.getActionBar()).thenReturn(mockActionBar);
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
+		// Act + Assert:
 		assertThat(delegate.getActionBar(), is(mockActionBar));
-		verify(mockActivity, times(1)).getActionBar();
-		verify(mockActivity, times(0)).getSupportActionBar();
+		verify(mockActivity).getActionBar();
+		verifyNoMoreInteractions(mockActivity);
 	}
 
-	@Test
-	public void testGetSupportActionBar() {
+	@Test public void testGetSupportActionBar() {
+		// Arrange:
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
 		final android.support.v7.app.ActionBar mockSupportActionBar = mock(android.support.v7.app.ActionBar.class);
 		when(mockActivity.getSupportActionBar()).thenReturn(mockSupportActionBar);
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
+		// Act + Assert:
 		assertThat(delegate.getSupportActionBar(), is(mockSupportActionBar));
-		verify(mockActivity, times(1)).getSupportActionBar();
-		verify(mockActivity, times(0)).getActionBar();
+		verify(mockActivity).getSupportActionBar();
+		verifyNoMoreInteractions(mockActivity);
 	}
 }

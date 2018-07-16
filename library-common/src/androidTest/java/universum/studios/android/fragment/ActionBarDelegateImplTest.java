@@ -31,6 +31,7 @@ import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * @author Martin Albedinsky
@@ -48,5 +49,6 @@ public final class ActionBarDelegateImplTest extends InstrumentedTestCase {
 		delegate.setHomeAsUpVectorIndicator(android.R.drawable.ic_delete);
 		// Assert:
 		verify(mockActionBar).setHomeAsUpIndicator(any(Drawable.class));
+		verifyNoMoreInteractions(mockActionBar);
 	}
 }

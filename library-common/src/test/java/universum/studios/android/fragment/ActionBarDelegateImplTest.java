@@ -30,111 +30,131 @@ import org.robolectric.annotation.Config;
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * @author Martin Albedinsky
  */
 public final class ActionBarDelegateImplTest extends RobolectricTestCase {
 
-	@Test
-	public void testSetDisplayHomeAsUpEnabled() {
+	@Test public void testDisplayHomeAsUpEnabled() {
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(application, mockActionBar);
+		// Act + Assert:
 		delegate.setDisplayHomeAsUpEnabled(true);
-		verify(mockActionBar, times(1)).setDisplayHomeAsUpEnabled(true);
+		verify(mockActionBar).setDisplayHomeAsUpEnabled(true);
 		delegate.setDisplayHomeAsUpEnabled(false);
-		verify(mockActionBar, times(1)).setDisplayHomeAsUpEnabled(false);
+		verify(mockActionBar).setDisplayHomeAsUpEnabled(false);
+		verifyNoMoreInteractions(mockActionBar);
 	}
 
-	@Test
-	public void testSetDisplayHomeAsUpEnabledWithoutActionBar() {
+	@Test public void testDisplayHomeAsUpEnabledWithoutActionBar() {
+		// Act:
 		// Only ensure that the delegate does not cause any troubles when it does not have ActionBar.
 		new ActionBarDelegate.Impl(application, null).setDisplayHomeAsUpEnabled(true);
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN_MR2)
-	public void testSetHomeAsUpIndicatorAsResource() {
+	@Test public void testHomeAsUpIndicatorAsResource() {
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(application, mockActionBar);
+		// Act:
 		delegate.setHomeAsUpIndicator(android.R.drawable.ic_delete);
-		verify(mockActionBar, times(1)).setHomeAsUpIndicator(android.R.drawable.ic_delete);
+		// Assert:
+		verify(mockActionBar).setHomeAsUpIndicator(android.R.drawable.ic_delete);
+		verifyNoMoreInteractions(mockActionBar);
 	}
 
-	@Test
-	public void testSetHomeAsUpVectorIndicatorWithoutActionBar() {
+	@Test public void testHomeAsUpVectorIndicatorWithoutActionBar() {
+		// Act:
 		// Only ensure that the delegate does not cause any troubles when it does not have ActionBar.
 		new ActionBarDelegate.Impl(application, null).setHomeAsUpIndicator(android.R.drawable.ic_delete);
 	}
 
-	@Test
 	@SuppressWarnings("deprecation")
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN_MR2)
-	public void testSetHomeAsUpIndicator() {
+	@Test public void testHomeAsUpIndicator() {
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(application, mockActionBar);
 		final Drawable indicator = new ColorDrawable(Color.WHITE);
+		// Act:
 		delegate.setHomeAsUpIndicator(indicator);
-		verify(mockActionBar, times(1)).setHomeAsUpIndicator(indicator);
+		// Assert:
+		verify(mockActionBar).setHomeAsUpIndicator(indicator);
+		verifyNoMoreInteractions(mockActionBar);
 	}
 
-	@Test
 	@SuppressWarnings("deprecation")
-	public void testSetHomeAsUpIndicatorWithoutActionBar() {
+	@Test public void testHomeAsUpIndicatorWithoutActionBar() {
+		// Act:
 		// Only ensure that the delegate does not cause any troubles when it does not have ActionBar.
 		new ActionBarDelegate.Impl(application, null).setHomeAsUpIndicator(new ColorDrawable(Color.WHITE));
 	}
 
-	@Test
-	public void testSetTitleAsResource() {
+	@Test public void testTitleAsResource() {
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(application, mockActionBar);
+		// Act:
 		delegate.setTitle(android.R.string.dialog_alert_title);
-		verify(mockActionBar, times(1)).setTitle(application.getText(android.R.string.dialog_alert_title));
+		// Assert:
+		verify(mockActionBar).setTitle(application.getText(android.R.string.dialog_alert_title));
+		verifyNoMoreInteractions(mockActionBar);
 	}
 
-	@Test
-	public void testSetTitle() {
+	@Test public void testTitle() {
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(application, mockActionBar);
+		// Act:
 		delegate.setTitle(application.getText(android.R.string.dialog_alert_title));
-		verify(mockActionBar, times(1)).setTitle(application.getText(android.R.string.dialog_alert_title));
+		// Assert:
+		verify(mockActionBar).setTitle(application.getText(android.R.string.dialog_alert_title));
+		verifyNoMoreInteractions(mockActionBar);
 	}
 
-	@Test
-	public void testSetTitleWithoutActionBar() {
+	@Test public void testTitleWithoutActionBar() {
+		// Act:
 		// Only ensure that the delegate does not cause any troubles when it does not have ActionBar.
 		new ActionBarDelegate.Impl(application, null).setTitle("Title");
 	}
 
-	@Test
-	public void testSetIconAsResource() {
+	@Test public void testIconAsResource() {
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(application, mockActionBar);
+		// Act:
 		delegate.setIcon(android.R.drawable.ic_delete);
-		verify(mockActionBar, times(1)).setIcon(android.R.drawable.ic_delete);
+		// Assert:
+		verify(mockActionBar).setIcon(android.R.drawable.ic_delete);
+		verifyNoMoreInteractions(mockActionBar);
 	}
 
-	@Test
-	public void testSetIconAsResourceWithoutActionBar() {
+	@Test public void testIconAsResourceWithoutActionBar() {
+		// Act:
 		// Only ensure that the delegate does not cause any troubles when it does not have ActionBar.
 		new ActionBarDelegate.Impl(application, null).setIcon(android.R.drawable.ic_delete);
 	}
 
-	@Test
 	@SuppressWarnings("deprecation")
-	public void testSetIcon() {
+	@Test public void testIcon() {
+		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(application, mockActionBar);
 		final Drawable icon = application.getResources().getDrawable(android.R.drawable.ic_delete);
+		// Act:
 		delegate.setIcon(icon);
-		verify(mockActionBar, times(1)).setIcon(icon);
+		// Assert:
+		verify(mockActionBar).setIcon(icon);
+		verifyNoMoreInteractions(mockActionBar);
 	}
 
-	@Test
-	public void testSetIconWithoutActionBar() {
+	@Test public void testIconWithoutActionBar() {
+		// Act:
 		// Only ensure that the delegate does not cause any troubles when it does not have ActionBar.
 		new ActionBarDelegate.Impl(application, null).setIcon(null);
 	}

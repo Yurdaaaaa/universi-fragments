@@ -31,8 +31,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
@@ -40,60 +40,74 @@ import static org.mockito.Mockito.when;
  * @author Martin Albedinsky
  */
 public final class ActivityDelegateImplTest extends RobolectricTestCase {
-    
-    @Test
-	public void testInstantiation() {
-	    final Activity activity = new Activity();
-		final ActivityDelegate delegate = new ActivityDelegate.Impl(activity);
-	    assertThat(delegate.mActivity, is(activity));
+
+    @Test public void testInstantiation() {
+	    // Arrange:
+    	final Activity activity = new Activity();
+	    // Act:
+	    final ActivityDelegate delegate = new ActivityDelegate.Impl(activity);
+	    // Assert:
+	    assertThat(delegate.getActivity(), is(activity));
 	}
 
-	@Test
-	public void testRequestWindowFeature() {
-		final Activity mockActivity = mock(Activity.class);
+	@Test public void testRequestWindowFeature() {
+		// Arrange:
+    	final Activity mockActivity = mock(Activity.class);
 		final Window mockWindow = mock(Window.class);
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(mockActivity);
 		when(mockActivity.getWindow()).thenReturn(mockWindow);
+		// Act + Assert:
+
 		assertThat(
 				delegate.requestWindowFeature(Window.FEATURE_ACTION_BAR),
 				is(mockWindow.requestFeature(Window.FEATURE_ACTION_BAR))
 		);
-		verify(mockWindow, times(1)).requestFeature(Window.FEATURE_ACTION_BAR);
+		verify(mockWindow).requestFeature(Window.FEATURE_ACTION_BAR);
+		verifyNoMoreInteractions(mockWindow);
 	}
 
-	@Test
-	public void testInvalidateOptionsMenu() {
-		final Activity mockActivity = mock(Activity.class);
+	@Test public void testInvalidateOptionsMenu() {
+		// Arrange:
+    	final Activity mockActivity = mock(Activity.class);
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(mockActivity);
+		// Act:
 		delegate.invalidateOptionsMenu();
-		verify(mockActivity, times(1)).invalidateOptionsMenu();
+		// Assert:
+		verify(mockActivity).invalidateOptionsMenu();
+		verifyNoMoreInteractions(mockActivity);
 	}
 
-	@Test
-	public void testGetActionBar() {
-		final Activity mockActivity = mock(Activity.class);
+	@Test public void testGetActionBar() {
+		// Arrange:
+    	final Activity mockActivity = mock(Activity.class);
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		when(mockActivity.getActionBar()).thenReturn(mockActionBar);
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(mockActivity);
+		// Act + Assert:
 		assertThat(delegate.getActionBar(), is(mockActionBar));
-		verify(mockActivity, times(1)).getActionBar();
+		verify(mockActivity).getActionBar();
+		verifyNoMoreInteractions(mockActivity);
 	}
 
-	@Test
-	public void testGetSupportActionBar() {
-		final Activity mockActivity = mock(Activity.class);
-		assertThat(new ActivityDelegate.Impl(mockActivity).getSupportActionBar(), is(nullValue()));
+	@Test public void testGetSupportActionBar() {
+		// Arrange:
+    	final Activity mockActivity = mock(Activity.class);
+		final ActivityDelegate.Impl delegate = new ActivityDelegate.Impl(mockActivity);
+		// Act + Assert:
+		assertThat(delegate.getSupportActionBar(), is(nullValue()));
 		verifyZeroInteractions(mockActivity);
 	}
 
-	@Test
-	public void testStartActionMode() {
-		final Activity mockActivity = mock(Activity.class);
+	@Test public void testStartActionMode() {
+		// Arrange:
+    	final Activity mockActivity = mock(Activity.class);
 		final ActionMode mockActionMode = mock(ActionMode.class);
 		final ActionMode.Callback mockActionModeCallback = mock(ActionMode.Callback.class);
 		when(mockActivity.startActionMode(mockActionModeCallback)).thenReturn(mockActionMode);
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(mockActivity);
+		// Act + Assert:
 		assertThat(delegate.startActionMode(mockActionModeCallback), is(mockActionMode));
-		verify(mockActivity, times(1)).startActionMode(mockActionModeCallback);
+		verify(mockActivity).startActionMode(mockActionModeCallback);
+		verifyNoMoreInteractions(mockActivity);
 	}
 }

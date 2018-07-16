@@ -50,7 +50,7 @@ public final class BaseAnnotationHandlerTest extends RobolectricTestCase {
 
 	@Test public void testInstantiation() {
 		// Act:
-		final Handler handler = new Handler(Fragment.class);
+		final TestHandler handler = new TestHandler(Fragment.class);
 		// Assert:
 		assertThat(handler.annotatedClass, is(not(nullValue())));
 		assertSame(handler.annotatedClass, Fragment.class);
@@ -58,7 +58,7 @@ public final class BaseAnnotationHandlerTest extends RobolectricTestCase {
 
     @Test public void testGetAnnotatedClass() {
 	    // Arrange:
-	    final Handler handler = new Handler(Fragment.class);
+	    final TestHandler handler = new TestHandler(Fragment.class);
 	    // Act + Assert:
 		assertSame(handler.getAnnotatedClass(), Fragment.class);
 	}
@@ -66,18 +66,18 @@ public final class BaseAnnotationHandlerTest extends RobolectricTestCase {
 	@Test public void testFindAnnotation() {
 		// Arrange + Act + Assert:
 		assertThat(
-				new Handler(Component.class).findAnnotation(ComponentAnnotation.class),
+				new TestHandler(Component.class).findAnnotation(ComponentAnnotation.class),
 				is(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, Component.class, null))
 		);
 		assertThat(
-				new Handler(AnnotatedComponent.class).findAnnotation(ComponentAnnotation.class),
+				new TestHandler(AnnotatedComponent.class).findAnnotation(ComponentAnnotation.class),
 				is(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, AnnotatedComponent.class, null))
 		);
 	}
 
-	private static final class Handler extends BaseAnnotationHandler {
+	private static final class TestHandler extends BaseAnnotationHandler {
 
-		Handler(@NonNull final Class<?> annotatedClass) {
+		TestHandler(@NonNull final Class<?> annotatedClass) {
 			super(annotatedClass);
 		}
 	}

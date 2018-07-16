@@ -30,40 +30,41 @@ import universum.studios.android.test.local.RobolectricTestCase;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
  * @author Martin Albedinsky
  */
 public final class WebAnnotationHandlersTest extends RobolectricTestCase {
 
-	@Override
-	public void beforeTest() throws Exception {
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
     
 	@Test(expected = UnsupportedOperationException.class)
-	public void testInstantiation() throws Exception {
+	public void testInstantiation() {
+		// Act:
 		new WebAnnotationHandlers();
 	}
 
 	@Test(expected = InvocationTargetException.class)
 	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		// Arrange:
 		final Constructor<WebAnnotationHandlers> constructor = WebAnnotationHandlers.class.getDeclaredConstructor();
 		constructor.setAccessible(true);
+		// Act:
 		constructor.newInstance();
 	}
 
-	@Test
-	public void testObtainFragmentHandler() {
+	@Test public void testObtainFragmentHandler() {
+		// Act:
 		final WebFragmentAnnotationHandler handler = WebAnnotationHandlers.obtainWebFragmentHandler(TestFragment.class);
-		assertThat(handler, is(not(nullValue())));
+		// Assert:
+		assertThat(handler, is(notNullValue()));
 		assertThat(handler, instanceOf(WebAnnotationHandlers.WebFragmentHandler.class));
 	}
 
-	public static final class TestFragment extends WebFragment {
-	}
+	public static final class TestFragment extends WebFragment {}
 }

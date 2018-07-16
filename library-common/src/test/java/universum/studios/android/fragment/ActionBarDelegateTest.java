@@ -38,6 +38,7 @@ import universum.studios.android.test.local.TestCompatActivity;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsNot.not;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -48,91 +49,84 @@ import static org.mockito.Mockito.when;
  */
 public final class ActionBarDelegateTest extends RobolectricTestCase {
 
-	@Test
-	public void testInstantiation() throws Throwable {
+	@Test public void testInstantiation() {
+		// Arrange:
 		final Activity activity = new Activity();
-		assertThat(new Delegate(activity).mContext, Matchers.<Context>is(activity));
+		// Act:
+		final TestDelegate delegate = new TestDelegate(activity);
+		// Assert:
+		assertThat(delegate.getContext(), Matchers.<Context>is(activity));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testCreateForFrameworkActivity() {
+	@Test public void testCreateForFrameworkActivity() {
+		// Arrange:
 		final Activity mockActivity = mock(TestActivity.class);
 		final ActionBar mockActionBar = mock(ActionBar.class);
 		when(mockActivity.getActionBar()).thenReturn(mockActionBar);
+		// Act:
 		final ActionBarDelegate actionBarDelegate = ActionBarDelegate.create(mockActivity);
-		assertThat(actionBarDelegate, is(not(nullValue())));
-		assertThat(actionBarDelegate.mContext, Matchers.<Context>is(mockActivity));
+		// Assert:
+		assertThat(actionBarDelegate, is(notNullValue()));
+		assertThat(actionBarDelegate.getContext(), Matchers.<Context>is(mockActivity));
 	}
 
-	@Test
-	public void testCreateForFrameworkActivityWithoutActionBar() {
+	@Test public void testCreateForFrameworkActivityWithoutActionBar() {
+		// Arrange:
 		final Activity mockActivity = mock(TestActivity.class);
 		when(mockActivity.getActionBar()).thenReturn(null);
+		// Act + Assert:
 		assertThat(ActionBarDelegate.create(mockActivity), is(nullValue()));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testCreateForCompatActivity() {
+	@Test public void testCreateForCompatActivity() {
+		// Arrange:
 		final AppCompatActivity mockActivity = mock(TestCompatActivity.class);
 		final android.support.v7.app.ActionBar mockActionBar = mock(android.support.v7.app.ActionBar.class);
 		when(mockActivity.getSupportActionBar()).thenReturn(mockActionBar);
+		// Act:
 		final ActionBarDelegate actionBarDelegate = ActionBarDelegate.create(mockActivity);
+		// Assert:
 		assertThat(actionBarDelegate, is(not(nullValue())));
-		assertThat(actionBarDelegate.mContext, Is.<Context>is(mockActivity));
+		assertThat(actionBarDelegate.getContext(), Is.<Context>is(mockActivity));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testCreateForCompatActivityWithoutActionBar() {
+	@Test public void testCreateForCompatActivityWithoutActionBar() {
+		// Arrange:
 		final AppCompatActivity mockActivity = mock(TestCompatActivity.class);
 		when(mockActivity.getSupportActionBar()).thenReturn(null);
+		// Act + Assert:
 		assertThat(ActionBarDelegate.create(mockActivity), is(nullValue()));
 	}
 
-	@Test
-	public void testCreateForNullActionBar() {
-		assertThat(ActionBarDelegate.create(application, (ActionBar) null), is(not(nullValue())));
-		assertThat(ActionBarDelegate.create(application, (android.support.v7.app.ActionBar) null), is(not(nullValue())));
+	@Test public void testCreateForNullActionBar() {
+		// Act + Assert:
+		assertThat(ActionBarDelegate.create(application, (ActionBar) null), is(notNullValue()));
+		assertThat(ActionBarDelegate.create(application, (android.support.v7.app.ActionBar) null), is(notNullValue()));
 	}
 
-	private static final class Delegate extends ActionBarDelegate {
+	private static final class TestDelegate extends ActionBarDelegate {
 
-		Delegate(@NonNull Context context) {
+		TestDelegate(@NonNull final Context context) {
 			super(context);
 		}
 
-		@Override
-		public void setDisplayHomeAsUpEnabled(boolean enabled) {
-		}
+		@Override public void setDisplayHomeAsUpEnabled(boolean enabled) {}
 
-		@Override
-		public void setHomeAsUpIndicator(@DrawableRes int resId) {
-		}
+		@Override public void setHomeAsUpIndicator(@DrawableRes int resId) {}
 
-		@Override
-		public void setHomeAsUpVectorIndicator(@DrawableRes int resId) {
-		}
+		@Override public void setHomeAsUpVectorIndicator(@DrawableRes int resId) {}
 
-		@Override
-		public void setHomeAsUpIndicator(@Nullable Drawable indicator) {
-		}
+		@Override public void setHomeAsUpIndicator(@Nullable Drawable indicator) {}
 
-		@Override
-		public void setIcon(@DrawableRes int resId) {
-		}
+		@Override public void setIcon(@DrawableRes int resId) {}
 
-		@Override
-		public void setIcon(@Nullable Drawable icon) {
-		}
+		@Override public void setIcon(@Nullable Drawable icon) {}
 
-		@Override
-		public void setTitle(@StringRes int resId) {
-		}
+		@Override public void setTitle(@StringRes int resId) {}
 
-		@Override
-		public void setTitle(@Nullable CharSequence title) {
-		}
+		@Override public void setTitle(@Nullable CharSequence title) {}
 	}
 }
