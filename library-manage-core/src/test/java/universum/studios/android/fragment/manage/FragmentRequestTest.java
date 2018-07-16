@@ -50,11 +50,17 @@ import static org.mockito.Mockito.when;
  */
 public final class FragmentRequestTest extends RobolectricTestCase {
 
-    @Test
-	public void testConstants() {
-		assertThat(FragmentRequest.NO_ID, is(-1));
+	// Arrange:
+	// Act:
+	// Assert:
+
+    @Test public void testContract() {
+		// Assert:
+    	assertThat(FragmentRequest.NO_ID, is(-1));
 		assertThat(FragmentRequest.NO_STYLE, is(-1));
     }
+
+	// TEST: refactor tests below ...
 
 	@Test
 	public void testInstantiation() {

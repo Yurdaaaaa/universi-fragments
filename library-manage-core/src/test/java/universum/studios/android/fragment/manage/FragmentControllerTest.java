@@ -64,11 +64,17 @@ import static org.mockito.Mockito.when;
  */
 public final class FragmentControllerTest extends RobolectricTestCase {
 
-	@Test
-	public void testConstants() {
+	// Arrange:
+	// Act:
+	// Assert:
+
+	@Test public void testContract() {
+		// Assert:
 		assertThat(FragmentController.FRAGMENT_TAG, is(FragmentPolicies.class.getPackage().getName() + ".TAG.Fragment"));
 		assertThat(FragmentController.NO_CONTAINER_ID, is(-1));
 	}
+
+	// TEST: refactor tests below ...
 
 	@Test
 	public void testInstantiationForActivity() {

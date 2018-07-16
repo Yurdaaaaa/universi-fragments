@@ -37,73 +37,85 @@ import static org.mockito.Mockito.when;
  */
 public final class FragmentControllerBackStackListenerTest extends RobolectricTestCase {
 
-	@Test
-	public void testInstantiation() {
+	@Test public void testInstantiation() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
+		// Act:
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
+		// Assert:
 		assertThat(listener.controller, is(mockController));
 		assertThat(listener.backStackSize, is(0));
 	}
 
-	@Test
-	public void testOnBackStackChangedDueToAddition() {
+	@Test public void testOnBackStackChangedDueToAddition() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(1);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(1)).handleBackStackChange(1, FragmentController.BackStackListener.ADDED);
+		// Assert:
 		assertThat(listener.backStackSize, is(1));
+		verify(mockController).handleBackStackChange(1, FragmentController.BackStackListener.ADDED);
 	}
 
-	@Test
-	public void testOnBackStackChangedDueToRemoval() {
+	@Test public void testOnBackStackChangedDueToRemoval() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(1);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
 		listener.backStackSize = 2;
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(1)).handleBackStackChange(1, FragmentController.BackStackListener.REMOVED);
+		// Assert:
 		assertThat(listener.backStackSize, is(1));
+		verify(mockController).handleBackStackChange(1, FragmentController.BackStackListener.REMOVED);
 	}
 
-	@Test
-	public void testOnBackStackChangedWithSameSize() {
+	@Test public void testOnBackStackChangedWithSameSize() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(2);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
 		listener.backStackSize = 2;
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
+		// Assert:
 		assertThat(listener.backStackSize, is(2));
+		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
 	}
 
-	@Test
-	public void testOnBackStackChangedForEmptyStack() {
+	@Test public void testOnBackStackChangedForEmptyStack() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(0);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
+		// Assert:
 		assertThat(listener.backStackSize, is(0));
+		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
 	}
 
-	@Test
-	public void testOnBackStackChangedForInvalidBackStackSize() {
+	@Test public void testOnBackStackChangedForInvalidBackStackSize() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(-1);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
+		// Assert:
 		assertThat(listener.backStackSize, is(0));
+		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
 	}
 }
