@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -41,17 +41,19 @@ import static org.hamcrest.core.IsNull.nullValue;
  */
 public final class FragmentFactoryAnnotationHandlerTest extends RobolectricTestCase {
 
-	@Override
-	public void beforeTest() throws Exception {
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testGetFragmentItems() {
-		final SparseArray<FragmentItem> items = BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactory.class).getFragmentItems();
+	@Test public void testGetFragmentItems() {
+		// Arrange:
+		final FragmentFactoryAnnotationHandler handler = BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactory.class);
+		// Act:
+		final SparseArray<FragmentItem> items = handler.getFragmentItems();
+		// Assert:
 		assertThat(items, is(notNullValue()));
 		assertThat(items.size(), is(4));
 		assertThat(items.get(TestFactory.FRAGMENT_1).id, is(TestFactory.FRAGMENT_1));
@@ -68,22 +70,28 @@ public final class FragmentFactoryAnnotationHandlerTest extends RobolectricTestC
 		assertSame(items.get(TestFactory.FRAGMENT_4).type, TestFragment4.class);
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testGetFragmentItemsForFactoryWithoutFragments() {
-		assertThat(BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactoryWithoutFragments.class).getFragmentItems(), is(nullValue()));
+	@Test public void testGetFragmentItemsForFactoryWithoutFragments() {
+		// Arrange:
+		final FragmentFactoryAnnotationHandler handler = BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactoryWithoutFragments.class);
+		// Act + Assert:
+		assertThat(handler.getFragmentItems(), is(nullValue()));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testGetFragmentItemsForFactoryWithEmptyFactoryFragments() {
-		assertThat(BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactoryWithEmptyFactoryFragments.class).getFragmentItems(), is(nullValue()));
+	@Test public void testGetFragmentItemsForFactoryWithEmptyFactoryFragments() {
+		// Arrange:
+		final FragmentFactoryAnnotationHandler handler = BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactoryWithEmptyFactoryFragments.class);
+		// Act + Assert:
+		assertThat(handler.getFragmentItems(), is(nullValue()));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testGetFragmentItemsForFactoryWithUnsupportedFragmentsFields() {
-		assertThat(BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactoryWithUnsupportedFragmentFields.class).getFragmentItems(), is(nullValue()));
+	@Test public void testGetFragmentItemsForFactoryWithUnsupportedFragmentsFields() {
+		// Arrange:
+		final FragmentFactoryAnnotationHandler handler = BaseManagementAnnotationHandlers.obtainFactoryHandler(TestFactoryWithUnsupportedFragmentFields.class);
+		// Act + Assert:
+		assertThat(handler.getFragmentItems(), is(nullValue()));
 	}
 
 	@FactoryFragments({
@@ -101,28 +109,20 @@ public final class FragmentFactoryAnnotationHandlerTest extends RobolectricTestC
 	@SuppressWarnings("unused")
 	private static final class TestFactoryWithUnsupportedFragmentFields extends BaseFragmentFactory {
 
-		private static final String TAG = "TestFactoryWithUnsupportedFragmentFields";
-
 		@FactoryFragment(TestFragment1.class) static final String FRAGMENT_1 = null;
 		@FactoryFragment(TestFragment2.class) static final float FRAGMENT_2 = 0.05f;
 	}
 
 	@FactoryFragments({})
-	private static final class TestFactoryWithEmptyFactoryFragments extends BaseFragmentFactory {
-	}
+	private static final class TestFactoryWithEmptyFactoryFragments extends BaseFragmentFactory {}
 
-	public static final class TestFragment1 extends Fragment {
-	}
+	public static final class TestFragment1 extends Fragment {}
 
-	public static final class TestFragment2 extends Fragment {
-	}
+	public static final class TestFragment2 extends Fragment {}
 
-	public static final class TestFragment3 extends Fragment {
-	}
+	public static final class TestFragment3 extends Fragment {}
 
-	public static final class TestFragment4 extends Fragment {
-	}
+	public static final class TestFragment4 extends Fragment {}
 
-	private static final class TestFactoryWithoutFragments extends BaseFragmentFactory {
-	}
+	private static final class TestFactoryWithoutFragments extends BaseFragmentFactory {}
 }
