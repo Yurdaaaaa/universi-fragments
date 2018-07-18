@@ -447,10 +447,10 @@ public class WebFragment extends ActionBarFragment {
 	@Override public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.updatePrivateFlags(PFLAG_READY_TO_LOAD_CONTENT, true);
-		if (savedInstanceState != null && webView != null && contentType != CONTENT_EMPTY && contentType != CONTENT_HTML) {
-			webView.restoreState(savedInstanceState);
-		} else {
+		if (savedInstanceState == null || webView == null || contentType == CONTENT_EMPTY || contentType == CONTENT_HTML) {
 			onLoadContent(content, contentType);
+		} else {
+			this.webView.restoreState(savedInstanceState);
 		}
 	}
 
@@ -542,15 +542,15 @@ public class WebFragment extends ActionBarFragment {
 			}
 			switch (type) {
 				case CONTENT_EMPTY:
-					webView.loadDataWithBaseURL("", "", DATA_MIME_TYPE, DATA_ENCODING, "");
+					this.webView.loadDataWithBaseURL("", "", DATA_MIME_TYPE, DATA_ENCODING, "");
 					break;
 				case CONTENT_URL:
 				case CONTENT_FILE:
-					webView.loadUrl(content);
+					this.webView.loadUrl(content);
 					break;
 				case CONTENT_HTML:
 				default:
-					webView.loadDataWithBaseURL("", content, DATA_MIME_TYPE, DATA_ENCODING, "");
+					this.webView.loadDataWithBaseURL("", content, DATA_MIME_TYPE, DATA_ENCODING, "");
 					break;
 			}
 		}
@@ -561,7 +561,7 @@ public class WebFragment extends ActionBarFragment {
 	@Override public void onSaveInstanceState(@NonNull final Bundle state) {
 		super.onSaveInstanceState(state);
 		if (webView != null) {
-			webView.saveState(state);
+			this.webView.saveState(state);
 		}
 		state.putParcelable(BUNDLE_OPTIONS, options);
 		state.putString(BUNDLE_CONTENT, content);
@@ -572,7 +572,7 @@ public class WebFragment extends ActionBarFragment {
 	 */
 	@Override protected boolean onBackPress() {
 		if (webView != null && webView.canGoBack()) {
-			webView.goBack();
+			this.webView.goBack();
 			return true;
 		}
 		return false;
@@ -594,7 +594,7 @@ public class WebFragment extends ActionBarFragment {
 	 * {@link #javaScriptEnabled(boolean)}.
 	 *
 	 * @author Martin Albedinsky
-	 * @since
+	 * @since 1.0
 	 */
 	public static class WebOptions implements Parcelable {
 
