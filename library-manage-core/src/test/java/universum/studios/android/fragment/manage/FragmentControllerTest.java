@@ -64,32 +64,32 @@ import static org.mockito.Mockito.when;
  */
 public final class FragmentControllerTest extends RobolectricTestCase {
 
-	// Arrange:
-	// Act:
-	// Assert:
-
 	@Test public void testContract() {
 		// Assert:
 		assertThat(FragmentController.FRAGMENT_TAG, is(FragmentPolicies.class.getPackage().getName() + ".TAG.Fragment"));
 		assertThat(FragmentController.NO_CONTAINER_ID, is(-1));
 	}
 
-	// TEST: refactor tests below ...
-
-	@Test
-	public void testInstantiationForActivity() {
+	@Test public void testInstantiationForActivity() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
+		// Act:
 		final FragmentController controller = new FragmentController(activity);
+		// Assert:
 		assertThat(controller.getFragmentManager(), is(activity.getFragmentManager()));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
+		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 	}
 
-	@Test
-	public void testInstantiationForActivityImplementingAllInterfaces() {
+	@Test public void testInstantiationForActivityImplementingAllInterfaces() {
+		// Arrange:
 		final TestActivityWithAlInterfaces activity = Robolectric.buildActivity(TestActivityWithAlInterfaces.class).create().start().resume().get();
+		// Act:
 		final FragmentController controller = new FragmentController(activity);
+		// Assert:
 		assertThat(controller.getFragmentManager(), is(activity.getFragmentManager()));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
+		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 		final FragmentRequest request = new FragmentRequest(controller, new TestFragment())
 				.viewContainerId(TestActivity.CONTENT_VIEW_ID)
 				.allowStateLoss(true);
@@ -101,28 +101,34 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		assertThat(activity.receivedCallback(TestActivityWithAlInterfaces.CALLBACK_ON_FRAGMENTS_BACK_STACK_CHANGED), is(true));
 	}
 
-	@Test
-	public void testInstantiationForFragment() throws Throwable {
+	@Test public void testInstantiationForFragment() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getFragmentManager();
 		final Fragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
+		// Act:
 		final FragmentController controller = new FragmentController(fragment);
+		// Assert:
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
+		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 	}
 
-	@Test
-	public void testInstantiationForFragmentImplementingAllInterfaces() throws Throwable {
+	@Test public void testInstantiationForFragmentImplementingAllInterfaces() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getFragmentManager();
 		final TestFragmentWithAlInterfaces fragment = new TestFragmentWithAlInterfaces();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
+		// Act:
 		final FragmentController controller = new FragmentController(fragment);
+		// Assert:
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
+		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 		final FragmentRequest request = new FragmentRequest(controller, new TestFragment()).viewContainerId(TestActivity.CONTENT_VIEW_ID);
 		controller.executeRequest(request);
 		controller.notifyRequestExecuted(request);
@@ -132,61 +138,67 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		assertThat(fragment.receivedCallback(TestFragmentWithAlInterfaces.CALLBACK_ON_FRAGMENTS_BACK_STACK_CHANGED), is(true));
 	}
 
-	@Test
-	public void testInstantiationForFragmentManager() {
+	@Test public void testInstantiationForFragmentManager() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getFragmentManager();
+		// Act:
 		final FragmentController controller = new FragmentController(fragmentManager);
+		// Assert:
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
+		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 	}
 
-	@Test
-	public void testInstantiationForFragmentManagerAndContext() {
+	@Test public void testInstantiationForFragmentManagerAndContext() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getFragmentManager();
+		// Act:
 		final FragmentController controller = new FragmentController(activity, fragmentManager);
+		// Assert:
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
+		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testInstantiationForFragmentManagerWithBackStackEntries() throws Throwable {
+	@Test public void testInstantiationForFragmentManagerWithBackStackEntries() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getFragmentManager();
 		fragmentManager.beginTransaction().add(TestActivity.CONTENT_VIEW_ID, new TestFragment(), "TAG.1").addToBackStack("TAG.1").commit();
 		fragmentManager.beginTransaction().add(TestActivity.CONTENT_VIEW_ID, new TestFragment(), "TAG.2").addToBackStack("TAG.2").commit();
 		fragmentManager.executePendingTransactions();
+		// Act:
 		final FragmentController controller = new FragmentController(activity, activity.getFragmentManager());
+		// Assert:
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
+		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 		final FragmentManager.BackStackEntry backStackEntry = controller.getTopBackStackEntry();
 		assertThat(backStackEntry, is(notNullValue()));
 		assertThat(backStackEntry.getId(), is(1));
 		assertThat(backStackEntry.getName(), is("TAG.2"));
 	}
 
-	@Test
-	public void testSetGetViewContainerId() {
+	@Test public void testViewContainerId() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		// Act:
 		controller.setViewContainerId(android.R.id.custom);
+		// Assert:
 		assertThat(controller.getViewContainerId(), is(android.R.id.custom));
 	}
 
-	@Test
-	public void testGetViewContainerIdDefault() {
-		assertThat(
-				new FragmentController(Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager()).getViewContainerId(),
-				is(FragmentController.NO_CONTAINER_ID)
-		);
-	}
-
-	@Test
-	public void testSetGetFactory() {
+	@Test public void testFactory() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentFactory mockFactory = mock(FragmentFactory.class);
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		// Act + Assert:
+		assertThat(controller.getFactory(), is(nullValue()));
+		assertThat(controller.hasFactory(), is(false));
 		controller.setFactory(mockFactory);
 		assertThat(controller.getFactory(), is(mockFactory));
 		assertThat(controller.hasFactory(), is(true));
@@ -195,132 +207,142 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		assertThat(controller.hasFactory(), is(false));
 	}
 
-	@Test
-	public void testGetFactoryDefault() {
-		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
-		final FragmentController controller = new FragmentController(activity.getFragmentManager());
-		assertThat(controller.getFactory(), is(nullValue()));
-		assertThat(controller.hasFactory(), is(false));
-	}
-
-	@Test
-	public void testRegisterOnRequestListener() {
+	@Test public void testRegisterOnRequestListener() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController.OnRequestListener firstMockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentController.OnRequestListener secondMockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		// Act:
 		controller.registerOnRequestListener(firstMockListener);
 		controller.registerOnRequestListener(firstMockListener);
 		controller.registerOnRequestListener(secondMockListener);
+		// Assert:
 		final FragmentRequest mockRequest = new FragmentRequest(controller, FragmentRequest.NO_ID);
 		controller.notifyRequestExecuted(mockRequest);
-		verify(firstMockListener, times(1)).onRequestExecuted(mockRequest);
-		verify(secondMockListener, times(1)).onRequestExecuted(mockRequest);
+		verify(firstMockListener).onRequestExecuted(mockRequest);
+		verify(secondMockListener).onRequestExecuted(mockRequest);
+		verifyNoMoreInteractions(firstMockListener, secondMockListener);
 	}
 
-	@Test
-	public void testUnregisterOnRequestListener() {
+	@Test public void testUnregisterOnRequestListener() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController.OnRequestListener firstMockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentController.OnRequestListener secondMockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
 		controller.registerOnRequestListener(firstMockListener);
 		controller.registerOnRequestListener(secondMockListener);
+		// Act:
 		controller.unregisterOnRequestListener(firstMockListener);
+		// Assert:
 		final FragmentRequest mockRequest = new FragmentRequest(controller, FragmentRequest.NO_ID);
 		controller.notifyRequestExecuted(mockRequest);
 		verifyZeroInteractions(firstMockListener);
-		verify(secondMockListener, times(1)).onRequestExecuted(mockRequest);
+		verify(secondMockListener).onRequestExecuted(mockRequest);
 		controller.unregisterOnRequestListener(secondMockListener);
 		controller.notifyRequestExecuted(mockRequest);
 		verifyNoMoreInteractions(secondMockListener);
 	}
 
-	@Test
-	public void testUnregisterOnRequestListenerNotRegistered() {
-		// Only ensure that un-registering not registered listener does not cause any troubles.
+	@Test public void testUnregisterOnRequestListenerNotRegistered() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController.OnRequestListener mockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		// Act:
+		// Only ensure that un-registering not registered listener does not cause any troubles.
 		controller.unregisterOnRequestListener(mockListener);
 	}
 
-	@Test
-	public void testNotifyRequestExecutedWithoutRegisteredListeners() {
-		// Only ensure that notifying without registered listeners does not cause any troubles.
+	@Test public void testNotifyRequestExecutedWithoutRegisteredListeners() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		// Act:
+		// Only ensure that notifying without registered listeners does not cause any troubles.
 		controller.notifyRequestExecuted(new FragmentRequest(controller, FragmentRequest.NO_ID));
 	}
 
-	@Test
-	public void testRegisterOnBackStackChangeListener() {
+	@Test public void testRegisterOnBackStackChangeListener() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController.OnBackStackChangeListener firstMockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController.OnBackStackChangeListener secondMockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		// Act:
 		controller.registerOnBackStackChangeListener(firstMockListener);
 		controller.registerOnBackStackChangeListener(firstMockListener);
 		controller.registerOnBackStackChangeListener(secondMockListener);
+		// Assert:
 		final FragmentManager.BackStackEntry mockBackStackEntry = mock(FragmentManager.BackStackEntry.class);
 		controller.notifyBackStackEntryChange(mockBackStackEntry, true);
-		verify(firstMockListener, times(1)).onFragmentsBackStackChanged(mockBackStackEntry, true);
-		verify(secondMockListener, times(1)).onFragmentsBackStackChanged(mockBackStackEntry, true);
+		verify(firstMockListener).onFragmentsBackStackChanged(mockBackStackEntry, true);
+		verify(secondMockListener).onFragmentsBackStackChanged(mockBackStackEntry, true);
+		verifyNoMoreInteractions(firstMockListener, secondMockListener);
 	}
 
-	@Test
-	public void testUnregisterOnBackStackChangeListener() {
+	@Test public void testUnregisterOnBackStackChangeListener() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController.OnBackStackChangeListener firstMockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController.OnBackStackChangeListener secondMockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
 		controller.registerOnBackStackChangeListener(firstMockListener);
 		controller.registerOnBackStackChangeListener(secondMockListener);
+		// Act:
 		controller.unregisterOnBackStackChangeListener(firstMockListener);
+		// Assert:
 		final FragmentManager.BackStackEntry mockBackStackEntry = mock(FragmentManager.BackStackEntry.class);
 		controller.notifyBackStackEntryChange(mockBackStackEntry, true);
 		verifyZeroInteractions(firstMockListener);
-		verify(secondMockListener, times(1)).onFragmentsBackStackChanged(mockBackStackEntry, true);
+		verify(secondMockListener).onFragmentsBackStackChanged(mockBackStackEntry, true);
 		controller.unregisterOnBackStackChangeListener(secondMockListener);
 		controller.notifyBackStackEntryChange(mockBackStackEntry, false);
 		verifyNoMoreInteractions(secondMockListener);
 	}
 
-	@Test
-	public void testUnregisterOnBackStackChangeListenerNotRegistered() {
-		// Only ensure that un-registering not registered listener does not cause any troubles.
+	@Test public void testUnregisterOnBackStackChangeListenerNotRegistered() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
 		final FragmentController.OnBackStackChangeListener mockListener = mock(FragmentController.OnBackStackChangeListener.class);
+		// Act:
+		// Only ensure that un-registering not registered listener does not cause any troubles.
 		controller.unregisterOnBackStackChangeListener(mockListener);
 	}
 
-	@Test
-	public void testNotifyBackStackEntryChangeWithoutRegisteredListeners() {
-		// Only ensure that notifying without registered listeners does not cause any troubles.
+	@Test public void testNotifyBackStackEntryChangeWithoutRegisteredListeners() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
+		// Act:
+		// Only ensure that notifying without registered listeners does not cause any troubles.
 		controller.notifyBackStackEntryChange(mock(FragmentManager.BackStackEntry.class), false);
 	}
 
-	@Test
-	public void testNewRequest() {
+	@Test public void testNewRequest() {
+		// Arrange:
 		final FragmentController controller = new FragmentController(Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager());
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		// Act:
 		final FragmentRequest request = controller.newRequest();
+		// Assert:
 		assertThat(request, is(notNullValue()));
 		assertThat(request.fragmentId(), is(FragmentRequest.NO_ID));
 		assertThat(request.tag(), is(nullValue()));
 		assertThat(request.viewContainerId(), is(controller.getViewContainerId()));
 	}
 
-	@Test
-	public void testNewRequestForFragment() {
+	@Test public void testNewRequestForFragment() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		// Act:
 		final FragmentRequest request = controller.newRequest(mockFragment);
+		// Assert:
 		assertThat(request, is(notNullValue()));
 		assertThat(request.fragmentId(), is(FragmentRequest.NO_ID));
 		assertThat(request.tag(), is(FragmentController.FRAGMENT_TAG));
@@ -329,15 +351,18 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test(expected = IllegalStateException.class)
 	public void testNewRequestForFragmentWhenDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().newRequest(new TestFragment());
 	}
 
-	@Test
-	public void testNewRequestForFactoryFragment() {
+	@Test public void testNewRequestForFactoryFragment() {
+		// Arrange:
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		// Act:
 		final FragmentRequest request = controller.newRequest(TestFactory.FRAGMENT_1);
+		// Assert:
 		assertThat(request, is(notNullValue()));
 		assertThat(request.fragmentId(), is(TestFactory.FRAGMENT_1));
 		assertThat(request.tag(), is(nullValue()));
@@ -346,12 +371,13 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test(expected = IllegalStateException.class)
 	public void testNewRequestForFactoryFragmentWhenDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().newRequest(TestFactory.FRAGMENT_1);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testExecuteRequest() {
+	@Test public void testExecuteRequest() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController.OnRequestListener mockListener = mock(FragmentController.OnRequestListener.class);
@@ -361,24 +387,26 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
 		final FragmentRequest request = controller.newRequest(fragment);
+		// Act + Assert:
 		assertThat(controller.executeRequest(request), is(fragment));
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockListener, times(1)).onRequestExecuted(request);
+		verify(mockManager).beginTransaction();
+		verify(mockListener).onRequestExecuted(request);
 		verifyNoMoreInteractions(mockListener);
 	}
 
-	@Test
-	public void testExecuteRequestForFactoryFragmentReplace() {
-		this.testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf1(FragmentRequest.REPLACE);
+	@Test public void testExecuteRequestForFactoryFragmentReplace() {
+		// Act:
+		this.innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf1(FragmentRequest.REPLACE);
 	}
 
-	@Test
-	public void testExecuteRequestForFactoryFragmentAdd() {
-		this.testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf1(FragmentRequest.ADD);
+	@Test public void testExecuteRequestForFactoryFragmentAdd() {
+		// Act:
+		this.innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf1(FragmentRequest.ADD);
 	}
 
 	@SuppressLint("CommitTransaction")
-	private void testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf1(@FragmentRequest.Transaction int transaction) {
+	private void innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf1(@FragmentRequest.Transaction final int transaction) {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController.OnRequestListener mockListener = mock(FragmentController.OnRequestListener.class);
@@ -394,18 +422,20 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockFactory.isFragmentProvided(TestFactory.FRAGMENT_1)).thenReturn(factory.isFragmentProvided(TestFactory.FRAGMENT_1));
 		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn(factory.createFragmentTag(TestFactory.FRAGMENT_1));
 		when(mockFactory.createFragment(TestFactory.FRAGMENT_1)).thenReturn(fragment);
+		// Act + Assert:
 		assertThat(controller.executeRequest(request), is(fragment));
-		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
-		verify(mockFactory, times(1)).createFragmentTag(TestFactory.FRAGMENT_1);
-		verify(mockFactory, times(1)).createFragment(TestFactory.FRAGMENT_1);
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockListener, times(1)).onRequestExecuted(request);
-		verifyNoMoreInteractions(mockListener);
+		verify(mockFactory).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory).createFragmentTag(TestFactory.FRAGMENT_1);
+		verify(mockFactory).createFragment(TestFactory.FRAGMENT_1);
+		verify(mockManager).beginTransaction();
+		verify(mockListener).onRequestExecuted(request);
+		verifyNoMoreInteractions(mockFactory, mockListener);
 	}
 
 	@SuppressLint("CommitTransaction")
 	@Test(expected = IllegalArgumentException.class)
 	public void testExecuteRequestForFactoryFragmentWithCheatingFactory() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController.OnRequestListener mockListener = mock(FragmentController.OnRequestListener.class);
@@ -420,36 +450,38 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockFactory.isFragmentProvided(TestFactory.FRAGMENT_1)).thenReturn(factory.isFragmentProvided(TestFactory.FRAGMENT_1));
 		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn(factory.createFragmentTag(TestFactory.FRAGMENT_1));
 		when(mockFactory.createFragment(TestFactory.FRAGMENT_1)).thenReturn(null);
+		// Act:
 		controller.executeRequest(request);
 	}
 
-	@Test
-	public void testExecuteRequestForFactoryFragmentRemove() {
-		this.testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.REMOVE);
+	@Test public void testExecuteRequestForFactoryFragmentRemove() {
+		// Act:
+		this.innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.REMOVE);
 	}
 
-	@Test
-	public void testExecuteRequestForFactoryFragmentShow() {
-		this.testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.SHOW);
+	@Test public void testExecuteRequestForFactoryFragmentShow() {
+		// Act:
+		this.innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.SHOW);
 	}
 
-	@Test
-	public void testExecuteRequestForFactoryFragmentHide() {
-		this.testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.HIDE);
+	@Test public void testExecuteRequestForFactoryFragmentHide() {
+		// Act:
+		this.innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.HIDE);
 	}
 
-	@Test
-	public void testExecuteRequestForFactoryFragmentAttach() {
-		this.testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.ATTACH);
+	@Test public void testExecuteRequestForFactoryFragmentAttach() {
+		// Act:
+		this.innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.ATTACH);
 	}
 
-	@Test
-	public void testExecuteRequestForFactoryFragmentDetach() {
-		this.testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.DETACH);
+	@Test public void testExecuteRequestForFactoryFragmentDetach() {
+		// Act:
+		this.innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf2(FragmentRequest.DETACH);
 	}
 
 	@SuppressLint("CommitTransaction")
-	private void testInnerExecuteRequestForFactoryFragmentWithTransactionTypeOf2(@FragmentRequest.Transaction int transaction) {
+	private void innerTestExecuteRequestForFactoryFragmentWithTransactionTypeOf2(@FragmentRequest.Transaction final int transaction) {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController.OnRequestListener mockListener = mock(FragmentController.OnRequestListener.class);
@@ -465,18 +497,19 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockFactory.isFragmentProvided(TestFactory.FRAGMENT_1)).thenReturn(factory.isFragmentProvided(TestFactory.FRAGMENT_1));
 		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn(factory.createFragmentTag(TestFactory.FRAGMENT_1));
 		when(mockManager.findFragmentByTag(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1))).thenReturn(fragment);
+		// Act + Assert:
 		assertThat(controller.executeRequest(request), is(fragment));
-		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory).isFragmentProvided(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(2)).createFragmentTag(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(0)).createFragment(TestFactory.FRAGMENT_1);
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockListener, times(1)).onRequestExecuted(request);
-		verifyNoMoreInteractions(mockListener);
+		verify(mockManager).beginTransaction();
+		verify(mockListener).onRequestExecuted(request);
+		verifyNoMoreInteractions(mockFactory, mockListener);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testExecuteRequestForFactoryFragmentThatDoesNotExist() {
+	@Test public void testExecuteRequestForFactoryFragmentThatDoesNotExist() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController.OnRequestListener mockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentFactory mockFactory = mock(FragmentFactory.class);
@@ -489,8 +522,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockFactory.isFragmentProvided(TestFactory.FRAGMENT_1)).thenReturn(factory.isFragmentProvided(TestFactory.FRAGMENT_1));
 		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn(factory.createFragmentTag(TestFactory.FRAGMENT_1));
 		when(mockManager.findFragmentByTag(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1))).thenReturn(null);
+		// Act + Assert:
 		assertThat(controller.executeRequest(request), is(nullValue()));
-		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory).isFragmentProvided(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(2)).createFragmentTag(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(0)).createFragment(TestFactory.FRAGMENT_1);
 		verify(mockManager, times(0)).beginTransaction();
@@ -499,26 +533,30 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test(expected = IllegalStateException.class)
 	public void testExecuteRequestForFactoryFragmentWithoutFactory() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final FragmentRequest request = controller.newRequest(TestFactory.FRAGMENT_1);
+		// Act:
 		controller.executeRequest(request);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testExecuteRequestForFactoryFragmentNotProvidedByFactory() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentFactory mockFactory = mock(FragmentFactory.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setFactory(mockFactory);
 		final FragmentRequest request = controller.newRequest(TestFactory.FRAGMENT_1);
 		when(mockFactory.isFragmentProvided(TestFactory.FRAGMENT_1)).thenReturn(false);
+		// Act:
 		controller.executeRequest(request);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testExecuteRequestNotIntercepted() {
+	@Test public void testExecuteRequestNotIntercepted() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentRequestInterceptor mockInterceptor = mock(FragmentRequestInterceptor.class);
@@ -531,6 +569,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final Fragment fragment = new TestFragment();
 		final FragmentRequest request = controller.newRequest(fragment);
 		when(mockInterceptor.interceptFragmentRequest(request)).thenReturn(null);
+		// Act + Assert:
 		assertThat(controller.executeRequest(request), is(fragment));
 		verify(mockInterceptor, times(1)).interceptFragmentRequest(request);
 		verify(mockManager, times(1)).beginTransaction();
@@ -538,9 +577,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		verifyNoMoreInteractions(mockListener);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testExecuteRequestIntercepted() {
+	@Test public void testExecuteRequestIntercepted() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentRequestInterceptor mockInterceptor = mock(FragmentRequestInterceptor.class);
@@ -554,6 +593,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentRequest request = controller.newRequest(fragment);
 		final Fragment interceptedFragment = new TestFragment();
 		when(mockInterceptor.interceptFragmentRequest(request)).thenReturn(interceptedFragment);
+		// Act + Assert:
 		assertThat(controller.executeRequest(request), is(interceptedFragment));
 		verify(mockManager, times(1)).addOnBackStackChangedListener(any(FragmentManager.OnBackStackChangedListener.class));
 		verify(mockManager, times(1)).getBackStackEntryCount();
@@ -565,155 +605,145 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test(expected = IllegalStateException.class)
 	public void testExecuteRequestWhenDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().executeRequest(new FragmentRequest(null, FragmentRequest.NO_ID));
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testOnExecuteRequest() {
+	@Test public void testOnExecuteRequest() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
-		assertThat(
-				controller.onExecuteRequest(controller.newRequest(fragment)
-						.transaction(FragmentRequest.ADD)),
-				is(fragment)
-		);
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockTransaction, times(1)).commit();
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.ADD);
+		// Act + Assert:
+		assertThat(controller.onExecuteRequest(request), is(fragment));
+		verify(mockManager).beginTransaction();
+		verify(mockTransaction).commit();
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testOnExecuteRequestReplacingSame() {
+	@Test public void testOnExecuteRequestReplacingSame() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
-		final FragmentRequest request = controller.newRequest(fragment)
-				.transaction(FragmentRequest.REPLACE)
-				.replaceSame(true);
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.REPLACE).replaceSame(true);
 		final Fragment existingFragment = new TestFragment();
 		when(mockManager.findFragmentByTag(request.tag)).thenReturn(existingFragment);
 		assertThat(controller.onExecuteRequest(request), is(fragment));
+		// Act + Assert:
 		verify(mockManager, times(0)).findFragmentByTag(request.tag);
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockTransaction, times(1)).commit();
+		verify(mockManager).beginTransaction();
+		verify(mockTransaction).commit();
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testOnExecuteRequestNotReplacingSame() {
+	@Test public void testOnExecuteRequestNotReplacingSame() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
-		final FragmentRequest request = controller.newRequest(fragment)
-				.transaction(FragmentRequest.REPLACE)
-				.replaceSame(false);
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.REPLACE).replaceSame(false);
 		when(mockManager.findFragmentByTag(request.tag)).thenReturn(null);
+		// Act + Assert:
 		assertThat(controller.onExecuteRequest(request), is(fragment));
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockTransaction, times(1)).commit();
+		verify(mockManager).beginTransaction();
+		verify(mockTransaction).commit();
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testOnExecuteRequestNotReplacingSameThatAlreadyExists() {
+	@Test public void testOnExecuteRequestNotReplacingSameThatAlreadyExists() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
-		final FragmentRequest request = controller.newRequest(fragment)
-				.transaction(FragmentRequest.REPLACE)
-				.replaceSame(false);
 		final Fragment existingFragment = new TestFragment();
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.REPLACE).replaceSame(false);
 		when(mockManager.findFragmentByTag(request.tag)).thenReturn(existingFragment);
+		// Act + Assert:
 		assertThat(controller.onExecuteRequest(request), is(existingFragment));
 		verifyZeroInteractions(mockTransaction);
-		verify(mockManager, times(1)).findFragmentByTag(request.tag);
+		verify(mockManager).findFragmentByTag(request.tag);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testOnExecuteRequestBackStacked() {
+	@Test public void testOnExecuteRequestBackStacked() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
-		assertThat(
-				controller.onExecuteRequest(controller.newRequest(fragment)
-						.transaction(FragmentRequest.REPLACE)
-						.addToBackStack(true)),
-				is(fragment)
-		);
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockTransaction, times(1)).commit();
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.REPLACE).addToBackStack(true);
+		// Act + Assert:
+		assertThat(controller.onExecuteRequest(request), is(fragment));
+		verify(mockManager).beginTransaction();
+		verify(mockTransaction).commit();
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testOnExecuteRequestAllowingStateLoss() {
+	@Test public void testOnExecuteRequestAllowingStateLoss() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
-		assertThat(
-				controller.onExecuteRequest(controller.newRequest(fragment)
-						.transaction(FragmentRequest.ADD)
-						.allowStateLoss(true)),
-				is(fragment)
-		);
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockTransaction, times(1)).commitAllowingStateLoss();
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.ADD).allowStateLoss(true);
+		// Act + Assert:
+		assertThat(controller.onExecuteRequest(request), is(fragment));
+		verify(mockManager).beginTransaction();
+		verify(mockTransaction).commitAllowingStateLoss();
 		verify(mockTransaction, times(0)).commit();
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testOnExecuteRequestImmediate() {
+	@Test public void testOnExecuteRequestImmediate() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
 		final Fragment fragment = new TestFragment();
-		assertThat(
-				controller.onExecuteRequest(controller.newRequest(fragment)
-						.transaction(FragmentRequest.ADD)
-						.immediate(true)),
-				is(fragment)
-		);
-		verify(mockManager, times(1)).beginTransaction();
-		verify(mockTransaction, times(1)).commit();
-		verify(mockManager, times(1)).executePendingTransactions();
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.ADD).immediate(true);
+		// Act + Assert:
+		assertThat(controller.onExecuteRequest(request), is(fragment));
+		verify(mockManager).beginTransaction();
+		verify(mockTransaction).commit();
+		verify(mockManager).executePendingTransactions();
 	}
 
 	@Test(expected = IllegalStateException.class)
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN_MR1)
 	public void testOnExecuteRequestWhenManagerIsDestroyed() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.isDestroyed()).thenReturn(true);
 		final FragmentController controller = new FragmentController(mockManager);
-		controller.onExecuteRequest(controller.newRequest(new TestFragment()));
+		final FragmentRequest request = controller.newRequest(new TestFragment());
+		// Act:
+		controller.onExecuteRequest(request);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransaction() {
+	@Test public void testCreateTransaction() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -721,7 +751,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentRequest request = controller.newRequest(mockFragment);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
 		verify(mockFragment, times(0)).setArguments(any(Bundle.class));
 		verify(mockTransaction, times(0)).setCustomAnimations(anyInt(), anyInt(), anyInt(), anyInt());
@@ -733,9 +765,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		verify(mockTransaction, times(0)).addToBackStack(anyString());
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionReplace() {
+	@Test public void testCreateTransactionReplace() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -743,21 +775,26 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(FragmentRequest.REPLACE);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).replace(TestActivity.CONTENT_VIEW_ID, mockFragment, request.tag);
+		verify(transaction).replace(TestActivity.CONTENT_VIEW_ID, mockFragment, request.tag);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateTransactionReplaceWithoutViewContainerIdSpecified() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
-		controller.createTransaction(controller.newRequest(mock(TestFragment.class)).transaction(FragmentRequest.REPLACE));
+		final FragmentRequest request = controller.newRequest(mock(TestFragment.class)).transaction(FragmentRequest.REPLACE);
+		// Act:
+		controller.createTransaction(request);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionAdd() {
+	@Test public void testCreateTransactionAdd() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -765,91 +802,105 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(FragmentRequest.ADD);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).add(TestActivity.CONTENT_VIEW_ID, mockFragment, request.tag);
+		verify(transaction).add(TestActivity.CONTENT_VIEW_ID, mockFragment, request.tag);
 		verifyNoMoreInteractions(transaction);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateTransactionAddWithoutViewContainerIdSpecified() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
+		// Act:
 		controller.createTransaction(controller.newRequest(mock(TestFragment.class)).transaction(FragmentRequest.ADD));
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionRemove() {
+	@Test public void testCreateTransactionRemove() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(FragmentRequest.REMOVE);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).remove(mockFragment);
+		verify(transaction).remove(mockFragment);
 		verifyNoMoreInteractions(transaction);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionShow() {
+	@Test public void testCreateTransactionShow() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(FragmentRequest.SHOW);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).show(mockFragment);
+		verify(transaction).show(mockFragment);
 		verifyNoMoreInteractions(transaction);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionHide() {
+	@Test public void testCreateTransactionHide() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(FragmentRequest.HIDE);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).hide(mockFragment);
+		verify(transaction).hide(mockFragment);
 		verifyNoMoreInteractions(transaction);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionAttach() {
+	@Test public void testCreateTransactionAttach() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(FragmentRequest.ATTACH);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).attach(mockFragment);
+		verify(transaction).attach(mockFragment);
 		verifyNoMoreInteractions(transaction);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionDetach() {
+	@Test public void testCreateTransactionDetach() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(FragmentRequest.DETACH);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).detach(mockFragment);
+		verify(transaction).detach(mockFragment);
 		verifyNoMoreInteractions(transaction);
 	}
 
@@ -857,18 +908,20 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 	@SuppressLint("CommitTransaction")
 	@Test(expected = IllegalArgumentException.class)
 	public void testCreateTransactionUnsupported() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentRequest request = controller.newRequest(mockFragment).transaction(-1);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		controller.createTransaction(request);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionWithArguments() {
+	@Test public void testCreateTransactionWithArguments() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -877,14 +930,16 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final Bundle args = new Bundle();
 		final FragmentRequest request = controller.newRequest(mockFragment).arguments(args);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(mockFragment, times(1)).setArguments(args);
+		verify(mockFragment).setArguments(args);
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionWithTransition() {
+	@Test public void testCreateTransactionWithTransition() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -893,9 +948,11 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentTransition transition = new TestTransition();
 		final FragmentRequest request = controller.newRequest(mockFragment).transition(transition);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).setCustomAnimations(
+		verify(transaction).setCustomAnimations(
 				transition.getIncomingAnimation(),
 				transition.getOutgoingAnimation(),
 				transition.getIncomingBackStackAnimation(),
@@ -905,9 +962,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		verify(transaction, times(0)).setTransitionStyle(anyInt());
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionWithTransitionWhenContextIsAvailable() {
+	@Test public void testCreateTransactionWithTransitionWhenContextIsAvailable() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -916,9 +973,11 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentTransition transition = new TestTransition();
 		final FragmentRequest request = controller.newRequest(mockFragment).transition(transition);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).setCustomAnimations(
+		verify(transaction).setCustomAnimations(
 				transition.getIncomingAnimation(),
 				transition.getOutgoingAnimation(),
 				transition.getIncomingBackStackAnimation(),
@@ -928,9 +987,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		verify(transaction, times(0)).setTransitionStyle(anyInt());
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionWithTransitionStyle() {
+	@Test public void testCreateTransactionWithTransitionStyle() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -938,16 +997,18 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentRequest request = controller.newRequest(mockFragment).transitionStyle(android.R.style.Animation);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).setTransitionStyle(android.R.style.Animation);
+		verify(transaction).setTransitionStyle(android.R.style.Animation);
 		verify(transaction, times(0)).setCustomAnimations(anyInt(), anyInt(), anyInt(), anyInt());
 		verify(transaction, times(0)).setCustomAnimations(anyInt(), anyInt());
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionWithSharedElements() {
+	@Test public void testCreateTransactionWithSharedElements() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -959,18 +1020,20 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 				.sharedElement(elementFirst, "Element.First")
 				.sharedElement(elementSecond, "Element.Second");
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			verify(transaction, times(1)).addSharedElement(elementFirst, "Element.First");
-			verify(transaction, times(1)).addSharedElement(elementSecond, "Element.Second");
+			verify(transaction).addSharedElement(elementFirst, "Element.First");
+			verify(transaction).addSharedElement(elementSecond, "Element.Second");
 		}
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
 	@SuppressWarnings("ConstantConditions")
-	public void testCreateTransactionWithEmptySharedElements() {
+	@Test public void testCreateTransactionWithEmptySharedElements() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -983,16 +1046,18 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 				.sharedElement(elementSecond, "Element.Second");
 		request.sharedElements().clear();
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			verify(transaction, times(0)).addSharedElement(any(View.class), anyString());
 		}
 	}
 
-	@Test
 	@SuppressLint("CommitTransaction")
-	public void testCreateTransactionToBeAddedIntoBackStack() {
+	@Test public void testCreateTransactionToBeAddedIntoBackStack() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -1000,23 +1065,27 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentRequest request = controller.newRequest(mockFragment).addToBackStack(true);
 		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		// Act:
 		final FragmentTransaction transaction = controller.createTransaction(request);
+		// Assert:
 		assertThat(transaction, is(notNullValue()));
-		verify(transaction, times(1)).addToBackStack(mockFragment.getTag());
+		verify(transaction).addToBackStack(mockFragment.getTag());
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testCreateTransactionWhenDestroyed() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		final FragmentRequest request = controller.newRequest(new TestFragment());
 		controller.destroy();
+		// Act:
 		controller.createTransaction(request);
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
-	public void testAttachTransitionsToFragment() {
+	@Test public void testAttachTransitionsToFragment() {
+		// Arrange:
 		final Fragment mockFragment = mock(TestFragment.class);
 		final Transition enterTransition = createTestTransition();
 		final Transition exitTransition = createTestTransition();
@@ -1033,50 +1102,59 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 				.sharedElementReturnTransition(sharedElementEnterReturnTransition)
 				.allowEnterTransitionOverlap(true)
 				.allowReturnTransitionOverlap(false);
+		// Act:
 		FragmentController.attachTransitionsToFragment(request, mockFragment);
-		verify(mockFragment, times(1)).setEnterTransition(enterTransition);
-		verify(mockFragment, times(1)).setExitTransition(exitTransition);
-		verify(mockFragment, times(1)).setReenterTransition(reenterTransition);
-		verify(mockFragment, times(1)).setReturnTransition(returnTransition);
-		verify(mockFragment, times(1)).setSharedElementEnterTransition(sharedElementEnterTransition);
-		verify(mockFragment, times(1)).setSharedElementReturnTransition(sharedElementEnterReturnTransition);
-		verify(mockFragment, times(1)).setAllowEnterTransitionOverlap(true);
-		verify(mockFragment, times(1)).setAllowReturnTransitionOverlap(false);
+		// Assert:
+		verify(mockFragment).setEnterTransition(enterTransition);
+		verify(mockFragment).setExitTransition(exitTransition);
+		verify(mockFragment).setReenterTransition(reenterTransition);
+		verify(mockFragment).setReturnTransition(returnTransition);
+		verify(mockFragment).setSharedElementEnterTransition(sharedElementEnterTransition);
+		verify(mockFragment).setSharedElementReturnTransition(sharedElementEnterReturnTransition);
+		verify(mockFragment).setAllowEnterTransitionOverlap(true);
+		verify(mockFragment).setAllowReturnTransitionOverlap(false);
 		verifyNoMoreInteractions(mockFragment);
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
-	public void testAttachTransitionsToFragmentForRequestWithoutTransitions() {
+	@Test public void testAttachTransitionsToFragmentForRequestWithoutTransitions() {
+		// Arrange:
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), mockFragment);
+		// Act:
 		FragmentController.attachTransitionsToFragment(request, mockFragment);
+		// Assert:
 		verifyZeroInteractions(mockFragment);
 	}
 
-	@Test
-	public void testFindCurrentFragment() {
+	@Test public void testFindCurrentFragment() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		when(mockManager.findFragmentById(controller.getViewContainerId())).thenReturn(mockFragment);
+		// Act + Assert:
 		assertThat(controller.findCurrentFragment(), is(mockFragment));
-		verify(mockManager, times(1)).findFragmentById(controller.getViewContainerId());
+		verify(mockManager).findFragmentById(controller.getViewContainerId());
 	}
 
 	@Test(expected = UnsupportedOperationException.class)
 	public void testFindCurrentFragmentWithoutViewContainerIdSpecified() {
-		new FragmentController(mock(FragmentManager.class)).findCurrentFragment();
+		// Arrange:
+		final FragmentController controller = new FragmentController(mock(FragmentManager.class));
+		// Act:
+		controller.findCurrentFragment();
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testFindCurrentFragmentWhenDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().findCurrentFragment();
 	}
 
-	@Test
-	public void testFindFragmentByFactoryId() {
+	@Test public void testFindFragmentByFactoryId() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentFactory mockFactory = mock(FragmentFactory.class);
 		final Fragment mockFragment = mock(TestFragment.class);
@@ -1085,187 +1163,211 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		when(mockFactory.isFragmentProvided(TestFactory.FRAGMENT_1)).thenReturn(true);
 		when(mockFactory.createFragmentTag(TestFactory.FRAGMENT_1)).thenReturn("TAG.TestFragment");
 		when(mockManager.findFragmentByTag("TAG.TestFragment")).thenReturn(mockFragment);
+		// Act + Assert:
 		assertThat(controller.findFragmentByFactoryId(TestFactory.FRAGMENT_1), is(mockFragment));
-		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
-		verify(mockFactory, times(1)).createFragmentTag(TestFactory.FRAGMENT_1);
-		verify(mockManager, times(1)).findFragmentByTag("TAG.TestFragment");
+		verify(mockFactory).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory).createFragmentTag(TestFactory.FRAGMENT_1);
+		verify(mockManager).findFragmentByTag("TAG.TestFragment");
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testFindFragmentByFactoryIdWithoutFactoryAttached() {
-		new FragmentController(mock(FragmentManager.class)).findFragmentByFactoryId(TestFactory.FRAGMENT_1);
+		// Arrange:
+		final FragmentController controller = new FragmentController(mock(FragmentManager.class));
+		// Act:
+		controller.findFragmentByFactoryId(TestFactory.FRAGMENT_1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFindFragmentByFactoryIdWithFactoryNotProvidingFragment() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentFactory mockFactory = mock(FragmentFactory.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setFactory(mockFactory);
 		when(mockFactory.isFragmentProvided(anyInt())).thenReturn(false);
+		// Act:
 		controller.findFragmentByFactoryId(TestFactory.FRAGMENT_1);
-		verify(mockFactory, times(1)).isFragmentProvided(TestFactory.FRAGMENT_1);
+		verify(mockFactory).isFragmentProvided(TestFactory.FRAGMENT_1);
 		verifyNoMoreInteractions(mockFactory);
 		verifyZeroInteractions(mockManager);
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testFindFragmentByFactoryIdWhenDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().findFragmentByFactoryId(TestFactory.FRAGMENT_1);
 	}
 
-	@Test
-	public void testHasBackStackEntries() {
+	@Test public void testHasBackStackEntries() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryCount()).thenReturn(5);
+		// Act + Assert:
 		assertThat(controller.hasBackStackEntries(), is(true));
 		verify(mockManager, times(2)).getBackStackEntryCount();
 	}
 
-	@Test
-	public void testHasBackStackEntriesOnEmptyStack() {
+	@Test public void testHasBackStackEntriesOnEmptyStack() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryCount()).thenReturn(0);
+		// Act + Assert:
 		assertThat(controller.hasBackStackEntries(), is(false));
 		verify(mockManager, times(2)).getBackStackEntryCount();
 	}
 
-	@Test
-	public void testGetTopBackStackEntryDefault() {
-		assertThat(new FragmentController(mock(FragmentManager.class)).getTopBackStackEntry(), is(nullValue()));
+	@Test public void testTopBackStackEntry() {
+		// Arrange:
+		final FragmentController controller = new FragmentController(mock(FragmentManager.class));
+		// Act + Assert:
+		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
 	}
 
-	@Test
-	public void testClearBackStack() {
+	@Test public void testClearBackStack() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryCount()).thenReturn(5);
+		// Act:
 		controller.clearBackStack();
+		// Assert:
 		verify(mockManager, times(2)).getBackStackEntryCount();
 		verify(mockManager, times(5)).popBackStack();
 	}
 
-	@Test
-	public void testClearBackStackOnEmptyBackStack() {
+	@Test public void testClearBackStackOnEmptyBackStack() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryCount()).thenReturn(0);
+		// Act:
 		controller.clearBackStack();
+		// Assert:
 		verify(mockManager, times(2)).getBackStackEntryCount();
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testClearBackStackWhenDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().clearBackStack();
 	}
 
-	@Test
-	public void testClearBackStackImmediate() {
+	@Test public void testClearBackStackImmediate() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryCount()).thenReturn(5);
 		when(mockManager.popBackStackImmediate()).thenReturn(true);
+		// Act + Assert:
 		assertThat(controller.clearBackStackImmediate(), is(true));
 		verify(mockManager, times(2)).getBackStackEntryCount();
 		verify(mockManager, times(5)).popBackStackImmediate();
 	}
 
-	@Test
-	public void testClearBackStackImmediateWhenManagerDoesNotPops() {
+	@Test public void testClearBackStackImmediateWhenManagerDoesNotPops() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryCount()).thenReturn(5);
 		when(mockManager.popBackStackImmediate()).thenReturn(false);
+		// Act + Assert:
 		assertThat(controller.clearBackStackImmediate(), is(false));
 		verify(mockManager, times(2)).getBackStackEntryCount();
 		verify(mockManager, times(5)).popBackStackImmediate();
 	}
 
-	@Test
-	public void testClearBackStackImmediateOnEmptyStack() {
+	@Test public void testClearBackStackImmediateOnEmptyStack() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryCount()).thenReturn(0);
+		// Act + Assert:
 		assertThat(controller.clearBackStackImmediate(), is(false));
 		verify(mockManager, times(2)).getBackStackEntryCount();
 	}
 
 	@Test(expected = IllegalStateException.class)
 	public void testClearBackStackImmediateWhenDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().clearBackStackImmediate();
 	}
 
-	@Test
-	public void testDestroyWhenAlreadyDestroyed() {
+	@Test public void testDestroyWhenAlreadyDestroyed() {
+		// Arrange + Act:
 		createDestroyedController().destroy();
 	}
 
-	@Test
-	public void testHandleBackStackChangeDueToAddition() {
+	@Test public void testHandleBackStackChangeDueToAddition() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentManager.BackStackEntry mockBackStackEntry = mock(FragmentManager.BackStackEntry.class);
 		final FragmentController.OnBackStackChangeListener mockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.registerOnBackStackChangeListener(mockListener);
 		when(mockManager.getBackStackEntryAt(0)).thenReturn(mockBackStackEntry);
+		// Act:
 		controller.handleBackStackChange(1, FragmentController.BackStackListener.ADDED);
+		// Assert:
 		assertThat(controller.getTopBackStackEntry(), is(mockBackStackEntry));
-		verify(mockListener, times(1)).onFragmentsBackStackChanged(mockBackStackEntry, true);
-		verify(mockListener, times(0)).onFragmentsBackStackChanged(mockBackStackEntry, false);
+		verify(mockListener).onFragmentsBackStackChanged(mockBackStackEntry, true);
+		verifyNoMoreInteractions(mockListener);
 	}
 
-	@Test
-	public void testHandleBackStackChangeDueToAdditionOfEntryNotInStack() {
+	@Test public void testHandleBackStackChangeDueToAdditionOfEntryNotInStack() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController.OnBackStackChangeListener mockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.registerOnBackStackChangeListener(mockListener);
 		when(mockManager.getBackStackEntryAt(anyInt())).thenReturn(null);
+		// Act:
 		controller.handleBackStackChange(1, FragmentController.BackStackListener.ADDED);
+		// Assert:
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
 		verifyZeroInteractions(mockListener);
 	}
 
-	@Test
-	public void testHandleBackStackChangeDueToRemoval() {
+	@Test public void testHandleBackStackChangeDueToRemoval() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentManager.BackStackEntry firstMockBackStackEntry = mock(FragmentManager.BackStackEntry.class);
 		final FragmentManager.BackStackEntry secondMockBackStackEntry = mock(FragmentManager.BackStackEntry.class);
 		final FragmentController.OnBackStackChangeListener mockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		when(mockManager.getBackStackEntryAt(1)).thenReturn(secondMockBackStackEntry);
+		// Act + Assert:
 		controller.handleBackStackChange(2, FragmentController.BackStackListener.ADDED);
 		controller.registerOnBackStackChangeListener(mockListener);
 		when(mockManager.getBackStackEntryAt(0)).thenReturn(firstMockBackStackEntry);
 		controller.handleBackStackChange(1, FragmentController.BackStackListener.REMOVED);
 		assertThat(controller.getTopBackStackEntry(), is(firstMockBackStackEntry));
-		verify(mockListener, times(1)).onFragmentsBackStackChanged(secondMockBackStackEntry, false);
-		verify(mockListener, times(0)).onFragmentsBackStackChanged(secondMockBackStackEntry, true);
-		verify(mockListener, times(0)).onFragmentsBackStackChanged(firstMockBackStackEntry, true);
-		verify(mockListener, times(0)).onFragmentsBackStackChanged(firstMockBackStackEntry, false);
+		verify(mockListener).onFragmentsBackStackChanged(secondMockBackStackEntry, false);
+		verifyNoMoreInteractions(mockListener);
 	}
 
-	@Test
-	public void testHandleBackStackChangeDueToRemovalWithoutPreviousBackStackEntry() {
+	@Test public void testHandleBackStackChangeDueToRemovalWithoutPreviousBackStackEntry() {
+		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentController.OnBackStackChangeListener mockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController controller = new FragmentController(mockManager);
+		// Act:
 		controller.handleBackStackChange(0, FragmentController.BackStackListener.REMOVED);
+		// Assert:
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
 		verifyZeroInteractions(mockListener);
 	}
 
-	private FragmentController createDestroyedController() {
+	private static FragmentController createDestroyedController() {
 		final Activity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getFragmentManager());
 		controller.destroy();
 		return controller;
 	}
 
-	@Nullable
-	private static Transition createTestTransition() {
+	@Nullable private static Transition createTestTransition() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? new Fade() : null;
 	}
 
@@ -1285,34 +1387,25 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 				CALLBACK_ON_FRAGMENTS_BACK_STACK_CHANGED
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface CallbackId {
-		}
+		@interface CallbackId {}
 
 		private int receivedCallbacks;
 
-		@Nullable
-		@Override
-		public Fragment interceptFragmentRequest(@NonNull FragmentRequest request) {
+		@Override @Nullable public Fragment interceptFragmentRequest(@NonNull final FragmentRequest request) {
 			this.receivedCallbacks |= CALLBACK_INTERCEPT_FRAGMENT_REQUEST;
 			return null;
 		}
 
-		@Override
-		public void onRequestExecuted(@NonNull FragmentRequest request) {
+		@Override public void onRequestExecuted(@NonNull final FragmentRequest request) {
 			this.receivedCallbacks |= CALLBACK_ON_REQUEST_EXECUTED;
 		}
 
-		@Override
-		public void onFragmentsBackStackChanged(@NonNull FragmentManager.BackStackEntry backStackEntry, boolean added) {
+		@Override public void onFragmentsBackStackChanged(@NonNull final FragmentManager.BackStackEntry backStackEntry, final boolean added) {
 			this.receivedCallbacks |= CALLBACK_ON_FRAGMENTS_BACK_STACK_CHANGED;
 		}
 
-		boolean receivedCallback(@CallbackId int callback) {
+		boolean receivedCallback(@CallbackId final int callback) {
 			return (receivedCallbacks & callback) == callback;
-		}
-
-		void reset() {
-			this.receivedCallbacks = 0;
 		}
 	}
 
@@ -1332,34 +1425,25 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 				CALLBACK_ON_FRAGMENTS_BACK_STACK_CHANGED
 		})
 		@Retention(RetentionPolicy.SOURCE)
-		@interface CallbackId {
-		}
+		@interface CallbackId {}
 
 		private int receivedCallbacks;
 
-		@Nullable
-		@Override
-		public Fragment interceptFragmentRequest(@NonNull FragmentRequest request) {
+		@Override @Nullable public Fragment interceptFragmentRequest(@NonNull final FragmentRequest request) {
 			this.receivedCallbacks |= CALLBACK_INTERCEPT_FRAGMENT_REQUEST;
 			return null;
 		}
 
-		@Override
-		public void onRequestExecuted(@NonNull FragmentRequest request) {
+		@Override public void onRequestExecuted(@NonNull final FragmentRequest request) {
 			this.receivedCallbacks |= CALLBACK_ON_REQUEST_EXECUTED;
 		}
 
-		@Override
-		public void onFragmentsBackStackChanged(@NonNull FragmentManager.BackStackEntry backStackEntry, boolean added) {
+		@Override public void onFragmentsBackStackChanged(@NonNull final FragmentManager.BackStackEntry backStackEntry, final boolean added) {
 			this.receivedCallbacks |= CALLBACK_ON_FRAGMENTS_BACK_STACK_CHANGED;
 		}
 
-		boolean receivedCallback(@CallbackId int callback) {
+		boolean receivedCallback(@CallbackId final int callback) {
 			return (receivedCallbacks & callback) == callback;
-		}
-
-		void reset() {
-			this.receivedCallbacks = 0;
 		}
 	}
 
@@ -1367,66 +1451,51 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 		static final int FRAGMENT_1 = 0x01;
 
-		@Override
-		public boolean isFragmentProvided(int fragmentId) {
+		@Override public boolean isFragmentProvided(final int fragmentId) {
 			return fragmentId == FRAGMENT_1;
 		}
 
-		@Nullable
-		@Override
-		public Fragment createFragment(int fragmentId) {
+		@Override @Nullable public Fragment createFragment(final int fragmentId) {
 			switch (fragmentId) {
 				case FRAGMENT_1: return new TestFragment1();
 				default: return null;
 			}
 		}
 
-		@Nullable
-		@Override
-		public String createFragmentTag(int fragmentId) {
+		@Override @Nullable public String createFragmentTag(final int fragmentId) {
 			return "TAG.Fragment." + Integer.toString(fragmentId);
 		}
 	}
 
-	public static final class TestFragment1 extends TestFragment {
-	}
+	public static final class TestFragment1 extends TestFragment {}
 
 	@SuppressLint("ParcelCreator")
 	private static final class TestTransition implements FragmentTransition {
 
-		@Override
-		public int getIncomingAnimation() {
+		@Override public int getIncomingAnimation() {
 			return android.R.animator.fade_in;
 		}
 
-		@Override
-		public int getOutgoingAnimation() {
+		@Override public int getOutgoingAnimation() {
 			return android.R.animator.fade_out;
 		}
 
-		@Override
-		public int getIncomingBackStackAnimation() {
+		@Override public int getIncomingBackStackAnimation() {
 			return android.R.animator.fade_out;
 		}
 
-		@Override
-		public int getOutgoingBackStackAnimation() {
+		@Override public int getOutgoingBackStackAnimation() {
 			return android.R.animator.fade_in;
 		}
 
-		@NonNull
-		@Override
-		public String getName() {
+		@Override @NonNull public String getName() {
 			return TestTransition.class.getName();
 		}
 
-		@Override
-		public int describeContents() {
+		@Override public int describeContents() {
 			return 0;
 		}
 
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {
-		}
+		@Override public void writeToParcel(@NonNull Parcel dest, int flags) {}
 	}
 }
