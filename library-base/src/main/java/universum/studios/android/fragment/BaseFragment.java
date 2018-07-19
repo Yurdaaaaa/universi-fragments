@@ -21,6 +21,7 @@ package universum.studios.android.fragment;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.content.Loader;
 import android.content.res.Resources;
@@ -536,6 +537,8 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	}
 
 	/**
+	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
+	 * <p>
 	 * Starts a loader with the specified <var>id</var>. If there was already started loader with the
 	 * same id before, such a loader will be <b>re-started</b>, otherwise new loader will be <b>initialized</b>.
 	 *
@@ -548,7 +551,10 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see #initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 * @see #restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 * @see #destroyLoader(int)
+	 *
+	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
 	 */
+	@Deprecated
 	@Nullable public <D> Loader<D> startLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
 		final LoaderManager manager = getLoaderManager();
 		return manager.getLoader(id) == null ?
@@ -557,6 +563,8 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	}
 
 	/**
+	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
+	 * <p>
 	 * Initializes a loader with the specified <var>id</var> for the given <var>callbacks</var>.
 	 *
 	 * @param id        Id of the desired loader to init.
@@ -569,12 +577,17 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see #restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 * @see #destroyLoader(int)
 	 * @see LoaderManager#initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
+	 *
+	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
 	 */
+	@Deprecated
 	@Nullable public <D> Loader<D> initLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
 		return getLoaderManager().initLoader(id, params, callbacks);
 	}
 
 	/**
+	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
+	 * <p>
 	 * Re-starts a loader with the specified <var>id</var> for the given <var>callbacks</var>.
 	 *
 	 * @param id        Id of the desired loader to re-start.
@@ -587,12 +600,17 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see #initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 * @see #destroyLoader(int)
 	 * @see LoaderManager#restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
+	 *
+	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
 	 */
+	@Deprecated
 	@Nullable public <D> Loader<D> restartLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
 		return getLoaderManager().restartLoader(id, params, callbacks);
 	}
 
 	/**
+	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
+	 * <p>
 	 * Destroys a loader with the specified <var>id</var>.
 	 *
 	 * @param id Id of the desired loader to destroy.
@@ -600,7 +618,10 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @see #initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 * @see #restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
 	 * @see LoaderManager#destroyLoader(int)
+	 *
+	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
 	 */
+	@Deprecated
 	public void destroyLoader(@IntRange(from = 0) final int id) {
 		getLoaderManager().destroyLoader(id);
 	}

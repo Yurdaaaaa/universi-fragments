@@ -9,6 +9,8 @@ More **detailed changelog** for each respective version may be viewed by pressin
 ### 1.3.3 ###
 > upcoming
 
+- Small updates and code quality improvements.
+
 ### [1.3.2](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.2) ###
 > 27.02.2018
 

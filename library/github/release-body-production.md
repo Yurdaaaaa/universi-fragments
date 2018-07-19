@@ -4,5 +4,5 @@ Release patch.
 
 ### Changes ###
 
-- Stability improvements.
-- Resolved [Issue #40](https://github.com/universum-studios/android_fragments/issues/40).
+- Deprecated `LoaderManager` related methods in `BaseFragment`.
+- Updated **Copyright, code style, test style**.
