@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.util;
 
@@ -42,6 +42,7 @@ import universum.studios.android.fragment.FragmentPolicies;
  * Utility class for the Fragments library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class FragmentUtils {
 
@@ -112,6 +113,7 @@ public final class FragmentUtils {
 	 *
 	 * @param context Context used to obtain power service.
 	 * @return {@code True} if power save mode is active at this time, {@code false} otherwise.
+	 *
 	 * @see PowerManager#isPowerSaveMode()
 	 */
 	public static boolean isPowerSaveModeActive(@NonNull final Context context) {
@@ -159,12 +161,12 @@ public final class FragmentUtils {
 	 * @param context  Context used for inflation process.
 	 * @param resource Resource id of the desired transition to inflate.
 	 * @return Inflated transition or {@code null} if the current API level does not support transitions.
+	 *
 	 * @see TransitionInflater#inflateTransition(int)
 	 * @see #inflateTransitionManager(Context, int, ViewGroup)
 	 */
-	@Nullable
 	@SuppressLint("NewApi")
-	public static Transition inflateTransition(@NonNull final Context context, @TransitionRes final int resource) {
+	@Nullable public static Transition inflateTransition(@NonNull final Context context, @TransitionRes final int resource) {
 		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ? TransitionInflater.from(context).inflateTransition(resource) : null;
 	}
 
@@ -176,13 +178,19 @@ public final class FragmentUtils {
 	 * @param sceneRoot Root of the scene for which to inflate transition manager.
 	 * @return Inflated transition manager or {@code null} if the current API level does not support
 	 * transitions.
+	 *
 	 * @see TransitionInflater#inflateTransitionManager(int, ViewGroup)
 	 * @see #inflateTransition(Context, int)
 	 */
-	@Nullable
 	@SuppressLint("NewApi")
-	public static TransitionManager inflateTransitionManager(@NonNull final Context context, @TransitionRes final int resource, @NonNull final ViewGroup sceneRoot) {
-		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ? TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) : null;
+	@Nullable public static TransitionManager inflateTransitionManager(
+			@NonNull final Context context,
+			@TransitionRes final int resource,
+			@NonNull final ViewGroup sceneRoot
+	) {
+		return FragmentPolicies.TRANSITIONS_SUPPORTED && context.getResources() != null ?
+				TransitionInflater.from(context).inflateTransitionManager(resource, sceneRoot) :
+				null;
 	}
 
 	/**
@@ -197,11 +205,15 @@ public final class FragmentUtils {
 	 *                  on {@link Build.VERSION_CODES#LOLLIPOP} and above Android versions.
 	 * @return Instance of the requested vector drawable or {@code null} if the specified resource
 	 * id is {@code 0}.
+	 *
 	 * @see #getDrawable(Resources, int, Resources.Theme)
 	 * @see VectorDrawableCompat#create(Resources, int, Resources.Theme)
 	 */
-	@Nullable
-	public static Drawable getVectorDrawable(@NonNull final Resources resources, @DrawableRes final int resId, @Nullable final Resources.Theme theme) throws Resources.NotFoundException {
+	@Nullable public static Drawable getVectorDrawable(
+			@NonNull final Resources resources,
+			@DrawableRes final int resId,
+			@Nullable final Resources.Theme theme
+	) throws Resources.NotFoundException {
 		if (resId == 0) return null;
 		else return ACCESS_LOLLIPOP ? getDrawable(resources, resId, theme) : VectorDrawableCompat.create(resources, resId, theme);
 	}
@@ -217,12 +229,16 @@ public final class FragmentUtils {
 	 * @param theme     Theme that will be used to resolve theme attributes for the requested drawable
 	 *                  on {@link Build.VERSION_CODES#LOLLIPOP} and above Android versions.
 	 * @return Instance of the requested drawable or {@code null} if the specified resource id is {@code 0}.
+	 *
 	 * @see Resources#getDrawable(int, Resources.Theme)
 	 * @see Resources#getDrawable(int)
 	 */
-	@Nullable
 	@SuppressWarnings({"NewApi", "deprecation"})
-	public static Drawable getDrawable(@NonNull final Resources resources, @DrawableRes final int resId, @Nullable final Resources.Theme theme) throws Resources.NotFoundException {
+	@Nullable public static Drawable getDrawable(
+			@NonNull final Resources resources,
+			@DrawableRes final int resId,
+			@Nullable final Resources.Theme theme
+	) throws Resources.NotFoundException {
 		if (resId == 0) return null;
 		else return ACCESS_LOLLIPOP ? resources.getDrawable(resId, theme) : resources.getDrawable(resId);
 	}

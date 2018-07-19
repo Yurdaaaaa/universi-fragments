@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment;
 
@@ -31,6 +31,7 @@ import android.view.ActionMode;
  * details when using Activity context within fragments.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public abstract class ActivityDelegate {
 
@@ -56,8 +57,13 @@ public abstract class ActivityDelegate {
 	 */
 
 	/**
+	 * <b>This field has been deprecated and will be made private in version 1.4.0.</b>
+	 * <p>
 	 * Wrapped activity instance to which will be this delegate delegating its calls.
+	 *
+	 * @deprecated Use {@link #getActivity()} instead.
 	 */
+	@Deprecated
 	@NonNull protected final Activity mActivity;
 
 	/*
@@ -84,12 +90,22 @@ public abstract class ActivityDelegate {
 	 * @param activity The activity to be wrapped.
 	 * @return Instance of ActivityDelegate for the specified activity.
 	 */
-	@NonNull
-	public static ActivityDelegate create(@NonNull final Activity activity) {
+	@NonNull public static ActivityDelegate create(@NonNull final Activity activity) {
 		if (activity instanceof AppCompatActivity) {
 			return new AppCompatImpl((AppCompatActivity) activity);
 		}
 		return new Impl(activity);
+	}
+
+	/**
+	 * Returns the activity this delegate for created for.
+	 *
+	 * @return This delegate's activity.
+	 *
+	 * @see #ActivityDelegate(Activity)
+	 */
+	@NonNull protected final Activity getActivity() {
+		return mActivity;
 	}
 
 	/**
@@ -105,20 +121,17 @@ public abstract class ActivityDelegate {
 	/**
 	 * Delegates to {@link Activity#getActionBar()}.
 	 */
-	@Nullable
-	public abstract ActionBar getActionBar();
+	@Nullable public abstract ActionBar getActionBar();
 
 	/**
 	 * Delegates to {@link AppCompatActivity#getSupportActionBar()}.
 	 */
-	@Nullable
-	public abstract android.support.v7.app.ActionBar getSupportActionBar();
+	@Nullable public abstract android.support.v7.app.ActionBar getSupportActionBar();
 
 	/**
 	 * Delegates to {@link Activity#startActionMode(ActionMode.Callback)}.
 	 */
-	@Nullable
-	public abstract ActionMode startActionMode(@NonNull ActionMode.Callback callback);
+	@Nullable public abstract ActionMode startActionMode(@NonNull ActionMode.Callback callback);
 
 	/*
 	 * Inner classes ===============================================================================
@@ -140,39 +153,31 @@ public abstract class ActivityDelegate {
 
 		/**
 		 */
-		@Override
-		public boolean requestWindowFeature(final int featureId) {
+		@Override public boolean requestWindowFeature(final int featureId) {
 			return mActivity.requestWindowFeature(featureId);
 		}
 
 		/**
 		 */
-		@Override
-		public void invalidateOptionsMenu() {
-			mActivity.invalidateOptionsMenu();
+		@Override public void invalidateOptionsMenu() {
+			this.mActivity.invalidateOptionsMenu();
 		}
 
 		/**
 		 */
-		@Nullable
-		@Override
-		public ActionBar getActionBar() {
-			return mActivity.getActionBar();
+		@Override @Nullable public ActionBar getActionBar() {
+			return this.mActivity.getActionBar();
 		}
 
 		/**
 		 */
-		@Nullable
-		@Override
-		public android.support.v7.app.ActionBar getSupportActionBar() {
+		@Override @Nullable public android.support.v7.app.ActionBar getSupportActionBar() {
 			return null;
 		}
 
 		/**
 		 */
-		@Nullable
-		@Override
-		public ActionMode startActionMode(@NonNull final ActionMode.Callback callback) {
+		@Override @Nullable public ActionMode startActionMode(@NonNull final ActionMode.Callback callback) {
 			return mActivity.startActionMode(callback);
 		}
 	}
@@ -193,22 +198,19 @@ public abstract class ActivityDelegate {
 
 		/**
 		 */
-		@Override
-		public boolean requestWindowFeature(final int featureId) {
+		@Override public boolean requestWindowFeature(final int featureId) {
 			return ((AppCompatActivity) mActivity).supportRequestWindowFeature(featureId);
 		}
 
 		/**
 		 */
-		@Override
-		public void invalidateOptionsMenu() {
+		@Override public void invalidateOptionsMenu() {
 			((AppCompatActivity) mActivity).supportInvalidateOptionsMenu();
 		}
 
 		/**
 		 */
-		@Override
-		public android.support.v7.app.ActionBar getSupportActionBar() {
+		@Override public android.support.v7.app.ActionBar getSupportActionBar() {
 			return ((AppCompatActivity) mActivity).getSupportActionBar();
 		}
 	}

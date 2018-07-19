@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.manage;
 
@@ -79,6 +79,8 @@ import universum.studios.android.fragment.util.FragmentUtils;
  * be attached to the FragmentController via {@link #registerOnBackStackChangeListener(OnBackStackChangeListener)}.
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see FragmentFactory
  * @see FragmentRequest
  */
@@ -117,6 +119,8 @@ public class FragmentController {
 	 * Listener that may be used to receive callback about executed {@link FragmentRequest}.
 	 *
 	 * @author Martin Albedinsky
+	 * @since 1.0
+	 *
 	 * @see #registerOnRequestListener(OnRequestListener)
 	 */
 	public interface OnRequestListener {
@@ -125,6 +129,7 @@ public class FragmentController {
 		 * Invoked whenever the specified <var>request</var> has been executed.
 		 *
 		 * @param request The executed fragment request.
+		 *
 		 * @see FragmentRequest#execute()
 		 */
 		void onRequestExecuted(@NonNull FragmentRequest request);
@@ -136,6 +141,8 @@ public class FragmentController {
 	 * is removed from the back stack.
 	 *
 	 * @author Martin Albedinsky
+	 * @since 1.0
+	 *
 	 * @see #registerOnBackStackChangeListener(OnBackStackChangeListener)
 	 */
 	public interface OnBackStackChangeListener {
@@ -160,13 +167,13 @@ public class FragmentController {
 	/**
 	 * Listener used to listen for changes in fragments back stack.
 	 */
-	private final FragmentManager.OnBackStackChangedListener mBackStackChangeListener;
+	private final FragmentManager.OnBackStackChangedListener backStackChangeListener;
 
 	/**
 	 * Fragment manager used to perform fragments related operations.
 	 */
 	@SuppressWarnings("WeakerAccess")
-	final FragmentManager mManager;
+	final FragmentManager manager;
 
 	/**
 	 * Context used to check whether custom fragment animations will be played by the Android framework
@@ -175,43 +182,43 @@ public class FragmentController {
 	 *
 	 * @see #createTransaction(FragmentRequest)
 	 */
-	private final Context mContext;
+	private final Context context;
 
 	/**
 	 * Id of a view container where to place view hierarchies of the desired fragments.
 	 */
-	private int mViewContainerId = NO_CONTAINER_ID;
+	private int viewContainerId = NO_CONTAINER_ID;
 
 	/**
 	 * Factory that provides fragment instances for this controller.
 	 */
-	private FragmentFactory mFactory;
+	private FragmentFactory factory;
 
 	/**
 	 * Interceptor that may be used to intercept an execution of a particular {@link FragmentRequest}
 	 * when its execution has been requested via {@link #executeRequest(FragmentRequest)}.
 	 */
-	private FragmentRequestInterceptor mRequestInterceptor;
+	private FragmentRequestInterceptor requestInterceptor;
 
 	/**
 	 * List of listener callbacks registered for fragment requests.
 	 */
-	private List<OnRequestListener> mRequestListeners;
+	private List<OnRequestListener> requestListeners;
 
 	/**
 	 * List of listener callbacks registered for back stack changes.
 	 */
-	private List<OnBackStackChangeListener> mBackStackChangeListeners;
+	private List<OnBackStackChangeListener> backStackChangeListeners;
 
 	/**
 	 * Entry that is at the top of the fragments back stack.
 	 */
-	private FragmentManager.BackStackEntry mTopBackStackEntry;
+	private FragmentManager.BackStackEntry topBackStackEntry;
 
 	/**
 	 * Boolean flag indicating whether this controller has been destroyed or not.
 	 */
-	private boolean mDestroyed;
+	private boolean destroyed;
 
 	/*
 	 * Constructors ================================================================================
@@ -232,6 +239,7 @@ public class FragmentController {
 	 * </ul>
 	 *
 	 * @param parentActivity The activity that wants to use the new fragment controller.
+	 *
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(Fragment)
 	 */
@@ -266,6 +274,7 @@ public class FragmentController {
 	 * also destroyed.</b>
 	 *
 	 * @param parentFragment The fragment that wants to use the new fragment controller.
+	 *
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(Activity)
 	 */
@@ -286,6 +295,7 @@ public class FragmentController {
 	 * Creates a new instance of FragmentController with the given <var>fragmentManager</var>.
 	 *
 	 * @param fragmentManager Fragment manager that will be used to perform fragments related operations.
+	 *
 	 * @see #FragmentController(Activity)
 	 * @see #FragmentController(Fragment)
 	 * @see #FragmentController(Context, FragmentManager)
@@ -300,16 +310,17 @@ public class FragmentController {
 	 * @param context         Context used to resolve whether custom fragment animations (if specified)
 	 *                        will be played or not. {@link FragmentUtils#willBeCustomAnimationsPlayed(Context)}.
 	 * @param fragmentManager Fragment manager that will be used to perform fragments related operations.
+	 *
 	 * @see #FragmentController(Activity)
 	 * @see #FragmentController(Fragment)
 	 */
 	public FragmentController(@Nullable final Context context, @NonNull final FragmentManager fragmentManager) {
-		this.mContext = context;
-		this.mManager = fragmentManager;
-		this.mManager.addOnBackStackChangedListener(mBackStackChangeListener = new BackStackListener(this));
-		final int n = mManager.getBackStackEntryCount();
+		this.context = context;
+		this.manager = fragmentManager;
+		this.manager.addOnBackStackChangedListener(backStackChangeListener = new BackStackListener(this));
+		final int n = manager.getBackStackEntryCount();
 		if (n > 0) {
-			this.mTopBackStackEntry = mManager.getBackStackEntryAt(n - 1);
+			this.topBackStackEntry = manager.getBackStackEntryAt(n - 1);
 		}
 	}
 
@@ -321,11 +332,11 @@ public class FragmentController {
 	 * Returns the fragment manager specified for this controller during its initialization.
 	 *
 	 * @return FragmentManager instance.
+	 *
 	 * @see #FragmentController(FragmentManager)
 	 */
-	@NonNull
-	public FragmentManager getFragmentManager() {
-		return mManager;
+	@NonNull public FragmentManager getFragmentManager() {
+		return manager;
 	}
 
 	/**
@@ -335,21 +346,22 @@ public class FragmentController {
 	 * {@link FragmentRequest FragmentRequests} created via {@link #newRequest(Fragment)}
 	 *
 	 * @param containerId The desired view container id.
+	 *
 	 * @see #getViewContainerId()
 	 */
 	public void setViewContainerId(@IdRes final int containerId) {
-		this.mViewContainerId = containerId;
+		this.viewContainerId = containerId;
 	}
 
 	/**
 	 * Returns id of the view container for fragment views.
 	 *
 	 * @return View container id or {@link #NO_CONTAINER_ID} if no id has been specified yet.
+	 *
 	 * @see #setViewContainerId(int)
 	 */
-	@IdRes
-	public int getViewContainerId() {
-		return mViewContainerId;
+	@IdRes public int getViewContainerId() {
+		return viewContainerId;
 	}
 
 	/**
@@ -357,22 +369,24 @@ public class FragmentController {
 	 * created via {@link #newRequest(int)}.
 	 *
 	 * @param factory The desired factory. May {@code null} to clear the current one.
+	 *
 	 * @see #getFactory()
 	 * @see #hasFactory()
 	 */
 	public void setFactory(@Nullable final FragmentFactory factory) {
-		this.mFactory = factory;
+		this.factory = factory;
 	}
 
 	/**
 	 * Checks whether this controller has fragment factory attached or not.
 	 *
 	 * @return {@code True} if factory is attached, {@code false} otherwise.
+	 *
 	 * @see #setFactory(FragmentFactory)
 	 * @see #getFactory()
 	 */
 	public boolean hasFactory() {
-		return mFactory != null;
+		return factory != null;
 	}
 
 	/**
@@ -380,19 +394,19 @@ public class FragmentController {
 	 * an exception is thrown.
 	 */
 	private void assertHasFactory() {
-		if (mFactory == null) throw new IllegalStateException("No factory attached!");
+		if (factory == null) throw new IllegalStateException("No factory attached!");
 	}
 
 	/**
 	 * Returns the current fragment factory attached to this controller.
 	 *
 	 * @return This controller's factory or {@code null} if there is no factory attached yet.
+	 *
 	 * @see #setFactory(FragmentFactory)
 	 * @see #hasFactory()
 	 */
-	@Nullable
-	public FragmentFactory getFactory() {
-		return mFactory;
+	@Nullable public FragmentFactory getFactory() {
+		return factory;
 	}
 
 	/**
@@ -403,7 +417,7 @@ public class FragmentController {
 	 * @param interceptor The desired interceptor. May be {@code null} to clear the current one.
 	 */
 	public void setRequestInterceptor(@Nullable final FragmentRequestInterceptor interceptor) {
-		this.mRequestInterceptor = interceptor;
+		this.requestInterceptor = interceptor;
 	}
 
 	/**
@@ -416,11 +430,12 @@ public class FragmentController {
 	 * execution of that particular request.
 	 *
 	 * @param listener The desired listener callback to be registered.
+	 *
 	 * @see #unregisterOnRequestListener(OnRequestListener)
 	 */
 	public void registerOnRequestListener(@NonNull final OnRequestListener listener) {
-		if (mRequestListeners == null) this.mRequestListeners = new ArrayList<>(1);
-		if (!mRequestListeners.contains(listener)) mRequestListeners.add(listener);
+		if (requestListeners == null) this.requestListeners = new ArrayList<>(1);
+		if (!requestListeners.contains(listener)) requestListeners.add(listener);
 	}
 
 	/**
@@ -429,10 +444,9 @@ public class FragmentController {
 	 *
 	 * @param request The request that has been just executed via {@link #executeRequest(FragmentRequest)}.
 	 */
-	@VisibleForTesting
-	void notifyRequestExecuted(final FragmentRequest request) {
-		if (mRequestListeners != null && !mRequestListeners.isEmpty()) {
-			for (final OnRequestListener listener : mRequestListeners) {
+	@VisibleForTesting void notifyRequestExecuted(final FragmentRequest request) {
+		if (requestListeners != null && !requestListeners.isEmpty()) {
+			for (final OnRequestListener listener : requestListeners) {
 				listener.onRequestExecuted(request);
 			}
 		}
@@ -442,22 +456,24 @@ public class FragmentController {
 	 * Un-registers the given callback from the registered request listeners.
 	 *
 	 * @param listener The desired listener callback to be un-registered.
+	 *
 	 * @see #registerOnRequestListener(OnRequestListener)
 	 */
 	public void unregisterOnRequestListener(@NonNull final OnRequestListener listener) {
-		if (mRequestListeners != null) mRequestListeners.remove(listener);
+		if (requestListeners != null) requestListeners.remove(listener);
 	}
 
 	/**
 	 * Registers a callback to be invoked when some change occurs in the fragments back stack.
 	 *
 	 * @param listener The desired listener callback to be registered.
+	 *
 	 * @see #unregisterOnBackStackChangeListener(OnBackStackChangeListener)
 	 * @see FragmentManager#addOnBackStackChangedListener(FragmentManager.OnBackStackChangedListener)
 	 */
 	public void registerOnBackStackChangeListener(@NonNull final OnBackStackChangeListener listener) {
-		if (mBackStackChangeListeners == null) this.mBackStackChangeListeners = new ArrayList<>(1);
-		if (!mBackStackChangeListeners.contains(listener)) mBackStackChangeListeners.add(listener);
+		if (backStackChangeListeners == null) this.backStackChangeListeners = new ArrayList<>(1);
+		if (!backStackChangeListeners.contains(listener)) backStackChangeListeners.add(listener);
 	}
 
 	/**
@@ -468,10 +484,9 @@ public class FragmentController {
 	 * @param added        {@code True} if the specified entry was added to the back stack,
 	 *                     {@code false} if it was removed.
 	 */
-	@VisibleForTesting
-	void notifyBackStackEntryChange(final FragmentManager.BackStackEntry changedEntry, final boolean added) {
-		if (mBackStackChangeListeners != null && !mBackStackChangeListeners.isEmpty()) {
-			for (final OnBackStackChangeListener listener : mBackStackChangeListeners) {
+	@VisibleForTesting void notifyBackStackEntryChange(final FragmentManager.BackStackEntry changedEntry, final boolean added) {
+		if (backStackChangeListeners != null && !backStackChangeListeners.isEmpty()) {
+			for (final OnBackStackChangeListener listener : backStackChangeListeners) {
 				listener.onFragmentsBackStackChanged(changedEntry, added);
 			}
 		}
@@ -481,10 +496,11 @@ public class FragmentController {
 	 * Un-registers the given callback from the registered back stack change listeners.
 	 *
 	 * @param listener The desired listener callback to be un-registered.
+	 *
 	 * @see #registerOnBackStackChangeListener(OnBackStackChangeListener)
 	 */
 	public void unregisterOnBackStackChangeListener(@NonNull final OnBackStackChangeListener listener) {
-		if (mBackStackChangeListeners != null) mBackStackChangeListeners.remove(listener);
+		if (backStackChangeListeners != null) backStackChangeListeners.remove(listener);
 	}
 
 	/**
@@ -493,13 +509,13 @@ public class FragmentController {
 	 * specified for this controller via {@link #setViewContainerId(int)}.
 	 *
 	 * @return New fragment request with view container id specified for this controller.
+	 *
 	 * @see FragmentRequest#tag(String)
 	 * @see FragmentRequest#viewContainerId(int)
 	 */
-	@NonNull
-	public final FragmentRequest newRequest() {
+	@NonNull public final FragmentRequest newRequest() {
 		this.assertNotDestroyed("NEW REQUEST");
-		return new FragmentRequest(this, null).viewContainerId(mViewContainerId);
+		return new FragmentRequest(this, null).viewContainerId(viewContainerId);
 	}
 
 	/**
@@ -514,13 +530,13 @@ public class FragmentController {
 	 * @param fragment The fragment for which to create the new request.
 	 * @return New fragment request with default {@link #FRAGMENT_TAG} and view container id specified
 	 * for this controller.
+	 *
 	 * @see FragmentRequest#tag(String)
 	 * @see FragmentRequest#viewContainerId(int)
 	 */
-	@NonNull
-	public final FragmentRequest newRequest(@NonNull final Fragment fragment) {
+	@NonNull public final FragmentRequest newRequest(@NonNull final Fragment fragment) {
 		this.assertNotDestroyed("NEW REQUEST");
-		return new FragmentRequest(this, fragment).tag(FRAGMENT_TAG).viewContainerId(mViewContainerId);
+		return new FragmentRequest(this, fragment).tag(FRAGMENT_TAG).viewContainerId(viewContainerId);
 	}
 
 	/**
@@ -535,10 +551,9 @@ public class FragmentController {
 	 * @param fragmentId Id of the desired factory fragment for which to crate the new request.
 	 * @return New fragment request with view container id specified for this controller.
 	 */
-	@NonNull
-	public final FragmentRequest newRequest(final int fragmentId) {
+	@NonNull public final FragmentRequest newRequest(final int fragmentId) {
 		this.assertNotDestroyed("NEW REQUEST");
-		return new FragmentRequest(this, fragmentId).viewContainerId(mViewContainerId);
+		return new FragmentRequest(this, fragmentId).viewContainerId(viewContainerId);
 	}
 
 	/**
@@ -555,23 +570,23 @@ public class FragmentController {
 	 * @throws IllegalStateException    If there is no factory attached.
 	 * @throws IllegalArgumentException If the attached factory does not provide fragment for the
 	 *                                  fragment id specified for the request.
+	 *
 	 * @see FragmentRequestInterceptor#interceptFragmentRequest(FragmentRequest)
 	 */
-	@Nullable
-	Fragment executeRequest(final FragmentRequest request) {
+	@Nullable Fragment executeRequest(final FragmentRequest request) {
 		this.assertNotDestroyed("EXECUTE REQUEST");
-		Fragment fragment = request.mFragment;
+		Fragment fragment = request.fragment;
 		if (fragment == null) {
-			String fragmentTag = request.mTag;
-			final int fragmentId = request.mFragmentId;
+			String fragmentTag = request.tag;
+			final int fragmentId = request.fragmentId;
 			if (fragmentId == FragmentRequest.NO_ID) {
-				switch (request.mTransaction) {
+				switch (request.transaction) {
 					case FragmentRequest.REMOVE:
 					case FragmentRequest.SHOW:
 					case FragmentRequest.HIDE:
 					case FragmentRequest.ATTACH:
 					case FragmentRequest.DETACH:
-						fragment = mManager.findFragmentByTag(fragmentTag);
+						fragment = manager.findFragmentByTag(fragmentTag);
 						break;
 					case FragmentRequest.ADD:
 					case FragmentRequest.REPLACE:
@@ -581,41 +596,41 @@ public class FragmentController {
 				}
 			} else {
 				this.assertHasFactory();
-				if (!mFactory.isFragmentProvided(fragmentId)) {
+				if (!factory.isFragmentProvided(fragmentId)) {
 					throw new IllegalArgumentException(
-							"Cannot execute request for factory fragment. Current factory(" + mFactory.getClass() + ") " +
+							"Cannot execute request for factory fragment. Current factory(" + factory.getClass() + ") " +
 									"does not provide fragment for the requested id(" + fragmentId + ")!");
 				}
 				if (fragmentTag == null) {
-					fragmentTag = mFactory.createFragmentTag(fragmentId);
+					fragmentTag = factory.createFragmentTag(fragmentId);
 				}
-				switch (request.mTransaction) {
+				switch (request.transaction) {
 					case FragmentRequest.REMOVE:
 					case FragmentRequest.SHOW:
 					case FragmentRequest.HIDE:
 					case FragmentRequest.ATTACH:
 					case FragmentRequest.DETACH:
-						fragment = mManager.findFragmentByTag(fragmentTag);
+						fragment = manager.findFragmentByTag(fragmentTag);
 						break;
 					case FragmentRequest.REPLACE:
 					case FragmentRequest.ADD:
 					default:
-						fragment = mFactory.createFragment(fragmentId);
+						fragment = factory.createFragment(fragmentId);
 						if (fragment == null) {
 							throw new IllegalArgumentException(
-									"Cannot execute request for factory fragment. Current factory(" + mFactory.getClass() + ") is cheating. " +
+									"Cannot execute request for factory fragment. Current factory(" + factory.getClass() + ") is cheating. " +
 											"FragmentFactory.isFragmentProvided(...) returned true, but FragmentFactory.createFragment(...) returned null!"
 							);
 						}
 						break;
 				}
-				request.mTag = fragmentTag;
+				request.tag = fragmentTag;
 			}
 		}
-		if ((request.mFragment = fragment) == null) {
+		if ((request.fragment = fragment) == null) {
 			return null;
 		}
-		fragment = mRequestInterceptor == null ? null : mRequestInterceptor.interceptFragmentRequest(request);
+		fragment = requestInterceptor == null ? null : requestInterceptor.interceptFragmentRequest(request);
 		if (fragment == null) {
 			fragment = onExecuteRequest(request);
 		}
@@ -633,22 +648,21 @@ public class FragmentController {
 	 *                {@link FragmentRequest#execute()}
 	 * @return The fragment associated with the request.
 	 */
-	@NonNull
 	@SuppressWarnings("ConstantConditions")
-	protected Fragment onExecuteRequest(@NonNull final FragmentRequest request) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && mManager.isDestroyed()) {
+	@NonNull protected Fragment onExecuteRequest(@NonNull final FragmentRequest request) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && manager.isDestroyed()) {
 			throw new IllegalStateException("Cannot execute fragment request in context of activity that has been already destroyed!");
 		}
-		if (request.mTransaction == FragmentRequest.REPLACE && !request.hasFlag(FragmentRequest.REPLACE_SAME)) {
+		if (request.transaction == FragmentRequest.REPLACE && !request.hasFlag(FragmentRequest.REPLACE_SAME)) {
 			// Do not replace same fragment if there is already displayed fragment with the same tag.
-			final Fragment existingFragment = mManager.findFragmentByTag(request.mTag);
+			final Fragment existingFragment = manager.findFragmentByTag(request.tag);
 			if (existingFragment != null) {
-				FragmentsLogging.d(TAG, "Fragment with tag(" + request.mTag + ") is already displayed or it is in the back-stack.");
+				FragmentsLogging.d(TAG, "Fragment with tag(" + request.tag + ") is already displayed or it is in the back-stack.");
 				return existingFragment;
 			}
 		}
 		// Crate transaction for the fragment request.
-		final Fragment fragment = request.mFragment;
+		final Fragment fragment = request.fragment;
 		final FragmentTransaction transaction = createTransaction(request);
 		if (request.hasFlag(FragmentRequest.ADD_TO_BACK_STACK)) {
 			FragmentsLogging.d(TAG, "Fragment(" + fragment + ") will be added into back-stack under the tag(" + fragment.getTag() + ").");
@@ -660,7 +674,7 @@ public class FragmentController {
 			transaction.commit();
 		}
 		if (request.hasFlag(FragmentRequest.IMMEDIATE)) {
-			mManager.executePendingTransactions();
+			manager.executePendingTransactions();
 		}
 		return fragment;
 	}
@@ -706,41 +720,40 @@ public class FragmentController {
 	 *                                  or {@link FragmentRequest#ADD} but it has no container id
 	 *                                  specified via {@link FragmentRequest#viewContainerId(int)}
 	 */
-	@NonNull
 	@SuppressWarnings("NewApi")
-	public FragmentTransaction createTransaction(@NonNull final FragmentRequest request) {
+	@NonNull public FragmentTransaction createTransaction(@NonNull final FragmentRequest request) {
 		this.assertNotDestroyed("CREATE TRANSACTION");
-		final FragmentTransaction transaction = mManager.beginTransaction();
-		final Fragment fragment = request.mFragment;
-		if (request.mArguments != null) {
-			fragment.setArguments(request.mArguments);
+		final FragmentTransaction transaction = manager.beginTransaction();
+		final Fragment fragment = request.fragment;
+		if (request.arguments != null) {
+			fragment.setArguments(request.arguments);
 		}
 		// Attach animations to the transaction from the FragmentTransition parameter.
-		if (request.mTransition != null) {
-			if (mContext == null || FragmentUtils.willBeCustomAnimationsPlayed(mContext)) {
+		if (request.transition != null) {
+			if (context == null || FragmentUtils.willBeCustomAnimationsPlayed(context)) {
 				transaction.setCustomAnimations(
-						request.mTransition.getIncomingAnimation(),
-						request.mTransition.getOutgoingAnimation(),
-						request.mTransition.getIncomingBackStackAnimation(),
-						request.mTransition.getOutgoingBackStackAnimation()
+						request.transition.getIncomingAnimation(),
+						request.transition.getOutgoingAnimation(),
+						request.transition.getIncomingBackStackAnimation(),
+						request.transition.getOutgoingBackStackAnimation()
 				);
 			}
-		} else if (request.mTransitionStyle != FragmentRequest.NO_STYLE) {
-			transaction.setTransitionStyle(request.mTransitionStyle);
+		} else if (request.transitionStyle != FragmentRequest.NO_STYLE) {
+			transaction.setTransitionStyle(request.transitionStyle);
 		}
 		// Resolve transaction type.
-		switch (request.mTransaction) {
+		switch (request.transaction) {
 			case FragmentRequest.REPLACE:
-				if (request.mViewContainerId == NO_CONTAINER_ID) {
+				if (request.viewContainerId == NO_CONTAINER_ID) {
 					throw new IllegalArgumentException("Cannot create REPLACE transaction. No view container id specified!");
 				}
-				transaction.replace(request.mViewContainerId, fragment, request.mTag);
+				transaction.replace(request.viewContainerId, fragment, request.tag);
 				break;
 			case FragmentRequest.ADD:
-				if (request.mViewContainerId == NO_CONTAINER_ID) {
+				if (request.viewContainerId == NO_CONTAINER_ID) {
 					throw new IllegalArgumentException("Cannot create ADD transaction. No view container id specified!");
 				}
-				transaction.add(request.mViewContainerId, fragment, request.mTag);
+				transaction.add(request.viewContainerId, fragment, request.tag);
 				break;
 			case FragmentRequest.REMOVE:
 				transaction.remove(fragment);
@@ -758,14 +771,18 @@ public class FragmentController {
 				transaction.detach(fragment);
 				break;
 			default:
-				throw new IllegalArgumentException("Unsupported transaction type(" + request.mTransaction + ") specified for the fragment request!");
+				throw new IllegalArgumentException("Unsupported transaction type(" + request.transaction + ") specified for the fragment request!");
 		}
 		// Attach transitions with shared elements, if specified and supported.
 		if (CAN_ATTACH_TRANSITIONS) {
 			attachTransitionsToFragment(request, fragment);
-			if (request.mSharedElements != null && !request.mSharedElements.isEmpty()) {
-				final List<Pair<View, String>> elements = request.mSharedElements;
+			if (request.sharedElements != null && !request.sharedElements.isEmpty()) {
+				final List<Pair<View, String>> elements = request.sharedElements;
 				for (final Pair<View, String> pair : elements) {
+					if (pair.first == null || pair.second == null) {
+						FragmentsLogging.i(TAG, "Skipping invalid shared element pair(view: " + pair.first + ", name: " + pair.second + ").");
+						continue;
+					}
 					transaction.addSharedElement(pair.first, pair.second);
 				}
 			}
@@ -786,28 +803,28 @@ public class FragmentController {
 	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 	static void attachTransitionsToFragment(final FragmentRequest request, final Fragment fragment) {
 		if (request.hasTransition(FragmentRequest.TRANSITION_ENTER)) {
-			fragment.setEnterTransition(request.mEnterTransition);
+			fragment.setEnterTransition(request.enterTransition);
 		}
 		if (request.hasTransition(FragmentRequest.TRANSITION_EXIT)) {
-			fragment.setExitTransition(request.mExitTransition);
+			fragment.setExitTransition(request.exitTransition);
 		}
 		if (request.hasTransition(FragmentRequest.TRANSITION_REENTER)) {
-			fragment.setReenterTransition(request.mReenterTransition);
+			fragment.setReenterTransition(request.reenterTransition);
 		}
 		if (request.hasTransition(FragmentRequest.TRANSITION_RETURN)) {
-			fragment.setReturnTransition(request.mReturnTransition);
+			fragment.setReturnTransition(request.returnTransition);
 		}
 		if (request.hasTransition(FragmentRequest.TRANSITION_SHARED_ELEMENT_ENTER)) {
-			fragment.setSharedElementEnterTransition(request.mSharedElementEnterTransition);
+			fragment.setSharedElementEnterTransition(request.sharedElementEnterTransition);
 		}
 		if (request.hasTransition(FragmentRequest.TRANSITION_SHARED_ELEMENT_RETURN)) {
-			fragment.setSharedElementReturnTransition(request.mSharedElementReturnTransition);
+			fragment.setSharedElementReturnTransition(request.sharedElementReturnTransition);
 		}
-		if (request.mAllowEnterTransitionOverlap != null) {
-			fragment.setAllowEnterTransitionOverlap(request.mAllowEnterTransitionOverlap);
+		if (request.allowEnterTransitionOverlap != null) {
+			fragment.setAllowEnterTransitionOverlap(request.allowEnterTransitionOverlap);
 		}
-		if (request.mAllowReturnTransitionOverlap != null) {
-			fragment.setAllowReturnTransitionOverlap(request.mAllowReturnTransitionOverlap);
+		if (request.allowReturnTransitionOverlap != null) {
+			fragment.setAllowReturnTransitionOverlap(request.allowReturnTransitionOverlap);
 		}
 	}
 
@@ -818,15 +835,15 @@ public class FragmentController {
 	 * @return Currently visible fragment or {@code null} if there is no fragment displayed in the
 	 * fragment layout container.
 	 * @throws UnsupportedOperationException If there is no fragment container id specified.
+	 *
 	 * @see FragmentManager#findFragmentById(int)
 	 */
-	@Nullable
-	public Fragment findCurrentFragment() {
+	@Nullable public Fragment findCurrentFragment() {
 		this.assertNotDestroyed("FIND CURRENT FRAGMENT");
-		if (mViewContainerId == NO_CONTAINER_ID) {
+		if (viewContainerId == NO_CONTAINER_ID) {
 			throw new UnsupportedOperationException("Cannot find current fragment. No fragment container id specified!");
 		}
-		return mManager.findFragmentById(mViewContainerId);
+		return manager.findFragmentById(viewContainerId);
 	}
 
 	/**
@@ -843,37 +860,37 @@ public class FragmentController {
 	 * @throws IllegalArgumentException If the attached factory does not provide fragment for the
 	 *                                  specified id.
 	 */
-	@Nullable
-	public Fragment findFragmentByFactoryId(final int factoryFragmentId) {
+	@Nullable public Fragment findFragmentByFactoryId(final int factoryFragmentId) {
 		this.assertNotDestroyed("FIND FRAGMENT BY FACTORY ID");
 		this.assertHasFactory();
-		if (!mFactory.isFragmentProvided(factoryFragmentId)) {
+		if (!factory.isFragmentProvided(factoryFragmentId)) {
 			throw new IllegalArgumentException(
-					"Cannot find fragment by factory id. Current factory(" + mFactory.getClass() + ") " +
+					"Cannot find fragment by factory id. Current factory(" + factory.getClass() + ") " +
 							"does not provide fragment for the requested id(" + factoryFragmentId + ")!");
 		}
-		return mManager.findFragmentByTag(mFactory.createFragmentTag(factoryFragmentId));
+		return manager.findFragmentByTag(factory.createFragmentTag(factoryFragmentId));
 	}
 
 	/**
 	 * Checks whether there are some fragments within the back stack or not.
 	 *
 	 * @return {@code True} if fragments back stack contains at least one entry, {@code false} otherwise.
+	 *
 	 * @see FragmentManager#getBackStackEntryCount()
 	 */
 	public boolean hasBackStackEntries() {
-		return mManager.getBackStackEntryCount() > 0;
+		return manager.getBackStackEntryCount() > 0;
 	}
 
 	/**
 	 * Returns the top entry from the fragments back stack.
 	 *
 	 * @return The top back stack entry or {@code null} if there are no back stack entries.
+	 *
 	 * @see #hasBackStackEntries()
 	 */
-	@Nullable
-	public FragmentManager.BackStackEntry getTopBackStackEntry() {
-		return mTopBackStackEntry;
+	@Nullable public FragmentManager.BackStackEntry getTopBackStackEntry() {
+		return topBackStackEntry;
 	}
 
 	/**
@@ -887,9 +904,9 @@ public class FragmentController {
 	 */
 	public void clearBackStack() {
 		this.assertNotDestroyed("CLEAR BACK STACK");
-		final int n = mManager.getBackStackEntryCount();
+		final int n = manager.getBackStackEntryCount();
 		for (int i = 0; i < n; i++) {
-			mManager.popBackStack();
+			manager.popBackStack();
 		}
 	}
 
@@ -906,9 +923,9 @@ public class FragmentController {
 	public boolean clearBackStackImmediate() {
 		this.assertNotDestroyed("CLEAR BACK STACK IMMEDIATE");
 		boolean popped = false;
-		final int n = mManager.getBackStackEntryCount();
+		final int n = manager.getBackStackEntryCount();
 		for (int i = 0; i < n; i++) {
-			if (mManager.popBackStackImmediate() && !popped) {
+			if (manager.popBackStackImmediate() && !popped) {
 				popped = true;
 			}
 		}
@@ -926,11 +943,11 @@ public class FragmentController {
 	 * result in an exception to be thrown.
 	 */
 	public final void destroy() {
-		if (!mDestroyed) {
-			this.mDestroyed = true;
-			this.mManager.removeOnBackStackChangedListener(mBackStackChangeListener);
-			this.mRequestListeners = null;
-			this.mBackStackChangeListeners = null;
+		if (!destroyed) {
+			this.destroyed = true;
+			this.manager.removeOnBackStackChangedListener(backStackChangeListener);
+			this.requestListeners = null;
+			this.backStackChangeListeners = null;
 		}
 	}
 
@@ -942,7 +959,7 @@ public class FragmentController {
 	 *                  into exception if it will be thrown.
 	 */
 	private void assertNotDestroyed(final String forAction) {
-		if (mDestroyed) {
+		if (destroyed) {
 			throw new IllegalStateException("Cannot perform " + forAction + " action. Controller is already destroyed!");
 		}
 	}
@@ -957,18 +974,18 @@ public class FragmentController {
 	void handleBackStackChange(final int backStackSize, final int change) {
 		switch (change) {
 			case BackStackListener.ADDED: {
-				final FragmentManager.BackStackEntry entry = mManager.getBackStackEntryAt(backStackSize - 1);
+				final FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(backStackSize - 1);
 				if (entry != null) {
-					this.notifyBackStackEntryChange(mTopBackStackEntry = entry, true);
+					this.notifyBackStackEntryChange(topBackStackEntry = entry, true);
 				}
 				break;
 			}
 			case BackStackListener.REMOVED:
 			default:
-				if (mTopBackStackEntry != null) {
-					this.notifyBackStackEntryChange(mTopBackStackEntry, false);
+				if (topBackStackEntry != null) {
+					this.notifyBackStackEntryChange(topBackStackEntry, false);
 				}
-				this.mTopBackStackEntry = backStackSize > 0 ? mManager.getBackStackEntryAt(backStackSize - 1) : null;
+				this.topBackStackEntry = backStackSize > 0 ? manager.getBackStackEntryAt(backStackSize - 1) : null;
 				break;
 		}
 	}
@@ -1015,11 +1032,10 @@ public class FragmentController {
 
 		/**
 		 */
-		@Override
-		public void onBackStackChanged() {
+		@Override public void onBackStackChanged() {
 			final int n = controller.getFragmentManager().getBackStackEntryCount();
 			if (n >= 0 && n != backStackSize) {
-				controller.handleBackStackChange(n, n > backStackSize ? ADDED : REMOVED);
+				this.controller.handleBackStackChange(n, n > backStackSize ? ADDED : REMOVED);
 				this.backStackSize = n;
 			}
 		}

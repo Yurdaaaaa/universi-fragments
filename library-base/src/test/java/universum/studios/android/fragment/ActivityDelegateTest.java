@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment;
 
@@ -39,60 +39,57 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 public final class ActivityDelegateTest extends RobolectricTestCase {
-    
-	@Test
-	public void testInstantiation() {
+
+	@Test public void testInstantiation() {
+		// Arrange:
 		final Activity activity = new Activity();
-		assertThat(new Delegate(activity).mActivity, is(activity));
+		// Act:
+		final TestDelegate delegate = new TestDelegate(activity);
+		// Assert:
+		assertThat(delegate.getActivity(), is(activity));
 	}
 
-    @Test
-	public void testCreateForFrameworkActivity() {
+    @Test public void testCreateForFrameworkActivity() {
+	    // Arrange:
 		final Activity activity = new Activity();
+	    // Act:
 	    final ActivityDelegate activityDelegate = ActivityDelegate.create(activity);
+	    // Assert:
 	    assertThat(activityDelegate, is(not(nullValue())));
-	    assertThat(activityDelegate.mActivity, is(activity));
-	}
+	    assertThat(activityDelegate.getActivity(), is(activity));
+    }
 
-	@Test
-	public void testCreateForCompatActivity() {
+	@Test public void testCreateForCompatActivity() {
+		// Arrange:
 		final AppCompatActivity activity = new AppCompatActivity();
+		// Act:
 		final ActivityDelegate activityDelegate = ActivityDelegate.create(activity);
+		// Assert:
 		assertThat(activityDelegate, is(not(nullValue())));
-		assertThat(activityDelegate.mActivity, Is.<Activity>is(activity));
+		assertThat(activityDelegate.getActivity(), Is.<Activity>is(activity));
 	}
 
-	private static final class Delegate extends ActivityDelegate {
+	private static final class TestDelegate extends ActivityDelegate {
 
-		Delegate(@NonNull Activity activity) {
+		TestDelegate(@NonNull final Activity activity) {
 			super(activity);
 		}
 
-		@Override
-		public boolean requestWindowFeature(int featureId) {
+		@Override public boolean requestWindowFeature(final int featureId) {
 			return false;
 		}
 
-		@Override
-		public void invalidateOptionsMenu() {
+		@Override public void invalidateOptionsMenu() {}
 
-		}
-
-		@Nullable
-		@Override
-		public ActionBar getActionBar() {
+		@Override @Nullable public ActionBar getActionBar() {
 			return null;
 		}
 
-		@Nullable
-		@Override
-		public android.support.v7.app.ActionBar getSupportActionBar() {
+		@Override @Nullable public android.support.v7.app.ActionBar getSupportActionBar() {
 			return null;
 		}
 
-		@Nullable
-		@Override
-		public ActionMode startActionMode(@NonNull ActionMode.Callback callback) {
+		@Override @Nullable public ActionMode startActionMode(@NonNull final ActionMode.Callback callback) {
 			return null;
 		}
 	}

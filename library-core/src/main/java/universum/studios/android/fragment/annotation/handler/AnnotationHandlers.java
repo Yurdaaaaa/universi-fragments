@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -31,6 +31,7 @@ import universum.studios.android.fragment.annotation.FragmentAnnotations;
  * Fragments library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public abstract class AnnotationHandlers {
 
@@ -65,7 +66,7 @@ public abstract class AnnotationHandlers {
 	 * Map with annotation handlers where each handler is mapped to a particular class for which
 	 * has been that handler instantiated.
 	 */
-	private static Map<Class<?>, Object> sHandlers;
+	private static Map<Class<?>, Object> handlers;
 
 	/*
 	 * Members =====================================================================================
@@ -102,21 +103,21 @@ public abstract class AnnotationHandlers {
 	 * is disabled for the Fragments library.
 	 * @throws ClassCastException If there is already an annotation handler instantiated for the
 	 *                            specified annotated class but it is of different type as requested.
+	 *
 	 * @see FragmentAnnotations#isEnabled()
 	 */
-	@Nullable
 	@SuppressWarnings({"unchecked", "ConstantConditions"})
-	public static <T extends AnnotationHandler> T obtainHandler(@NonNull final Class<T> classOfHandler, @NonNull final Class<?> annotatedClass) {
+	@Nullable public static <T extends AnnotationHandler> T obtainHandler(@NonNull final Class<T> classOfHandler, @NonNull final Class<?> annotatedClass) {
 		Object handler = null;
 		if (FragmentAnnotations.isEnabled()) {
 			synchronized (LOCK) {
-				if (sHandlers == null) {
-					sHandlers = new HashMap<>(HANDLERS_INITIAL_CAPACITY);
+				if (handlers == null) {
+					handlers = new HashMap<>(HANDLERS_INITIAL_CAPACITY);
 				}
-				handler = sHandlers.get(annotatedClass);
+				handler = handlers.get(annotatedClass);
 				if (handler == null) {
 					handler = instantiateHandler(classOfHandler, annotatedClass);
-					sHandlers.put(annotatedClass, handler);
+					handlers.put(annotatedClass, handler);
 				} else if (!handler.getClass().equals(classOfHandler)) {
 					final String newHandlerName = classOfHandler.getSimpleName();
 					final String currentHandlerName = handler.getClass().getSimpleName();
@@ -159,9 +160,9 @@ public abstract class AnnotationHandlers {
 	 */
 	static void clearHandlers() {
 		synchronized (LOCK) {
-			if (sHandlers != null) {
-				sHandlers.clear();
-				sHandlers = null;
+			if (handlers != null) {
+				handlers.clear();
+				handlers = null;
 			}
 		}
 	}

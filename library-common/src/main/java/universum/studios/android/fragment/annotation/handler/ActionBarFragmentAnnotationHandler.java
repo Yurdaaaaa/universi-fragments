@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -36,6 +36,8 @@ import universum.studios.android.fragment.annotation.MenuOptions;
  * <b>ActionBar Fragment</b> classes provided by this library.
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see ActionBarFragment
  */
 public interface ActionBarFragmentAnnotationHandler extends FragmentAnnotationHandler {
@@ -76,8 +78,7 @@ public interface ActionBarFragmentAnnotationHandler extends FragmentAnnotationHa
 	 *                        or resource is not specified.
 	 * @return Via annotation specified menu resource or <var>defaultResource</var>.
 	 */
-	@MenuRes
-	int getOptionsMenuResource(@MenuRes int defaultResource);
+	@MenuRes int getOptionsMenuResource(@MenuRes int defaultResource);
 
 	/**
 	 * Returns the menu flags obtained from {@link MenuOptions @MenuOptions} annotation (if presented)

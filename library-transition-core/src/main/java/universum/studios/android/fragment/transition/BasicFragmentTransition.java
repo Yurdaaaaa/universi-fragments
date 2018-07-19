@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.transition;
 
@@ -29,6 +29,7 @@ import universum.studios.android.fragment.manage.FragmentTransition;
  * transactions with desired fragment animations.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public class BasicFragmentTransition implements FragmentTransition {
 
@@ -56,15 +57,13 @@ public class BasicFragmentTransition implements FragmentTransition {
 
 		/**
 		 */
-		@Override
-		public BasicFragmentTransition createFromParcel(@NonNull final Parcel source) {
+		@Override public BasicFragmentTransition createFromParcel(@NonNull final Parcel source) {
 			return new BasicFragmentTransition(source);
 		}
 
 		/**
 		 */
-		@Override
-		public BasicFragmentTransition[] newArray(final int size) {
+		@Override public BasicFragmentTransition[] newArray(final int size) {
 			return new BasicFragmentTransition[size];
 		}
 	};
@@ -76,27 +75,27 @@ public class BasicFragmentTransition implements FragmentTransition {
 	/**
 	 * Animation resource for a new incoming fragment.
 	 */
-	private final int mInAnimRes;
+	private final int inAnimRes;
 
 	/**
 	 * Animation resource for an old outgoing fragment.
 	 */
-	private final int mOutAnimRes;
+	private final int outAnimRes;
 
 	/**
 	 * Animation resource for an old incoming fragment when it is being popped from the back stack.
 	 */
-	private final int mInBackAnimRes;
+	private final int inBackAnimRes;
 
 	/**
 	 * Animation resource for a current outgoing fragment when it is being popped from the back stack.
 	 */
-	private final int mOutBackAnimRes;
+	private final int outBackAnimRes;
 
 	/**
 	 * Name of this transition.
 	 */
-	private final String mName;
+	private final String name;
 
 	/*
 	 * Constructors ================================================================================
@@ -114,7 +113,12 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 * Same as {@link #BasicFragmentTransition(int, int, int, int, String)} with name specified
 	 * as {@code "UNSPECIFIED"}.
 	 */
-	public BasicFragmentTransition(@AnimatorRes final int inAnim, @AnimatorRes final int outAnim, @AnimatorRes final int inBackAnim, @AnimatorRes final int outBackAnim) {
+	public BasicFragmentTransition(
+			@AnimatorRes final int inAnim,
+			@AnimatorRes final int outAnim,
+			@AnimatorRes final int inBackAnim,
+			@AnimatorRes final int outBackAnim
+	) {
 		this(inAnim, outAnim, inBackAnim, outBackAnim, "UNSPECIFIED");
 	}
 
@@ -130,12 +134,18 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 *                    replaced by the incoming one.
 	 * @param name        Name for the new transition.
 	 */
-	public BasicFragmentTransition(@AnimatorRes final int inAnim, @AnimatorRes final int outAnim, @AnimatorRes final int inBackAnim, @AnimatorRes final int outBackAnim, @NonNull final String name) {
-		this.mInAnimRes = inAnim;
-		this.mOutAnimRes = outAnim;
-		this.mInBackAnimRes = inBackAnim;
-		this.mOutBackAnimRes = outBackAnim;
-		this.mName = name;
+	public BasicFragmentTransition(
+			@AnimatorRes final int inAnim,
+			@AnimatorRes final int outAnim,
+			@AnimatorRes final int inBackAnim,
+			@AnimatorRes final int outBackAnim,
+			@NonNull final String name
+	) {
+		this.inAnimRes = inAnim;
+		this.outAnimRes = outAnim;
+		this.inBackAnimRes = inBackAnim;
+		this.outBackAnimRes = outBackAnim;
+		this.name = name;
 	}
 
 	/**
@@ -145,11 +155,11 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 * @param source Parcel with data for the new instance.
 	 */
 	protected BasicFragmentTransition(@NonNull final Parcel source) {
-		this.mInAnimRes = source.readInt();
-		this.mOutAnimRes = source.readInt();
-		this.mInBackAnimRes = source.readInt();
-		this.mOutBackAnimRes = source.readInt();
-		this.mName = source.readString();
+		this.inAnimRes = source.readInt();
+		this.outAnimRes = source.readInt();
+		this.inBackAnimRes = source.readInt();
+		this.outBackAnimRes = source.readInt();
+		this.name = source.readString();
 	}
 
 	/*
@@ -158,60 +168,48 @@ public class BasicFragmentTransition implements FragmentTransition {
 
 	/**
 	 */
-	@Override
-	public void writeToParcel(@NonNull final Parcel dest, final int flags) {
-		dest.writeInt(mInAnimRes);
-		dest.writeInt(mOutAnimRes);
-		dest.writeInt(mInBackAnimRes);
-		dest.writeInt(mOutBackAnimRes);
-		dest.writeString(mName);
+	@Override public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+		dest.writeInt(inAnimRes);
+		dest.writeInt(outAnimRes);
+		dest.writeInt(inBackAnimRes);
+		dest.writeInt(outBackAnimRes);
+		dest.writeString(name);
 	}
 
 	/**
 	 */
-	@Override
-	public int describeContents() {
+	@Override public int describeContents() {
 		return 0;
 	}
 
 	/**
 	 */
-	@Override
-	@AnimatorRes
-	public int getIncomingAnimation() {
-		return mInAnimRes;
+	@Override @AnimatorRes public int getIncomingAnimation() {
+		return inAnimRes;
 	}
 
 	/**
 	 */
-	@Override
-	@AnimatorRes
-	public int getOutgoingAnimation() {
-		return mOutAnimRes;
+	@Override @AnimatorRes public int getOutgoingAnimation() {
+		return outAnimRes;
 	}
 
 	/**
 	 */
-	@Override
-	@AnimatorRes
-	public int getIncomingBackStackAnimation() {
-		return mInBackAnimRes;
+	@Override @AnimatorRes public int getIncomingBackStackAnimation() {
+		return inBackAnimRes;
 	}
 
 	/**
 	 */
-	@Override
-	@AnimatorRes
-	public int getOutgoingBackStackAnimation() {
-		return mOutBackAnimRes;
+	@Override @AnimatorRes public int getOutgoingBackStackAnimation() {
+		return outBackAnimRes;
 	}
 
 	/**
 	 */
-	@NonNull
-	@Override
-	public String getName() {
-		return mName;
+	@Override @NonNull public String getName() {
+		return name;
 	}
 
 	/*

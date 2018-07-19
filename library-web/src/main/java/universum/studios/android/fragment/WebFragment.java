@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment;
 
@@ -88,6 +88,8 @@ import universum.studios.android.fragment.annotation.handler.WebFragmentAnnotati
  * </ul>
  *
  * @author Martin Albedinsky
+ * @since 1.0
+ *
  * @see OnWebContentLoadingListener
  */
 public class WebFragment extends ActionBarFragment {
@@ -104,20 +106,17 @@ public class WebFragment extends ActionBarFragment {
 	/**
 	 * Key used to store {@link WebOptions} in {@link Bundle}.
 	 */
-	@VisibleForTesting
-	static final String BUNDLE_OPTIONS = WebFragment.class.getName() + ".BUNDLE.Options";
+	@VisibleForTesting static final String BUNDLE_OPTIONS = WebFragment.class.getName() + ".BUNDLE.Options";
 
 	/**
-	 * Key used to store {@link #mContent} in {@link Bundle}.
+	 * Key used to store {@link #content} in {@link Bundle}.
 	 */
-	@VisibleForTesting
-	static final String BUNDLE_CONTENT = WebFragment.class.getName() + ".BUNDLE.Content";
+	@VisibleForTesting static final String BUNDLE_CONTENT = WebFragment.class.getName() + ".BUNDLE.Content";
 
 	/**
-	 * Key used to store {@link #mPrivateFlags} in {@link Bundle}.
+	 * Key used to store {@link #privateFlags} in {@link Bundle}.
 	 */
-	@VisibleForTesting
-	static final String BUNDLE_PRIVATE_FLAGS = WebFragment.class.getName() + ".BUNDLE.PrivateFlags";
+	@VisibleForTesting static final String BUNDLE_PRIVATE_FLAGS = WebFragment.class.getName() + ".BUNDLE.PrivateFlags";
 
 	/**
 	 * Flag indicating no content to load.
@@ -125,17 +124,17 @@ public class WebFragment extends ActionBarFragment {
 	protected static final int CONTENT_EMPTY = 0x00;
 
 	/**
-	 * Flag indicating that {@link #mContent} should be loaded as HTML.
+	 * Flag indicating that {@link #content} should be loaded as HTML.
 	 */
 	protected static final int CONTENT_HTML = 0x01;
 
 	/**
-	 * Flag indicating that {@link #mContent} should be loaded as URL.
+	 * Flag indicating that {@link #content} should be loaded as URL.
 	 */
 	protected static final int CONTENT_URL = 0x02;
 
 	/**
-	 * Flag indicating that {@link #mContent} should be loaded as FILE.
+	 * Flag indicating that {@link #content} should be loaded as FILE.
 	 */
 	protected static final int CONTENT_FILE = 0x03;
 
@@ -145,8 +144,7 @@ public class WebFragment extends ActionBarFragment {
 	 */
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({CONTENT_EMPTY, CONTENT_URL, CONTENT_HTML, CONTENT_FILE})
-	public @interface ContentType {
-	}
+	public @interface ContentType {}
 
 	/**
 	 * Content data encoding.
@@ -177,6 +175,7 @@ public class WebFragment extends ActionBarFragment {
 	 * a specific <b>web url</b> was started or finished.
 	 *
 	 * @author Martin Albedinsky
+	 * @since 1.0
 	 */
 	public interface OnWebContentLoadingListener {
 
@@ -218,32 +217,32 @@ public class WebFragment extends ActionBarFragment {
 	/**
 	 * Options specified for this fragment instance via {@link #newInstance(WebOptions)}.
 	 */
-	private WebOptions mOptions = new WebOptions();
+	private WebOptions options = new WebOptions();
 
 	/**
 	 * Web view to manage HTML or URL content.
 	 */
-	private WebView mWebView;
+	private WebView webView;
 
 	/**
 	 * Content to load into the web view.
 	 */
-	private String mContent;
+	private String content;
 
 	/**
 	 * Type of the current content.
 	 */
-	private int mContentType = CONTENT_EMPTY;
+	private int contentType = CONTENT_EMPTY;
 
 	/**
 	 * Content loading listener.
 	 */
-	private OnWebContentLoadingListener mContentLoadingListener;
+	private OnWebContentLoadingListener contentLoadingListener;
 
 	/**
 	 * Stores all private flags for this fragment.
 	 */
-	private int mPrivateFlags;
+	private int privateFlags;
 
 	/*
 	 * Constructors ================================================================================
@@ -268,8 +267,7 @@ public class WebFragment extends ActionBarFragment {
 	 *
 	 * @return New instance of WebFragment.
 	 */
-	@NonNull
-	public static WebFragment newInstance() {
+	@NonNull public static WebFragment newInstance() {
 		return newInstance(new WebOptions());
 	}
 
@@ -279,27 +277,23 @@ public class WebFragment extends ActionBarFragment {
 	 * @param options Options to manage WebFragment.
 	 * @return New instance of WebFragment.
 	 */
-	@NonNull
-	public static WebFragment newInstance(@NonNull final WebOptions options) {
+	@NonNull public static WebFragment newInstance(@NonNull final WebOptions options) {
 		final WebFragment fragment = new WebFragment();
-		fragment.mOptions = options;
+		fragment.options = options;
 		return fragment;
 	}
 
 	/**
 	 */
-	@Override
-	WebFragmentAnnotationHandler onCreateAnnotationHandler() {
+	@Override WebFragmentAnnotationHandler onCreateAnnotationHandler() {
 		return WebAnnotationHandlers.obtainWebFragmentHandler(getClass());
 	}
 
 	/**
 	 */
-	@NonNull
-	@Override
-	protected WebFragmentAnnotationHandler getAnnotationHandler() {
+	@Override @NonNull protected WebFragmentAnnotationHandler getAnnotationHandler() {
 		FragmentAnnotations.checkIfEnabledOrThrow();
-		return (WebFragmentAnnotationHandler) mAnnotationHandler;
+		return (WebFragmentAnnotationHandler) annotationHandler;
 	}
 
 	/**
@@ -309,43 +303,42 @@ public class WebFragment extends ActionBarFragment {
 	 * @param add  Boolean flag indicating whether to add or remove the specified <var>flag</var>.
 	 */
 	private void updatePrivateFlags(final int flag, final boolean add) {
-		if (add) this.mPrivateFlags |= flag;
-		else this.mPrivateFlags &= ~flag;
+		if (add) this.privateFlags |= flag;
+		else this.privateFlags &= ~flag;
 	}
 
 	/**
 	 */
-	@Override
-	public void onCreate(@Nullable final Bundle savedInstanceState) {
+	@Override public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (mAnnotationHandler != null) {
-			final WebFragmentAnnotationHandler annotationHandler = (WebFragmentAnnotationHandler) mAnnotationHandler;
+		if (annotationHandler != null) {
+			final WebFragmentAnnotationHandler annotationHandler = (WebFragmentAnnotationHandler) this.annotationHandler;
 			final int contentResId = annotationHandler.getWebContentResId(-1);
 			if (contentResId == -1) {
-				this.mContent = annotationHandler.getWebContent(null);
+				this.content = annotationHandler.getWebContent(null);
 			} else {
-				this.mContent = getString(contentResId);
+				this.content = getString(contentResId);
 			}
 		}
 		if (savedInstanceState != null) {
-			this.mOptions = savedInstanceState.getParcelable(BUNDLE_OPTIONS);
-			this.mPrivateFlags = savedInstanceState.getInt(BUNDLE_PRIVATE_FLAGS);
-			this.mContent = savedInstanceState.getString(BUNDLE_CONTENT);
-		} else if (mOptions != null && !TextUtils.isEmpty(mOptions.content)) {
-			this.mContent = mOptions.content;
+			this.options = savedInstanceState.getParcelable(BUNDLE_OPTIONS);
+			this.privateFlags = savedInstanceState.getInt(BUNDLE_PRIVATE_FLAGS);
+			this.content = savedInstanceState.getString(BUNDLE_CONTENT);
+		} else if (options != null && !TextUtils.isEmpty(options.content)) {
+			this.content = options.content;
 		}
-		this.mContentType = resolveContentType(mContent);
+		this.contentType = resolveContentType(content);
 	}
 
 	/**
 	 * Returns the web options specified for this fragment instance.
 	 *
 	 * @return This fragment's web options.
+	 *
 	 * @see #newInstance(WebOptions)
 	 */
-	@NonNull
-	public final WebOptions getOptions() {
-		return mOptions;
+	@NonNull public final WebOptions getOptions() {
+		return options;
 	}
 
 	/**
@@ -355,7 +348,7 @@ public class WebFragment extends ActionBarFragment {
 	 * @param listener The desired listener callback. May be {@code null} to clear the current one.
 	 */
 	public void setOnWebContentLoadingListener(@Nullable final OnWebContentLoadingListener listener) {
-		this.mContentLoadingListener = listener;
+		this.contentLoadingListener = listener;
 	}
 
 	/**
@@ -367,7 +360,7 @@ public class WebFragment extends ActionBarFragment {
 	 * @param webUrl Web url which is currently being loaded into the current web view.
 	 */
 	protected void notifyLoadingStarted(@NonNull final String webUrl) {
-		if (mContentLoadingListener != null) mContentLoadingListener.onLoadingStarted(webUrl);
+		if (contentLoadingListener != null) contentLoadingListener.onLoadingStarted(webUrl);
 	}
 
 	/**
@@ -379,27 +372,26 @@ public class WebFragment extends ActionBarFragment {
 	 * @param webUrl Web url which was currently loaded into the current web view.
 	 */
 	protected void notifyLoadingFinished(@NonNull final String webUrl) {
-		if (mContentLoadingListener != null) mContentLoadingListener.onLoadingFinished(webUrl);
+		if (contentLoadingListener != null) contentLoadingListener.onLoadingFinished(webUrl);
 	}
 
 	/**
 	 */
-	@Override
-	public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-		this.mWebView = new WebView(inflater.getContext());
-		this.mWebView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-		this.mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+	@Override public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
+		this.webView = new WebView(inflater.getContext());
+		this.webView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+		this.webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 		// Set custom WebViewClient and WebChromeClient.
 		final WebViewClient client = onCreateWebViewClient();
 		if (client != null) {
-			this.mWebView.setWebViewClient(client);
+			this.webView.setWebViewClient(client);
 		}
 		final WebChromeClient chromeClient = onCreateWebChromeClient();
 		if (chromeClient != null) {
-			this.mWebView.setWebChromeClient(chromeClient);
+			this.webView.setWebChromeClient(chromeClient);
 		}
-		this.mWebView.getSettings().setJavaScriptEnabled(mOptions.javaScriptEnabled);
-		return mWebView;
+		this.webView.getSettings().setJavaScriptEnabled(options.javaScriptEnabled);
+		return webView;
 	}
 
 	/**
@@ -407,24 +399,22 @@ public class WebFragment extends ActionBarFragment {
 	 * of WebViewClient to manage specific callbacks for such a client.
 	 *
 	 * @return Default web view client.
+	 *
 	 * @see #onCreateWebChromeClient()
 	 */
-	@Nullable
-	protected WebViewClient onCreateWebViewClient() {
+	@Nullable protected WebViewClient onCreateWebViewClient() {
 		return new WebViewClient() {
 
 			/**
 			 */
-			@Override
-			public void onPageFinished(final WebView view, final String url) {
+			@Override public void onPageFinished(final WebView view, final String url) {
 				super.onPageFinished(view, url);
 				notifyLoadingFinished(url);
 			}
 
 			/**
 			 */
-			@Override
-			public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
+			@Override public void onPageStarted(final WebView view, final String url, final Bitmap favicon) {
 				super.onPageStarted(view, url, favicon);
 				notifyLoadingStarted(url);
 			}
@@ -436,10 +426,10 @@ public class WebFragment extends ActionBarFragment {
 	 * of WebChromeClient to manage specific callbacks for such a client.
 	 *
 	 * @return Default web chrome client.
+	 *
 	 * @see #onCreateWebViewClient()
 	 */
-	@Nullable
-	protected WebChromeClient onCreateWebChromeClient() {
+	@Nullable protected WebChromeClient onCreateWebChromeClient() {
 		return new WebChromeClient();
 	}
 
@@ -448,21 +438,19 @@ public class WebFragment extends ActionBarFragment {
 	 *
 	 * @return WebView of this web fragment instance.
 	 */
-	@Nullable
-	public WebView getWebView() {
-		return mWebView;
+	@Nullable public WebView getWebView() {
+		return webView;
 	}
 
 	/**
 	 */
-	@Override
-	public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
+	@Override public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		this.updatePrivateFlags(PFLAG_READY_TO_LOAD_CONTENT, true);
-		if (savedInstanceState != null && mWebView != null && mContentType != CONTENT_EMPTY && mContentType != CONTENT_HTML) {
-			mWebView.restoreState(savedInstanceState);
+		if (savedInstanceState == null || webView == null || contentType == CONTENT_EMPTY || contentType == CONTENT_HTML) {
+			onLoadContent(content, contentType);
 		} else {
-			onLoadContent(mContent, mContentType);
+			this.webView.restoreState(savedInstanceState);
 		}
 	}
 
@@ -473,13 +461,14 @@ public class WebFragment extends ActionBarFragment {
 	 *                with HTML content.
 	 * @return {@code True} if content was loaded, {@code false} if it was prepared for loading and
 	 * will be loaded in the feature when WebView is ready.
+	 *
 	 * @see #getContent()
 	 */
 	public boolean loadContent(@Nullable final String content) {
-		this.mContent = content;
-		this.mContentType = resolveContentType(mContent);
-		if ((mPrivateFlags & PFLAG_READY_TO_LOAD_CONTENT) != 0) {
-			onLoadContent(mContent, mContentType);
+		this.content = content;
+		this.contentType = resolveContentType(this.content);
+		if ((privateFlags & PFLAG_READY_TO_LOAD_CONTENT) != 0) {
+			onLoadContent(this.content, contentType);
 			return true;
 		}
 		return false;
@@ -490,11 +479,11 @@ public class WebFragment extends ActionBarFragment {
 	 * web fragment instance.
 	 *
 	 * @return Current content. This can be a raw HTML or web URL or a FILE path.
+	 *
 	 * @see #loadContent(String)
 	 */
-	@Nullable
-	public String getContent() {
-		return mContent;
+	@Nullable public String getContent() {
+		return content;
 	}
 
 	/**
@@ -503,11 +492,11 @@ public class WebFragment extends ActionBarFragment {
 	 *
 	 * @return Type of the current content. One of types defined by {@link ContentType @ContentType}
 	 * annotation.
+	 *
 	 * @see #loadContent(String)
 	 */
-	@ContentType
-	public int getContentType() {
-		return mContentType;
+	@ContentType public int getContentType() {
+		return contentType;
 	}
 
 	/**
@@ -516,9 +505,7 @@ public class WebFragment extends ActionBarFragment {
 	 * @return One of the flags {@link #CONTENT_EMPTY}, {@link #CONTENT_HTML}, {@link #CONTENT_URL}
 	 * or {@link #CONTENT_FILE}.
 	 */
-	@ContentType
-	@VisibleForTesting
-	static int resolveContentType(@Nullable String content) {
+	@VisibleForTesting @ContentType static int resolveContentType(@Nullable final String content) {
 		final int contentType;
 		if (TextUtils.isEmpty(content)) {
 			contentType = CONTENT_EMPTY;
@@ -545,7 +532,7 @@ public class WebFragment extends ActionBarFragment {
 	 *                {@link #CONTENT_HTML}, {@link #CONTENT_URL} or {@link #CONTENT_FILE}.
 	 */
 	protected void onLoadContent(@Nullable final String content, @ContentType final int type) {
-		if (mWebView != null) {
+		if (webView != null) {
 			if (!TextUtils.isEmpty(content)) {
 				if (content.length() > LOG_CONTENT_MAX_LENGTH) {
 					FragmentsLogging.d(TAG, "Loading content('" + content.substring(0, LOG_CONTENT_MAX_LENGTH) + "') into web view.");
@@ -555,15 +542,15 @@ public class WebFragment extends ActionBarFragment {
 			}
 			switch (type) {
 				case CONTENT_EMPTY:
-					mWebView.loadDataWithBaseURL("", "", DATA_MIME_TYPE, DATA_ENCODING, "");
+					this.webView.loadDataWithBaseURL("", "", DATA_MIME_TYPE, DATA_ENCODING, "");
 					break;
 				case CONTENT_URL:
 				case CONTENT_FILE:
-					mWebView.loadUrl(content);
+					this.webView.loadUrl(content);
 					break;
 				case CONTENT_HTML:
 				default:
-					mWebView.loadDataWithBaseURL("", content, DATA_MIME_TYPE, DATA_ENCODING, "");
+					this.webView.loadDataWithBaseURL("", content, DATA_MIME_TYPE, DATA_ENCODING, "");
 					break;
 			}
 		}
@@ -571,23 +558,21 @@ public class WebFragment extends ActionBarFragment {
 
 	/**
 	 */
-	@Override
-	public void onSaveInstanceState(@NonNull final Bundle state) {
+	@Override public void onSaveInstanceState(@NonNull final Bundle state) {
 		super.onSaveInstanceState(state);
-		if (mWebView != null) {
-			mWebView.saveState(state);
+		if (webView != null) {
+			this.webView.saveState(state);
 		}
-		state.putParcelable(BUNDLE_OPTIONS, mOptions);
-		state.putString(BUNDLE_CONTENT, mContent);
-		state.putInt(BUNDLE_PRIVATE_FLAGS, mPrivateFlags);
+		state.putParcelable(BUNDLE_OPTIONS, options);
+		state.putString(BUNDLE_CONTENT, content);
+		state.putInt(BUNDLE_PRIVATE_FLAGS, privateFlags);
 	}
 
 	/**
 	 */
-	@Override
-	protected boolean onBackPress() {
-		if (mWebView != null && mWebView.canGoBack()) {
-			mWebView.goBack();
+	@Override protected boolean onBackPress() {
+		if (webView != null && webView.canGoBack()) {
+			this.webView.goBack();
 			return true;
 		}
 		return false;
@@ -595,8 +580,7 @@ public class WebFragment extends ActionBarFragment {
 
 	/**
 	 */
-	@Override
-	public void onDestroyView() {
+	@Override public void onDestroyView() {
 		super.onDestroyView();
 		this.updatePrivateFlags(PFLAG_READY_TO_LOAD_CONTENT, false);
 	}
@@ -610,6 +594,7 @@ public class WebFragment extends ActionBarFragment {
 	 * {@link #javaScriptEnabled(boolean)}.
 	 *
 	 * @author Martin Albedinsky
+	 * @since 1.0
 	 */
 	public static class WebOptions implements Parcelable {
 
@@ -620,15 +605,13 @@ public class WebFragment extends ActionBarFragment {
 
 			/**
 			 */
-			@Override
-			public WebOptions createFromParcel(@NonNull final Parcel source) {
+			@Override public WebOptions createFromParcel(@NonNull final Parcel source) {
 				return new WebOptions(source);
 			}
 
 			/**
 			 */
-			@Override
-			public WebOptions[] newArray(final int size) {
+			@Override public WebOptions[] newArray(final int size) {
 				return new WebOptions[size];
 			}
 		};
@@ -664,16 +647,14 @@ public class WebFragment extends ActionBarFragment {
 
 		/**
 		 */
-		@Override
-		public void writeToParcel(Parcel dest, int flags) {
+		@Override public void writeToParcel(@NonNull final Parcel dest, final int flags) {
 			dest.writeString(content);
 			dest.writeInt(javaScriptEnabled ? 1 : 0);
 		}
 
 		/**
 		 */
-		@Override
-		public int describeContents() {
+		@Override public int describeContents() {
 			return 0;
 		}
 
@@ -683,9 +664,10 @@ public class WebFragment extends ActionBarFragment {
 		 * @param content Content to load. This may be a raw <b>HTML</b>, web <b>URL</b> or path to
 		 *                a <b>FILE</b> with HTML content.
 		 * @return These options to allow methods chaining.
+		 *
 		 * @see #content()
 		 */
-		public WebOptions content(@NonNull String content) {
+		public WebOptions content(@NonNull final String content) {
 			this.content = content;
 			return this;
 		}
@@ -694,6 +676,7 @@ public class WebFragment extends ActionBarFragment {
 		 * Returns the content to load into {@link WebView}
 		 *
 		 * @return Content to be loaded into web view.
+		 *
 		 * @see #content(String)
 		 */
 		public String content() {
@@ -705,9 +688,10 @@ public class WebFragment extends ActionBarFragment {
 		 *
 		 * @param enabled {@code True} to enable, {@code false} otherwise.
 		 * @return These options to allow methods chaining.
+		 *
 		 * @see #javaScriptEnabled()
 		 */
-		public WebOptions javaScriptEnabled(boolean enabled) {
+		public WebOptions javaScriptEnabled(final boolean enabled) {
 			this.javaScriptEnabled = enabled;
 			return this;
 		}
@@ -716,6 +700,7 @@ public class WebFragment extends ActionBarFragment {
 		 * Returns boolean flag indicating whether to enable Java-Script in {@link WebView}.
 		 *
 		 * @return {@code True} if enable, {@code false} otherwise.
+		 *
 		 * @see #javaScriptEnabled(boolean)
 		 */
 		public boolean javaScriptEnabled() {

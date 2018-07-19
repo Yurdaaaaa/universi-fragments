@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.manage;
 
@@ -31,6 +31,7 @@ import universum.studios.android.fragment.annotation.FactoryFragment;
  * specified via {@link FactoryFragment @FactoryFragment} annotation.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class FragmentItem {
 
@@ -77,7 +78,7 @@ public final class FragmentItem {
 	/**
 	 * Same as {@link #FragmentItem(int, Class, String)} with {@code null} <var>tag</var>.
 	 */
-	public FragmentItem(int id, @NonNull Class<? extends Fragment> type) {
+	public FragmentItem(final int id, @NonNull final Class<? extends Fragment> type) {
 		this(id, type, null);
 	}
 
@@ -88,7 +89,7 @@ public final class FragmentItem {
 	 * @param type Class of the fragment for the new item.
 	 * @param tag  Tag of the fragment for the new item.
 	 */
-	public FragmentItem(int id, @NonNull Class<? extends Fragment> type, @Nullable String tag) {
+	public FragmentItem(final int id, @NonNull final Class<? extends Fragment> type, @Nullable final String tag) {
 		this.id = id;
 		this.tag = tag;
 		this.type = type;
@@ -106,9 +107,8 @@ public final class FragmentItem {
 	 * {@link Fragment Fragment.class} which is a default type and such type cannot be instantiated
 	 * or some instantiation error occurs.
 	 */
-	@Nullable
 	@SuppressWarnings("TryWithIdenticalCatches")
-	public Fragment newFragmentInstance(@Nullable Bundle arguments) {
+	@Nullable public Fragment newFragmentInstance(@Nullable final Bundle arguments) {
 		if (type.equals(Fragment.class)) {
 			return null;
 		}
