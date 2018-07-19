@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -41,54 +41,53 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 public final class BaseAnnotationHandlerTest extends RobolectricTestCase {
-    
-	@Override
-	public void beforeTest() throws Exception {
+
+	@Override public void beforeTest() throws Exception {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 
-	@Test
-	public void testInstantiation() {
-		final Handler handler = new Handler(Fragment.class);
-		assertThat(handler.mAnnotatedClass, is(not(nullValue())));
-		assertSame(handler.mAnnotatedClass, Fragment.class);
+	@Test public void testInstantiation() {
+		// Act:
+		final TestHandler handler = new TestHandler(Fragment.class);
+		// Assert:
+		assertThat(handler.annotatedClass, is(not(nullValue())));
+		assertSame(handler.annotatedClass, Fragment.class);
 	}
 
-    @Test
-	public void testGetAnnotatedClass() {
-	    assertSame(new Handler(Fragment.class).getAnnotatedClass(), Fragment.class);
+    @Test public void testGetAnnotatedClass() {
+	    // Arrange:
+	    final TestHandler handler = new TestHandler(Fragment.class);
+	    // Act + Assert:
+		assertSame(handler.getAnnotatedClass(), Fragment.class);
 	}
 
-	@Test
-	public void testFindAnnotation() {
+	@Test public void testFindAnnotation() {
+		// Arrange + Act + Assert:
 		assertThat(
-				new Handler(Component.class).findAnnotation(ComponentAnnotation.class),
+				new TestHandler(Component.class).findAnnotation(ComponentAnnotation.class),
 				is(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, Component.class, null))
 		);
 		assertThat(
-				new Handler(AnnotatedComponent.class).findAnnotation(ComponentAnnotation.class),
+				new TestHandler(AnnotatedComponent.class).findAnnotation(ComponentAnnotation.class),
 				is(FragmentAnnotations.obtainAnnotationFrom(ComponentAnnotation.class, AnnotatedComponent.class, null))
 		);
 	}
 
-	private static final class Handler extends BaseAnnotationHandler {
+	private static final class TestHandler extends BaseAnnotationHandler {
 
-		Handler(@NonNull Class<?> annotatedClass) {
+		TestHandler(@NonNull final Class<?> annotatedClass) {
 			super(annotatedClass);
 		}
 	}
 
 	@Target(ElementType.TYPE)
 	@Retention(RetentionPolicy.RUNTIME)
-	private @interface ComponentAnnotation {
-	}
+	private @interface ComponentAnnotation {}
 
-	private static final class Component {
-	}
+	private static final class Component {}
 
 	@ComponentAnnotation
-	private static final class AnnotatedComponent {
-	}
+	private static final class AnnotatedComponent {}
 }

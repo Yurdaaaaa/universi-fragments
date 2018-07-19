@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment;
 
@@ -37,6 +37,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
  * in order to hide some implementation details when using ActionBar within fragments.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public abstract class ActionBarDelegate {
 
@@ -62,9 +63,14 @@ public abstract class ActionBarDelegate {
 	 */
 
 	/**
+	 * <b>This field has been deprecated and will be made private in version 1.4.0.</b>
+	 * <p>
 	 * Instance of context used to access application data.
+	 *
+	 * @deprecated Use {@link #getContext()} instead.
 	 */
-	protected final Context mContext;
+	@Deprecated
+	@NonNull protected final Context mContext;
 
 	/*
 	 * Constructors ================================================================================
@@ -92,11 +98,11 @@ public abstract class ActionBarDelegate {
 	 *
 	 * @param activity The activity of which action bar to wrap.
 	 * @return Instance of ActionBarDelegate for ActionBar of the specified activity.
+	 *
 	 * @see Activity#getActionBar()
 	 * @see AppCompatActivity#getSupportActionBar()
 	 */
-	@Nullable
-	public static ActionBarDelegate create(@NonNull final Activity activity) {
+	@Nullable public static ActionBarDelegate create(@NonNull final Activity activity) {
 		if (activity instanceof AppCompatActivity) {
 			final android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
 			return actionBar == null ? null : create(activity, actionBar);
@@ -112,8 +118,7 @@ public abstract class ActionBarDelegate {
 	 * @param actionBar The desired action bar to wrap. May be {@code null} to create mock delegate.
 	 * @return New instance of ActionBarDelegate with the given action bar.
 	 */
-	@NonNull
-	public static ActionBarDelegate create(@NonNull final Context context, @Nullable final ActionBar actionBar) {
+	@NonNull public static ActionBarDelegate create(@NonNull final Context context, @Nullable final ActionBar actionBar) {
 		return new Impl(context, actionBar);
 	}
 
@@ -124,9 +129,19 @@ public abstract class ActionBarDelegate {
 	 * @param actionBar The desired action bar to wrap. May be {@code null} to create mock delegate.
 	 * @return New instance of ActionBarDelegate with the given action bar.
 	 */
-	@NonNull
-	public static ActionBarDelegate create(@NonNull final Context context, @Nullable final android.support.v7.app.ActionBar actionBar) {
+	@NonNull public static ActionBarDelegate create(@NonNull final Context context, @Nullable final android.support.v7.app.ActionBar actionBar) {
 		return new SupportImpl(context, actionBar);
+	}
+
+	/**
+	 * Returns the context this delegate for created with.
+	 *
+	 * @return This delegate's context.
+	 *
+	 * @see #ActionBarDelegate(Context)
+	 */
+	@NonNull protected Context getContext() {
+		return mContext;
 	}
 
 	/**
@@ -196,23 +211,20 @@ public abstract class ActionBarDelegate {
 
 		/**
 		 */
-		@Override
-		public void setDisplayHomeAsUpEnabled(final boolean enabled) {
+		@Override public void setDisplayHomeAsUpEnabled(final boolean enabled) {
 			if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(enabled);
 		}
 
 		/**
 		 */
-		@Override
-		public void setHomeAsUpIndicator(@DrawableRes final int resId) {
+		@Override public void setHomeAsUpIndicator(@DrawableRes final int resId) {
 			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
 				actionBar.setHomeAsUpIndicator(resId);
 		}
 
 		/**
 		 */
-		@Override
-		public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
+		@Override public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
 			setHomeAsUpIndicator(FragmentUtils.getVectorDrawable(
 					mContext.getResources(),
 					resId,
@@ -222,37 +234,32 @@ public abstract class ActionBarDelegate {
 
 		/**
 		 */
-		@Override
-		public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
+		@Override public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
 			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
 				actionBar.setHomeAsUpIndicator(indicator);
 		}
 
 		/**
 		 */
-		@Override
-		public void setTitle(@StringRes final int resId) {
+		@Override public void setTitle(@StringRes final int resId) {
 			setTitle(mContext.getText(resId));
 		}
 
 		/**
 		 */
-		@Override
-		public void setTitle(@Nullable final CharSequence title) {
+		@Override public void setTitle(@Nullable final CharSequence title) {
 			if (actionBar != null) actionBar.setTitle(title);
 		}
 
 		/**
 		 */
-		@Override
-		public void setIcon(@DrawableRes final int resId) {
+		@Override public void setIcon(@DrawableRes final int resId) {
 			if (actionBar != null) actionBar.setIcon(resId);
 		}
 
 		/**
 		 */
-		@Override
-		public void setIcon(@Nullable final Drawable icon) {
+		@Override public void setIcon(@Nullable final Drawable icon) {
 			if (actionBar != null) actionBar.setIcon(icon);
 		}
 	}
@@ -280,22 +287,19 @@ public abstract class ActionBarDelegate {
 
 		/**
 		 */
-		@Override
-		public void setDisplayHomeAsUpEnabled(final boolean enabled) {
+		@Override public void setDisplayHomeAsUpEnabled(final boolean enabled) {
 			if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(enabled);
 		}
 
 		/**
 		 */
-		@Override
-		public void setHomeAsUpIndicator(@DrawableRes final int resId) {
+		@Override public void setHomeAsUpIndicator(@DrawableRes final int resId) {
 			if (actionBar != null) actionBar.setHomeAsUpIndicator(resId);
 		}
 
 		/**
 		 */
-		@Override
-		public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
+		@Override public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
 			setHomeAsUpIndicator(FragmentUtils.getVectorDrawable(
 					mContext.getResources(),
 					resId,
@@ -305,36 +309,31 @@ public abstract class ActionBarDelegate {
 
 		/**
 		 */
-		@Override
-		public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
+		@Override public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
 			if (actionBar != null) actionBar.setHomeAsUpIndicator(indicator);
 		}
 
 		/**
 		 */
-		@Override
-		public void setIcon(@DrawableRes final int resId) {
+		@Override public void setIcon(@DrawableRes final int resId) {
 			if (actionBar != null) actionBar.setIcon(resId);
 		}
 
 		/**
 		 */
-		@Override
-		public void setIcon(@Nullable final Drawable icon) {
+		@Override public void setIcon(@Nullable final Drawable icon) {
 			if (actionBar != null) actionBar.setIcon(icon);
 		}
 
 		/**
 		 */
-		@Override
-		public void setTitle(@StringRes final int resId) {
+		@Override public void setTitle(@StringRes final int resId) {
 			setTitle(mContext.getText(resId));
 		}
 
 		/**
 		 */
-		@Override
-		public void setTitle(@Nullable final CharSequence title) {
+		@Override public void setTitle(@Nullable final CharSequence title) {
 			if (actionBar != null) actionBar.setTitle(title);
 		}
 	}

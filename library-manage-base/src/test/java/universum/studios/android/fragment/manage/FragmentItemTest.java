@@ -1,22 +1,23 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
-package universum.studios.android.fragment.manage; 
+package universum.studios.android.fragment.manage;
+
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -35,65 +36,77 @@ import static org.hamcrest.core.IsNull.nullValue;
  * @author Martin Albedinsky
  */
 public final class FragmentItemTest extends RobolectricTestCase {
-    
-    @Test
-	public void testInstantiation() {
+
+	@Test public void testInstantiation() {
+		// Act:
 		final FragmentItem item = new FragmentItem(1, TestFragment.class);
-	    assertThat(item.id, is(1));
-	    assertSame(item.type, TestFragment.class);
-	    assertThat(item.tag, is(nullValue()));
+		// Assert:
+		assertThat(item.id, is(1));
+		assertSame(item.type, TestFragment.class);
+		assertThat(item.tag, is(nullValue()));
 	}
 
-	@Test
-	public void testInstantiationWithTag() {
+	@Test public void testInstantiationWithTag() {
+		// Act:
 		final FragmentItem item = new FragmentItem(1, TestFragment.class, "TAG.TestFragment");
+		// Assert:
 		assertThat(item.id, is(1));
 		assertSame(item.type, TestFragment.class);
 		assertThat(item.tag, is("TAG.TestFragment"));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testNewFragmentInstanceWithArguments() {
+	@Test public void testNewFragmentInstanceWithArguments() {
+		// Arrange:
 		final Bundle args = new Bundle();
-		final Fragment fragment = new FragmentItem(1, TestFragment.class).newFragmentInstance(args);
+		final FragmentItem item = new FragmentItem(1, TestFragment.class);
+		// Act:
+		final Fragment fragment = item.newFragmentInstance(args);
+		// Assert:
 		assertThat(fragment, is(notNullValue()));
 		assertThat(fragment.getArguments(), is(args));
 	}
 
-	@Test
 	@SuppressWarnings("ConstantConditions")
-	public void testNewFragmentInstanceWithoutArguments() {
-		final Fragment fragment = new FragmentItem(1, TestFragment.class).newFragmentInstance(null);
+	@Test public void testNewFragmentInstanceWithoutArguments() {
+		// Arrange:
+		final FragmentItem item = new FragmentItem(1, TestFragment.class);
+		// Act:
+		final Fragment fragment = item.newFragmentInstance(null);
+		// Assert:
 		assertThat(fragment, is(notNullValue()));
 		assertThat(fragment.getArguments(), is(nullValue()));
 	}
 
-	@Test
-	public void testNewFragmentInstanceForFragmentClass() {
-		assertThat(new FragmentItem(1, Fragment.class).newFragmentInstance(new Bundle()), is(nullValue()));
+	@Test public void testNewFragmentInstanceForFragmentClass() {
+		// Arrange:
+		final FragmentItem item = new FragmentItem(1, Fragment.class);
+		// Act + Assert:
+		assertThat(item.newFragmentInstance(new Bundle()), is(nullValue()));
 	}
 
-	@Test
-	public void testNewFragmentInstanceForAbstractFragment() {
-		assertThat(new FragmentItem(1, TestAbstractFragment.class).newFragmentInstance(new Bundle()), is(nullValue()));
+	@Test public void testNewFragmentInstanceForAbstractFragment() {
+		// Arrange:
+		final FragmentItem item = new FragmentItem(1, TestAbstractFragment.class);
+		// Act + Assert:
+		assertThat(item.newFragmentInstance(new Bundle()), is(nullValue()));
 	}
 
-	@Test
-	public void testNewFragmentInstanceForFragmentWithPrivateConstructor() {
-		assertThat(new FragmentItem(1, TestFragmentWithPrivateConstructor.class).newFragmentInstance(new Bundle()), is(nullValue()));
+	@Test public void testNewFragmentInstanceForFragmentWithPrivateConstructor() {
+		// Arrange:
+		final FragmentItem item = new FragmentItem(1, TestFragmentWithPrivateConstructor.class);
+		// Act:
+		// Assert:
+		assertThat(item.newFragmentInstance(new Bundle()), is(nullValue()));
 	}
 
-	public static class TestFragment extends Fragment {
-	}
+	public static class TestFragment extends Fragment {}
 
-	public static abstract class TestAbstractFragment extends Fragment {
-	}
+	public static abstract class TestAbstractFragment extends Fragment {}
 
 	public static class TestFragmentWithPrivateConstructor extends Fragment {
 
 		@SuppressLint("ValidFragment")
-		private TestFragmentWithPrivateConstructor() {
-		}
+		private TestFragmentWithPrivateConstructor() {}
 	}
 }

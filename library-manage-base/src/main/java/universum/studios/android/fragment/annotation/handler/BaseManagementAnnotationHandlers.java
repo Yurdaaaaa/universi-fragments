@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -38,6 +38,7 @@ import universum.studios.android.fragment.manage.FragmentItem;
  * <b>base management</b> associated fragments and classes.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 
@@ -54,8 +55,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
-	@Nullable
-	public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull final Class<?> classOfFactory) {
+	@Nullable public static FragmentFactoryAnnotationHandler obtainFactoryHandler(@NonNull final Class<?> classOfFactory) {
 		return obtainHandler(FragmentFactoryHandler.class, classOfFactory);
 	}
 
@@ -90,7 +90,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 						items.put(id, new FragmentItem(
 								id,
 								Fragment.class,
-								BaseFragmentFactory.createFragmentTag(mAnnotatedClass, Integer.toString(id))
+								BaseFragmentFactory.createFragmentTag(annotatedClass, Integer.toString(id))
 						));
 					}
 				}
@@ -110,7 +110,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 									id,
 									factoryFragment.value(),
 									BaseFragmentFactory.createFragmentTag(
-											mAnnotatedClass,
+											annotatedClass,
 											TextUtils.isEmpty(factoryFragment.taggedName()) ?
 													Integer.toString(id) :
 													factoryFragment.taggedName()
@@ -127,15 +127,13 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 						}
 					}
 				}
-			}, mAnnotatedClass, BaseFragmentFactory.class);
+			}, annotatedClass, BaseFragmentFactory.class);
 			this.items = items.size() > 0 ? items : null;
 		}
 
 		/**
 		 */
-		@Nullable
-		@Override
-		public SparseArray<FragmentItem> getFragmentItems() {
+		@Override @Nullable public SparseArray<FragmentItem> getFragmentItems() {
 			return items;
 		}
 	}

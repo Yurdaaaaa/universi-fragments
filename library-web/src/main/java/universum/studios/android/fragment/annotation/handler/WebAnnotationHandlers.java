@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -31,6 +31,7 @@ import universum.studios.android.fragment.annotation.WebContent;
  * <b>web</b> associated fragments and classes.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class WebAnnotationHandlers extends AnnotationHandlers {
 
@@ -47,8 +48,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
-	@Nullable
-	public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull final Class<?> classOfFragment) {
+	@Nullable public static WebFragmentAnnotationHandler obtainWebFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(WebFragmentHandler.class, classOfFragment);
 	}
 
@@ -89,17 +89,13 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 
 		/**
 		 */
-		@Override
-		@StringRes
-		public int getWebContentResId(@StringRes final int defaultResId) {
+		@Override @StringRes public int getWebContentResId(@StringRes final int defaultResId) {
 			return webContentResId == NO_RES ? defaultResId : webContentResId;
 		}
 
 		/**
 		 */
-		@Nullable
-		@Override
-		public String getWebContent(@Nullable final String defaultContent) {
+		@Override @Nullable public String getWebContent(@Nullable final String defaultContent) {
 			return TextUtils.isEmpty(webContent) ? defaultContent : webContent;
 		}
 	}

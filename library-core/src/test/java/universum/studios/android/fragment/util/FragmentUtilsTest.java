@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.util;
 
@@ -44,57 +44,62 @@ import static org.mockito.Mockito.when;
  */
 public final class FragmentUtilsTest extends RobolectricTestCase {
 
-	@Test
-	public void testConstants() {
+	@Test public void testContract() {
+		// Assert:
 		assertThat(FragmentUtils.ACCESS_LOLLIPOP, is(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP));
 	}
 
 	@Test(expected = IllegalAccessException.class)
 	public void testInstantiation() throws Exception {
+		// Act:
 		FragmentUtils.class.newInstance();
 	}
 
 	@Test(expected = InvocationTargetException.class)
 	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		// Arrange:
 		final Constructor<FragmentUtils> constructor = FragmentUtils.class.getDeclaredConstructor();
 		constructor.setAccessible(true);
+		// Act:
 		constructor.newInstance();
 	}
 
-	@Test
-	public void testWillBeCustomAnimationsPlayed() {
-		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(mApplication), is(true));
+	@Test public void testWillBeCustomAnimationsPlayed() {
+		// Act + Assert:
+		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(application), is(true));
 	}
 
-	@Test
-	public void testAreAnimationsEnabled() {
-		assertThat(FragmentUtils.areAnimationsEnabled(mApplication), is(true));
+	@Test public void testAreAnimationsEnabled() {
+		// Act + Assert:
+		assertThat(FragmentUtils.areAnimationsEnabled(application), is(true));
 	}
 
-	@Test
-	public void testIsPowerSaveModeActive() {
-		assertThat(FragmentUtils.isPowerSaveModeActive(mApplication), is(false));
+	@Test public void testIsPowerSaveModeActive() {
+		// Act + Assert:
+		assertThat(FragmentUtils.isPowerSaveModeActive(application), is(false));
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
-	public void testInflateTransitionOnLollipopApiLevel() {
-		final Transition transition = FragmentUtils.inflateTransition(mApplication, android.R.transition.fade);
+	@Test public void testInflateTransitionOnLollipopApiLevel() {
+		// Act:
+		final Transition transition = FragmentUtils.inflateTransition(application, android.R.transition.fade);
+		// Assert:
 		assertThat(transition, is(notNullValue()));
 		assertThat(transition, instanceOf(Fade.class));
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN)
-	public void testInflateTransitionOnJellyBeanApiLevel() {
-		assertThat(FragmentUtils.inflateTransition(mApplication, android.R.anim.fade_in), is(nullValue()));
+	@Test public void testInflateTransitionOnJellyBeanApiLevel() {
+		// Act + Assert:
+		assertThat(FragmentUtils.inflateTransition(application, android.R.anim.fade_in), is(nullValue()));
 	}
 
-	@Test
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
-	public void testInflateTransitionInContextWithoutResources() {
+	@Test public void testInflateTransitionInContextWithoutResources() {
+		// Arrange:
 		final Context mockContext = mock(Context.class);
 		when(mockContext.getResources()).thenReturn(null);
+		// Act + Assert:
 		assertThat(FragmentUtils.inflateTransition(mockContext, android.R.anim.fade_in), is(nullValue()));
 	}
 }

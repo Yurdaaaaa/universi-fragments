@@ -1,22 +1,23 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
-package universum.studios.android.fragment.manage; 
+package universum.studios.android.fragment.manage;
+
 import android.app.FragmentManager;
 
 import org.junit.Test;
@@ -35,74 +36,86 @@ import static org.mockito.Mockito.when;
  * @author Martin Albedinsky
  */
 public final class FragmentControllerBackStackListenerTest extends RobolectricTestCase {
-    
-    @Test
-	public void testInstantiation() {
-	    final FragmentController mockController = mock(FragmentController.class);
+
+	@Test public void testInstantiation() {
+		// Arrange:
+		final FragmentController mockController = mock(FragmentController.class);
+		// Act:
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
-	    assertThat(listener.controller, is(mockController));
-	    assertThat(listener.backStackSize, is(0));
+		// Assert:
+		assertThat(listener.controller, is(mockController));
+		assertThat(listener.backStackSize, is(0));
 	}
 
-	@Test
-	public void testOnBackStackChangedDueToAddition() {
+	@Test public void testOnBackStackChangedDueToAddition() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(1);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(1)).handleBackStackChange(1, FragmentController.BackStackListener.ADDED);
+		// Assert:
 		assertThat(listener.backStackSize, is(1));
+		verify(mockController).handleBackStackChange(1, FragmentController.BackStackListener.ADDED);
 	}
 
-	@Test
-	public void testOnBackStackChangedDueToRemoval() {
+	@Test public void testOnBackStackChangedDueToRemoval() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(1);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
 		listener.backStackSize = 2;
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(1)).handleBackStackChange(1, FragmentController.BackStackListener.REMOVED);
+		// Assert:
 		assertThat(listener.backStackSize, is(1));
+		verify(mockController).handleBackStackChange(1, FragmentController.BackStackListener.REMOVED);
 	}
 
-	@Test
-	public void testOnBackStackChangedWithSameSize() {
+	@Test public void testOnBackStackChangedWithSameSize() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(2);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
 		listener.backStackSize = 2;
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
+		// Assert:
 		assertThat(listener.backStackSize, is(2));
+		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
 	}
 
-	@Test
-	public void testOnBackStackChangedForEmptyStack() {
+	@Test public void testOnBackStackChangedForEmptyStack() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(0);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
+		// Assert:
 		assertThat(listener.backStackSize, is(0));
+		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
 	}
 
-	@Test
-	public void testOnBackStackChangedForInvalidBackStackSize() {
+	@Test public void testOnBackStackChangedForInvalidBackStackSize() {
+		// Arrange:
 		final FragmentController mockController = mock(FragmentController.class);
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		when(mockManager.getBackStackEntryCount()).thenReturn(-1);
 		when(mockController.getFragmentManager()).thenReturn(mockManager);
 		final FragmentController.BackStackListener listener = new FragmentController.BackStackListener(mockController);
+		// Act:
 		listener.onBackStackChanged();
-		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
+		// Assert:
 		assertThat(listener.backStackSize, is(0));
+		verify(mockController, times(0)).handleBackStackChange(anyInt(), anyInt());
 	}
 }

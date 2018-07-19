@@ -1,10 +1,13 @@
 Change-Log
 ===============
-> Regular configuration update: _29.03.2018_
+> Regular configuration update: _01.06.2018_
 
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
 
 ## Version 1.x ##
+
+### 1.3.3 ###
+> upcoming
 
 ### [1.3.2](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.2) ###
 > 27.02.2018

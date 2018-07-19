@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -37,6 +37,7 @@ import universum.studios.android.fragment.annotation.MenuOptions;
  * <b>ActionBar</b> associated fragments and classes.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 
@@ -53,8 +54,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
-	@Nullable
-	public static ActionBarFragmentAnnotationHandler obtainActionBarFragmentHandler(@NonNull final Class<?> classOfFragment) {
+	@Nullable public static ActionBarFragmentAnnotationHandler obtainActionBarFragmentHandler(@NonNull final Class<?> classOfFragment) {
 		return obtainHandler(ActionBarFragmentHandler.class, classOfFragment);
 	}
 
@@ -143,6 +143,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 		 *
 		 * @see BaseAnnotationHandler#BaseAnnotationHandler(Class)
 		 */
+		@SuppressWarnings("WeakerAccess")
 		public ActionBarFragmentHandler(@NonNull final Class<?> annotatedClass) {
 			super(annotatedClass);
 			final ActionBarOptions actionBarOptions = findAnnotation(ActionBarOptions.class);
@@ -168,8 +169,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 
 		/**
 		 */
-		@Override
-		public void configureActionBar(@NonNull final ActionBarDelegate actionBarDelegate) {
+		@Override public void configureActionBar(@NonNull final ActionBarDelegate actionBarDelegate) {
 			switch (homeAsUp) {
 				case ActionBarOptions.HOME_AS_UP_ENABLED:
 					actionBarDelegate.setDisplayHomeAsUpEnabled(true);
@@ -225,37 +225,31 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 
 		/**
 		 */
-		@Override
-		public boolean hasOptionsMenu() {
+		@Override public boolean hasOptionsMenu() {
 			return hasOptionsMenu;
 		}
 
 		/**
 		 */
-		@Override
-		public boolean shouldClearOptionsMenu() {
+		@Override public boolean shouldClearOptionsMenu() {
 			return clearOptionsMenu;
 		}
 
 		/**
 		 */
-		@MenuRes
-		@Override
-		public int getOptionsMenuFlags(@MenuRes final int defaultFlags) {
+		@Override @MenuRes public int getOptionsMenuFlags(@MenuRes final int defaultFlags) {
 			return optionsMenuFlags == -1 ? defaultFlags : optionsMenuFlags;
 		}
 
 		/**
 		 */
-		@Override
-		public int getOptionsMenuResource(final int defaultResource) {
+		@Override public int getOptionsMenuResource(final int defaultResource) {
 			return optionsMenuResource == NO_RES ? defaultResource : optionsMenuResource;
 		}
 
 		/**
 		 */
-		@Override
-		public boolean handleCreateActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
+		@Override public boolean handleCreateActionMode(@NonNull final ActionMode actionMode, @NonNull final Menu menu) {
 			if (actionModeMenuResource == NO_RES) {
 				return false;
 			}

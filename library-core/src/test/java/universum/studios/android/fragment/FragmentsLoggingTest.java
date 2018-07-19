@@ -1,27 +1,25 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2017 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2017 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License 
- * you may obtain at
- * 
- * 		http://www.apache.org/licenses/LICENSE-2.0
- * 
- * You can redistribute, modify or publish any part of the code written within this file but as it 
- * is described in the License, the software distributed under the License is distributed on an 
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
- * 
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
+ *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment;
 
 import android.util.Log;
 
-import org.hamcrest.core.IsNot;
-import org.hamcrest.core.IsNull;
 import org.junit.Test;
 
 import java.lang.reflect.Constructor;
@@ -33,20 +31,19 @@ import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 /**
  * @author Martin Albedinsky
  */
 public final class FragmentsLoggingTest extends RobolectricTestCase {
 
-	@SuppressWarnings("unused")
-	private static final String TAG = "FragmentsLoggingTest";
+	@SuppressWarnings("unused") private static final String LOG_TAG = "LoggingTest";
 
-	@Override
-	public void afterTest() throws Exception {
+	@Override public void afterTest() throws Exception {
 		super.afterTest();
 		// Ensure that the logging class has default logger.
 		FragmentsLogging.setLogger(null);
@@ -54,91 +51,116 @@ public final class FragmentsLoggingTest extends RobolectricTestCase {
 
 	@Test(expected = IllegalAccessException.class)
 	public void testInstantiation() throws Exception {
+		// Act:
 		FragmentsLogging.class.newInstance();
 	}
 
 	@Test(expected = InvocationTargetException.class)
 	public void testInstantiationWithAccessibleConstructor() throws Exception {
+		// Arrange:
 		final Constructor<FragmentsLogging> constructor = FragmentsLogging.class.getDeclaredConstructor();
 		constructor.setAccessible(true);
+		// Act:
 		constructor.newInstance();
 	}
 
-	@Test
-	public void testGetDefaultLogger() {
+	@Test public void testDefaultLogger() {
+		// Act:
 		final Logger logger = FragmentsLogging.getLogger();
-		assertThat(logger, is(IsNot.not(IsNull.nullValue())));
+		// Assert:
+		assertThat(logger, is(notNullValue()));
 		assertThat(logger.getLogLevel(), is(Log.ASSERT));
 	}
 
-	@Test
-	public void testSetLogger() {
-		FragmentsLogging.setLogger(null);
-		assertThat(FragmentsLogging.getLogger(), is(IsNot.not(IsNull.nullValue())));
+	@Test public void testLogger() {
+		// Arrange:
 		final Logger logger = new SimpleLogger(Log.DEBUG);
+		// Act:
 		FragmentsLogging.setLogger(logger);
 		assertThat(FragmentsLogging.getLogger(), is(logger));
+		FragmentsLogging.setLogger(null);
+		assertThat(FragmentsLogging.getLogger(), is(notNullValue()));
 	}
 
-	@Test
-	public void testV() {
+	@Test public void testV() {
+		// Arrange:
 		final Logger mockLogger = mock(Logger.class);
 		FragmentsLogging.setLogger(mockLogger);
-		FragmentsLogging.v(TAG, "");
-		FragmentsLogging.v(TAG, "", null);
+		// Act:
+		FragmentsLogging.v(LOG_TAG, "message.verbose");
+		FragmentsLogging.v(LOG_TAG, "message.verbose", null);
+		// Assert:
+		verify(mockLogger).v(LOG_TAG, "message.verbose");
+		verify(mockLogger).v(LOG_TAG, "message.verbose", null);
+		verifyNoMoreInteractions(mockLogger);
 	}
 
-	@Test
-	public void testD() {
+	@Test public void testD() {
+		// Arrange:
 		final Logger mockLogger = mock(Logger.class);
 		FragmentsLogging.setLogger(mockLogger);
-		FragmentsLogging.d(TAG, "message.debug");
-		verify(mockLogger, times(1)).d(TAG, "message.debug");
-		FragmentsLogging.d(TAG, "message.debug", null);
-		verify(mockLogger, times(1)).d(TAG, "message.debug", null);
+		// Act:
+		FragmentsLogging.d(LOG_TAG, "message.debug");
+		FragmentsLogging.d(LOG_TAG, "message.debug", null);
+		// Assert:
+		verify(mockLogger).d(LOG_TAG, "message.debug");
+		verify(mockLogger).d(LOG_TAG, "message.debug", null);
+		verifyNoMoreInteractions(mockLogger);
 	}
 
-	@Test
-	public void testI() {
+	@Test public void testI() {
+		// Arrange:
 		final Logger mockLogger = mock(Logger.class);
 		FragmentsLogging.setLogger(mockLogger);
-		FragmentsLogging.i(TAG, "message.info");
-		verify(mockLogger, times(1)).i(TAG, "message.info");
-		FragmentsLogging.i(TAG, "message.info", null);
-		verify(mockLogger, times(1)).i(TAG, "message.info", null);
+		// Act:
+		FragmentsLogging.i(LOG_TAG, "message.info");
+		FragmentsLogging.i(LOG_TAG, "message.info", null);
+		// Assert:
+		verify(mockLogger).i(LOG_TAG, "message.info");
+		verify(mockLogger).i(LOG_TAG, "message.info", null);
+		verifyNoMoreInteractions(mockLogger);
 	}
 
-	@Test
-	public void testW() {
+	@Test public void testW() {
+		// Arrange:
 		final Logger mockLogger = mock(Logger.class);
 		FragmentsLogging.setLogger(mockLogger);
-		FragmentsLogging.w(TAG, "message.warn");
-		verify(mockLogger, times(1)).w(TAG, "message.warn");
-		FragmentsLogging.w(TAG, "message.warn", null);
-		verify(mockLogger, times(1)).w(TAG, "message.warn", null);
-		FragmentsLogging.w(TAG, (Throwable) null);
-		verify(mockLogger, times(1)).w(TAG, (Throwable) null);
+		// Act:
+		FragmentsLogging.w(LOG_TAG, "message.warn");
+		FragmentsLogging.w(LOG_TAG, "message.warn", null);
+		FragmentsLogging.w(LOG_TAG, (Throwable) null);
+		// Assert:
+		verify(mockLogger).w(LOG_TAG, "message.warn");
+		verify(mockLogger).w(LOG_TAG, "message.warn", null);
+		verify(mockLogger).w(LOG_TAG, (Throwable) null);
+		verifyNoMoreInteractions(mockLogger);
 	}
 
-	@Test
-	public void testE() {
+	@Test public void testE() {
+		// Arrange:
 		final Logger mockLogger = mock(Logger.class);
 		FragmentsLogging.setLogger(mockLogger);
-		FragmentsLogging.e(TAG, "message.error");
-		verify(mockLogger, times(1)).e(TAG, "message.error");
-		FragmentsLogging.e(TAG, "message.error", null);
-		verify(mockLogger, times(1)).e(TAG, "message.error", null);
+		// Act:
+		FragmentsLogging.e(LOG_TAG, "message.error");
+		FragmentsLogging.e(LOG_TAG, "message.error", null);
+		// Assert:
+		verify(mockLogger).e(LOG_TAG, "message.error");
+		verify(mockLogger).e(LOG_TAG, "message.error", null);
+		verifyNoMoreInteractions(mockLogger);
 	}
 
-	@Test
-	public void testWTF() {
+	@Test public void testWTF() {
+		// Arrange:
 		final Logger mockLogger = mock(Logger.class);
 		FragmentsLogging.setLogger(mockLogger);
-		FragmentsLogging.wtf(TAG, "message.wtf");
-		verify(mockLogger, times(1)).wtf(TAG, "message.wtf");
-		FragmentsLogging.wtf(TAG, "message.wtf", null);
-		verify(mockLogger, times(1)).wtf(TAG, "message.wtf", null);
-		FragmentsLogging.wtf(TAG, (Throwable) null);
-		verify(mockLogger, times(1)).wtf(TAG, (Throwable) null);
+		// Act:
+		FragmentsLogging.wtf(LOG_TAG, "message.wtf");
+		FragmentsLogging.wtf(LOG_TAG, "message.wtf", null);
+		FragmentsLogging.wtf(LOG_TAG, (Throwable) null);
+		// Assert:
+		verify(mockLogger).wtf(LOG_TAG, "message.wtf");
+		verify(mockLogger).wtf(LOG_TAG, "message.wtf", null);
+		verify(mockLogger).wtf(LOG_TAG, (Throwable) null);
+		verifyNoMoreInteractions(mockLogger);
 	}
 }

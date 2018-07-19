@@ -1,20 +1,20 @@
 /*
- * =================================================================================================
- *                             Copyright (C) 2016 Universum Studios
- * =================================================================================================
- *         Licensed under the Apache License, Version 2.0 or later (further "License" only).
+ * *************************************************************************************************
+ *                                 Copyright 2016 Universum Studios
+ * *************************************************************************************************
+ *                  Licensed under the Apache License, Version 2.0 (the "License")
  * -------------------------------------------------------------------------------------------------
- * You may use this file only in compliance with the License. More details and copy of this License
- * you may obtain at
+ * You may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at
  *
- * 		http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- * You can redistribute, modify or publish any part of the code written within this file but as it
- * is described in the License, the software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES or CONDITIONS OF ANY KIND.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied.
  *
  * See the License for the specific language governing permissions and limitations under the License.
- * =================================================================================================
+ * *************************************************************************************************
  */
 package universum.studios.android.fragment.annotation.handler;
 
@@ -28,6 +28,7 @@ import universum.studios.android.fragment.annotation.FragmentAnnotations;
  * An {@link AnnotationHandler} base implementation.
  *
  * @author Martin Albedinsky
+ * @since 1.0
  */
 abstract class BaseAnnotationHandler implements AnnotationHandler {
 
@@ -55,7 +56,7 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	/**
 	 * Class for which has been this handler created.
 	 */
-	final Class<?> mAnnotatedClass;
+	final Class<?> annotatedClass;
 
 	/*
 	 * Constructors ================================================================================
@@ -67,7 +68,7 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 	 * @param annotatedClass The class of which annotations processing should the new handler handle.
 	 */
 	BaseAnnotationHandler(@NonNull final Class<?> annotatedClass) {
-		this.mAnnotatedClass = annotatedClass;
+		this.annotatedClass = annotatedClass;
 	}
 
 	/*
@@ -76,22 +77,20 @@ abstract class BaseAnnotationHandler implements AnnotationHandler {
 
 	/**
 	 */
-	@NonNull
-	@Override
-	public final Class<?> getAnnotatedClass() {
-		return mAnnotatedClass;
+	@Override @NonNull public final Class<?> getAnnotatedClass() {
+		return annotatedClass;
 	}
 
 	/**
 	 * Delegates to {@link FragmentAnnotations#obtainAnnotationFrom(Class, Class, Class)
-	 * FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, mAnnotatedClass, null)}.
+	 * FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, annotatedClass, null)}.
 	 *
 	 * @param classOfAnnotation Class of the annotation to find.
 	 * @param <A>               Type of the annotation to find.
 	 * @return Found annotation or {@code null} if there is no such annotation presented.
 	 */
 	final <A extends Annotation> A findAnnotation(final Class<A> classOfAnnotation) {
-		return FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, mAnnotatedClass, null);
+		return FragmentAnnotations.obtainAnnotationFrom(classOfAnnotation, annotatedClass, null);
 	}
 
 	/*
