@@ -41,6 +41,8 @@ public final class FragmentTransitions {
 
 	/**
 	 * Transition that may be used for changing of two fragments without any animation.
+	 *
+	 * @since 1.0
 	 */
 	public static final FragmentTransition NONE = new BasicFragmentTransition(
 			FragmentTransition.NO_ANIMATION,
@@ -61,6 +63,8 @@ public final class FragmentTransitions {
 	 * <li><b>Incoming (back-stack):</b> {@link R.animator#fragment_fade_in_back}</li>
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_fade_out_back}</li>
 	 * </ul>
+	 *
+	 * @since 1.0
 	 */
 	public static final FragmentTransition CROSS_FADE = new BasicFragmentTransition(
 			// Incoming animation.
@@ -86,6 +90,8 @@ public final class FragmentTransitions {
 	 * <li><b>Incoming (back-stack):</b> {@link R.animator#fragment_hold_back}</li>
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_fade_out_back}</li>
 	 * </ul>
+	 *
+	 * @since 1.0
 	 */
 	public static final FragmentTransition CROSS_FADE_AND_HOLD = new BasicFragmentTransition(
 			// Incoming animation.
@@ -110,6 +116,8 @@ public final class FragmentTransitions {
 	 * <li><b>Incoming (back-stack):</b> {@link R.animator#fragment_slide_in_left_back}</li>
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_left_back}</li>
 	 * </ul>
+	 *
+	 * @since 1.0
 	 */
 	public static final FragmentTransition SLIDE_TO_RIGHT = new BasicFragmentTransition(
 			// Incoming animation.
@@ -134,6 +142,8 @@ public final class FragmentTransitions {
 	 * <li><b>Incoming (back-stack):</b> {@link R.animator#fragment_slide_in_right_back}</li>
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_right_back}</li>
 	 * </ul>
+	 *
+	 * @since 1.0
 	 */
 	public static final FragmentTransition SLIDE_TO_LEFT = new BasicFragmentTransition(
 			// Incoming animation.
@@ -158,6 +168,8 @@ public final class FragmentTransitions {
 	 * <li><b>Incoming (back-stack):</b> {@link R.animator#fragment_slide_in_bottom_back}</li>
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_bottom_back}</li>
 	 * </ul>
+	 *
+	 * @since 1.0
 	 */
 	public static final FragmentTransition SLIDE_TO_TOP = new BasicFragmentTransition(
 			// Incoming animation.
@@ -182,6 +194,8 @@ public final class FragmentTransitions {
 	 * <li><b>Incoming (back-stack):</b> {@link R.animator#fragment_slide_in_top_back}</li>
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_top_back}</li>
 	 * </ul>
+	 *
+	 * @since 1.0
 	 */
 	public static final FragmentTransition SLIDE_TO_BOTTOM = new BasicFragmentTransition(
 			// Incoming animation.

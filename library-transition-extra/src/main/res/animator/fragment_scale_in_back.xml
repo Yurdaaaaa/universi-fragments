@@ -23,23 +23,23 @@
      android:interpolator="@anim/fragment_interpolator">
 
     <objectAnimator
-            android:propertyName="alpha"
-            android:valueFrom="0.5"
-            android:valueTo="1.0"
-            android:duration="@integer/fragment_config_anim_scale_alpha_in_back_duration"/>
+        android:duration="@integer/fragment_config_anim_scale_alpha_in_back_duration"
+        android:propertyName="alpha"
+        android:valueFrom="0.5"
+        android:valueTo="1.0" />
 
     <set
-            android:duration="@integer/fragment_config_anim_scale_in_back_duration"
-            android:startOffset="@integer/fragment_config_anim_scale_in_back_delay">
+        android:duration="@integer/fragment_config_anim_scale_in_back_duration"
+        android:startOffset="@integer/fragment_config_anim_scale_in_back_delay">
 
         <objectAnimator
-                android:propertyName="scaleX"
-                android:valueFrom="0.8"
-                android:valueTo="1.0"/>
+            android:propertyName="scaleX"
+            android:valueFrom="0.8"
+            android:valueTo="1.0" />
 
         <objectAnimator
-                android:propertyName="scaleY"
-                android:valueFrom="0.8"
-                android:valueTo="1.0"/>
+            android:propertyName="scaleY"
+            android:valueFrom="0.8"
+            android:valueTo="1.0" />
     </set>
 </set>
