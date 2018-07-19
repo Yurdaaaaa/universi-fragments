@@ -24,24 +24,24 @@
 
     <!-- Hide an animated object for the first half of animation. -->
     <objectAnimator
-            android:valueFrom="1.0"
-            android:valueTo="0.0"
-            android:propertyName="alpha"
-            android:duration="0" />
+        android:duration="0"
+        android:propertyName="alpha"
+        android:valueFrom="1.0"
+        android:valueTo="0.0" />
 
     <!-- Rotate. -->
     <objectAnimator
-            android:valueFrom="-180"
-            android:valueTo="0"
-            android:propertyName="rotationX"
-            android:interpolator="@android:interpolator/accelerate_decelerate"
-            android:duration="@integer/fragment_config_anim_flip_vertical_in_back_duration" />
+        android:duration="@integer/fragment_config_anim_flip_vertical_in_back_duration"
+        android:interpolator="@android:interpolator/accelerate_decelerate"
+        android:propertyName="rotationX"
+        android:valueFrom="-180"
+        android:valueTo="0" />
 
     <!-- Show an animated object for the second half of animation. -->
     <objectAnimator
-            android:valueFrom="0.0"
-            android:valueTo="1.0"
-            android:propertyName="alpha"
-            android:startOffset="@integer/fragment_config_anim_flip_vertical_in_back_delay"
-            android:duration="1" />
+        android:duration="1"
+        android:propertyName="alpha"
+        android:startOffset="@integer/fragment_config_anim_flip_vertical_in_back_delay"
+        android:valueFrom="0.0"
+        android:valueTo="1.0" />
 </set>

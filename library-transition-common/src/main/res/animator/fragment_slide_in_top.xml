@@ -20,8 +20,8 @@
  */
 -->
 <objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
-                android:interpolator="@anim/fragment_interpolator"
-                android:propertyName="fractionY"
-                android:valueFrom="1.0"
-                android:valueTo="0.0"
-                android:duration="@integer/fragment_config_anim_slide_vertical_in_duration"/>
+				android:duration="@integer/fragment_config_anim_slide_vertical_in_duration"
+				android:interpolator="@anim/fragment_interpolator"
+				android:propertyName="fractionY"
+				android:valueFrom="1.0"
+				android:valueTo="0.0" />
