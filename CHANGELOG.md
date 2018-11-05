@@ -6,7 +6,7 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
-### 1.3.4 ###
+### [1.3.4](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.4) ###
 > upcoming
 
 - Small updates and improvements.
