@@ -37,6 +37,7 @@ import universum.studios.android.fragment.R;
  * @author Martin Albedinsky
  * @since 1.0
  */
+// todo: rename this class to FragmentExtraTransitions ...
 @SuppressWarnings("unused")
 public final class ExtraFragmentTransitions {
 
