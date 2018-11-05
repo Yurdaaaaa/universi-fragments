@@ -29,6 +29,7 @@ import android.os.Parcel;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewCompat;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
@@ -1015,6 +1016,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final View elementFirst = new View(application);
+		ViewCompat.setTransitionName(elementFirst, "Element.First");
 		final View elementSecond = new View(application);
 		final FragmentRequest request = controller.newRequest(mockFragment)
 				.sharedElement(elementFirst, "Element.First")
@@ -1024,6 +1026,8 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentTransaction transaction = controller.createTransaction(request);
 		// Assert:
 		assertThat(transaction, is(notNullValue()));
+		assertThat(ViewCompat.getTransitionName(elementFirst), is("Element.First"));
+		assertThat(ViewCompat.getTransitionName(elementSecond), is("Element.Second"));
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			verify(transaction).addSharedElement(elementFirst, "Element.First");
 			verify(transaction).addSharedElement(elementSecond, "Element.Second");

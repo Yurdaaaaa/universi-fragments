@@ -30,6 +30,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.VisibleForTesting;
 import android.support.v4.util.Pair;
+import android.support.v4.view.ViewCompat;
 import android.transition.Transition;
 import android.view.View;
 
@@ -782,6 +783,10 @@ public class FragmentController {
 					if (pair.first == null || pair.second == null) {
 						FragmentsLogging.i(TAG, "Skipping invalid shared element pair(view: " + pair.first + ", name: " + pair.second + ").");
 						continue;
+					}
+					// If view does not have transition name specified set the one provided in pair.
+					if (ViewCompat.getTransitionName(pair.first) == null) {
+						ViewCompat.setTransitionName(pair.first, pair.second);
 					}
 					transaction.addSharedElement(pair.first, pair.second);
 				}
