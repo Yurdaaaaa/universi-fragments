@@ -187,7 +187,7 @@ public class ActionBarFragment extends BaseFragment {
 	 */
 	@Override public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.actionBarDelegate = ActionBarDelegate.create(getActivity());
+		this.actionBarDelegate = ActionBarDelegate.create(requireActivity());
 		this.invalidateActionBar();
 	}
 

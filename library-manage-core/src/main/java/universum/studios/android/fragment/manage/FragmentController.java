@@ -19,7 +19,6 @@
 package universum.studios.android.fragment.manage;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import java.util.List;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.util.Pair;
 import androidx.core.view.ViewCompat;
@@ -109,7 +107,7 @@ public class FragmentController {
 	 * Flag indicating whether we can attach transitions to a fragment instance at the current Android
 	 * API level or not.
 	 */
-	private static final boolean CAN_ATTACH_TRANSITIONS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
+	private static final boolean CAN_ATTACH_TRANSITIONS = true;
 
 	/*
 	 * Interface ===================================================================================
@@ -650,7 +648,7 @@ public class FragmentController {
 	 */
 	@SuppressWarnings("ConstantConditions")
 	@NonNull protected Fragment onExecuteRequest(@NonNull final FragmentRequest request) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && manager.isDestroyed()) {
+		if (manager.isDestroyed()) {
 			throw new IllegalStateException("Cannot execute fragment request in context of activity that has been already destroyed!");
 		}
 		if (request.transaction == FragmentRequest.REPLACE && !request.hasFlag(FragmentRequest.REPLACE_SAME)) {
@@ -804,7 +802,6 @@ public class FragmentController {
 	 * @param request  Request caring the specified transitions for the fragment.
 	 * @param fragment The fragment instance to which to attach the transitions.
 	 */
-	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 	static void attachTransitionsToFragment(final FragmentRequest request, final Fragment fragment) {
 		if (request.hasTransition(FragmentRequest.TRANSITION_ENTER)) {
 			fragment.setEnterTransition(request.enterTransition);
