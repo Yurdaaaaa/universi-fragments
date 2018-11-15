@@ -1,7 +1,7 @@
 ### Overview ###
 
-Release patch.
+Minor release.
 
 ### Changes ###
 
-- Resolved [Issue #62](https://github.com/universum-studios/android_fragments/issues/62).
+- Regular **dependencies update** (mainly to use new artifacts from **Android Jetpack**).

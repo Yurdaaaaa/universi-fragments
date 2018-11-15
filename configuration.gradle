@@ -26,10 +26,10 @@ def libraryConfig = [
 ]
 
 def buildConfig = [
-        compileSdkVersion: 27,
+        compileSdkVersion: 28,
         minSdkVersion    : 14,
-        targetSdkVersion : 27,
-        buildToolsVersion: '27.0.3'
+        targetSdkVersion : 28,
+        buildToolsVersion: '29.0.3'
 ]
 
 def testConfig = [
@@ -84,9 +84,7 @@ def javadocConfig = [
         reference: [online: "https://universum-studios.github.io/android_${libraryConfig.name}/reference/1.x"]
 ]
 
-def mavenConfig = [
-        localUrl: System.getenv('MAVEN_URL_LOCAL')
-]
+def mavenConfig = [localUrl: System.getenv('MAVEN_URL_LOCAL')]
 
 def bintrayConfig = [
         publish: false,
@@ -97,7 +95,7 @@ def bintrayConfig = [
                 vcsUrl            : "${pomConfig.project.url}.git",
                 labels            : ['android', 'fragment', 'fragment-transactions', 'fragment-transitions', 'fragment-controlling'],
                 versionName       : pomConfig.version,
-                versionDescription: 'Release patch.',
+                versionDescription: 'Minor release with regular dependencies update.',
                 versionTag        : "v${pomConfig.version}"
         ]
 ]
