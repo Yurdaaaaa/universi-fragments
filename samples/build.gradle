@@ -78,8 +78,8 @@ dependencies {
     implementation deps.androidx.recyclerview.recyclerview
     implementation deps.androidx.vectordrawable.vectordrawable
     implementation deps.google.android.material.material
-    implementation deps.universum.studios.widgetAdapters
     implementation deps.universum.studios.samples
+    implementation deps.universum.studios.widgetAdapters
     implementation deps.universum.studios.graphicsColorUtil
     implementation deps.universum.studios.fontCore
     implementation deps.universum.studios.ui
