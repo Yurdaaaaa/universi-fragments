@@ -6,7 +6,7 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
-### 1.4.0 ###
+### [1.4.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.4.0) ###
 > 15.11.2018
 
 - Regular **dependencies update** (mainly to use new artifacts from **Android Jetpack**).
