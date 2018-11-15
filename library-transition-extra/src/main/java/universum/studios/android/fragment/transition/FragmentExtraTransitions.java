@@ -37,7 +37,6 @@ import universum.studios.android.fragment.manage.FragmentTransition;
  * @author Martin Albedinsky
  * @since 1.4.0
  */
-@SuppressWarnings("unused")
 public final class FragmentExtraTransitions {
 
 	/**

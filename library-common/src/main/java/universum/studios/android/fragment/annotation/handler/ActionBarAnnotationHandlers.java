@@ -52,6 +52,8 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * Obtains a {@link ActionBarFragmentAnnotationHandler} implementation for the given <var>classOfFragment</var>.
 	 *
+	 * @return Annotation handler ready to be used.
+	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable public static ActionBarFragmentAnnotationHandler obtainActionBarFragmentHandler(@NonNull final Class<?> classOfFragment) {

@@ -41,7 +41,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import universum.studios.android.fragment.FragmentPolicies;
 import universum.studios.android.test.local.RobolectricTestCase;
 import universum.studios.android.test.local.TestActivity;
 import universum.studios.android.test.local.TestCompatActivity;
@@ -68,7 +67,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testContract() {
 		// Assert:
-		assertThat(FragmentController.FRAGMENT_TAG, is(FragmentPolicies.class.getPackage().getName() + ".TAG.Fragment"));
+		assertThat(FragmentController.FRAGMENT_TAG, is("universum.studios.android.fragment.TAG.Fragment"));
 		assertThat(FragmentController.NO_CONTAINER_ID, is(-1));
 	}
 

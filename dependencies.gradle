@@ -4,11 +4,6 @@ def versions = [
         androidx   : [
                 test: [espresso: '3.1.0']
         ],
-        android    : [
-                support            : '27.1.1',
-                supportTest        : '1.0.2',
-                supportTestEspresso: '3.0.2'
-        ],
         test       : [
                 junit      : '4.12',
                 mockito    : '2.22.0',
@@ -72,47 +67,12 @@ def test = [
         ]
 ]
 
-def modulesPrimaryId = "${config.pom.groupId}:${config.pom.artifactId}"
-def modulesVersion = "${config.library.version.production}"
-def modules = [
-        library                : "${modulesPrimaryId}:${modulesVersion}@aar",
-        libraryCore            : "${modulesPrimaryId}-core:${modulesVersion}@aar",
-        libraryBase            : "${modulesPrimaryId}-base:${modulesVersion}@aar",
-        libraryCommon          : "${modulesPrimaryId}-common:${modulesVersion}@aar",
-        libraryWeb             : "${modulesPrimaryId}-web:${modulesVersion}@aar",
-        libraryManage          : "${modulesPrimaryId}-manage:${modulesVersion}@aar",
-        libraryManageCore      : "${modulesPrimaryId}-manage-core:${modulesVersion}@aar",
-        libraryManageBase      : "${modulesPrimaryId}-manage-base:${modulesVersion}@aar",
-        libraryTransition      : "${modulesPrimaryId}-transition:${modulesVersion}@aar",
-        libraryTransitionCore  : "${modulesPrimaryId}-transition-core:${modulesVersion}@aar",
-        libraryTransitionCommon: "${modulesPrimaryId}-transition-common:${modulesVersion}@aar",
-        libraryTransitionExtra : "${modulesPrimaryId}-transition-extra:${modulesVersion}@aar"
-]
-
-def android = [
-        support: [
-                annotations   : "com.android.support:support-annotations:${versions.android.support}",
-                v4            : "com.android.support:support-v4:${versions.android.support}",
-                appCompatV7   : "com.androidx.appcompat.app-v7:${versions.android.support}",
-                vectorDrawable: "com.android.support:support-vector-drawable:${versions.android.support}",
-                recyclerView  : "com.android.support:recyclerview-v7:${versions.android.support}",
-                design        : "com.android.support:design:${versions.android.support}"
-        ],
-        test   : [
-                runner         : "com.android.support.test:runner:${versions.android.supportTest}",
-                rules          : "com.android.support.test:rules:${versions.android.supportTest}",
-                espressoCore   : "com.android.support.test.espresso:espresso-core:${versions.android.supportTestEspresso}",
-                espressoIntents: "com.android.support.test.espresso:espresso-intents:${versions.android.supportTestEspresso}",
-                espressoContrib: "com.android.support.test.espresso:espresso-contrib:${versions.android.supportTestEspresso}"
-        ]
-]
-
 def universum = [studios: [
-        logger           : 'universum.studios.android:logger:1.0.2@aar',
-        widgetAdapters   : 'universum.studios.android:widget-adapters:2.0.4@aar',
+        logger           : 'universum.studios.android:logger:1.1.0@aar',
         samples          : 'universum.studios.android:samples:0.2.0@aar',
+        widgetAdapters   : 'universum.studios.android:widget-adapters:2.0.4@aar',
         ui               : 'universum.studios.android:ui:0.9.6@aar',
-        graphicsColorUtil: 'universum.studios.android:graphics-color-util:1.0.2@aar',
+        graphicsColorUtil: 'universum.studios.android:graphics-color-util:1.1.0@aar',
         fontCore         : 'universum.studios.android:font-core:1.1.2@aar'
 ]]
 
@@ -128,8 +88,6 @@ ext.deps = [
         "library"  : library,
         "androidx" : androidx,
         "google"   : google,
-        "modules"  : modules,
-        "android"  : android,
         "test"     : test,
         "universum": universum,
         "other"    : other

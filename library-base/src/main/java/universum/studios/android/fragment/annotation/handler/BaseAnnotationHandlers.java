@@ -47,6 +47,8 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * Obtains a {@link FragmentAnnotationHandler} implementation for the given <var>classOfFragment</var>.
 	 *
+	 * @return Annotation handler ready to be used.
+	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */
 	@Nullable public static FragmentAnnotationHandler obtainFragmentHandler(@NonNull final Class<?> classOfFragment) {

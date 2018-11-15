@@ -19,6 +19,8 @@
 package universum.studios.android.fragment.transition;
 
 import android.os.Parcel;
+
+import androidx.annotation.AnimRes;
 import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
 
@@ -105,7 +107,10 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 * Same as {@link #BasicFragmentTransition(int, int, int, int)} with back-stack animations set
 	 * to {@link #NO_ANIMATION}.
 	 */
-	public BasicFragmentTransition(@AnimatorRes final int inAnim, @AnimatorRes final int outAnim) {
+	public BasicFragmentTransition(
+			@AnimRes @AnimatorRes final int inAnim,
+			@AnimRes @AnimatorRes final int outAnim
+	) {
 		this(inAnim, outAnim, NO_ANIMATION, NO_ANIMATION);
 	}
 
@@ -114,10 +119,10 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 * as {@code "UNSPECIFIED"}.
 	 */
 	public BasicFragmentTransition(
-			@AnimatorRes final int inAnim,
-			@AnimatorRes final int outAnim,
-			@AnimatorRes final int inBackAnim,
-			@AnimatorRes final int outBackAnim
+			@AnimRes @AnimatorRes final int inAnim,
+			@AnimRes @AnimatorRes final int outAnim,
+			@AnimRes @AnimatorRes final int inBackAnim,
+			@AnimRes @AnimatorRes final int outBackAnim
 	) {
 		this(inAnim, outAnim, inBackAnim, outBackAnim, "UNSPECIFIED");
 	}
@@ -135,10 +140,10 @@ public class BasicFragmentTransition implements FragmentTransition {
 	 * @param name        Name for the new transition.
 	 */
 	public BasicFragmentTransition(
-			@AnimatorRes final int inAnim,
-			@AnimatorRes final int outAnim,
-			@AnimatorRes final int inBackAnim,
-			@AnimatorRes final int outBackAnim,
+			@AnimRes @AnimatorRes final int inAnim,
+			@AnimRes @AnimatorRes final int outAnim,
+			@AnimRes @AnimatorRes final int inBackAnim,
+			@AnimRes @AnimatorRes final int outBackAnim,
 			@NonNull final String name
 	) {
 		this.inAnimRes = inAnim;
@@ -184,25 +189,25 @@ public class BasicFragmentTransition implements FragmentTransition {
 
 	/**
 	 */
-	@Override @AnimatorRes public int getIncomingAnimation() {
+	@Override @AnimRes @AnimatorRes public int getIncomingAnimation() {
 		return inAnimRes;
 	}
 
 	/**
 	 */
-	@Override @AnimatorRes public int getOutgoingAnimation() {
+	@Override @AnimRes @AnimatorRes public int getOutgoingAnimation() {
 		return outAnimRes;
 	}
 
 	/**
 	 */
-	@Override @AnimatorRes public int getIncomingBackStackAnimation() {
+	@Override @AnimRes @AnimatorRes public int getIncomingBackStackAnimation() {
 		return inBackAnimRes;
 	}
 
 	/**
 	 */
-	@Override @AnimatorRes public int getOutgoingBackStackAnimation() {
+	@Override @AnimRes @AnimatorRes public int getOutgoingBackStackAnimation() {
 		return outBackAnimRes;
 	}
 
