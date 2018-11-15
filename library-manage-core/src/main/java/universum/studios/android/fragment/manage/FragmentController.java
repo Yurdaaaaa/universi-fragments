@@ -18,26 +18,22 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
-import android.os.Build;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
-import android.transition.Transition;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import universum.studios.android.fragment.FragmentPolicies;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import universum.studios.android.fragment.FragmentsLogging;
 import universum.studios.android.fragment.util.FragmentUtils;
 
@@ -99,18 +95,12 @@ public class FragmentController {
 	/**
 	 * Default TAG used for fragments.
 	 */
-	public static final String FRAGMENT_TAG = FragmentPolicies.class.getPackage().getName() + ".TAG.Fragment";
+	public static final String FRAGMENT_TAG = "universum.studios.android.fragment.TAG.Fragment";
 
 	/**
 	 * Constant used to determine that no view container id is specified.
 	 */
 	public static final int NO_CONTAINER_ID = -1;
-
-	/**
-	 * Flag indicating whether we can attach transitions to a fragment instance at the current Android
-	 * API level or not.
-	 */
-	private static final boolean CAN_ATTACH_TRANSITIONS = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
 
 	/*
 	 * Interface ===================================================================================
@@ -244,8 +234,8 @@ public class FragmentController {
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(Fragment)
 	 */
-	public FragmentController(@NonNull final Activity parentActivity) {
-		this(parentActivity, parentActivity.getFragmentManager());
+	public FragmentController(@NonNull final FragmentActivity parentActivity) {
+		this(parentActivity, parentActivity.getSupportFragmentManager());
 		if (parentActivity instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentActivity);
 		}
@@ -277,10 +267,10 @@ public class FragmentController {
 	 * @param parentFragment The fragment that wants to use the new fragment controller.
 	 *
 	 * @see #FragmentController(Context, FragmentManager)
-	 * @see #FragmentController(Activity)
+	 * @see #FragmentController(FragmentActivity)
 	 */
 	public FragmentController(@NonNull final Fragment parentFragment) {
-		this(parentFragment.getActivity(), parentFragment.getFragmentManager());
+		this(parentFragment.getActivity(), parentFragment.requireFragmentManager());
 		if (parentFragment instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentFragment);
 		}
@@ -297,7 +287,7 @@ public class FragmentController {
 	 *
 	 * @param fragmentManager Fragment manager that will be used to perform fragments related operations.
 	 *
-	 * @see #FragmentController(Activity)
+	 * @see #FragmentController(FragmentActivity)
 	 * @see #FragmentController(Fragment)
 	 * @see #FragmentController(Context, FragmentManager)
 	 */
@@ -312,7 +302,7 @@ public class FragmentController {
 	 *                        will be played or not. {@link FragmentUtils#willBeCustomAnimationsPlayed(Context)}.
 	 * @param fragmentManager Fragment manager that will be used to perform fragments related operations.
 	 *
-	 * @see #FragmentController(Activity)
+	 * @see #FragmentController(FragmentActivity)
 	 * @see #FragmentController(Fragment)
 	 */
 	public FragmentController(@Nullable final Context context, @NonNull final FragmentManager fragmentManager) {
@@ -651,7 +641,7 @@ public class FragmentController {
 	 */
 	@SuppressWarnings("ConstantConditions")
 	@NonNull protected Fragment onExecuteRequest(@NonNull final FragmentRequest request) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && manager.isDestroyed()) {
+		if (manager.isDestroyed()) {
 			throw new IllegalStateException("Cannot execute fragment request in context of activity that has been already destroyed!");
 		}
 		if (request.transaction == FragmentRequest.REPLACE && !request.hasFlag(FragmentRequest.REPLACE_SAME)) {
@@ -701,12 +691,12 @@ public class FragmentController {
 	 * Also transitions related configuration will be performed for the fragment that is attached to
 	 * the request via methods listed below:
 	 * <ul>
-	 * <li>{@link Fragment#setEnterTransition(Transition)}
-	 * <li>{@link Fragment#setExitTransition(Transition)}</li>
-	 * <li>{@link Fragment#setReenterTransition(Transition)}</li>
-	 * <li>{@link Fragment#setReturnTransition(Transition)}</li>
-	 * <li>{@link Fragment#setSharedElementEnterTransition(Transition)}</li>
-	 * <li>{@link Fragment#setSharedElementReturnTransition(Transition)}</li>
+	 * <li>{@link Fragment#setEnterTransition(Object)}
+	 * <li>{@link Fragment#setExitTransition(Object)}</li>
+	 * <li>{@link Fragment#setReenterTransition(Object)}</li>
+	 * <li>{@link Fragment#setReturnTransition(Object)}</li>
+	 * <li>{@link Fragment#setSharedElementEnterTransition(Object)}</li>
+	 * <li>{@link Fragment#setSharedElementReturnTransition(Object)}</li>
 	 * <li>{@link Fragment#setAllowEnterTransitionOverlap(boolean)}</li>
 	 * <li>{@link Fragment#setAllowReturnTransitionOverlap(boolean)}</li>
 	 * </ul>
@@ -729,6 +719,7 @@ public class FragmentController {
 		if (request.arguments != null) {
 			fragment.setArguments(request.arguments);
 		}
+
 		// Attach animations to the transaction from the FragmentTransition parameter.
 		if (request.transition != null) {
 			if (context == null || FragmentUtils.willBeCustomAnimationsPlayed(context)) {
@@ -742,6 +733,7 @@ public class FragmentController {
 		} else if (request.transitionStyle != FragmentRequest.NO_STYLE) {
 			transaction.setTransitionStyle(request.transitionStyle);
 		}
+
 		// Resolve transaction type.
 		switch (request.transaction) {
 			case FragmentRequest.REPLACE:
@@ -774,24 +766,24 @@ public class FragmentController {
 			default:
 				throw new IllegalArgumentException("Unsupported transaction type(" + request.transaction + ") specified for the fragment request!");
 		}
-		// Attach transitions with shared elements, if specified and supported.
-		if (CAN_ATTACH_TRANSITIONS) {
-			attachTransitionsToFragment(request, fragment);
-			if (request.sharedElements != null && !request.sharedElements.isEmpty()) {
-				final List<Pair<View, String>> elements = request.sharedElements;
-				for (final Pair<View, String> pair : elements) {
-					if (pair.first == null || pair.second == null) {
-						FragmentsLogging.i(TAG, "Skipping invalid shared element pair(view: " + pair.first + ", name: " + pair.second + ").");
-						continue;
-					}
-					// If view does not have transition name specified set the one provided in pair.
-					if (ViewCompat.getTransitionName(pair.first) == null) {
-						ViewCompat.setTransitionName(pair.first, pair.second);
-					}
-					transaction.addSharedElement(pair.first, pair.second);
+
+		// Attach transitions with shared elements, if specified.
+		attachTransitionsToFragment(request, fragment);
+		if (request.sharedElements != null && !request.sharedElements.isEmpty()) {
+			final List<Pair<View, String>> elements = request.sharedElements;
+			for (final Pair<View, String> pair : elements) {
+				if (pair.first == null || pair.second == null) {
+					FragmentsLogging.i(TAG, "Skipping invalid shared element pair(view: " + pair.first + ", name: " + pair.second + ").");
+					continue;
 				}
+				// If view does not have transition name specified set the one provided in pair.
+				if (ViewCompat.getTransitionName(pair.first) == null) {
+					ViewCompat.setTransitionName(pair.first, pair.second);
+				}
+				transaction.addSharedElement(pair.first, pair.second);
 			}
 		}
+
 		// Add fragment to back stack if requested.
 		if (request.hasFlag(FragmentRequest.ADD_TO_BACK_STACK)) {
 			transaction.addToBackStack(fragment.getTag());
@@ -805,8 +797,7 @@ public class FragmentController {
 	 * @param request  Request caring the specified transitions for the fragment.
 	 * @param fragment The fragment instance to which to attach the transitions.
 	 */
-	@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-	static void attachTransitionsToFragment(final FragmentRequest request, final Fragment fragment) {
+	@VisibleForTesting static void attachTransitionsToFragment(final FragmentRequest request, final Fragment fragment) {
 		if (request.hasTransition(FragmentRequest.TRANSITION_ENTER)) {
 			fragment.setEnterTransition(request.enterTransition);
 		}

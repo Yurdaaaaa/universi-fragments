@@ -18,18 +18,18 @@
  */
 package universum.studios.android.fragment.annotation;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Annotation utils for the Fragments library.
  *
  * @author Martin Albedinsky
- * @Nullable
+ * @since 1.0
  */
 public final class FragmentAnnotations {
 
@@ -51,7 +51,7 @@ public final class FragmentAnnotations {
 	 * {@link #iterateFields(FragmentAnnotations.FieldProcessor, Class, Class)}.
 	 *
 	 * @author Martin Albedinsky
-	 * @Nullable
+	 * @since 1.0
 	 */
 	public interface FieldProcessor {
 
@@ -96,7 +96,7 @@ public final class FragmentAnnotations {
 	 * Enables/disables processing of annotations for the Fragments library.
 	 * <p>
 	 * If annotations processing is enabled, it may decrease performance for the parts of an Android
-	 * application depending on the classes from the Fragments library that uses annotations.
+	 * context depending on the classes from the Fragments library that uses annotations.
 	 * <p>
 	 * Default value: {@code false}
 	 *

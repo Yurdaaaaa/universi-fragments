@@ -18,10 +18,12 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.FragmentTransaction;
 import android.os.Parcelable;
-import android.support.annotation.AnimatorRes;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.AnimRes;
+import androidx.annotation.AnimatorRes;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * FragmentTransition provides a foursome of animation resources that are meant for {@link FragmentTransaction}.
@@ -53,7 +55,7 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * incoming fragment.
 	 */
-	@AnimatorRes int getIncomingAnimation();
+	@AnimRes @AnimatorRes int getIncomingAnimation();
 
 	/**
 	 * Returns the animation resource for the current outgoing fragment.
@@ -61,7 +63,7 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * outgoing fragment.
 	 */
-	@AnimatorRes int getOutgoingAnimation();
+	@AnimRes @AnimatorRes int getOutgoingAnimation();
 
 	/**
 	 * Returns the animation resource for an old incoming fragment when it is being popped from
@@ -70,7 +72,7 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * outgoing back-stacked fragment.
 	 */
-	@AnimatorRes int getIncomingBackStackAnimation();
+	@AnimRes @AnimatorRes int getIncomingBackStackAnimation();
 
 	/**
 	 * Returns the animation resource for the current outgoing fragment when it is being popped from
@@ -79,7 +81,7 @@ public interface FragmentTransition extends Parcelable {
 	 * @return Animation resource or {@link #NO_ANIMATION} if no animation should be played for
 	 * outgoing back-stacked fragment.
 	 */
-	@AnimatorRes int getOutgoingBackStackAnimation();
+	@AnimRes @AnimatorRes int getOutgoingBackStackAnimation();
 
 	/**
 	 * Returns the name of this fragment transition.

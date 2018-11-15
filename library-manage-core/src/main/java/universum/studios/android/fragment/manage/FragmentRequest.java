@@ -18,17 +18,7 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v4.util.Pair;
-import android.transition.Transition;
 import android.view.View;
 
 import java.lang.annotation.Retention;
@@ -36,6 +26,16 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.annotation.IdRes;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StyleRes;
+import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * A request that may be used to replace|add|remove|show|hide|attach|detach a desired {@link Fragment}
@@ -54,14 +54,14 @@ import java.util.List;
  * <li>{@link #viewContainerId(int)}</li>
  * <li>{@link #transition(FragmentTransition)}</li>
  * <li>{@link #transitionStyle(int)}</li>
- * <li>{@link #enterTransition(Transition)}</li>
- * <li>{@link #exitTransition(Transition)}</li>
- * <li>{@link #reenterTransition(Transition)}</li>
- * <li>{@link #returnTransition(Transition)}</li>
+ * <li>{@link #enterTransition(Object)}</li>
+ * <li>{@link #exitTransition(Object)}</li>
+ * <li>{@link #reenterTransition(Object)}</li>
+ * <li>{@link #returnTransition(Object)}</li>
  * <li>{@link #allowEnterTransitionOverlap(boolean)}</li>
  * <li>{@link #allowReturnTransitionOverlap(boolean)}</li>
- * <li>{@link #sharedElementEnterTransition(Transition)}</li>
- * <li>{@link #sharedElementReturnTransition(Transition)}</li>
+ * <li>{@link #sharedElementEnterTransition(Object)}</li>
+ * <li>{@link #sharedElementReturnTransition(Object)}</li>
  * <li>{@link #sharedElement(View, String)}</li>
  * <li>{@link #sharedElements(Pair[])}</li>
  * <li>{@link #replaceSame(boolean)}</li>
@@ -342,44 +342,44 @@ public final class FragmentRequest {
 	/**
 	 * Enter transition the associated fragment.
 	 *
-	 * @see Fragment#setEnterTransition(Transition)
+	 * @see Fragment#setEnterTransition(Object)
 	 */
-	Transition enterTransition;
+	Object enterTransition;
 
 	/**
 	 * Exit transition the associated fragment.
 	 *
-	 * @see Fragment#setExitTransition(Transition)
+	 * @see Fragment#setExitTransition(Object)
 	 */
-	Transition exitTransition;
+	Object exitTransition;
 
 	/**
 	 * Reenter transition the associated fragment.
 	 *
-	 * @see Fragment#setReenterTransition(Transition)
+	 * @see Fragment#setReenterTransition(Object)
 	 */
-	Transition reenterTransition;
+	Object reenterTransition;
 
 	/**
 	 * Return transition the associated fragment.
 	 *
-	 * @see Fragment#setReturnTransition(Transition)
+	 * @see Fragment#setReturnTransition(Object)
 	 */
-	Transition returnTransition;
+	Object returnTransition;
 
 	/**
 	 * Shared element's enter transition the associated fragment.
 	 *
-	 * @see Fragment#setSharedElementEnterTransition(Transition)
+	 * @see Fragment#setSharedElementEnterTransition(Object)
 	 */
-	Transition sharedElementEnterTransition;
+	Object sharedElementEnterTransition;
 
 	/**
 	 * Shared element's return transition the associated fragment.
 	 *
-	 * @see Fragment#setSharedElementReturnTransition(Transition)
+	 * @see Fragment#setSharedElementReturnTransition(Object)
 	 */
-	Transition sharedElementReturnTransition;
+	Object sharedElementReturnTransition;
 
 	/**
 	 * Transition flags determining which transitions has been specified for this request.
@@ -729,9 +729,9 @@ public final class FragmentRequest {
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see #enterTransition()
-	 * @see Fragment#setEnterTransition(Transition)
+	 * @see Fragment#setEnterTransition(Object)
 	 */
-	public FragmentRequest enterTransition(@Nullable final Transition transition) {
+	public FragmentRequest enterTransition(@Nullable final Object transition) {
 		this.specifiedTransitions |= TRANSITION_ENTER;
 		this.enterTransition = transition;
 		return this;
@@ -744,9 +744,9 @@ public final class FragmentRequest {
 	 *
 	 * @return Transition or {@code null} if no enter transition has been specified yet.
 	 *
-	 * @see #enterTransition(Transition)
+	 * @see #enterTransition(Object)
 	 */
-	@Nullable public Transition enterTransition() {
+	@Nullable public Object enterTransition() {
 		return enterTransition;
 	}
 
@@ -757,9 +757,9 @@ public final class FragmentRequest {
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see #exitTransition()
-	 * @see Fragment#setExitTransition(Transition)
+	 * @see Fragment#setExitTransition(Object)
 	 */
-	public FragmentRequest exitTransition(@Nullable final Transition transition) {
+	public FragmentRequest exitTransition(@Nullable final Object transition) {
 		this.specifiedTransitions |= TRANSITION_EXIT;
 		this.exitTransition = transition;
 		return this;
@@ -772,9 +772,9 @@ public final class FragmentRequest {
 	 *
 	 * @return Transition or {@code null} if no exit transition has been specified yet.
 	 *
-	 * @see #exitTransition(Transition)
+	 * @see #exitTransition(Object)
 	 */
-	@Nullable public Transition exitTransition() {
+	@Nullable public Object exitTransition() {
 		return exitTransition;
 	}
 
@@ -785,9 +785,9 @@ public final class FragmentRequest {
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see #reenterTransition()
-	 * @see Fragment#setReenterTransition(Transition)
+	 * @see Fragment#setReenterTransition(Object)
 	 */
-	public FragmentRequest reenterTransition(@Nullable final Transition transition) {
+	public FragmentRequest reenterTransition(@Nullable final Object transition) {
 		this.specifiedTransitions |= TRANSITION_REENTER;
 		this.reenterTransition = transition;
 		return this;
@@ -800,9 +800,9 @@ public final class FragmentRequest {
 	 *
 	 * @return Transition or {@code null} if no reenter transition has been specified yet.
 	 *
-	 * @see #reenterTransition(Transition)
+	 * @see #reenterTransition(Object)
 	 */
-	@Nullable public Transition reenterTransition() {
+	@Nullable public Object reenterTransition() {
 		return reenterTransition;
 	}
 
@@ -813,9 +813,9 @@ public final class FragmentRequest {
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see #exitTransition()
-	 * @see Fragment#setReturnTransition(Transition)
+	 * @see Fragment#setReturnTransition(Object)
 	 */
-	public FragmentRequest returnTransition(@Nullable final Transition transition) {
+	public FragmentRequest returnTransition(@Nullable final Object transition) {
 		this.specifiedTransitions |= TRANSITION_RETURN;
 		this.returnTransition = transition;
 		return this;
@@ -828,9 +828,9 @@ public final class FragmentRequest {
 	 *
 	 * @return Transition or {@code null} if no return transition has been specified yet.
 	 *
-	 * @see #returnTransition(Transition)
+	 * @see #returnTransition(Object)
 	 */
-	@Nullable public Transition returnTransition() {
+	@Nullable public Object returnTransition() {
 		return returnTransition;
 	}
 
@@ -962,9 +962,9 @@ public final class FragmentRequest {
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see #sharedElementEnterTransition()
-	 * @see Fragment#setSharedElementEnterTransition(Transition)
+	 * @see Fragment#setSharedElementEnterTransition(Object)
 	 */
-	public FragmentRequest sharedElementEnterTransition(@Nullable final Transition transition) {
+	public FragmentRequest sharedElementEnterTransition(@Nullable final Object transition) {
 		this.specifiedTransitions |= TRANSITION_SHARED_ELEMENT_ENTER;
 		this.sharedElementEnterTransition = transition;
 		return this;
@@ -977,9 +977,9 @@ public final class FragmentRequest {
 	 *
 	 * @return Transition or {@code null} if no shared element enter transition has been specified yet.
 	 *
-	 * @see #sharedElementEnterTransition(Transition)
+	 * @see #sharedElementEnterTransition(Object)
 	 */
-	@Nullable public Transition sharedElementEnterTransition() {
+	@Nullable public Object sharedElementEnterTransition() {
 		return sharedElementEnterTransition;
 	}
 
@@ -990,9 +990,9 @@ public final class FragmentRequest {
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see #sharedElementEnterTransition()
-	 * @see Fragment#setSharedElementReturnTransition(Transition)
+	 * @see Fragment#setSharedElementReturnTransition(Object)
 	 */
-	public FragmentRequest sharedElementReturnTransition(@Nullable final Transition transition) {
+	public FragmentRequest sharedElementReturnTransition(@Nullable final Object transition) {
 		this.specifiedTransitions |= TRANSITION_SHARED_ELEMENT_RETURN;
 		this.sharedElementReturnTransition = transition;
 		return this;
@@ -1005,9 +1005,9 @@ public final class FragmentRequest {
 	 *
 	 * @return Transition or {@code null} if no shared element return transition has been specified yet.
 	 *
-	 * @see #sharedElementReturnTransition(Transition)
+	 * @see #sharedElementReturnTransition(Object)
 	 */
-	@Nullable public Transition sharedElementReturnTransition() {
+	@Nullable public Object sharedElementReturnTransition() {
 		return sharedElementReturnTransition;
 	}
 

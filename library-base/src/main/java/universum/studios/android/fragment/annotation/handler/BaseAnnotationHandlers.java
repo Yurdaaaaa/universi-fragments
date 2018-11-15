@@ -18,11 +18,11 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import universum.studios.android.fragment.BaseFragment;
 import universum.studios.android.fragment.annotation.ContentView;
@@ -46,6 +46,8 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 
 	/**
 	 * Obtains a {@link FragmentAnnotationHandler} implementation for the given <var>classOfFragment</var>.
+	 *
+	 * @return Annotation handler ready to be used.
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */

@@ -18,9 +18,10 @@
  */
 package universum.studios.android.fragment;
 
-import android.support.annotation.CheckResult;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.CheckResult;
+import androidx.annotation.NonNull;
 
 /**
  * The ViewClickWatcher interface specifies one callback that may be used to dispatch a view click

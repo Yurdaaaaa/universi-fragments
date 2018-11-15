@@ -23,17 +23,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
 
 import universum.studios.android.fragment.util.FragmentUtils;
 
 /**
- * ActionBarDelegate is used to wrap an instance of {@link ActionBar} or {@link android.support.v7.app.ActionBar}
+ * ActionBarDelegate is used to wrap an instance of {@link ActionBar} or {@link androidx.appcompat.app.ActionBar}
  * in order to hide some implementation details when using ActionBar within fragments.
  *
  * @author Martin Albedinsky
@@ -63,14 +63,9 @@ public abstract class ActionBarDelegate {
 	 */
 
 	/**
-	 * <b>This field has been deprecated and will be made private in version 1.4.0.</b>
-	 * <p>
-	 * Instance of context used to access application data.
-	 *
-	 * @deprecated Use {@link #getContext()} instead.
+	 * Instance of context used to access context data.
 	 */
-	@Deprecated
-	@NonNull protected final Context mContext;
+	@NonNull final Context context;
 
 	/*
 	 * Constructors ================================================================================
@@ -79,10 +74,10 @@ public abstract class ActionBarDelegate {
 	/**
 	 * Creates a new instance of ActionBarDelegate with the given <var>context</var>.
 	 *
-	 * @param context The context used to access application data.
+	 * @param context The context used to access context data.
 	 */
 	protected ActionBarDelegate(@NonNull final Context context) {
-		this.mContext = context;
+		this.context = context;
 	}
 
 	/*
@@ -104,7 +99,7 @@ public abstract class ActionBarDelegate {
 	 */
 	@Nullable public static ActionBarDelegate create(@NonNull final Activity activity) {
 		if (activity instanceof AppCompatActivity) {
-			final android.support.v7.app.ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
+			final androidx.appcompat.app.ActionBar actionBar = ((AppCompatActivity) activity).getSupportActionBar();
 			return actionBar == null ? null : create(activity, actionBar);
 		}
 		final ActionBar actionBar = activity.getActionBar();
@@ -114,7 +109,7 @@ public abstract class ActionBarDelegate {
 	/**
 	 * Wraps the given <var>actionBar</var> into its corresponding delegate.
 	 *
-	 * @param context   Context used to access application data.
+	 * @param context   Context used to access context data.
 	 * @param actionBar The desired action bar to wrap. May be {@code null} to create mock delegate.
 	 * @return New instance of ActionBarDelegate with the given action bar.
 	 */
@@ -125,11 +120,11 @@ public abstract class ActionBarDelegate {
 	/**
 	 * Wraps the given support <var>actionBar</var> into its corresponding delegate.
 	 *
-	 * @param context   Context used to access application data.
+	 * @param context   Context used to access context data.
 	 * @param actionBar The desired action bar to wrap. May be {@code null} to create mock delegate.
 	 * @return New instance of ActionBarDelegate with the given action bar.
 	 */
-	@NonNull public static ActionBarDelegate create(@NonNull final Context context, @Nullable final android.support.v7.app.ActionBar actionBar) {
+	@NonNull public static ActionBarDelegate create(@NonNull final Context context, @Nullable final androidx.appcompat.app.ActionBar actionBar) {
 		return new SupportImpl(context, actionBar);
 	}
 
@@ -141,7 +136,7 @@ public abstract class ActionBarDelegate {
 	 * @see #ActionBarDelegate(Context)
 	 */
 	@NonNull protected Context getContext() {
-		return mContext;
+		return context;
 	}
 
 	/**
@@ -201,7 +196,7 @@ public abstract class ActionBarDelegate {
 		/**
 		 * Creates a new instance of Impl to wrap the given <var>actionBar</var>.
 		 *
-		 * @param context   Context used to access application data.
+		 * @param context   Context used to access context data.
 		 * @param actionBar The native action bar to be wrapped.
 		 */
 		Impl(final Context context, final ActionBar actionBar) {
@@ -218,31 +213,29 @@ public abstract class ActionBarDelegate {
 		/**
 		 */
 		@Override public void setHomeAsUpIndicator(@DrawableRes final int resId) {
-			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-				actionBar.setHomeAsUpIndicator(resId);
+			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) actionBar.setHomeAsUpIndicator(resId);
 		}
 
 		/**
 		 */
 		@Override public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
 			setHomeAsUpIndicator(FragmentUtils.getVectorDrawable(
-					mContext.getResources(),
+					context.getResources(),
 					resId,
-					mContext.getTheme()
+					context.getTheme()
 			));
 		}
 
 		/**
 		 */
 		@Override public void setHomeAsUpIndicator(@Nullable final Drawable indicator) {
-			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-				actionBar.setHomeAsUpIndicator(indicator);
+			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) actionBar.setHomeAsUpIndicator(indicator);
 		}
 
 		/**
 		 */
 		@Override public void setTitle(@StringRes final int resId) {
-			setTitle(mContext.getText(resId));
+			setTitle(context.getText(resId));
 		}
 
 		/**
@@ -254,33 +247,33 @@ public abstract class ActionBarDelegate {
 		/**
 		 */
 		@Override public void setIcon(@DrawableRes final int resId) {
-			if (actionBar != null) actionBar.setIcon(resId);
+			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) actionBar.setIcon(resId);
 		}
 
 		/**
 		 */
 		@Override public void setIcon(@Nullable final Drawable icon) {
-			if (actionBar != null) actionBar.setIcon(icon);
+			if (actionBar != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) actionBar.setIcon(icon);
 		}
 	}
 
 	/**
-	 * An {@link ActionBarDelegate} implementation used to wrap {@link android.support.v7.app.ActionBar}.
+	 * An {@link ActionBarDelegate} implementation used to wrap {@link androidx.appcompat.app.ActionBar}.
 	 */
 	@VisibleForTesting static final class SupportImpl extends ActionBarDelegate {
 
 		/**
 		 * Wrapped support action bar instance.
 		 */
-		private final android.support.v7.app.ActionBar actionBar;
+		private final androidx.appcompat.app.ActionBar actionBar;
 
 		/**
 		 * Creates a new instance of SupportImpl to wrap the given <var>actionBar</var>.
 		 *
-		 * @param context   Context used to access application data.
+		 * @param context   Context used to access context data.
 		 * @param actionBar The support action bar to be wrapped.
 		 */
-		SupportImpl(final Context context, final android.support.v7.app.ActionBar actionBar) {
+		SupportImpl(final Context context, final androidx.appcompat.app.ActionBar actionBar) {
 			super(context);
 			this.actionBar = actionBar;
 		}
@@ -301,9 +294,9 @@ public abstract class ActionBarDelegate {
 		 */
 		@Override public void setHomeAsUpVectorIndicator(@DrawableRes final int resId) {
 			setHomeAsUpIndicator(FragmentUtils.getVectorDrawable(
-					mContext.getResources(),
+					context.getResources(),
 					resId,
-					mContext.getTheme()
+					context.getTheme()
 			));
 		}
 
@@ -328,7 +321,7 @@ public abstract class ActionBarDelegate {
 		/**
 		 */
 		@Override public void setTitle(@StringRes final int resId) {
-			setTitle(mContext.getText(resId));
+			setTitle(context.getText(resId));
 		}
 
 		/**

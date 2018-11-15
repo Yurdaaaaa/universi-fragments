@@ -4,8 +4,9 @@ Android Fragments
 [![CircleCI](https://circleci.com/gh/universum-studios/android_fragments.svg?style=shield)](https://circleci.com/gh/universum-studios/android_fragments)
 [![Codecov](https://codecov.io/gh/universum-studios/android_fragments/branch/master/graph/badge.svg)](https://codecov.io/gh/universum-studios/android_fragments)
 [![Codacy](https://api.codacy.com/project/badge/Grade/08a4a09365f543cca7b7201f5beb56a3)](https://www.codacy.com/app/universum-studios/android_fragments?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_fragments&amp;utm_campaign=Badge_Grade)
+[![Android](https://img.shields.io/badge/android-9.0-blue.svg)](https://developer.android.com/about/versions/pie/android-9.0)
+[![Android Jetpack](https://img.shields.io/badge/Android-Jetpack-brightgreen.svg)](https://developer.android.com/jetpack)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragments-green.svg?style=flat)](https://android-arsenal.com/details/1/5408)
-[![Android](https://img.shields.io/badge/android-8.1-blue.svg)](https://developer.android.com/about/versions/oreo/android-8.1.html)
 
 Simplified management of fragments for the Android platform.
 
@@ -31,10 +32,9 @@ Supported down to the **Android [API Level 14](http://developer.android.com/abou
 
 ### Dependencies ###
 
-- [`com.android.support:support-annotations`](https://developer.android.com/topic/libraries/support-library/packages.html#annotations)
-- [`com.android.support:support-v4`](https://developer.android.com/topic/libraries/support-library/packages.html#v4)
-- [`com.android.support:appcompat-v7`](https://developer.android.com/topic/libraries/support-library/packages.html#v7)
-- [`com.android.support:support-vector-drawable`](https://developer.android.com/topic/libraries/support-library/packages.html#vector-drawable)
+- [`androidx.annotation:annotation`](https://developer.android.com/jetpack/androidx)
+- [`androidx.appcompat:appcompat`](https://developer.android.com/jetpack/androidx)
+- [`androidx.vectordrawable:vectordrawable`](https://developer.android.com/jetpack/androidx)
 - [`universum.studios.android:logger`](https://github.com/universum-studios/android_logger)
 
 ## [License](https://github.com/universum-studios/android_fragments/blob/master/LICENSE.md) ##

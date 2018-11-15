@@ -1,13 +1,19 @@
 Change-Log
 ===============
-> Regular configuration update: _01.06.2018_
+> Regular configuration update: _01.11.2018_
 
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
 
 ## Version 1.x ##
 
-### [1.3.4](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.4) ###
+### 1.4.0 ###
 > upcoming
+
+- Regular **dependencies update** (mainly to use new artifacts from **Android Jetpack**).
+- Small updates and improvements.
+
+### [1.3.4](https://github.com/universum-studios/android_fragments/releases/tag/v1.3.4) ###
+> 05.11.2018
 
 - Small updates and improvements.
 

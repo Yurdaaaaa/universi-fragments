@@ -18,10 +18,10 @@
  */
 package universum.studios.android.test.local;
 
-import android.support.annotation.CallSuper;
-
 import org.junit.After;
 import org.junit.Before;
+
+import androidx.annotation.CallSuper;
 
 /**
  * Class that may be used to group <b>suite of tests</b> to be executed on a local <i>JVM</i>.
@@ -33,16 +33,14 @@ public abstract class LocalTestCase {
 	/**
 	 * Called before execution of each test method starts.
 	 */
-	@Before @CallSuper
-	public void beforeTest() throws Exception {
+	@Before @CallSuper public void beforeTest() throws Exception {
 		// Inheritance hierarchies may for example acquire here resources needed for each test.
 	}
 
 	/**
 	 * Called after execution of each test method finishes.
 	 */
-	@After @CallSuper
-	public void afterTest() throws Exception {
+	@After @CallSuper public void afterTest() throws Exception {
 		// Inheritance hierarchies may for example release here resources acquired in beforeTest() call.
 	}
 }

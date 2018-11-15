@@ -18,8 +18,8 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Fragment;
-import android.support.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.annotation.Nullable;
 
 /**
  * FragmentFactory specifies an interface for factories that may be attached to {@link FragmentController}

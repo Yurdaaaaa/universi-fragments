@@ -18,11 +18,11 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import universum.studios.android.fragment.WebFragment;
 import universum.studios.android.fragment.annotation.WebContent;
 
@@ -45,6 +45,8 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 
 	/**
 	 * Obtains a {@link WebFragmentAnnotationHandler} implementation for the given <var>classOfFragment</var>.
+	 *
+	 * @return Annotation handler ready to be used.
 	 *
 	 * @see AnnotationHandlers#obtainHandler(Class, Class)
 	 */

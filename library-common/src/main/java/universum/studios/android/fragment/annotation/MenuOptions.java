@@ -18,15 +18,15 @@
  */
 package universum.studios.android.fragment.annotation;
 
-import android.support.annotation.IntDef;
-import android.support.annotation.MenuRes;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.MenuRes;
 
 /**
  * Defines an annotation for determining how a {@link android.view.Menu Menu} should be set.

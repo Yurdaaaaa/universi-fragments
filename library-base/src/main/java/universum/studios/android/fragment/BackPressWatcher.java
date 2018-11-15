@@ -18,7 +18,7 @@
  */
 package universum.studios.android.fragment;
 
-import android.support.annotation.CheckResult;
+import androidx.annotation.CheckResult;
 
 /**
  * The BackPressWatcher interface specifies one callback that may be used to dispatch a back button

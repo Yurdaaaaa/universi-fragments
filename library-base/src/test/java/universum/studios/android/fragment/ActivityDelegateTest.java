@@ -20,20 +20,20 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.view.ActionMode;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import universum.studios.android.test.local.RobolectricTestCase;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.nullValue;
 
 /**
  * @author Martin Albedinsky
@@ -85,7 +85,7 @@ public final class ActivityDelegateTest extends RobolectricTestCase {
 			return null;
 		}
 
-		@Override @Nullable public android.support.v7.app.ActionBar getSupportActionBar() {
+		@Override @Nullable public androidx.appcompat.app.ActionBar getSupportActionBar() {
 			return null;
 		}
 

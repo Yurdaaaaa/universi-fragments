@@ -18,7 +18,7 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 import org.junit.Test;
 
@@ -27,7 +27,7 @@ import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  * @author Martin Albedinsky

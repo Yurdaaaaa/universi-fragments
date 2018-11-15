@@ -19,12 +19,12 @@
 package universum.studios.android.fragment.annotation.handler;
 
 import android.graphics.drawable.ColorDrawable;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import org.junit.Test;
 
+import androidx.appcompat.view.ActionMode;
 import universum.studios.android.fragment.ActionBarDelegate;
 import universum.studios.android.fragment.ActionBarFragment;
 import universum.studios.android.fragment.annotation.ActionBarOptions;
@@ -33,8 +33,8 @@ import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.MenuOptions;
 import universum.studios.android.test.local.RobolectricTestCase;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
