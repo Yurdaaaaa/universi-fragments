@@ -20,12 +20,12 @@ package universum.studios.android.fragment.annotation.handler;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.MenuRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.view.ActionMode;
 import android.view.Menu;
 
+import androidx.annotation.MenuRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.view.ActionMode;
 import universum.studios.android.fragment.ActionBarDelegate;
 import universum.studios.android.fragment.ActionBarFragment;
 import universum.studios.android.fragment.annotation.ActionBarOptions;

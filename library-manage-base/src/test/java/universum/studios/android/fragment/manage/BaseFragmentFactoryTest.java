@@ -18,8 +18,8 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Fragment;
-import android.support.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
 
 import org.junit.Test;
 
@@ -30,10 +30,10 @@ import universum.studios.android.fragment.annotation.handler.FragmentFactoryAnno
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 /**
  * @author Martin Albedinsky

@@ -18,11 +18,8 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Fragment;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.View;
@@ -32,12 +29,15 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
+import androidx.fragment.app.Fragment;
 import universum.studios.android.test.local.RobolectricTestCase;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -196,7 +196,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	@Test public void testEnterTransitionOnJellyBeanApiLevel() {
 		// Arrange:
-		final Transition transition = createTestTransition();
+		final Object transition = createTestTransition();
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
 		// Act + Assert:
 		assertThat(request.enterTransition(transition), is(request));
@@ -207,7 +207,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	@Test public void testExitTransition() {
 		// Arrange:
-		final Transition transition = createTestTransition();
+		final Object transition = createTestTransition();
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
 		// Act + Assert:
 		assertThat(request.exitTransition(transition), is(request));
@@ -218,7 +218,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	@Test public void testReenterTransition() {
 		// Arrange:
-		final Transition transition = createTestTransition();
+		final Object transition = createTestTransition();
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
 		// Act + Assert:
 		assertThat(request.reenterTransition(transition), is(request));
@@ -229,7 +229,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Config(sdk = {Build.VERSION_CODES.JELLY_BEAN, Build.VERSION_CODES.LOLLIPOP})
 	@Test public void testReturnTransition() {
 		// Arrange:
-		final Transition transition = createTestTransition();
+		final Object transition = createTestTransition();
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
 		// Act + Assert:
 		assertThat(request.returnTransition(transition), is(request));
@@ -261,9 +261,9 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSharedElements() {
 		// Arrange:
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(application);
-		final View secondElement = new View(application);
-		final View thirdElement = new View(application);
+		final View firstElement = new View(context);
+		final View secondElement = new View(context);
+		final View thirdElement = new View(context);
 		// Act:
 		request.sharedElements(
 				new Pair<>(firstElement, "first_element"),
@@ -286,9 +286,9 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSharedElement() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(application);
-		final View secondElement = new View(application);
-		final View thirdElement = new View(application);
+		final View firstElement = new View(context);
+		final View secondElement = new View(context);
+		final View thirdElement = new View(context);
 		// Act:
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElement(secondElement, "second_element");
@@ -309,13 +309,13 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSingleSharedElement() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(application);
+		final View firstElement = new View(context);
 		// Act + Assert:
 		request.sharedElement(firstElement, "first_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
 		assertThat(request.singleSharedElement().second, is("first_element"));
-		final View secondElement = new View(application);
+		final View secondElement = new View(context);
 		request.sharedElement(secondElement, "second_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
@@ -326,7 +326,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSingleSharedElementOnEmptySharedElements() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(application);
+		final View firstElement = new View(context);
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElements().clear();
 		// Act + Assert:
@@ -337,7 +337,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSharedElementEnterTransition() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = createTestTransition();
+		final Object transition = createTestTransition();
 		// Act + Assert:
 		assertThat(request.sharedElementEnterTransition(transition), is(request));
 		assertThat(request.sharedElementEnterTransition(), is(transition));
@@ -348,7 +348,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSharedElementReturnTransition() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final Transition transition = createTestTransition();
+		final Object transition = createTestTransition();
 		// Act + Assert:
 		assertThat(request.sharedElementReturnTransition(transition), is(request));
 		assertThat(request.sharedElementReturnTransition(), is(transition));

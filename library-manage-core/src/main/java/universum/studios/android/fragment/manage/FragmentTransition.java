@@ -18,10 +18,10 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentTransaction;
 import android.os.Parcelable;
-import android.support.annotation.AnimatorRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.AnimatorRes;
+import androidx.annotation.NonNull;
 
 /**
  * FragmentTransition provides a foursome of animation resources that are meant for {@link FragmentTransaction}.

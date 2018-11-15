@@ -18,15 +18,15 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.app.Fragment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 
 import java.lang.reflect.Field;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import universum.studios.android.fragment.annotation.FactoryFragment;
 import universum.studios.android.fragment.annotation.FactoryFragments;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;

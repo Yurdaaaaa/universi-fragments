@@ -18,14 +18,14 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.FragmentManager;
+import androidx.fragment.app.FragmentManager;
 
 import org.junit.Test;
 
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

@@ -18,25 +18,24 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.annotation.VisibleForTesting;
-import android.support.v4.util.Pair;
-import android.support.v4.view.ViewCompat;
-import android.transition.Transition;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.annotation.VisibleForTesting;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import universum.studios.android.fragment.FragmentPolicies;
 import universum.studios.android.fragment.FragmentsLogging;
 import universum.studios.android.fragment.util.FragmentUtils;
@@ -244,8 +243,8 @@ public class FragmentController {
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(Fragment)
 	 */
-	public FragmentController(@NonNull final Activity parentActivity) {
-		this(parentActivity, parentActivity.getFragmentManager());
+	public FragmentController(@NonNull final FragmentActivity parentActivity) {
+		this(parentActivity, parentActivity.getSupportFragmentManager());
 		if (parentActivity instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentActivity);
 		}
@@ -277,10 +276,10 @@ public class FragmentController {
 	 * @param parentFragment The fragment that wants to use the new fragment controller.
 	 *
 	 * @see #FragmentController(Context, FragmentManager)
-	 * @see #FragmentController(Activity)
+	 * @see #FragmentController(FragmentActivity)
 	 */
 	public FragmentController(@NonNull final Fragment parentFragment) {
-		this(parentFragment.getActivity(), parentFragment.getFragmentManager());
+		this(parentFragment.getActivity(), parentFragment.requireFragmentManager());
 		if (parentFragment instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentFragment);
 		}
@@ -297,7 +296,7 @@ public class FragmentController {
 	 *
 	 * @param fragmentManager Fragment manager that will be used to perform fragments related operations.
 	 *
-	 * @see #FragmentController(Activity)
+	 * @see #FragmentController(FragmentActivity)
 	 * @see #FragmentController(Fragment)
 	 * @see #FragmentController(Context, FragmentManager)
 	 */
@@ -312,7 +311,7 @@ public class FragmentController {
 	 *                        will be played or not. {@link FragmentUtils#willBeCustomAnimationsPlayed(Context)}.
 	 * @param fragmentManager Fragment manager that will be used to perform fragments related operations.
 	 *
-	 * @see #FragmentController(Activity)
+	 * @see #FragmentController(FragmentActivity)
 	 * @see #FragmentController(Fragment)
 	 */
 	public FragmentController(@Nullable final Context context, @NonNull final FragmentManager fragmentManager) {
@@ -701,12 +700,12 @@ public class FragmentController {
 	 * Also transitions related configuration will be performed for the fragment that is attached to
 	 * the request via methods listed below:
 	 * <ul>
-	 * <li>{@link Fragment#setEnterTransition(Transition)}
-	 * <li>{@link Fragment#setExitTransition(Transition)}</li>
-	 * <li>{@link Fragment#setReenterTransition(Transition)}</li>
-	 * <li>{@link Fragment#setReturnTransition(Transition)}</li>
-	 * <li>{@link Fragment#setSharedElementEnterTransition(Transition)}</li>
-	 * <li>{@link Fragment#setSharedElementReturnTransition(Transition)}</li>
+	 * <li>{@link Fragment#setEnterTransition(Object)}
+	 * <li>{@link Fragment#setExitTransition(Object)}</li>
+	 * <li>{@link Fragment#setReenterTransition(Object)}</li>
+	 * <li>{@link Fragment#setReturnTransition(Object)}</li>
+	 * <li>{@link Fragment#setSharedElementEnterTransition(Object)}</li>
+	 * <li>{@link Fragment#setSharedElementReturnTransition(Object)}</li>
 	 * <li>{@link Fragment#setAllowEnterTransitionOverlap(boolean)}</li>
 	 * <li>{@link Fragment#setAllowReturnTransitionOverlap(boolean)}</li>
 	 * </ul>

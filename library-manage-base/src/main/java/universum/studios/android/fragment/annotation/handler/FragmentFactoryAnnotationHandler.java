@@ -18,9 +18,9 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.annotation.Nullable;
 import android.util.SparseArray;
 
+import androidx.annotation.Nullable;
 import universum.studios.android.fragment.annotation.FactoryFragment;
 import universum.studios.android.fragment.annotation.FactoryFragments;
 import universum.studios.android.fragment.manage.BaseFragmentFactory;

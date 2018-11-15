@@ -18,11 +18,11 @@
  */
 package universum.studios.android.samples.fragment.ui;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.MenuItem;
 
 import universum.studios.android.fragment.BackPressWatcher;
@@ -39,30 +39,25 @@ import universum.studios.android.samples.ui.SamplesNavigationActivity;
  */
 public final class MainActivity extends SamplesNavigationActivity {
 
-	@SuppressWarnings("unused")
-	private static final String TAG = "MainActivity";
-
 	static {
 		FragmentAnnotations.setEnabled(true);
 	}
 
 	private FragmentController fragmentController;
 
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
+	@Override protected void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.fragmentController = new FragmentController(this);
 		this.fragmentController.setViewContainerId(R.id.samples_container);
 	}
 
-	@Override
-	protected boolean onHandleNavigationItemSelected(@NonNull MenuItem item) {
+	@Override protected boolean onHandleNavigationItemSelected(@NonNull final MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.navigation_item_home:
-				fragmentController.newRequest(new SamplesMainFragment()).replaceSame(true).execute();
+				this.fragmentController.newRequest(new SamplesMainFragment()).replaceSame(true).execute();
 				return true;
 			case R.id.navigation_item_web:
-				fragmentController.newRequest(new SampleWebFragment()).replaceSame(true).execute();
+				this.fragmentController.newRequest(new SampleWebFragment()).replaceSame(true).execute();
 				return true;
 			case R.id.navigation_item_welcome:
 				startActivity(new Intent(this, WelcomeActivity.class));
@@ -71,8 +66,7 @@ public final class MainActivity extends SamplesNavigationActivity {
 		return super.onHandleNavigationItemSelected(item);
 	}
 
-	@Override
-	protected boolean onBackPress() {
+	@Override protected boolean onBackPress() {
 		final Fragment fragment = fragmentController.findCurrentFragment();
 		return fragment instanceof BackPressWatcher && ((BackPressWatcher) fragment).dispatchBackPress();
 	}

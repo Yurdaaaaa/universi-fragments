@@ -29,11 +29,12 @@ def buildConfig = [
         compileSdkVersion: 28,
         minSdkVersion    : 14,
         targetSdkVersion : 28,
-        buildToolsVersion: '29.0.3'
+        buildToolsVersion: '28.0.3'
 ]
 
 def testConfig = [
-        instrumentationRunner: [androidJUnit: 'android.support.test.runner.AndroidJUnitRunner']
+        instrumentationRunner: [androidJUnit: 'android.support.test.runner.AndroidJUnitRunner'],
+        coverageToolVersion  : '0.8.2'
 ]
 
 def githubConfig = [

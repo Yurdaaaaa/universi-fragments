@@ -18,10 +18,9 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.annotation.NonNull;
-
 import java.lang.annotation.Annotation;
 
+import androidx.annotation.NonNull;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 
 /**

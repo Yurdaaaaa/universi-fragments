@@ -1,5 +1,9 @@
 // Defines dependencies used across the library project.
 def versions = [
+        library    : "${config.library.version.production}",
+        androidx   : [
+                test: [espresso: '3.1.0']
+        ],
         android    : [
                 support            : '27.1.1',
                 supportTest        : '1.0.2',
@@ -7,10 +11,65 @@ def versions = [
         ],
         test       : [
                 junit      : '4.12',
-                mockito    : '2.18.0',
-                robolectric: '3.8'
+                mockito    : '2.22.0',
+                robolectric: '4.0.1'
         ],
         butterknife: '8.8.1'
+]
+
+def libraryArtifactBaseId = "${config.pom.groupId}:${config.pom.artifactId}"
+def library = [
+        core            : "${libraryArtifactBaseId}-core:${versions.library}@aar",
+        base            : "${libraryArtifactBaseId}-base:${versions.library}@aar",
+        common          : "${libraryArtifactBaseId}-common:${versions.library}@aar",
+        web             : "${libraryArtifactBaseId}-web:${versions.library}@aar",
+        manage          : "${libraryArtifactBaseId}-manage:${versions.library}@aar",
+        manageCore      : "${libraryArtifactBaseId}-manage-core:${versions.library}@aar",
+        manageBase      : "${libraryArtifactBaseId}-manage-base:${versions.library}@aar",
+        transition      : "${libraryArtifactBaseId}-transition:${versions.library}@aar",
+        transitionCore  : "${libraryArtifactBaseId}-transition-core:${versions.library}@aar",
+        transitionCommon: "${libraryArtifactBaseId}-transition-common:${versions.library}@aar",
+        transitionExtra : "${libraryArtifactBaseId}-transition-extra:${versions.library}@aar"
+]
+
+def androidx = [
+        annotation    : [annotation: "androidx.annotation:annotation:1.0.0"],
+        core          : [core: "androidx.core:core:1.0.0"],
+        appcompat     : [appcompat: "androidx.appcompat:appcompat:1.0.0"],
+        drawerlayout  : [drawerlayout: "androidx.drawerlayout:drawerlayout:1.0.0"],
+        legacy        : [
+                coreUi   : "androidx.legacy:legacy-support-core-ui:1.0.0",
+                coreUtils: "androidx.legacy:legacy-support-core-utils:1.0.0",
+                supportV4: "androidx.legacy:legacy-support-v4:1.0.0"
+        ],
+        recyclerview  : [recyclerview: "androidx.recyclerview:recyclerview:1.0.0"],
+        test          : [
+                core    : "androidx.test:core:1.0.0",
+                espresso: [
+                        contrib: "androidx.test.espresso:espresso-contrib:${versions.androidx.test.espresso}",
+                        core   : "androidx.test.espresso:espresso-core:${versions.androidx.test.espresso}",
+                        intents: "androidx.test.espresso:espresso-intents:${versions.androidx.test.espresso}"
+                ],
+                ext     : [junit: "androidx.test.ext:junit:1.0.0"],
+                rules   : "androidx.test:rules:1.1.0",
+                runner  : "androidx.test:runner:1.1.0"
+        ],
+        vectordrawable: [vectordrawable: "androidx.vectordrawable:vectordrawable:1.0.0"]
+]
+
+def google = [android: [material: [material: "com.google.android.material:material:1.0.0"]]]
+
+def test = [
+        junit      : "junit:junit:${versions.test.junit}",
+        mockito    : [
+                core   : "org.mockito:mockito-core:${versions.test.mockito}",
+                android: "org.mockito:mockito-android:${versions.test.mockito}"
+        ],
+        robolectric: [
+                robolectric     : "org.robolectric:robolectric:${versions.test.robolectric}",
+                shadowsMultidex : "org.robolectric:shadows-multidex:${versions.test.robolectric}",
+                shadowsSupportV4: "org.robolectric:shadows-supportv4:${versions.test.robolectric}"
+        ]
 ]
 
 def modulesPrimaryId = "${config.pom.groupId}:${config.pom.artifactId}"
@@ -34,7 +93,7 @@ def android = [
         support: [
                 annotations   : "com.android.support:support-annotations:${versions.android.support}",
                 v4            : "com.android.support:support-v4:${versions.android.support}",
-                appCompatV7   : "com.android.support:appcompat-v7:${versions.android.support}",
+                appCompatV7   : "com.androidx.appcompat.app-v7:${versions.android.support}",
                 vectorDrawable: "com.android.support:support-vector-drawable:${versions.android.support}",
                 recyclerView  : "com.android.support:recyclerview-v7:${versions.android.support}",
                 design        : "com.android.support:design:${versions.android.support}"
@@ -48,30 +107,27 @@ def android = [
         ]
 ]
 
-def test = [
-        junit                      : "junit:junit:${versions.test.junit}",
-        mockitoCore                : "org.mockito:mockito-core:${versions.test.mockito}",
-        mockitoAndroid             : "org.mockito:mockito-android:${versions.test.mockito}",
-        robolectric                : "org.robolectric:robolectric:${versions.test.robolectric}",
-        robolectricMultidex        : "org.robolectric:shadows-multidex:${versions.test.robolectric}",
-        robolectricShadowsSupportV4: "org.robolectric:shadows-supportv4:${versions.test.robolectric}"
-]
-
 def universum = [studios: [
         logger           : 'universum.studios.android:logger:1.0.2@aar',
-        samples          : 'universum.studios.android:samples:0.1.4@aar',
+        widgetAdapters   : 'universum.studios.android:widget-adapters:2.0.4@aar',
+        samples          : 'universum.studios.android:samples:0.2.0@aar',
         ui               : 'universum.studios.android:ui:0.9.6@aar',
         graphicsColorUtil: 'universum.studios.android:graphics-color-util:1.0.2@aar',
         fontCore         : 'universum.studios.android:font-core:1.1.2@aar'
 ]]
 
 def other = [
-        butterknife         : "com.jakewharton:butterknife:${versions.butterknife}",
-        butterknifeProcessor: "com.jakewharton:butterknife-compiler:${versions.butterknife}"
+        butterknife: [
+                butterknife: "com.jakewharton:butterknife:${versions.butterknife}",
+                processor  : "com.jakewharton:butterknife-compiler:${versions.butterknife}"
+        ]
 ]
 
 ext.versions = versions
 ext.deps = [
+        "library"  : library,
+        "androidx" : androidx,
+        "google"   : google,
         "modules"  : modules,
         "android"  : android,
         "test"     : test,

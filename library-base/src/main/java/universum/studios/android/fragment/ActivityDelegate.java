@@ -20,11 +20,12 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
-import android.view.ActionMode;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 
 /**
  * ActivityDelegate is used to wrap an instance of {@link Activity} in order to hide some implementation
@@ -57,14 +58,9 @@ public abstract class ActivityDelegate {
 	 */
 
 	/**
-	 * <b>This field has been deprecated and will be made private in version 1.4.0.</b>
-	 * <p>
 	 * Wrapped activity instance to which will be this delegate delegating its calls.
-	 *
-	 * @deprecated Use {@link #getActivity()} instead.
 	 */
-	@Deprecated
-	@NonNull protected final Activity mActivity;
+	@NonNull final Activity activity;
 
 	/*
 	 * Constructors ================================================================================
@@ -76,7 +72,7 @@ public abstract class ActivityDelegate {
 	 * @param activity The activity for which is the new delegate being created.
 	 */
 	protected ActivityDelegate(@NonNull final Activity activity) {
-		this.mActivity = activity;
+		this.activity = activity;
 	}
 
 	/*
@@ -105,7 +101,7 @@ public abstract class ActivityDelegate {
 	 * @see #ActivityDelegate(Activity)
 	 */
 	@NonNull protected final Activity getActivity() {
-		return mActivity;
+		return activity;
 	}
 
 	/**
@@ -126,10 +122,10 @@ public abstract class ActivityDelegate {
 	/**
 	 * Delegates to {@link AppCompatActivity#getSupportActionBar()}.
 	 */
-	@Nullable public abstract android.support.v7.app.ActionBar getSupportActionBar();
+	@Nullable public abstract androidx.appcompat.app.ActionBar getSupportActionBar();
 
 	/**
-	 * Delegates to {@link Activity#startActionMode(ActionMode.Callback)}.
+	 * Delegates to {@link AppCompatActivity#startSupportActionMode(ActionMode.Callback)}.
 	 */
 	@Nullable public abstract ActionMode startActionMode(@NonNull ActionMode.Callback callback);
 
@@ -154,31 +150,31 @@ public abstract class ActivityDelegate {
 		/**
 		 */
 		@Override public boolean requestWindowFeature(final int featureId) {
-			return mActivity.requestWindowFeature(featureId);
+			return activity.requestWindowFeature(featureId);
 		}
 
 		/**
 		 */
 		@Override public void invalidateOptionsMenu() {
-			this.mActivity.invalidateOptionsMenu();
+			this.activity.invalidateOptionsMenu();
 		}
 
 		/**
 		 */
 		@Override @Nullable public ActionBar getActionBar() {
-			return this.mActivity.getActionBar();
+			return this.activity.getActionBar();
 		}
 
 		/**
 		 */
-		@Override @Nullable public android.support.v7.app.ActionBar getSupportActionBar() {
+		@Override @Nullable public androidx.appcompat.app.ActionBar getSupportActionBar() {
 			return null;
 		}
 
 		/**
 		 */
 		@Override @Nullable public ActionMode startActionMode(@NonNull final ActionMode.Callback callback) {
-			return mActivity.startActionMode(callback);
+			return null;
 		}
 	}
 
@@ -199,19 +195,25 @@ public abstract class ActivityDelegate {
 		/**
 		 */
 		@Override public boolean requestWindowFeature(final int featureId) {
-			return ((AppCompatActivity) mActivity).supportRequestWindowFeature(featureId);
+			return ((AppCompatActivity) activity).supportRequestWindowFeature(featureId);
 		}
 
 		/**
 		 */
 		@Override public void invalidateOptionsMenu() {
-			((AppCompatActivity) mActivity).supportInvalidateOptionsMenu();
+			((AppCompatActivity) activity).supportInvalidateOptionsMenu();
 		}
 
 		/**
 		 */
-		@Override public android.support.v7.app.ActionBar getSupportActionBar() {
-			return ((AppCompatActivity) mActivity).getSupportActionBar();
+		@Override public androidx.appcompat.app.ActionBar getSupportActionBar() {
+			return ((AppCompatActivity) activity).getSupportActionBar();
+		}
+
+		/**
+		 */
+		@Override @Nullable public ActionMode startActionMode(@NonNull final ActionMode.Callback callback) {
+			return ((AppCompatActivity) activity).startSupportActionMode(callback);
 		}
 	}
 }

@@ -34,7 +34,7 @@ Supported down to the **Android [API Level 14](http://developer.android.com/abou
 
 - [`androidx.annotation:annotation`](https://developer.android.com/jetpack/androidx)
 - [`com.android.support:support-v4`](https://developer.android.com/topic/libraries/support-library/packages.html#v4)
-- [`com.android.support:appcompat-v7`](https://developer.android.com/topic/libraries/support-library/packages.html#v7)
+- [`com.androidx.appcompat.app-v7`](https://developer.android.com/topic/libraries/support-library/packages.html#v7)
 - [`com.android.support:support-vector-drawable`](https://developer.android.com/topic/libraries/support-library/packages.html#vector-drawable)
 - [`universum.studios.android:logger`](https://github.com/universum-studios/android_logger)
 

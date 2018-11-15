@@ -33,8 +33,8 @@ import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -66,23 +66,23 @@ public final class FragmentUtilsTest extends RobolectricTestCase {
 
 	@Test public void testWillBeCustomAnimationsPlayed() {
 		// Act + Assert:
-		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(application), is(true));
+		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(context), is(true));
 	}
 
 	@Test public void testAreAnimationsEnabled() {
 		// Act + Assert:
-		assertThat(FragmentUtils.areAnimationsEnabled(application), is(true));
+		assertThat(FragmentUtils.areAnimationsEnabled(context), is(true));
 	}
 
 	@Test public void testIsPowerSaveModeActive() {
 		// Act + Assert:
-		assertThat(FragmentUtils.isPowerSaveModeActive(application), is(false));
+		assertThat(FragmentUtils.isPowerSaveModeActive(context), is(false));
 	}
 
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
 	@Test public void testInflateTransitionOnLollipopApiLevel() {
 		// Act:
-		final Transition transition = FragmentUtils.inflateTransition(application, android.R.transition.fade);
+		final Transition transition = FragmentUtils.inflateTransition(context, android.R.transition.fade);
 		// Assert:
 		assertThat(transition, is(notNullValue()));
 		assertThat(transition, instanceOf(Fade.class));
@@ -91,7 +91,7 @@ public final class FragmentUtilsTest extends RobolectricTestCase {
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN)
 	@Test public void testInflateTransitionOnJellyBeanApiLevel() {
 		// Act + Assert:
-		assertThat(FragmentUtils.inflateTransition(application, android.R.anim.fade_in), is(nullValue()));
+		assertThat(FragmentUtils.inflateTransition(context, android.R.anim.fade_in), is(nullValue()));
 	}
 
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)

@@ -19,8 +19,8 @@
 package universum.studios.android.fragment.transition;
 
 import android.os.Parcel;
-import android.support.annotation.AnimatorRes;
-import android.support.annotation.NonNull;
+import androidx.annotation.AnimatorRes;
+import androidx.annotation.NonNull;
 
 import universum.studios.android.fragment.manage.FragmentTransition;
 

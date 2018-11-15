@@ -20,9 +20,10 @@ package universum.studios.android.test.local;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.Window;
 import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
 
 /**
  * Simple activity that may be used in <b>Robolectric tests</b>.

@@ -20,16 +20,17 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import universum.studios.android.test.local.RobolectricTestCase;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -39,7 +40,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class ActivityDelegateCompatTest extends RobolectricTestCase {
+public final class ActivityDelegateCompatImplTest extends RobolectricTestCase {
 
 	@Test public void testInstantiation() {
 		// Arrange:
@@ -89,12 +90,25 @@ public final class ActivityDelegateCompatTest extends RobolectricTestCase {
 	@Test public void testGetSupportActionBar() {
 		// Arrange:
 		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
-		final android.support.v7.app.ActionBar mockSupportActionBar = mock(android.support.v7.app.ActionBar.class);
+		final androidx.appcompat.app.ActionBar mockSupportActionBar = mock(androidx.appcompat.app.ActionBar.class);
 		when(mockActivity.getSupportActionBar()).thenReturn(mockSupportActionBar);
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
 		// Act + Assert:
 		assertThat(delegate.getSupportActionBar(), is(mockSupportActionBar));
 		verify(mockActivity).getSupportActionBar();
+		verifyNoMoreInteractions(mockActivity);
+	}
+
+	@Test public void testStartActionMode() {
+		// Arrange:
+		final AppCompatActivity mockActivity = mock(AppCompatActivity.class);
+		final ActionMode mockActionMode = mock(ActionMode.class);
+		final ActionMode.Callback mockActionModeCallback = mock(ActionMode.Callback.class);
+		when(mockActivity.startSupportActionMode(mockActionModeCallback)).thenReturn(mockActionMode);
+		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(mockActivity);
+		// Act + Assert:
+		assertThat(delegate.startActionMode(mockActionModeCallback), is(mockActionMode));
+		verify(mockActivity).startSupportActionMode(mockActionModeCallback);
 		verifyNoMoreInteractions(mockActivity);
 	}
 }

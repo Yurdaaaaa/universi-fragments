@@ -37,7 +37,7 @@ public final class ActionBarDelegateSupportTest extends InstrumentedTestCase {
 	@SuppressWarnings("deprecation")
 	@Test public void testSetHomeAsUpVectorIndicator() {
 		// Arrange:
-		final android.support.v7.app.ActionBar mockActionBar = mock(android.support.v7.app.ActionBar.class);
+		final androidx.appcompat.app.ActionBar mockActionBar = mock(androidx.appcompat.app.ActionBar.class);
 		final ActionBarDelegate delegate = new ActionBarDelegate.SupportImpl(context, mockActionBar);
 		// Act:
 		delegate.setHomeAsUpVectorIndicator(android.R.drawable.ic_delete);

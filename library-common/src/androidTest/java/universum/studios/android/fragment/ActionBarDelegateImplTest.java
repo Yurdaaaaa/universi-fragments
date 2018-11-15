@@ -21,10 +21,10 @@ package universum.studios.android.fragment;
 import android.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import org.junit.Test;
 
+import androidx.annotation.RequiresApi;
 import universum.studios.android.test.instrumented.InstrumentedTestCase;
 
 import static org.junit.Assume.assumeTrue;

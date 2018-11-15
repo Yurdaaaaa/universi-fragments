@@ -18,7 +18,7 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.SparseArray;
 
 import org.junit.Test;
@@ -32,9 +32,9 @@ import universum.studios.android.test.local.RobolectricTestCase;
 
 import static junit.framework.Assert.assertSame;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 
 /**
  * @author Martin Albedinsky

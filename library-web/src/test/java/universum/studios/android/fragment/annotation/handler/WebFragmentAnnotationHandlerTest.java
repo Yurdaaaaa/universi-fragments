@@ -25,7 +25,7 @@ import universum.studios.android.fragment.annotation.WebContent;
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
+import static org.hamcrest.CoreMatchers.is;
 
 /**
  * @author Martin Albedinsky
