@@ -20,16 +20,16 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.view.ActionMode;
 import android.view.Window;
 
 import org.junit.Test;
 
+import androidx.appcompat.view.ActionMode;
 import universum.studios.android.test.local.RobolectricTestCase;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -101,13 +101,10 @@ public final class ActivityDelegateImplTest extends RobolectricTestCase {
 	@Test public void testStartActionMode() {
 		// Arrange:
     	final Activity mockActivity = mock(Activity.class);
-		final ActionMode mockActionMode = mock(ActionMode.class);
 		final ActionMode.Callback mockActionModeCallback = mock(ActionMode.Callback.class);
-		when(mockActivity.startActionMode(mockActionModeCallback)).thenReturn(mockActionMode);
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(mockActivity);
 		// Act + Assert:
-		assertThat(delegate.startActionMode(mockActionModeCallback), is(mockActionMode));
-		verify(mockActivity).startActionMode(mockActionModeCallback);
-		verifyNoMoreInteractions(mockActivity);
+		assertThat(delegate.startActionMode(mockActionModeCallback), is(nullValue()));
+		verifyZeroInteractions(mockActivity);
 	}
 }

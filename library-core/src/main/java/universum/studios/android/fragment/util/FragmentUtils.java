@@ -25,17 +25,17 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.TransitionRes;
-import android.support.annotation.VisibleForTesting;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.transition.TransitionManager;
 import android.view.ViewGroup;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.TransitionRes;
+import androidx.annotation.VisibleForTesting;
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import universum.studios.android.fragment.FragmentPolicies;
 
 /**

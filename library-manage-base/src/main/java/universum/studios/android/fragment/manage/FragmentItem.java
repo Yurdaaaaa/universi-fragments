@@ -18,12 +18,12 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import universum.studios.android.fragment.annotation.FactoryFragment;
 
 /**

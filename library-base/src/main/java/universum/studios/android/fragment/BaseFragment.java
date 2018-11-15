@@ -19,20 +19,9 @@
 package universum.studios.android.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.arch.lifecycle.LiveData;
 import android.content.Context;
-import android.content.Loader;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.CheckResult;
-import android.support.annotation.IntDef;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.TransitionRes;
-import android.support.annotation.VisibleForTesting;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -43,6 +32,13 @@ import android.view.ViewGroup;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import androidx.annotation.CheckResult;
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.TransitionRes;
+import androidx.annotation.VisibleForTesting;
+import androidx.fragment.app.Fragment;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.handler.BaseAnnotationHandlers;
 import universum.studios.android.fragment.annotation.handler.FragmentAnnotationHandler;
@@ -410,72 +406,6 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	}
 
 	/**
-	 */
-	@Override public void setAllowEnterTransitionOverlap(final boolean allow) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setAllowEnterTransitionOverlap(allow);
-	}
-
-	/**
-	 */
-	@Override public void setAllowReturnTransitionOverlap(final boolean allow) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setAllowReturnTransitionOverlap(allow);
-	}
-
-	/**
-	 * @see FragmentUtils#inflateTransition(Context, int)
-	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
-	 * @see #inflateTransition(int)
-	 */
-	@Override public void setEnterTransition(@Nullable final Transition transition) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setEnterTransition(transition);
-	}
-
-	/**
-	 * @see FragmentUtils#inflateTransition(Context, int)
-	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
-	 * @see #inflateTransition(int)
-	 */
-	@Override public void setExitTransition(@Nullable final Transition transition) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setExitTransition(transition);
-	}
-
-	/**
-	 * @see FragmentUtils#inflateTransition(Context, int)
-	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
-	 * @see #inflateTransition(int)
-	 */
-	@Override public void setReenterTransition(@Nullable final Transition transition) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setReenterTransition(transition);
-	}
-
-	/**
-	 * @see FragmentUtils#inflateTransition(Context, int)
-	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
-	 * @see #inflateTransition(int)
-	 */
-	@Override public void setReturnTransition(@Nullable final Transition transition) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setReturnTransition(transition);
-	}
-
-	/**
-	 * @see FragmentUtils#inflateTransition(Context, int)
-	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
-	 * @see #inflateTransition(int)
-	 */
-	@Override public void setSharedElementEnterTransition(@Nullable final Transition transition) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setSharedElementEnterTransition(transition);
-	}
-
-	/**
-	 * @see FragmentUtils#inflateTransition(Context, int)
-	 * @see FragmentUtils#inflateTransitionManager(Context, int, ViewGroup)
-	 * @see #inflateTransition(int)
-	 */
-	@Override public void setSharedElementReturnTransition(@Nullable final Transition transition) {
-		if (FragmentPolicies.TRANSITIONS_SUPPORTED) super.setSharedElementReturnTransition(transition);
-	}
-
-	/**
 	 * Inflates a desired Transition from the specified <var>resource</var>.
 	 *
 	 * @param resource Resource id of the desired transition to inflate.
@@ -510,7 +440,11 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 */
 	public boolean invalidateOptionsMenu() {
 		if (isAdded() && !isHidden()) {
-			getFragmentManager().invalidateOptionsMenu();
+			final Activity activity = getActivity();
+			if (activity == null) {
+				return false;
+			}
+			activity.invalidateOptionsMenu();
 			return true;
 		}
 		return false;
@@ -534,96 +468,6 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 */
 	protected void onViewClick(@NonNull View view) {
 		// Inheritance hierarchies may handle here click event for the passed view.
-	}
-
-	/**
-	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
-	 * <p>
-	 * Starts a loader with the specified <var>id</var>. If there was already started loader with the
-	 * same id before, such a loader will be <b>re-started</b>, otherwise new loader will be <b>initialized</b>.
-	 *
-	 * @param id        Id of the desired loader to start.
-	 * @param params    Params for loader.
-	 * @param callbacks Callbacks for loader.
-	 * @return Initialized or re-started loader instance or {@code null} if the specified <var>callbacks</var>
-	 * do not create loader for the specified <var>id</var>.
-	 *
-	 * @see #initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see #restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see #destroyLoader(int)
-	 *
-	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
-	 */
-	@Deprecated
-	@Nullable public <D> Loader<D> startLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
-		final LoaderManager manager = getLoaderManager();
-		return manager.getLoader(id) == null ?
-				initLoader(id, params, callbacks) :
-				restartLoader(id, params, callbacks);
-	}
-
-	/**
-	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
-	 * <p>
-	 * Initializes a loader with the specified <var>id</var> for the given <var>callbacks</var>.
-	 *
-	 * @param id        Id of the desired loader to init.
-	 * @param params    Params for loader.
-	 * @param callbacks Callbacks for loader.
-	 * @return Initialized loader instance or {@code null} if the specified <var>callbacks</var> do
-	 * not create loader for the specified <var>id</var>.
-	 *
-	 * @see #startLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see #restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see #destroyLoader(int)
-	 * @see LoaderManager#initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 *
-	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
-	 */
-	@Deprecated
-	@Nullable public <D> Loader<D> initLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
-		return getLoaderManager().initLoader(id, params, callbacks);
-	}
-
-	/**
-	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
-	 * <p>
-	 * Re-starts a loader with the specified <var>id</var> for the given <var>callbacks</var>.
-	 *
-	 * @param id        Id of the desired loader to re-start.
-	 * @param params    Params for loader.
-	 * @param callbacks Callbacks for loader.
-	 * @return Re-started loader instance or {@code null} if the specified <var>callbacks</var> do
-	 * not create loader for the specified <var>id</var>.
-	 *
-	 * @see #startLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see #initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see #destroyLoader(int)
-	 * @see LoaderManager#restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 *
-	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
-	 */
-	@Deprecated
-	@Nullable public <D> Loader<D> restartLoader(@IntRange(from = 0) final int id, @Nullable final Bundle params, @NonNull final LoaderManager.LoaderCallbacks<D> callbacks) {
-		return getLoaderManager().restartLoader(id, params, callbacks);
-	}
-
-	/**
-	 * <b>This method has been deprecated and will be removed in 1.4.0 version.</b>
-	 * <p>
-	 * Destroys a loader with the specified <var>id</var>.
-	 *
-	 * @param id Id of the desired loader to destroy.
-	 *
-	 * @see #initLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see #restartLoader(int, Bundle, LoaderManager.LoaderCallbacks)
-	 * @see LoaderManager#destroyLoader(int)
-	 *
-	 * @deprecated Use {@link #getLoaderManager()} directly or preferably {@link LiveData} instead.
-	 */
-	@Deprecated
-	public void destroyLoader(@IntRange(from = 0) final int id) {
-		getLoaderManager().destroyLoader(id);
 	}
 
 	/**

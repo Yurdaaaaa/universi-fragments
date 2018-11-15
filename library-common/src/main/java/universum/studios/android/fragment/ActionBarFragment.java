@@ -20,16 +20,16 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.VisibleForTesting;
-import android.support.v7.app.AppCompatActivity;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
 import universum.studios.android.fragment.annotation.ActionBarOptions;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.MenuOptions;
@@ -187,7 +187,7 @@ public class ActionBarFragment extends BaseFragment {
 	 */
 	@Override public void onActivityCreated(@Nullable final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		this.actionBarDelegate = ActionBarDelegate.create(getActivity());
+		this.actionBarDelegate = ActionBarDelegate.create(requireActivity());
 		this.invalidateActionBar();
 	}
 
@@ -251,7 +251,7 @@ public class ActionBarFragment extends BaseFragment {
 	 * @throws IllegalStateException If this fragment is not attached to its parent activity
 	 *                               yet or it has been already detached.
 	 */
-	@Nullable protected android.support.v7.app.ActionBar getSupportActionBar() {
+	@Nullable protected androidx.appcompat.app.ActionBar getSupportActionBar() {
 		if (activityDelegate == null) {
 			throw new IllegalStateException(
 					"Cannot access support ActionBar. " + getClass() + " is not attached " +

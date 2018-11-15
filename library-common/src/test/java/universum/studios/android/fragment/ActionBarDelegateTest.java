@@ -22,24 +22,24 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
 import org.junit.Test;
 
+import androidx.annotation.DrawableRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.AppCompatActivity;
 import universum.studios.android.test.local.RobolectricTestCase;
 import universum.studios.android.test.local.TestActivity;
 import universum.studios.android.test.local.TestCompatActivity;
 
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.core.IsNot.not;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -83,7 +83,7 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 	@Test public void testCreateForCompatActivity() {
 		// Arrange:
 		final AppCompatActivity mockActivity = mock(TestCompatActivity.class);
-		final android.support.v7.app.ActionBar mockActionBar = mock(android.support.v7.app.ActionBar.class);
+		final androidx.appcompat.app.ActionBar mockActionBar = mock(androidx.appcompat.app.ActionBar.class);
 		when(mockActivity.getSupportActionBar()).thenReturn(mockActionBar);
 		// Act:
 		final ActionBarDelegate actionBarDelegate = ActionBarDelegate.create(mockActivity);
@@ -103,8 +103,8 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 
 	@Test public void testCreateForNullActionBar() {
 		// Act + Assert:
-		assertThat(ActionBarDelegate.create(application, (ActionBar) null), is(notNullValue()));
-		assertThat(ActionBarDelegate.create(application, (android.support.v7.app.ActionBar) null), is(notNullValue()));
+		assertThat(ActionBarDelegate.create(context, (ActionBar) null), is(notNullValue()));
+		assertThat(ActionBarDelegate.create(context, (androidx.appcompat.app.ActionBar) null), is(notNullValue()));
 	}
 
 	private static final class TestDelegate extends ActionBarDelegate {

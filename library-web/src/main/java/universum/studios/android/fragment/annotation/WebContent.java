@@ -18,13 +18,13 @@
  */
 package universum.studios.android.fragment.annotation;
 
-import android.support.annotation.StringRes;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+
+import androidx.annotation.StringRes;
 
 /**
  * Defines an annotation for determining a content to be loaded into {@link android.webkit.WebView WebView}.

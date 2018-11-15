@@ -18,8 +18,8 @@
  */
 package universum.studios.android.fragment.transition;
 
-import universum.studios.android.fragment.manage.FragmentTransition;
 import universum.studios.android.fragment.R;
+import universum.studios.android.fragment.manage.FragmentTransition;
 
 /**
  * Factory providing <b>common</b> {@link FragmentTransition FragmentTransitions}.
@@ -36,7 +36,6 @@ import universum.studios.android.fragment.R;
  * @author Martin Albedinsky
  * @since 1.0
  */
-@SuppressWarnings("unused")
 public final class FragmentTransitions {
 
 	/**

@@ -19,25 +19,26 @@
 package universum.studios.android.fragment;
 
 import android.app.ActionBar;
-import android.app.FragmentManager;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 
 import org.junit.Test;
 import org.robolectric.Robolectric;
 
+import androidx.appcompat.view.ActionMode;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import universum.studios.android.fragment.annotation.ActionBarOptions;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.MenuOptions;
 import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAnnotationHandler;
 import universum.studios.android.test.local.RobolectricTestCase;
-import universum.studios.android.test.local.TestActivity;
+import universum.studios.android.test.local.TestCompatActivity;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -84,7 +85,8 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnCreate() {
 		// Arrange:
-		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
+		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		// Act:
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -93,7 +95,8 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnCreateForFragmentWithoutMenu() {
 		// Arrange:
-		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
+		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragmentWithoutAnnotation();
 		// Act:
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -103,7 +106,8 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 	@Test public void testOnCreateWhenAnnotationsAreDisabled() {
 		// Arrange:
 		FragmentAnnotations.setEnabled(false);
-		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
+		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		// Act:
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -190,7 +194,8 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnActivityCreated() {
 		// Arrange:
-		final FragmentManager fragmentManager = Robolectric.buildActivity(TestActivity.class).create().start().resume().get().getFragmentManager();
+		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		// Act:
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -249,7 +254,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 		final ActionBarFragment fragment = new TestFragment();
 		final ActivityDelegate mockDelegate = mock(ActivityDelegate.class);
 		fragment.activityDelegate = mockDelegate;
-		final android.support.v7.app.ActionBar mockActionBar = mock(android.support.v7.app.ActionBar.class);
+		final androidx.appcompat.app.ActionBar mockActionBar = mock(androidx.appcompat.app.ActionBar.class);
 		when(mockDelegate.getSupportActionBar()).thenReturn(mockActionBar);
 		// Act + Assert:
 		assertThat(fragment.getSupportActionBar(), is(mockActionBar));

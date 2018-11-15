@@ -18,9 +18,9 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.annotation.ColorRes;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.LayoutRes;
 
 import universum.studios.android.fragment.BaseFragment;
 import universum.studios.android.fragment.annotation.ContentView;

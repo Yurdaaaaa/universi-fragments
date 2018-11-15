@@ -28,9 +28,9 @@ import universum.studios.android.fragment.manage.BaseFragmentFactory;
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.notNullValue;
 
 /**
  * @author Martin Albedinsky

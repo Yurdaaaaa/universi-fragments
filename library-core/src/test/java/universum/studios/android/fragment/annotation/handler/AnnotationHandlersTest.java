@@ -18,18 +18,17 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.annotation.NonNull;
-
 import org.junit.Test;
 
+import androidx.annotation.NonNull;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.test.local.RobolectricTestCase;
 
 import static junit.framework.Assert.assertSame;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
 
 /**
  * @author Martin Albedinsky

@@ -18,7 +18,7 @@
  */
 package universum.studios.android.fragment.annotation.handler;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * Base interface for annotation handlers from the Fragments library that are used to handle processing

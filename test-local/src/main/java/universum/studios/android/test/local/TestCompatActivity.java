@@ -19,10 +19,11 @@
 package universum.studios.android.test.local;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.widget.FrameLayout;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * Simple compatibility activity that may be used in <b>Robolectric tests</b>.
@@ -39,6 +40,7 @@ public class TestCompatActivity extends AppCompatActivity {
 	/**
 	 */
 	@Override protected void onCreate(@Nullable final Bundle savedInstanceState) {
+		setTheme(R.style.Theme_AppCompat);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR);
 		super.onCreate(savedInstanceState);
 		final FrameLayout contentView = new FrameLayout(this);

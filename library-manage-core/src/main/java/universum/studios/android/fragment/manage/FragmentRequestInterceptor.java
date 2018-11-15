@@ -18,9 +18,9 @@
  */
 package universum.studios.android.fragment.manage;
 
-import android.app.Fragment;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 /**
  * Interface that may be used to intercept a specific {@link FragmentRequest} when it is being executed
