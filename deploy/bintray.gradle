@@ -32,8 +32,8 @@ bintray {
         vcsUrl = config.bintray.package.vcsUrl
         labels = config.bintray.package.labels
         publicDownloadNumbers = true
-        // todo: githubRepo = "${config.github.owner}/${config.github.repository}"
-        // todo: githubReleaseNotesFile = 'CHANGELOG.md'
+        githubRepo = "${config.github.owner}/${config.github.repository}"
+        githubReleaseNotesFile = 'CHANGELOG.md'
         version {
             name = config.bintray.package.versionName
             desc = config.bintray.package.versionDescription
