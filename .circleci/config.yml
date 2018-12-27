@@ -95,9 +95,6 @@ workflows:
     jobs:
       - build:
           context: android-universum
-          filters:
-            branches:
-              ignore: gh-pages
       - test:
           context: android-universum
           requires:

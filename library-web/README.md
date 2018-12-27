@@ -11,12 +11,12 @@ This module contains web related `Fragment` implementations.
     implementation "universum.studios.android:fragments-web:${DESIRED_VERSION}@aar"
 
 _depends on:_
-[fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core),
-[fragments-base](https://github.com/universum-studios/android_fragments/tree/master/library-base),
-[fragments-common](https://github.com/universum-studios/android_fragments/tree/master/library-common)
+[fragments-core](https://bitbucket.org/android-universum/fragments/src/master/library-core),
+[fragments-base](https://bitbucket.org/android-universum/fragments/src/master/library-base),
+[fragments-common](https://bitbucket.org/android-universum/fragments/src/master/library-common)
 
 ## Elements ##
 
 Below are listed some of **primary elements** that are available in this module:
 
-- [WebFragment](https://github.com/universum-studios/android_fragments/tree/master/library-web/src/main/java/universum/studios/android/fragment/WebFragment.java)
+- [WebFragment](https://bitbucket.org/android-universum/fragments/src/master/library-web/src/main/java/universum/studios/android/fragment/WebFragment.java)

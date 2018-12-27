@@ -1,21 +1,21 @@
 Android Fragments
 ===============
 
-[![CircleCI](https://circleci.com/gh/universum-studios/android_fragments.svg?style=shield)](https://circleci.com/gh/universum-studios/android_fragments)
-[![Codecov](https://codecov.io/gh/universum-studios/android_fragments/branch/master/graph/badge.svg)](https://codecov.io/gh/universum-studios/android_fragments)
-[![Codacy](https://api.codacy.com/project/badge/Grade/08a4a09365f543cca7b7201f5beb56a3)](https://www.codacy.com/app/universum-studios/android_fragments?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=universum-studios/android_fragments&amp;utm_campaign=Badge_Grade)
+[![CircleCI](https://circleci.com/bb/android-universum/fragments.svg?style=shield)](https://circleci.com/bb/android-universum/fragments)
+[![Codecov](https://codecov.io/bb/android-universum/fragments/branch/master/graph/badge.svg)](https://codecov.io/bb/android-universum/fragments)
+[![Codacy](https://api.codacy.com/project/badge/Grade/6101c2eaf68f48ba973ef375749c2536)](https://www.codacy.com/app/universum-studios/fragments?utm_source=android-universum@bitbucket.org&amp;utm_medium=referral&amp;utm_content=android-universum/fragments&amp;utm_campaign=Badge_Grade)
 [![Android](https://img.shields.io/badge/android-9.0-blue.svg)](https://developer.android.com/about/versions/pie/android-9.0)
 [![Android Jetpack](https://img.shields.io/badge/Android-Jetpack-brightgreen.svg)](https://developer.android.com/jetpack)
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragments-green.svg?style=flat)](https://android-arsenal.com/details/1/5408)
 
 Simplified management of fragments for the Android platform.
 
-For more information please visit the **[Wiki](https://github.com/universum-studios/android_fragments/wiki)**.
+For more information please visit the **[Wiki](https://bitbucket.org/android-universum/fragments/wiki)**.
 
 ## Download ##
 [![Bintray](https://api.bintray.com/packages/universum-studios/android/universum.studios.android%3Afragments/images/download.svg)](https://bintray.com/universum-studios/android/universum.studios.android%3Afragments/_latestVersion)
 
-Download the latest **[release](https://github.com/universum-studios/android_fragments/releases "Releases page")** or **add as dependency** in your project via:
+Download the latest **[release](https://bitbucket.org/android-universum/fragments/addon/pipelines/deployments "Deployments page")** or **add as dependency** in your project via:
 
 ### Gradle ###
 
@@ -23,7 +23,7 @@ Download the latest **[release](https://github.com/universum-studios/android_fra
 
 ## Modules ##
 
-This library may be used via **separate [modules](https://github.com/universum-studios/android_fragments/blob/master/MODULES.md)**
+This library may be used via **separate [modules](https://bitbucket.org/android-universum/fragments/src/master/MODULES.md)**
 in order to depend only on desired _parts of the library's code base_ what ultimately results in **fewer dependencies**.
 
 ## Compatibility ##
@@ -35,9 +35,9 @@ Supported down to the **Android [API Level 14](http://developer.android.com/abou
 - [`androidx.annotation:annotation`](https://developer.android.com/jetpack/androidx)
 - [`androidx.appcompat:appcompat`](https://developer.android.com/jetpack/androidx)
 - [`androidx.vectordrawable:vectordrawable`](https://developer.android.com/jetpack/androidx)
-- [`universum.studios.android:logger`](https://github.com/universum-studios/android_logger)
+- [`universum.studios.android:logger`](https://bitbucket.org/android-universum/analytics/logger)
 
-## [License](https://github.com/universum-studios/android_fragments/blob/master/LICENSE.md) ##
+## [License](https://bitbucket.org/android-universum/fragments/src/master/LICENSE.md) ##
 
 **Copyright 2018 Universum Studios**
 

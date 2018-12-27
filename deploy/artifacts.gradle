@@ -30,11 +30,11 @@ task prepareClassesZip(type: Copy) {
 }
 
 /**
- * Bundles project's classes into a .jar! file.
+ * Bundles modules's classes into single JAR file.
  */
 task classesJar(type: Jar, dependsOn: [":${project.name}:bundleReleaseAar", prepareClassesZip]) {
     group 'artifact'
-    description "Bundles classes into 'artifact.jar' like file."
+    description "Bundles classes into 'library.jar' like file."
     from zipTree("${buildDir}/tmp/release/classes.zip")
 }
 
@@ -54,7 +54,7 @@ task generateJavadoc(type: Javadoc) {
         links 'https://docs.oracle.com/javase/8/docs/api'
         links 'https://developer.android.com/reference/packages'
         links 'https://developer.android.com/reference/androidx/packages'
-        links 'https://universum-studios.github.io/android_logger/reference/1.x'
+        links 'https://universum-studios.bitbucket.io/android/library/logger/reference/1.x'
     }
     // Append class path with dependencies.
     classpath += files(android.getBootClasspath().join(File.pathSeparator))
@@ -79,24 +79,39 @@ def createJavadocTitle() {
 }
 
 /**
- * Bundles project's Javadoc into a .jar! file.
+ * Bundles modules's Javadoc into single JAR file.
  */
 task javadocJar(type: Jar) {
     group 'artifact'
-    description "Bundles Javadoc into 'artifact-javadoc.jar' like file."
+    description "Bundles Javadoc into 'library-javadoc.jar' like file."
     classifier = 'javadoc'
     from generateJavadoc
 }
 
 /**
- * Bundles project's Raw sources into a .jar! file.
+ * Bundles modules's Raw sources into JAR file.
  */
 task sourcesJar(type: Jar) {
     group 'artifact'
-    description "Bundles Raw sources into 'artifact-sources.jar' like file."
+    description "Bundles Raw sources into 'library-sources.jar' like file."
     classifier = 'sources'
     from isModule ? android.sourceSets.main.java.srcDirs : android.sourceSets.release.java.srcDirs
     from isModule ? android.sourceSets.main.res.srcDirs : android.sourceSets.release.res.srcDirs
+}
+
+/**
+ * Bundles modules's release artifacts (classes.jar, sources.jar, javadoc.jar) into single ZIP file.
+ */
+task artifactsZip(type: Zip) {
+    group 'artifact'
+    description "Bundles release artifacts into 'library-major.minor.patch.zip' like file."
+    from fileTree(
+            dir: "${repos.project.artifacts}/universum/studios/android/${config.library.name}/${config.pom.version}",
+            excludes: ['*.pom', '*.md5', '*.sha1']
+    )
+    into "${config.library.name}-${config.pom.version}"
+    archiveName "${config.library.name}-${config.pom.version}.zip"
+    destinationDir(file("${buildDir}/tmp/release/artifacts"))
 }
 
 /**

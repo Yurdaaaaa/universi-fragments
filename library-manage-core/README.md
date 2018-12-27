@@ -11,12 +11,12 @@ This module contains core elements that may be used to **manage** fragments in a
     implementation "universum.studios.android:fragments-manage-core:${DESIRED_VERSION}@aar"
 
 _depends on:_
-[fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core)
+[fragments-core](https://bitbucket.org/android-universum/fragments/src/master/library-core)
 
 ## Elements ##
 
 Below are listed some of **primary elements** that are available in this module:
 
-- [FragmentController](https://github.com/universum-studios/android_fragments/tree/master/library-manage-core/src/main/java/universum/studios/android/fragment/manage/FragmentController.java)
-- [FragmentRequest](https://github.com/universum-studios/android_fragments/tree/master/library-manage-core/src/main/java/universum/studios/android/fragment/manage/FragmentRequest.java)
-- [FragmentFactory](https://github.com/universum-studios/android_fragments/tree/master/library-manage-core/src/main/java/universum/studios/android/fragment/manage/FragmentFactory.java)
+- [FragmentController](https://bitbucket.org/android-universum/fragments/src/master/library-manage-core/src/main/java/universum/studios/android/fragment/manage/FragmentController.java)
+- [FragmentRequest](https://bitbucket.org/android-universum/fragments/src/master/library-manage-core/src/main/java/universum/studios/android/fragment/manage/FragmentRequest.java)
+- [FragmentFactory](https://bitbucket.org/android-universum/fragments/src/master/library-manage-core/src/main/java/universum/studios/android/fragment/manage/FragmentFactory.java)

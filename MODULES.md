@@ -21,16 +21,16 @@ as usually.
     }
 
 ## Available modules ##
-> Following modules are available in the [latest](https://github.com/universum-studios/android_fragments/releases "Releases page") stable release.
+> Following modules are available in the [latest](https://bitbucket.org/android-universum/fragments/src/master/downloads "Downloads page") stable release.
 
-- **[Core](https://github.com/universum-studios/android_fragments/tree/master/library-core)**
-- **[Base](https://github.com/universum-studios/android_fragments/tree/master/library-base)**
-- **[Common](https://github.com/universum-studios/android_fragments/tree/master/library-common)**
-- **[Web](https://github.com/universum-studios/android_fragments/tree/master/library-web)**
-- **[@Manage](https://github.com/universum-studios/android_fragments/tree/master/library-manage_group)**
-- **[Manage-Core](https://github.com/universum-studios/android_fragments/tree/master/library-manage-core)**
-- **[Manage-Base](https://github.com/universum-studios/android_fragments/tree/master/library-manage-base)**
-- **[@Transition](https://github.com/universum-studios/android_fragments/tree/master/library-transition_group)**
-- **[Transition-Core](https://github.com/universum-studios/android_fragments/tree/master/library-transition-core)**
-- **[Transition-Common](https://github.com/universum-studios/android_fragments/tree/master/library-transition-common)**
-- **[Transition-Extra](https://github.com/universum-studios/android_fragments/tree/master/library-transition-extra)**
+- **[Core](https://bitbucket.org/android-universum/fragments/src/master/library-core)**
+- **[Base](https://bitbucket.org/android-universum/fragments/src/master/library-base)**
+- **[Common](https://bitbucket.org/android-universum/fragments/src/master/library-common)**
+- **[Web](https://bitbucket.org/android-universum/fragments/src/master/library-web)**
+- **[@Manage](https://bitbucket.org/android-universum/fragments/src/master/library-manage_group)**
+- **[Manage-Core](https://bitbucket.org/android-universum/fragments/src/master/library-manage-core)**
+- **[Manage-Base](https://bitbucket.org/android-universum/fragments/src/master/library-manage-base)**
+- **[@Transition](https://bitbucket.org/android-universum/fragments/src/master/library-transition_group)**
+- **[Transition-Core](https://bitbucket.org/android-universum/fragments/src/master/library-transition-core)**
+- **[Transition-Common](https://bitbucket.org/android-universum/fragments/src/master/library-transition-common)**
+- **[Transition-Extra](https://bitbucket.org/android-universum/fragments/src/master/library-transition-extra)**

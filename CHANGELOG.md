@@ -1,6 +1,6 @@
 Change-Log
 ===============
-> Regular configuration update: _01.11.2018_
+> Regular configuration update: _01.12.2018_
 
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
 
@@ -38,7 +38,7 @@ More **detailed changelog** for each respective version may be viewed by pressin
 > 21.08.2017
 
 - **Dropped support** for _Android_ versions **below** _API Level 14_ for both versions of the library.
-- Fixed [Issue #29](https://github.com/universum-studios/android_fragments/issues/29).
+- Stability improvements.
 
 ### [1.2.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.2.0) ###
 > 09.05.2017
@@ -58,7 +58,6 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 - Deprecated some not properly named methods of `FragmentRequest` and replaced with better named ones.
 - Updated implementation of `FragmentController.newRequest(int)` and of `FragmentController.executeRequest(...)`.
-  See **[Issue #3](https://github.com/universum-studios/android_fragments/issues/3)** for more info.
 
 ### [1.1.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.1.0) ###
 > 19.01.2017
