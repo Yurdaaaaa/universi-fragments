@@ -21,7 +21,7 @@ as usually.
     }
 
 ## Available modules ##
-> Following modules are available in the [latest](https://bitbucket.org/android-universum/fragments/src/master/downloads "Downloads page") stable release.
+> Following modules are available in the [latest](https://bitbucket.org/android-universum/fragments/downloads "Downloads page") stable release.
 
 - **[Core](https://bitbucket.org/android-universum/fragments/src/master/library-core)**
 - **[Base](https://bitbucket.org/android-universum/fragments/src/master/library-base)**
