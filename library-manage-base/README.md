@@ -11,11 +11,11 @@ This module contains base implementations of core management elements.
     implementation "universum.studios.android:fragments-manage-base:${DESIRED_VERSION}@aar"
 
 _depends on:_
-[fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core),
-[fragments-manage-core](https://github.com/universum-studios/android_fragments/tree/master/library-manage-core)
+[fragments-core](https://bitbucket.org/android-universum/fragments/src/master/library-core),
+[fragments-manage-core](https://bitbucket.org/android-universum/fragments/src/master/library-manage-core)
 
 ## Elements ##
 
 Below are listed some of **primary elements** that are available in this module:
 
-- [BaseFragmentFactory](https://github.com/universum-studios/android_fragments/tree/master/library-manage-base/src/main/java/universum/studios/android/fragment/manage/BaseFragmentFactory.java)
+- [BaseFragmentFactory](https://bitbucket.org/android-universum/fragments/src/master/library-manage-base/src/main/java/universum/studios/android/fragment/manage/BaseFragmentFactory.java)

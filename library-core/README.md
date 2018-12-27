@@ -14,4 +14,4 @@ This module contains core elements for this library.
 
 Below are listed some of **primary elements** that are available in this module:
 
-- [FragmentUtils](https://github.com/universum-studios/android_fragments/tree/master/library-core/src/main/java/universum/studios/android/fragment/util/FragmentUtils.java)
+- [FragmentUtils](https://bitbucket.org/android-universum/fragments/src/master/library-core/src/main/java/universum/studios/android/fragment/util/FragmentUtils.java)

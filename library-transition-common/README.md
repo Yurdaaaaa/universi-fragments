@@ -11,12 +11,12 @@ This module contains **common** `FragmentTransition` implementations.
     implementation "universum.studios.android:fragments-transition-common:${DESIRED_VERSION}@aar"
 
 _depends on:_
-[fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core),
-[fragments-manage-core](https://github.com/universum-studios/android_fragments/tree/master/library-manage-core),
-[fragments-transition-core](https://github.com/universum-studios/android_fragments/tree/master/library-transition-core)
+[fragments-core](https://bitbucket.org/android-universum/fragments/src/master/library-core),
+[fragments-manage-core](https://bitbucket.org/android-universum/fragments/src/master/library-manage-core),
+[fragments-transition-core](https://bitbucket.org/android-universum/fragments/src/master/library-transition-core)
 
 ## Elements ##
 
 Below are listed some of **primary elements** that are available in this module:
 
-- [FragmentTransitions](https://github.com/universum-studios/android_fragments/tree/master/library-transition-common/src/main/java/universum/studios/android/fragment/transition/FragmentTransitions.java)
+- [FragmentTransitions](https://bitbucket.org/android-universum/fragments/src/master/library-transition-common/src/main/java/universum/studios/android/fragment/transition/FragmentTransitions.java)

@@ -37,10 +37,9 @@ def testConfig = [
         coverageToolVersion  : '0.8.2'
 ]
 
-def githubConfig = [
-        owner      : 'universum-studios',
-        repository : "android_${libraryConfig.name}",
-        accessToken: System.getenv('GITHUB_API_TOKEN')
+def bitbucketConfig = [
+        owner     : 'android-universum',
+        repository: libraryConfig.name
 ]
 
 def pomConfig = [
@@ -51,11 +50,11 @@ def pomConfig = [
         project   : [
                 name           : 'Android Fragments',
                 description    : 'Simplified management of fragments for the Android platform.',
-                url            : "https://github.com/${githubConfig.owner}/${githubConfig.repository}",
+                url            : "https://bitbucket.org/${bitbucketConfig.owner}/${bitbucketConfig.repository}",
                 inceptionYear  : '2016',
                 issueManagement: [
                         system: 'Issue Tracker',
-                        url   : "https://github.com/${githubConfig.owner}/${githubConfig.repository}/issues"
+                        url   : "https://bitbucket.org/${bitbucketConfig.owner}/${bitbucketConfig.repository}/issues"
                 ],
                 licenses       : [
                         Apache20: [
@@ -66,7 +65,7 @@ def pomConfig = [
                 ],
                 organization   : [
                         name: 'Universum Studios',
-                        url : 'https://universum-studios.github.io'
+                        url : 'https://universum-studios.bitbucket.io'
                 ],
                 developers     : [
                         albedinsky: [
@@ -82,7 +81,7 @@ def pomConfig = [
 def javadocConfig = [
         title    : "${pomConfig.project.name} API",
         header   : "Version ${pomConfig.version} Documentation",
-        reference: [online: "https://universum-studios.github.io/android_${libraryConfig.name}/reference/1.x"]
+        reference: [online: "https://universum-studios.bitbucket.io/android/library/${bitbucketConfig.repository}/reference/1.x"]
 ]
 
 def mavenConfig = [localUrl: System.getenv('MAVEN_URL_LOCAL')]
@@ -103,17 +102,17 @@ def bintrayConfig = [
 
 def codacyConfig = [
         tokensPath : System.getenv('CODACY_PROJECT_TOKENS'),
-        projectName: githubConfig.repository
+        projectName: "android_${bitbucketConfig.repository}"
 ]
 
 ext.config = [
-        "library": libraryConfig,
-        "build"  : buildConfig,
-        "test"   : testConfig,
-        "github" : githubConfig,
-        "pom"    : pomConfig,
-        "javadoc": javadocConfig,
-        "maven"  : mavenConfig,
-        "bintray": bintrayConfig,
-        "codacy" : codacyConfig
+        "library"  : libraryConfig,
+        "build"    : buildConfig,
+        "test"     : testConfig,
+        "bitbucket": bitbucketConfig,
+        "pom"      : pomConfig,
+        "javadoc"  : javadocConfig,
+        "maven"    : mavenConfig,
+        "bintray"  : bintrayConfig,
+        "codacy"   : codacyConfig
 ]

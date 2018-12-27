@@ -71,9 +71,9 @@ def universum = [studios: [
         logger           : 'universum.studios.android:logger:1.1.0@aar',
         samples          : 'universum.studios.android:samples:0.2.0@aar',
         widgetAdapters   : 'universum.studios.android:widget-adapters:2.1.0@aar',
-        ui               : 'universum.studios.android:ui:0.9.6@aar',
+        ui               : 'universum.studios.android:ui:0.10.1@aar',
         graphicsColorUtil: 'universum.studios.android:graphics-color-util:1.1.0@aar',
-        fontCore         : 'universum.studios.android:font-core:1.1.2@aar'
+        fontCore         : 'universum.studios.android:font-core:1.2.0@aar'
 ]]
 
 def other = [

@@ -3,34 +3,37 @@
 set -ex
 
 # Setup script constants.
-TEMP_DIR=website-temp
+TEMP_DIR=temp
+TEMP_DIR_WEBSITE=${TEMP_DIR}/website
+IO_REPOSITORY="git@bitbucket.org:universum-studios/universum-studios.bitbucket.io.git"
 LIBRARY_NAME=fragments
 LIBRARY_ARTIFACT_NAME="${LIBRARY_NAME//_/-}"
 LIBRARY_VERSION=1.4.0
-LIBRARY_REPO="git@github.com:universum-studios/android_${LIBRARY_NAME}.git"
-LIBRARY_DIR_ARTIFACTS=../artifacts/universum/studios/android/${LIBRARY_ARTIFACT_NAME}/${LIBRARY_VERSION}/
+LIBRARY_DIR_ARTIFACTS=../../artifacts/universum/studios/android/${LIBRARY_ARTIFACT_NAME}/${LIBRARY_VERSION}/
 LIBRARY_JAVADOC_FILE_NAME="${LIBRARY_ARTIFACT_NAME}-${LIBRARY_VERSION}-javadoc.jar"
-LIBRARY_DIR_TESTS=../library/build/reports/tests/testDebugUnitTest/
-LIBRARY_DIR_COVERAGE=../library/build/reports/jacoco/debug/
-LIBRARY_DIR_BUGS=../library/build/reports/findbugs/debug/
+LIBRARY_DIR_TESTS=../../library/build/reports/tests/testDebugUnitTest/
+LIBRARY_DIR_COVERAGE=../../library/build/reports/jacoco/debug/
+LIBRARY_DIR_BUGS=../../library/build/reports/findbugs/debug/
 WEBSITE_FILES_VERSION="${LIBRARY_VERSION:0:1}".x
-WEBSITE_DIR_REFERENCE=reference/
+WEBSITE_DIR=android/library/${LIBRARY_NAME}
+WEBSITE_DIR_REFERENCE=${WEBSITE_DIR}/reference/
 WEBSITE_DIR_REFERENCE_VERSIONED=${WEBSITE_DIR_REFERENCE}${WEBSITE_FILES_VERSION}/
-WEBSITE_DIR_TESTS=tests/
+WEBSITE_DIR_TESTS=${WEBSITE_DIR}/tests/
 WEBSITE_DIR_TESTS_VERSIONED=${WEBSITE_DIR_TESTS}${WEBSITE_FILES_VERSION}/
-WEBSITE_DIR_COVERAGE=coverage/
+WEBSITE_DIR_COVERAGE=${WEBSITE_DIR}/coverage/
 WEBSITE_DIR_COVERAGE_VERSIONED=${WEBSITE_DIR_COVERAGE}${WEBSITE_FILES_VERSION}/
-WEBSITE_DIR_BUGS=bugs/
+WEBSITE_DIR_BUGS=${WEBSITE_DIR}/bugs/
 WEBSITE_DIR_BUGS_VERSIONED=${WEBSITE_DIR_BUGS}${WEBSITE_FILES_VERSION}/
 
 # Delete left-over temporary directory (if exists).
-rm -rf ${TEMP_DIR}
+rm -rf ${TEMP_DIR_WEBSITE}
 
 #  Clone the current repo into temporary directory.
-git clone --depth 1 --branch gh-pages ${LIBRARY_REPO} ${TEMP_DIR}
+git clone --depth 1 ${IO_REPOSITORY} ${TEMP_DIR_WEBSITE}
 
 # Move working directory into temporary directory.
-cd ${TEMP_DIR}
+mkdir -p ${TEMP_DIR_WEBSITE}/${WEBSITE_DIR}
+cd ${TEMP_DIR_WEBSITE}
 
 # Delete all files for the current version.
 rm -rf ${WEBSITE_DIR_REFERENCE_VERSIONED}
@@ -57,11 +60,15 @@ cp -R ${LIBRARY_DIR_BUGS}. ${WEBSITE_DIR_BUGS_VERSIONED}
 # Stage all files in git and create a commit.
 git add . --all
 git add -u
-git commit -m "Website at $(date)."
+git commit -m "Website for ${LIBRARY_NAME} library at $(date)."
 
 # Push the new website files up to the GitHub.
-git push origin gh-pages
+git push
 
 # Delete temporary directory.
-cd ..
+cd ../..
 rm -rf ${TEMP_DIR}
+
+# Keep the terminal open to indicate that everything was executed successfully.
+echo "Website update finished successfully."
+exec $SHELL

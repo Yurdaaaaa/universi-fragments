@@ -11,12 +11,12 @@ This module contains base `Fragment` implementations and interfaces.
     implementation "universum.studios.android:fragments-base:${DESIRED_VERSION}@aar"
 
 _depends on:_
-[fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core)
+[fragments-core](https://bitbucket.org/android-universum/fragments/src/master/library-core)
 
 ## Elements ##
 
 Below are listed some of **primary elements** that are available in this module:
 
-- [BaseFragment](https://github.com/universum-studios/android_fragments/tree/master/library-base/src/main/java/universum/studios/android/fragment/BaseFragment.java)
-- [BackPressWatcher](https://github.com/universum-studios/android_fragments/tree/master/library-base/src/main/java/universum/studios/android/fragment/BackPressWatcher.java)
-- [ViewClickWatcher](https://github.com/universum-studios/android_fragments/tree/master/library-base/src/main/java/universum/studios/android/fragment/BackPressWatcher.java)
+- [BaseFragment](https://bitbucket.org/android-universum/fragments/src/master/library-base/src/main/java/universum/studios/android/fragment/BaseFragment.java)
+- [BackPressWatcher](https://bitbucket.org/android-universum/fragments/src/master/library-base/src/main/java/universum/studios/android/fragment/BackPressWatcher.java)
+- [ViewClickWatcher](https://bitbucket.org/android-universum/fragments/src/master/library-base/src/main/java/universum/studios/android/fragment/BackPressWatcher.java)

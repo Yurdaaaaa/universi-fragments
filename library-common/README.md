@@ -11,11 +11,11 @@ This module contains common implementations of `Fragment` class.
     implementation "universum.studios.android:fragments-common:${DESIRED_VERSION}@aar"
 
 _depends on:_
-[fragments-core](https://github.com/universum-studios/android_fragments/tree/master/library-core),
-[fragments-base](https://github.com/universum-studios/android_fragments/tree/master/library-base)
+[fragments-core](https://bitbucket.org/android-universum/fragments/src/master/library-core),
+[fragments-base](https://bitbucket.org/android-universum/fragments/src/master/library-base)
 
 ## Elements ##
 
 Below are listed some of **primary elements** that are available in this module:
 
-- [ActionBarFragment](https://github.com/universum-studios/android_fragments/tree/master/library-common/src/main/java/universum/studios/android/fragment/ActionBarFragment.java)
+- [ActionBarFragment](https://bitbucket.org/android-universum/fragments/src/master/library-common/src/main/java/universum/studios/android/fragment/ActionBarFragment.java)
