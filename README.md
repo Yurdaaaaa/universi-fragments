@@ -35,7 +35,7 @@ Supported down to the **Android [API Level 14](http://developer.android.com/abou
 - [`androidx.annotation:annotation`](https://developer.android.com/jetpack/androidx)
 - [`androidx.appcompat:appcompat`](https://developer.android.com/jetpack/androidx)
 - [`androidx.vectordrawable:vectordrawable`](https://developer.android.com/jetpack/androidx)
-- [`universum.studios.android:logger`](https://bitbucket.org/android-universum/analytics/logger)
+- [`universum.studios.android:logger`](https://bitbucket.org/android-universum/logger)
 
 ## [License](https://bitbucket.org/android-universum/fragments/src/master/LICENSE.md) ##
 
