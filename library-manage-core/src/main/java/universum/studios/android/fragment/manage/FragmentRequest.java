@@ -36,6 +36,7 @@ import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 
 /**
  * A request that may be used to replace|add|remove|show|hide|attach|detach a desired {@link Fragment}
@@ -70,7 +71,7 @@ import androidx.fragment.app.FragmentTransaction;
  * <li>{@link #immediate(boolean)}</li>
  * </ul>
  * <p>
- * <b>Note, that each fragment request may be executed only once.</b>
+ * <b>Note that each fragment request may be executed only once.</b>
  *
  * @author Martin Albedinsky
  * @since 1.0
@@ -211,13 +212,20 @@ public final class FragmentRequest {
 	static final int IMMEDIATE = 0x00000001 << 3;
 
 	/**
+	 * Flag indicating that execution of fragment request should be performed regardless of the current
+	 * {@link Lifecycle}'s state.
+	 */
+	static final int IGNORE_LIFECYCLE_STATE = 0x00000001 << 4;
+
+	/**
 	 * Defines an annotation for determining available boolean flags for FragmentRequest.
 	 */
 	@IntDef(flag = true, value = {
 			REPLACE_SAME,
 			ADD_TO_BACK_STACK,
 			ALLOW_STATE_LOSS,
-			IMMEDIATE
+			IMMEDIATE,
+			IGNORE_LIFECYCLE_STATE
 	})
 	@Retention(RetentionPolicy.SOURCE)
 	private @interface Flag {}
@@ -479,6 +487,8 @@ public final class FragmentRequest {
 		builder.append(hasFlag(REPLACE_SAME));
 		builder.append(", addToBackStack: ");
 		builder.append(hasFlag(ADD_TO_BACK_STACK));
+		builder.append(", ignoreLifecycleState: ");
+		builder.append(hasFlag(IGNORE_LIFECYCLE_STATE));
 		builder.append(", allowStateLoss: ");
 		builder.append(hasFlag(ALLOW_STATE_LOSS));
 		builder.append(", immediate: ");
@@ -504,6 +514,8 @@ public final class FragmentRequest {
 	 * <p>
 	 * This id along with {@link #outgoingFragmentId()} may be used to determine exact change between
 	 * two fragments and configure this request accordingly when using {@link FragmentRequestInterceptor}.
+	 * <p>
+	 * Default value: <b>{@link #NO_ID}</b>
 	 *
 	 * @param fragmentId The desired fragment id.
 	 * @return This request to allow methods chaining.
@@ -518,8 +530,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the id of the associated fragment.
-	 * <p>
-	 * Default value: <b>{@link #NO_ID}</b>
 	 *
 	 * @return Fragment id or {@link #NO_ID} if no id has been specified.
 	 *
@@ -535,6 +545,8 @@ public final class FragmentRequest {
 	 * <p>
 	 * This id along with {@link #fragmentId()} may be used to determine exact change between two
 	 * fragments and configure this request accordingly when using {@link FragmentRequestInterceptor}.
+	 * <p>
+	 * Default value: <b>{@link #NO_ID}</b>
 	 *
 	 * @param fragmentId The desired fragment id.
 	 * @return This request to allow methods chaining.
@@ -549,8 +561,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the id of the outgoing fragment.
-	 * <p>
-	 * Default value: <b>{@link #NO_ID}</b>
 	 *
 	 * @return Fragment id or {@link #NO_ID} if no id has been specified.
 	 *
@@ -562,6 +572,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets an arguments for the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param arguments The desired arguments for fragment. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -576,8 +588,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the arguments that should be attached to the associated fragment.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Arguments for fragment or {@code null} if no arguments have been specified yet.
 	 *
@@ -590,9 +600,11 @@ public final class FragmentRequest {
 	/**
 	 * Sets a transaction type determining what {@link FragmentTransaction} to perform for the
 	 * associated fragment.
+	 * <p>
+	 * Default value: <b>{@link #REPLACE}</b>
 	 *
-	 * @param transaction The desired transaction type. One of types defined by {@link Transaction @Transaction}
-	 *                    annotation.
+	 * @param transaction The desired transaction type. One of types defined by
+	 *                    {@link Transaction @Transaction} annotation.
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see #transaction()
@@ -604,10 +616,9 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the transaction type determining what {@link FragmentTransaction} to perform.
-	 * <p>
-	 * Default value: <b>{@link #REPLACE}</b>
 	 *
 	 * @return One of transaction types defined by {@link Transaction @Transaction} annotation.
+	 *
 	 * @see #transaction(int)
 	 */
 	@Transaction public int transaction() {
@@ -616,6 +627,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets a tag for the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param fragmentTag The desired fragment tag. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -630,8 +643,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the tag by which should be the associated fragment identified.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Tag for the associated fragment to be shown using these options.
 	 *
@@ -643,6 +654,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets an id of a view container where to place view hierarchy of the associated fragment.
+	 * <p>
+	 * Default value: <b>{@link FragmentController#NO_CONTAINER_ID}</b>
 	 *
 	 * @param containerId The desired view container id.
 	 * @return This request to allow methods chaining.
@@ -657,8 +670,6 @@ public final class FragmentRequest {
 	/**
 	 * Returns the id of view container where a view hierarchy of the associated fragment should be
 	 * placed.
-	 * <p>
-	 * Default value: <b>{@link FragmentController#NO_CONTAINER_ID}</b>
 	 *
 	 * @return View container id or {@link FragmentController#NO_CONTAINER_ID NO_CONTAINER_ID} if no
 	 * id has been specified.
@@ -672,6 +683,8 @@ public final class FragmentRequest {
 	/**
 	 * Sets a transition that should be used to provide animation resources for the associated
 	 * {@link FragmentTransaction}.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param transition Transition providing animation resources.
 	 * @return This request to allow methods chaining.
@@ -686,8 +699,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the transition providing animation resources for {@link FragmentTransaction}.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition with animation resources used to animate change of view between incoming
 	 * and outgoing fragment.
@@ -699,6 +710,8 @@ public final class FragmentRequest {
 	/**
 	 * Sets a resource id of the style containing transitions used to animate change between incoming
 	 * and outgoing fragment.
+	 * <p>
+	 * Default value: <b>{@link #NO_STYLE}</b>
 	 *
 	 * @param transitionStyle Resource id of the desired style.
 	 * @return This request to allow methods chaining.
@@ -713,8 +726,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the transition style providing transitions for fragment view changes.
-	 * <p>
-	 * Default value: <b>{@link #NO_STYLE}</b>
 	 *
 	 * @return Transition style resource or {@link #NO_STYLE} if no style has been specified.
 	 */
@@ -724,6 +735,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets an enter transition for the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param transition The desired enter transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -739,8 +752,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the enter transition to be played for the associated fragment.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no enter transition has been specified yet.
 	 *
@@ -752,6 +763,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets an exit transition for the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param transition The desired exit transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -767,8 +780,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the exit transition to be played for the associated fragment.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no exit transition has been specified yet.
 	 *
@@ -780,6 +791,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets a reenter transition for the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param transition The desired reenter transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -795,8 +808,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the reenter transition to be played for the associated fragment.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no reenter transition has been specified yet.
 	 *
@@ -808,6 +819,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets a return transition for the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param transition The desired return transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -823,8 +836,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the return transition to be played for the associated fragment.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no return transition has been specified yet.
 	 *
@@ -837,6 +848,8 @@ public final class FragmentRequest {
 	/**
 	 * Sets a boolean flag indicating whether enter transition for the associated fragment may overlap
 	 * or not.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param allowOverlap {@code True} to allow enter transition overlapping, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
@@ -851,8 +864,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns boolean flag indicating whether overlapping for enter transition is allowed.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return {@code True} if overlapping for enter transition is allowed, {@code false} otherwise
 	 * or {@code null} if this option has not been specified yet.
@@ -866,6 +877,8 @@ public final class FragmentRequest {
 	/**
 	 * Sets a boolean flag indicating whether return transition for the associated fragment may overlap
 	 * or not.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param allowOverlap {@code True} to allow return transition overlapping, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
@@ -880,8 +893,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns boolean flag indicating whether overlapping for return transition is allowed.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return {@code True} if overlapping for return transition is allowed, {@code false} otherwise
 	 * or {@code null} if this option has not been specified yet.
@@ -957,6 +968,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets an enter transition for shared elements of the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param transition The desired shared elements's enter transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -972,8 +985,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the enter transition to be played for shared elements of the associated fragment.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no shared element enter transition has been specified yet.
 	 *
@@ -985,6 +996,8 @@ public final class FragmentRequest {
 
 	/**
 	 * Sets an return transition for shared elements of the associated fragment.
+	 * <p>
+	 * Default value: <b>{@code null}</b>
 	 *
 	 * @param transition The desired shared elements's return transition. May be {@code null}.
 	 * @return This request to allow methods chaining.
@@ -1000,8 +1013,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns the return transition to be played for shared elements of the associated fragment.
-	 * <p>
-	 * Default value: <b>{@code null}</b>
 	 *
 	 * @return Transition or {@code null} if no shared element return transition has been specified yet.
 	 *
@@ -1015,7 +1026,7 @@ public final class FragmentRequest {
 	 * Checks whether a transition with the specified <var>transitionFlag</var> has been specified
 	 * for this request or not.
 	 * <p>
-	 * <b>Note</b>, that also {@code null} transitions may be specified.
+	 * <b>Note</b> that also {@code null} transitions may be specified.
 	 *
 	 * @param transitionFlag One of transition flags defined by {@link TransitionFlag @TransitionFlag}
 	 *                       annotation.
@@ -1028,6 +1039,8 @@ public final class FragmentRequest {
 	/**
 	 * Sets a boolean flag indicating whether the already displayed fragment with the same TAG as that
 	 * specified for this request may be replaced by the associated fragment or not.
+	 * <p>
+	 * Default value: <b>{@code false}</b>
 	 *
 	 * @param replace {@code True} to replace an existing fragment with the same TAG as specified
 	 *                via {@link #tag(String)} with the associated one, {@code false} otherwise.
@@ -1042,8 +1055,6 @@ public final class FragmentRequest {
 	/**
 	 * Returns boolean flag indicating whether already displayed fragment with the same TAG may be
 	 * replaced by a new one.
-	 * <p>
-	 * Default value: <b>{@code false}</b>
 	 *
 	 * @return {@code True} if already displayed fragment with the same TAG may be replaced, {@code false}
 	 * otherwise.
@@ -1057,6 +1068,8 @@ public final class FragmentRequest {
 	/**
 	 * Sets a boolean flag indicating whether the associated fragment should be added into fragments
 	 * back stack under its tag or not.
+	 * <p>
+	 * Default value: <b>{@code false}</b>
 	 *
 	 * @param add {@code True} to add fragment into back stack, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
@@ -1070,8 +1083,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns boolean indicating whether to add fragment into back stack.
-	 * <p>
-	 * Default value: <b>{@code false}</b>
 	 *
 	 * @return {@code True} if to add the associated fragment into back stack, {@code false} otherwise.
 	 *
@@ -1082,14 +1093,50 @@ public final class FragmentRequest {
 	}
 
 	/**
+	 * Sets a boolean flag indicating whether {@link FragmentController} should ignore {@link Lifecycle}'s
+	 * current state when executing this request or not.
+	 * <p>
+	 * Default value: <b>{@code false}</b>
+	 *
+	 * @param ignore {@code True} to ignore lifecycle's current state when executing this request,
+	 *               {@code false} otherwise.
+	 * @return This request to allow methods chaining.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @see #ignoreLifecycleState()
+	 * @see #allowStateLoss(boolean)
+	 */
+	public FragmentRequest ignoreLifecycleState(final boolean ignore) {
+		return setHasFlag(IGNORE_LIFECYCLE_STATE, ignore);
+	}
+
+	/**
+	 * Returns boolean flag indicating whether current {@link Lifecycle}'s state should be ignored
+	 * when executing this request.
+	 *
+	 * @return {@code True} if lifecycle's current state should be ignored, {@code false} otherwise.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @see #ignoreLifecycleState(boolean)
+	 */
+	public boolean ignoreLifecycleState() {
+		return hasFlag(IGNORE_LIFECYCLE_STATE);
+	}
+
+	/**
 	 * Sets a boolean flag indicating whether {@link FragmentTransaction} for the associated fragment
 	 * may be committed allowing state loss or not.
+	 * <p>
+	 * Default value: <b>{@code false}</b>
 	 *
 	 * @param allow {@code True} to allow state loss when committing transaction, {@code false} otherwise.
 	 * @return This request to allow methods chaining.
 	 *
 	 * @see FragmentTransaction#commitAllowingStateLoss()
 	 * @see #allowStateLoss()
+	 * @see #ignoreLifecycleState(boolean)
 	 */
 	public FragmentRequest allowStateLoss(final boolean allow) {
 		return setHasFlag(ALLOW_STATE_LOSS, allow);
@@ -1097,8 +1144,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns boolean flag indicating whether to commit fragment transaction allowing state loss.
-	 * <p>
-	 * Default value: <b>{@code false}</b>
 	 *
 	 * @return {@code True} if transaction may be committed allowing state loss, {@code false} otherwise.
 	 *
@@ -1111,6 +1156,8 @@ public final class FragmentRequest {
 	/**
 	 * Sets a boolean flag indicating whether {@link FragmentTransaction} for the associated fragment
 	 * should be executed immediately or not.
+	 * <p>
+	 * Default value: <b>{@code false}</b>
 	 *
 	 * @param immediate {@code True} to execute immediately (synchronously), {@code false} otherwise
 	 *                  (asynchronously).
@@ -1125,8 +1172,6 @@ public final class FragmentRequest {
 
 	/**
 	 * Returns boolean indicating whether to execute fragment transaction immediately.
-	 * <p>
-	 * Default value: <b>{@code false}</b>
 	 *
 	 * @return {@code True} if fragment transaction should be executed immediately (synchronously),
 	 * {@code false} otherwise (asynchronously).
@@ -1165,7 +1210,7 @@ public final class FragmentRequest {
 	 * Executes this request via the associated {@link FragmentController} that was used to create
 	 * this request instance.
 	 * <p>
-	 * <b>Note</b>, that each request may be executed only once and any subsequent calls to this
+	 * <b>Note</b> that each request may be executed only once and any subsequent calls to this
 	 * method will throw an exception.
 	 *
 	 * @return The fragment that has been associated with this request either during its initialization

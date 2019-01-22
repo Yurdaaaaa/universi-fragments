@@ -34,6 +34,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import universum.studios.android.fragment.FragmentsLogging;
 import universum.studios.android.fragment.util.FragmentUtils;
 
@@ -163,8 +164,7 @@ public class FragmentController {
 	/**
 	 * Fragment manager used to perform fragments related operations.
 	 */
-	@SuppressWarnings("WeakerAccess")
-	final FragmentManager manager;
+	@SuppressWarnings("WeakerAccess") final FragmentManager manager;
 
 	/**
 	 * Context used to check whether custom fragment animations will be played by the Android framework
@@ -173,7 +173,21 @@ public class FragmentController {
 	 *
 	 * @see #createTransaction(FragmentRequest)
 	 */
-	private final Context context;
+	@VisibleForTesting Context context;
+
+	/**
+	 * Lifecycle of the context for which is this controller created. If attached, its current state
+	 * is checked with {@link #lifecycleRequiredState} whenever a {@link FragmentRequest} is requested
+	 * to be executed via {@link #executeRequest(FragmentRequest)}. May be null.
+	 */
+	@VisibleForTesting Lifecycle lifecycle;
+
+	/**
+	 * State of the attached lifecycle which is required in order to be any {@link FragmentRequest}
+	 * passed to {@link #executeRequest(FragmentRequest)} executed, unless specific fragment request
+	 * has specified {@link FragmentRequest#IGNORE_LIFECYCLE_STATE} flag.
+	 */
+	private Lifecycle.State lifecycleRequiredState = Lifecycle.State.STARTED;
 
 	/**
 	 * Id of a view container where to place view hierarchies of the desired fragments.
@@ -216,6 +230,8 @@ public class FragmentController {
 	 */
 
 	/**
+	 * <b>This constructor was deprecated and will be removed in the next minor release.</b>
+	 * <p>
 	 * Creates a new instance of FragmentController for the given <var>parentActivity</var>.
 	 * <p>
 	 * Passed activity will be used to obtain an instance of {@link FragmentManager} for the new
@@ -233,9 +249,12 @@ public class FragmentController {
 	 *
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(Fragment)
+	 *
+	 * @deprecated Use {@link #create(FragmentActivity)} instead.
 	 */
-	public FragmentController(@NonNull final FragmentActivity parentActivity) {
+	@Deprecated public FragmentController(@NonNull final FragmentActivity parentActivity) {
 		this(parentActivity, parentActivity.getSupportFragmentManager());
+		setLifecycle(parentActivity.getLifecycle());
 		if (parentActivity instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentActivity);
 		}
@@ -248,6 +267,8 @@ public class FragmentController {
 	}
 
 	/**
+	 * <b>This constructor was deprecated and will be removed in the next minor release.</b>
+	 * <p>
 	 * Creates a new instance of FragmentController for the given <var>parentFragment</var>.
 	 * <p>
 	 * Passed fragment will be used to obtain an instance of {@link FragmentManager} for the new
@@ -268,9 +289,12 @@ public class FragmentController {
 	 *
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(FragmentActivity)
+	 *
+	 * @deprecated Use {@link #create(Fragment)} instead.
 	 */
-	public FragmentController(@NonNull final Fragment parentFragment) {
+	@Deprecated public FragmentController(@NonNull final Fragment parentFragment) {
 		this(parentFragment.getActivity(), parentFragment.requireFragmentManager());
+		setLifecycle(parentFragment.getLifecycle());
 		if (parentFragment instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentFragment);
 		}
@@ -320,6 +344,64 @@ public class FragmentController {
 	 */
 
 	/**
+	 * Creates a new instance of FragmentController for the given <var>activity</var>.
+	 * <p>
+	 * Passed activity will be used to obtain its {@link Lifecycle} along with {@link FragmentManager}
+	 * for the new controller.
+	 * <p>
+	 * New controller will also have the activity attached as one of listeners/interceptors listed
+	 * below if that activity implements these interfaces respectively:
+	 * <ul>
+	 * <li>{@link FragmentRequestInterceptor} -&gt; {@link #setRequestInterceptor(FragmentRequestInterceptor)}</li>
+	 * <li>{@link OnRequestListener} -&gt; {@link #registerOnRequestListener(OnRequestListener)}</li>
+	 * <li>{@link OnBackStackChangeListener} -&gt; {@link #registerOnBackStackChangeListener(OnBackStackChangeListener)}</li>
+	 * </ul>
+	 * <p>
+	 * <b>Do not forget to destroy the new controller via {@link #destroy()} when the activity is
+	 * also destroyed.</b>
+	 *
+	 * @param activity The activity in which context will be the new fragment controller used.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @see #FragmentController(Context, FragmentManager)
+	 * @see #setLifecycle(Lifecycle)
+	 * @see #setLifecycleRequiredState(Lifecycle.State)
+	 */
+	@SuppressWarnings("deprecation") public static FragmentController create(@NonNull final FragmentActivity activity) {
+		return new FragmentController(activity);
+	}
+
+	/**
+	 * Creates a new instance of FragmentController for the given <var>fragment</var>.
+	 * <p>
+	 * Passed fragment will be used to obtain its {@link Lifecycle} along with {@link FragmentManager}
+	 * for the new controller.
+	 * <p>
+	 * New controller will also have the fragment attached as one of listeners/interceptors listed
+	 * below if that fragment implements these interfaces respectively:
+	 * <ul>
+	 * <li>{@link FragmentRequestInterceptor} -&gt; {@link #setRequestInterceptor(FragmentRequestInterceptor)}</li>
+	 * <li>{@link OnRequestListener} -&gt; {@link #registerOnRequestListener(OnRequestListener)}</li>
+	 * <li>{@link OnBackStackChangeListener} -&gt; {@link #registerOnBackStackChangeListener(OnBackStackChangeListener)}</li>
+	 * </ul>
+	 * <p>
+	 * <b>Do not forget to destroy the new controller via {@link #destroy()} when the fragment is
+	 * also destroyed.</b>
+	 *
+	 * @param fragment The fragment in which context will be the new fragment controller used.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @see #FragmentController(Context, FragmentManager)
+	 * @see #setLifecycle(Lifecycle)
+	 * @see #setLifecycleRequiredState(Lifecycle.State)
+	 */
+	@SuppressWarnings("deprecation") public static FragmentController create(@NonNull final Fragment fragment) {
+		return new FragmentController(fragment);
+	}
+
+	/**
 	 * Returns the fragment manager specified for this controller during its initialization.
 	 *
 	 * @return FragmentManager instance.
@@ -331,9 +413,62 @@ public class FragmentController {
 	}
 
 	/**
+	 * Sets a Lifecycle of the parent context in which is this controller created. This lifecycle is
+	 * used by this controller to ensure safe execution of {@link FragmentRequest FragmentRequests}
+	 * according to required lifecycle state specified via {@link #setLifecycleRequiredState(Lifecycle.State)}.
+	 * <p>
+	 * If no lifecycle is attached, fragment requests are executed without current lifecycle's state check.
+	 *
+	 * @param lifecycle The lifecycle of the parent context (activity or fragment). May be {@code null}
+	 *
+	 * @since 1.4.1
+	 *
+	 * @see #setLifecycleRequiredState(Lifecycle.State)
+	 */
+	public void setLifecycle(@Nullable final Lifecycle lifecycle) {
+		this.lifecycle = lifecycle;
+	}
+
+	/**
+	 * Sets a state of Lifecycle which is required for execution of {@link FragmentRequest FragmentRequests}
+	 * performed using this controller. The specified state will be checked for all fragment requests
+	 * if this controller has {@link Lifecycle} attached via {@link #setLifecycle(Lifecycle)}. If the
+	 * current state of the attached lifecycle is not <b>at least</b> the required one, requests
+	 * requested for execution at that particular time will be ignored.
+	 * <p>
+	 * This state check may be ignored for a single request via {@link FragmentRequest#ignoreLifecycleState(boolean)}.
+	 * <p>
+	 * Default value: <b>{@link Lifecycle.State#STARTED}</b>
+	 *
+	 * @param requiredState The desired required lifecycle state.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @see #getLifecycleRequiredState()
+	 * @see #setLifecycle(Lifecycle)
+	 */
+	public void setLifecycleRequiredState(@NonNull final Lifecycle.State requiredState) {
+		this.lifecycleRequiredState = requiredState;
+	}
+
+	/**
+	 * Returns the required state for lifecycle checked when executing {@link FragmentRequest FragmentRequests}
+	 * via this controller.
+	 *
+	 * @return The required lifecycle state.
+	 *
+	 * @since 1.4.1
+	 *
+	 * @see #setLifecycleRequiredState(Lifecycle.State)
+	 */
+	@NonNull public Lifecycle.State getLifecycleRequiredState() {
+		return lifecycleRequiredState;
+	}
+
+	/**
 	 * Sets an id of a view container where to place view hierarchies of the desired fragments.
 	 * <p>
-	 * <b>Note</b>, that this container id is used to specify initial/default container id for all
+	 * <b>Note</b> that this container id is used to specify initial/default container id for all
 	 * {@link FragmentRequest FragmentRequests} created via {@link #newRequest(Fragment)}
 	 *
 	 * @param containerId The desired view container id.
@@ -566,6 +701,13 @@ public class FragmentController {
 	 */
 	@Nullable Fragment executeRequest(final FragmentRequest request) {
 		this.assertNotDestroyed("EXECUTE REQUEST");
+
+		final Lifecycle.State lifecycleCurrentState = lifecycle == null ? null : lifecycle.getCurrentState();
+		if (!request.hasFlag(FragmentRequest.IGNORE_LIFECYCLE_STATE) && lifecycleCurrentState != null && !lifecycleCurrentState.isAtLeast(lifecycleRequiredState)) {
+			FragmentsLogging.w(TAG, "Current Lifecycle's state(" + lifecycleCurrentState + ") is not at least(" + lifecycleRequiredState + "). Ignoring request!");
+			return null;
+		}
+
 		Fragment fragment = request.fragment;
 		if (fragment == null) {
 			String fragmentTag = request.tag;
@@ -944,6 +1086,8 @@ public class FragmentController {
 			this.manager.removeOnBackStackChangedListener(backStackChangeListener);
 			this.requestListeners = null;
 			this.backStackChangeListeners = null;
+			this.lifecycle = null;
+			this.context = null;
 		}
 	}
 
@@ -971,9 +1115,7 @@ public class FragmentController {
 		switch (change) {
 			case BackStackListener.ADDED: {
 				final FragmentManager.BackStackEntry entry = manager.getBackStackEntryAt(backStackSize - 1);
-				if (entry != null) {
-					this.notifyBackStackEntryChange(topBackStackEntry = entry, true);
-				}
+				this.notifyBackStackEntryChange(topBackStackEntry = entry, true);
 				break;
 			}
 			case BackStackListener.REMOVED:
