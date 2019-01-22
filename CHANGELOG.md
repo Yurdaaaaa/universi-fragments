@@ -6,6 +6,14 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
+### 1.4.1 ###
+> upcoming
+
+- Using `Lifecycle` in `FragmentController` to safely execute `FragmentRequests` according to the
+  current lifecycle state. By default any `FragmentRequest` will be executed only if the current
+  Lifecycle's state is **at least** `STARTED` (this is true in cases when `FragmentController` is
+  created via constructor taking `Activity` or `Fragment` as argument).
+
 ### [1.4.0](https://github.com/universum-studios/android_fragments/releases/tag/v1.4.0) ###
 > 15.11.2018
 

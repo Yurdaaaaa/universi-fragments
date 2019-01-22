@@ -90,6 +90,8 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 		assertThat(request.replaceSame(), is(false));
 		assertThat(request.hasFlag(FragmentRequest.ADD_TO_BACK_STACK), is(false));
 		assertThat(request.addToBackStack(), is(false));
+		assertThat(request.hasFlag(FragmentRequest.IGNORE_LIFECYCLE_STATE), is(false));
+		assertThat(request.ignoreLifecycleState(), is(false));
 		assertThat(request.hasFlag(FragmentRequest.ALLOW_STATE_LOSS), is(false));
 		assertThat(request.allowStateLoss(), is(false));
 		assertThat(request.hasFlag(FragmentRequest.IMMEDIATE), is(false));
@@ -373,6 +375,16 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 		assertThat(request.hasFlag(FragmentRequest.ADD_TO_BACK_STACK), is(true));
 		assertThat(request.addToBackStack(false).addToBackStack(), is(false));
 		assertThat(request.hasFlag(FragmentRequest.ADD_TO_BACK_STACK), is(false));
+	}
+
+	@Test public void testIgnoreLifecycleState() {
+		// Arrange:
+    	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
+		// Act + Assert:
+		assertThat(request.ignoreLifecycleState(true).ignoreLifecycleState(), is(true));
+		assertThat(request.hasFlag(FragmentRequest.IGNORE_LIFECYCLE_STATE), is(true));
+		assertThat(request.ignoreLifecycleState(false).ignoreLifecycleState(), is(false));
+		assertThat(request.hasFlag(FragmentRequest.IGNORE_LIFECYCLE_STATE), is(false));
 	}
 
 	@Test public void testAllowStateLoss() {
