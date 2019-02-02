@@ -1,6 +1,6 @@
 Change-Log
 ===============
-> Regular configuration update: _01.12.2018_
+> Regular configuration update: _01.02.2019_
 
 More **detailed changelog** for each respective version may be viewed by pressing on a desired _version's name_.
 

@@ -34,7 +34,7 @@ def buildConfig = [
 
 def testConfig = [
         instrumentationRunner: [androidJUnit: 'android.support.test.runner.AndroidJUnitRunner'],
-        coverageToolVersion  : '0.8.2'
+        coverageToolVersion  : '0.8.3'
 ]
 
 def bitbucketConfig = [

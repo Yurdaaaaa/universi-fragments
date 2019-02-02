@@ -5,8 +5,8 @@ Android Fragments
 [![Codecov](https://codecov.io/bb/android-universum/fragments/branch/master/graph/badge.svg)](https://codecov.io/bb/android-universum/fragments)
 [![Codacy](https://api.codacy.com/project/badge/Grade/6101c2eaf68f48ba973ef375749c2536)](https://www.codacy.com/app/universum-studios/fragments?utm_source=android-universum@bitbucket.org&amp;utm_medium=referral&amp;utm_content=android-universum/fragments&amp;utm_campaign=Badge_Grade)
 [![Android](https://img.shields.io/badge/android-9.0-blue.svg)](https://developer.android.com/about/versions/pie/android-9.0)
+[![Robolectric](https://img.shields.io/badge/robolectric-4.1-blue.svg)](http://robolectric.org)
 [![Android Jetpack](https://img.shields.io/badge/Android-Jetpack-brightgreen.svg)](https://developer.android.com/jetpack)
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-Fragments-green.svg?style=flat)](https://android-arsenal.com/details/1/5408)
 
 Simplified management of fragments for the Android platform.
 
