@@ -42,24 +42,18 @@ task clean(type: Delete) {
 /**
  * Task that assembles release variant of all library modules.
  */
-task assembleReleaseLibrary() {
+task assembleLibrary() {
     group 'build'
     description 'Assembles release variant of all library modules.'
     subprojects.findAll { if (it.name.startsWith("library")) dependsOn ":${it.name}:assembleRelease" }
 }
 
 /**
- * Task that updates library artifacts directory.
+ * Task that deploys (uploads) the primary library module into Maven local repository.
  */
-task updateArtifacts() {
-    subprojects.findAll { if (it.name.startsWith("library")) dependsOn ":${it.name}:updateArtifacts" }
-    doLast {
-        if (file(repos.project.artifacts).exists()) {
-            exec {
-                commandLine 'git', 'add', repos.project.artifacts, '-A'
-            }
-        }
-    }
+task deployToMavenLocal(dependsOn: ':library:publishToMavenLocal') {
+    group 'deploy'
+    description 'Deploys primary artifact of the library to the local Maven repository.'
 }
 
 /**
@@ -68,7 +62,7 @@ task updateArtifacts() {
 task deployModulesToMavenLocal() {
     group 'deploy'
     description 'Deploys artifacts for all library modules (except groups) into Maven local repository.'
-    subprojects.findAll { if (it.name.startsWith("library-") && !it.name.endsWith('_group')) dependsOn ":${it.name}:uploadArchives" }
+    subprojects.findAll { if (it.name.startsWith("library-") && !it.name.endsWith('_group')) dependsOn ":${it.name}:publishToMavenLocal" }
 }
 
 /**
@@ -77,7 +71,15 @@ task deployModulesToMavenLocal() {
 task deployGroupsToMavenLocal() {
     group 'deploy'
     description 'Deploys artifacts for all library module groups into Maven local repository.'
-    subprojects.findAll { if (it.name.startsWith("library-") && it.name.endsWith('_group')) dependsOn ":${it.name}:uploadArchives" }
+    subprojects.findAll { if (it.name.startsWith("library-") && it.name.endsWith('_group')) dependsOn ":${it.name}:publishToMavenLocal" }
+}
+
+/**
+ * Task that deploys (uploads) the primary library module up to the Bintray repository.
+ */
+task deployToBintray(dependsOn: ':library:bintrayUpload') {
+    group 'deploy'
+    description 'Deploys primary artifact of the library up to the Bintray repository.'
 }
 
 /**
@@ -99,17 +101,15 @@ task deployGroupsToBintray() {
 }
 
 /**
- * Task that deploys (uploads) the primary library module into Maven local repository.
+ * Task that updates library artifacts directory.
  */
-task deployToMavenLocal(dependsOn: ':library:uploadArchives') {
-    group 'deploy'
-    description 'Deploys primary artifact of the library to the local Maven repository.'
-}
-
-/**
- * Task that deploys (uploads) the primary library module up to the Bintray repository.
- */
-task deployToBintray(dependsOn: ':library:bintrayUpload') {
-    group 'deploy'
-    description 'Deploys primary artifact of the library up to the Bintray repository.'
+task updateArtifacts() {
+    subprojects.findAll { if (it.name.startsWith("library")) dependsOn ":${it.name}:updateArtifacts" }
+    doLast {
+        if (file(repos.project.artifacts).exists()) {
+            exec {
+                commandLine 'git', 'add', repos.project.artifacts, '-A'
+            }
+        }
+    }
 }

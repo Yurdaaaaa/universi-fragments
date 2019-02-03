@@ -50,12 +50,18 @@ def pomConfig = {
     }
 }
 
+def androidAar = artifacts.add('archives', file("${buildDir}/outputs/aar/${project.name}.aar")) {
+    name "${config.library.name}-${config.pom.version}"
+    builtBy ":${project.name}:bundleReleaseAar"
+}
+
 publishing {
     publications {
         library(MavenPublication) {
             groupId config.pom.groupId
             artifactId project.property('maven.pom.artifactId')
             version config.pom.version
+            artifact androidAar
             artifact classesJar
             artifact javadocJar
             artifact sourcesJar
