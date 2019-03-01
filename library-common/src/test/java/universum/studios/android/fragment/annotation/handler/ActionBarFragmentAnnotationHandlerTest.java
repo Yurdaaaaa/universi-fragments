@@ -31,7 +31,7 @@ import universum.studios.android.fragment.annotation.ActionBarOptions;
 import universum.studios.android.fragment.annotation.ActionModeOptions;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.MenuOptions;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -47,9 +47,9 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class ActionBarFragmentAnnotationHandlerTest extends RobolectricTestCase {
+public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCase {
 
-	@Override public void beforeTest() throws Exception {
+	@Override public void beforeTest() {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);

@@ -19,7 +19,6 @@
 package universum.studios.android.fragment.manage;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcel;
@@ -44,10 +43,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
-import universum.studios.android.test.local.RobolectricTestCase;
-import universum.studios.android.test.local.TestActivity;
-import universum.studios.android.test.local.TestCompatActivity;
-import universum.studios.android.test.local.TestFragment;
+import universum.studios.android.test.AndroidTestCase;
+import universum.studios.android.test.TestActivity;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -67,7 +64,7 @@ import static org.mockito.Mockito.when;
  * @author Martin Albedinsky
  */
 @SuppressLint("CommitTransaction")
-public final class FragmentControllerTest extends RobolectricTestCase {
+public final class FragmentControllerTest extends AndroidTestCase {
 
 	@Test public void testContract() {
 		// Assert:
@@ -77,7 +74,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testInstantiationForActivity() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		// Act:
 		final FragmentController controller = new FragmentController(activity);
 		// Assert:
@@ -88,11 +85,11 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testCreateForActivity() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		// Act:
 		final FragmentController controller = FragmentController.create(activity);
 		// Assert:
-		assertThat(controller.context, is((Context) activity));
+		assertThat(controller.context, is(activity));
 		assertThat(controller.getFragmentManager(), is(activity.getSupportFragmentManager()));
 		assertThat(controller.lifecycle, is(activity.getLifecycle()));
 		assertThat(controller.getLifecycleRequiredState(), is(Lifecycle.State.STARTED));
@@ -125,7 +122,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		// Act:
 		final FragmentController controller = FragmentController.create(activity);
 		// Assert:
-		assertThat(controller.context, is((Context) activity));
+		assertThat(controller.context, is(activity));
 		assertThat(controller.getFragmentManager(), is(activity.getSupportFragmentManager()));
 		assertThat(controller.lifecycle, is(activity.getLifecycle()));
 		assertThat(controller.getLifecycleRequiredState(), is(Lifecycle.State.STARTED));
@@ -144,7 +141,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testInstantiationForFragment() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final Fragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -159,7 +156,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testCreateForFragment() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final Fragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -167,7 +164,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		// Act:
 		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
-		assertThat(controller.context, is((Context) activity));
+		assertThat(controller.context, is(activity));
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.lifecycle, is(fragment.getLifecycle()));
 		assertThat(controller.getLifecycleRequiredState(), is(Lifecycle.State.STARTED));
@@ -177,7 +174,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testInstantiationForFragmentImplementingAllInterfaces() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final TestFragmentWithAlInterfaces fragment = new TestFragmentWithAlInterfaces();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -199,7 +196,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testCreateForFragmentImplementingAllInterfaces() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final TestFragmentWithAlInterfaces fragment = new TestFragmentWithAlInterfaces();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -207,7 +204,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		// Act:
 		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
-		assertThat(controller.context, is((Context) activity));
+		assertThat(controller.context, is(activity));
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.lifecycle, is(fragment.getLifecycle()));
 		assertThat(controller.getLifecycleRequiredState(), is(Lifecycle.State.STARTED));
@@ -224,7 +221,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testInstantiationForFragmentManager() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		// Act:
 		final FragmentController controller = new FragmentController(fragmentManager);
@@ -239,12 +236,12 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testInstantiationForFragmentManagerAndContext() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		// Act:
 		final FragmentController controller = new FragmentController(activity, fragmentManager);
 		// Assert:
-		assertThat(controller.context, is((Context) activity));
+		assertThat(controller.context, is(activity));
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.lifecycle, is(nullValue()));
 		assertThat(controller.getLifecycleRequiredState(), is(Lifecycle.State.STARTED));
@@ -252,10 +249,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testInstantiationForFragmentManagerWithBackStackEntries() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		fragmentManager.beginTransaction().add(TestActivity.CONTENT_VIEW_ID, new TestFragment(), "TAG.1").addToBackStack("TAG.1").commit();
 		fragmentManager.beginTransaction().add(TestActivity.CONTENT_VIEW_ID, new TestFragment(), "TAG.2").addToBackStack("TAG.2").commit();
@@ -273,7 +269,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testLifecycleRequiredState() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		// Act:
 		controller.setLifecycleRequiredState(Lifecycle.State.RESUMED);
@@ -283,7 +279,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testViewContainerId() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		// Act:
 		controller.setViewContainerId(android.R.id.custom);
@@ -293,7 +289,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testFactory() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final FragmentFactory mockFactory = mock(FragmentFactory.class);
 		// Act + Assert:
@@ -309,7 +305,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testRegisterOnRequestListener() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final FragmentController.OnRequestListener firstMockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentController.OnRequestListener secondMockListener = mock(FragmentController.OnRequestListener.class);
@@ -327,7 +323,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testUnregisterOnRequestListener() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final FragmentController.OnRequestListener firstMockListener = mock(FragmentController.OnRequestListener.class);
 		final FragmentController.OnRequestListener secondMockListener = mock(FragmentController.OnRequestListener.class);
@@ -347,7 +343,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testUnregisterOnRequestListenerNotRegistered() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final FragmentController.OnRequestListener mockListener = mock(FragmentController.OnRequestListener.class);
 		// Act:
@@ -357,7 +353,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testNotifyRequestExecutedWithoutRegisteredListeners() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		// Act:
 		// Only ensure that notifying without registered listeners does not cause any troubles.
@@ -366,7 +362,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testRegisterOnBackStackChangeListener() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final FragmentController.OnBackStackChangeListener firstMockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController.OnBackStackChangeListener secondMockListener = mock(FragmentController.OnBackStackChangeListener.class);
@@ -384,7 +380,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testUnregisterOnBackStackChangeListener() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final FragmentController.OnBackStackChangeListener firstMockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		final FragmentController.OnBackStackChangeListener secondMockListener = mock(FragmentController.OnBackStackChangeListener.class);
@@ -404,7 +400,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testUnregisterOnBackStackChangeListenerNotRegistered() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final FragmentController.OnBackStackChangeListener mockListener = mock(FragmentController.OnBackStackChangeListener.class);
 		// Act:
@@ -414,7 +410,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testNotifyBackStackEntryChangeWithoutRegisteredListeners() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		// Act:
 		// Only ensure that notifying without registered listeners does not cause any troubles.
@@ -423,7 +419,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testNewRequest() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		// Act:
@@ -437,7 +433,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testNewRequestForFragment() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		final Fragment mockFragment = mock(TestFragment.class);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
@@ -458,7 +454,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 	@Test public void testNewRequestForFactoryFragment() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		// Act:
@@ -1094,7 +1090,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
 		final Fragment mockFragment = mock(TestFragment.class);
-		final FragmentController controller = new FragmentController(context, mockManager);
+		final FragmentController controller = new FragmentController(context(), mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
 		final FragmentTransition transition = new TestTransition();
 		final FragmentRequest request = controller.newRequest(mockFragment).transition(transition);
@@ -1138,9 +1134,9 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
-		final View elementFirst = new View(context);
+		final View elementFirst = new View(context());
 		ViewCompat.setTransitionName(elementFirst, "Element.First");
-		final View elementSecond = new View(context);
+		final View elementSecond = new View(context());
 		final FragmentRequest request = controller.newRequest(mockFragment)
 				.sharedElement(elementFirst, "Element.First")
 				.sharedElement(elementSecond, "Element.Second");
@@ -1165,8 +1161,8 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		final Fragment mockFragment = mock(TestFragment.class);
 		final FragmentController controller = new FragmentController(mockManager);
 		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
-		final View elementFirst = new View(context);
-		final View elementSecond = new View(context);
+		final View elementFirst = new View(context());
+		final View elementSecond = new View(context());
 		final FragmentRequest request = controller.newRequest(mockFragment)
 				.sharedElement(elementFirst, "Element.First")
 				.sharedElement(elementSecond, "Element.Second");
@@ -1472,7 +1468,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 	}
 
 	private static FragmentController createDestroyedController() {
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentController controller = new FragmentController(activity.getSupportFragmentManager());
 		controller.destroy();
 		return controller;
@@ -1482,7 +1478,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? new Fade() : null;
 	}
 
-	public static final class TestActivityWithAlInterfaces extends TestCompatActivity
+	public static final class TestActivityWithAlInterfaces extends TestActivity
 			implements
 			FragmentRequestInterceptor,
 			FragmentController.OnRequestListener,
@@ -1519,6 +1515,8 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 			return (receivedCallbacks & callback) == callback;
 		}
 	}
+
+	public static class TestFragment extends Fragment {}
 
 	public static final class TestFragmentWithAlInterfaces extends TestFragment
 			implements
@@ -1568,17 +1566,15 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 
 		@Override @Nullable public Fragment createFragment(final int fragmentId) {
 			switch (fragmentId) {
-				case FRAGMENT_1: return new TestFragment1();
+				case FRAGMENT_1: return new TestFragment();
 				default: return null;
 			}
 		}
 
 		@Override @Nullable public String createFragmentTag(final int fragmentId) {
-			return "TAG.Fragment." + Integer.toString(fragmentId);
+			return "TAG.Fragment." + fragmentId;
 		}
 	}
-
-	public static final class TestFragment1 extends TestFragment {}
 
 	@SuppressLint("ParcelCreator")
 	private static final class TestTransition implements FragmentTransition {
@@ -1603,9 +1599,7 @@ public final class FragmentControllerTest extends RobolectricTestCase {
 			return TestTransition.class.getName();
 		}
 
-		@Override public int describeContents() {
-			return 0;
-		}
+		@Override public int describeContents() { return 0; }
 
 		@Override public void writeToParcel(@NonNull Parcel dest, int flags) {}
 	}

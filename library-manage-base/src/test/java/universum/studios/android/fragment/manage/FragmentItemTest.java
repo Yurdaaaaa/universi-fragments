@@ -19,23 +19,23 @@
 package universum.studios.android.fragment.manage;
 
 import android.annotation.SuppressLint;
-import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 
 import org.junit.Test;
 
-import universum.studios.android.test.local.RobolectricTestCase;
+import androidx.fragment.app.Fragment;
+import universum.studios.android.test.AndroidTestCase;
 
 import static junit.framework.Assert.assertSame;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentItemTest extends RobolectricTestCase {
+public final class FragmentItemTest extends AndroidTestCase {
 
 	@Test public void testInstantiation() {
 		// Act:
@@ -55,7 +55,6 @@ public final class FragmentItemTest extends RobolectricTestCase {
 		assertThat(item.tag, is("TAG.TestFragment"));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testNewFragmentInstanceWithArguments() {
 		// Arrange:
 		final Bundle args = new Bundle();
@@ -67,7 +66,6 @@ public final class FragmentItemTest extends RobolectricTestCase {
 		assertThat(fragment.getArguments(), is(args));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testNewFragmentInstanceWithoutArguments() {
 		// Arrange:
 		final FragmentItem item = new FragmentItem(1, TestFragment.class);

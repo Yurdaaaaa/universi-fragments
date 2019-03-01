@@ -26,29 +26,26 @@ import android.widget.FrameLayout;
 
 import org.junit.Test;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
-import universum.studios.android.test.instrumented.TestResources;
-import universum.studios.android.test.instrumented.TestUtils;
+import universum.studios.android.test.AndroidTestCase;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assume.assumeTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentUtilsTest extends InstrumentedTestCase {
+public final class FragmentUtilsTest extends AndroidTestCase {
     
 	@Test public void testInflateTransitionManager() {
 		// Arrange:
-		final ViewGroup sceneRoot = new FrameLayout(context);
+		final ViewGroup sceneRoot = new FrameLayout(context());
 		// Act:
-		final TransitionManager transitionManager = FragmentUtils.inflateTransitionManager(context, TestResources.resourceIdentifier(
-				context,
-				TestResources.TRANSITION,
-				"transition_manager"
+		final TransitionManager transitionManager = FragmentUtils.inflateTransitionManager(context(), context().getResources().getIdentifier(
+				"transition_manager",
+				"transition",
+				context().getPackageName()
 		), sceneRoot);
 		// Assert:
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -59,32 +56,38 @@ public final class FragmentUtilsTest extends InstrumentedTestCase {
 	}
 
 	@Test public void testGetVectorDrawable() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(context));
 		// Arrange:
-		final int resId = TestResources.resourceIdentifier(context, TestResources.DRAWABLE, "vc_ic_android_24dp");
+		final int resId = context().getResources().getIdentifier(
+				"vc_ic_android_24dp",
+				"drawable",
+				context().getPackageName()
+		);
 		// Act:
-		final Drawable drawable = FragmentUtils.getVectorDrawable(context.getResources(), resId, null);
+		final Drawable drawable = FragmentUtils.getVectorDrawable(context().getResources(), resId, null);
 		// Assert:
 		assertThat(drawable, is(notNullValue()));
 	}
 
 	@Test public void testGetVectorDrawableWithNoResource() {
 		// Arrange + Act + Assert:
-		assertThat(FragmentUtils.getVectorDrawable(context.getResources(), 0, null), is(nullValue()));
+		assertThat(FragmentUtils.getVectorDrawable(context().getResources(), 0, null), is(nullValue()));
 	}
 
 	@Test public void testGetDrawable() {
-		assumeTrue(TestUtils.hasLibraryRootPackageName(context));
 		// Arrange:
-		final int resId = TestResources.resourceIdentifier(context, TestResources.DRAWABLE, "ic_android");
+		final int resId = context().getResources().getIdentifier(
+				"ic_android",
+				"drawable",
+				context().getPackageName()
+		);
 		// Act:
-		final Drawable drawable = FragmentUtils.getDrawable(context.getResources(), resId, null);
+		final Drawable drawable = FragmentUtils.getDrawable(context().getResources(), resId, null);
 		// Assert:
 		assertThat(drawable, is(notNullValue()));
 	}
 
 	@Test public void testGetDrawableWithNoResource() {
 		// Arrange + Act + Assert:
-		assertThat(FragmentUtils.getDrawable(context.getResources(), 0, null), is(nullValue()));
+		assertThat(FragmentUtils.getDrawable(context().getResources(), 0, null), is(nullValue()));
 	}
 }

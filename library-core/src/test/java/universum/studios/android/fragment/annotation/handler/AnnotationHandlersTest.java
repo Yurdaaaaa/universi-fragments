@@ -22,7 +22,7 @@ import org.junit.Test;
 
 import androidx.annotation.NonNull;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static junit.framework.Assert.assertSame;
 import static org.hamcrest.CoreMatchers.is;
@@ -33,9 +33,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * @author Martin Albedinsky
  */
-public final class AnnotationHandlersTest extends RobolectricTestCase {
+public final class AnnotationHandlersTest extends AndroidTestCase {
 
-	@Override public void beforeTest() throws Exception {
+	@Override public void beforeTest() {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
@@ -55,7 +55,6 @@ public final class AnnotationHandlersTest extends RobolectricTestCase {
 		new AnnotationHandlers(){};
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testObtainHandler() {
 		// Act:
 		final Handler handler = AnnotationHandlers.obtainHandler(Handler.class, AnnotatedComponent.class);

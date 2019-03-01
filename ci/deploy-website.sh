@@ -13,7 +13,6 @@ LIBRARY_DIR_ARTIFACTS=../../artifacts/universum/studios/android/${LIBRARY_ARTIFA
 LIBRARY_JAVADOC_FILE_NAME="${LIBRARY_ARTIFACT_NAME}-${LIBRARY_VERSION}-javadoc.jar"
 LIBRARY_DIR_TESTS=../../library/build/reports/tests/testDebugUnitTest/
 LIBRARY_DIR_COVERAGE=../../library/build/reports/jacoco/debug/
-LIBRARY_DIR_BUGS=../../library/build/reports/findbugs/debug/
 WEBSITE_FILES_VERSION="${LIBRARY_VERSION:0:1}".x
 WEBSITE_DIR=android/library/${LIBRARY_NAME}
 WEBSITE_DIR_REFERENCE=${WEBSITE_DIR}/reference/
@@ -22,8 +21,6 @@ WEBSITE_DIR_TESTS=${WEBSITE_DIR}/tests/
 WEBSITE_DIR_TESTS_VERSIONED=${WEBSITE_DIR_TESTS}${WEBSITE_FILES_VERSION}/
 WEBSITE_DIR_COVERAGE=${WEBSITE_DIR}/coverage/
 WEBSITE_DIR_COVERAGE_VERSIONED=${WEBSITE_DIR_COVERAGE}${WEBSITE_FILES_VERSION}/
-WEBSITE_DIR_BUGS=${WEBSITE_DIR}/bugs/
-WEBSITE_DIR_BUGS_VERSIONED=${WEBSITE_DIR_BUGS}${WEBSITE_FILES_VERSION}/
 
 # Delete left-over temporary directory (if exists).
 rm -rf ${TEMP_DIR_WEBSITE}
@@ -39,7 +36,6 @@ cd ${TEMP_DIR_WEBSITE}
 rm -rf ${WEBSITE_DIR_REFERENCE_VERSIONED}
 rm -rf ${WEBSITE_DIR_TESTS_VERSIONED}
 rm -rf ${WEBSITE_DIR_COVERAGE_VERSIONED}
-rm -rf ${WEBSITE_DIR_BUGS_VERSIONED}
 
 # Copy files for documentation and reports for tests and coverage from the primary project module.
 # Documentation:
@@ -53,9 +49,6 @@ cp -R ${LIBRARY_DIR_TESTS}. ${WEBSITE_DIR_TESTS_VERSIONED}
 # Coverage report:
 mkdir -p ${WEBSITE_DIR_COVERAGE_VERSIONED}
 cp -R ${LIBRARY_DIR_COVERAGE}. ${WEBSITE_DIR_COVERAGE_VERSIONED}
-# Bugs report:
-mkdir -p ${WEBSITE_DIR_BUGS_VERSIONED}
-cp -R ${LIBRARY_DIR_BUGS}. ${WEBSITE_DIR_BUGS_VERSIONED}
 
 # Stage all files in git and create a commit.
 git add . --all

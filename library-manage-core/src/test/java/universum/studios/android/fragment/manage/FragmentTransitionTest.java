@@ -20,7 +20,7 @@ package universum.studios.android.fragment.manage;
 
 import org.junit.Test;
 
-import universum.studios.android.test.local.LocalTestCase;
+import universum.studios.android.test.TestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -28,7 +28,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentTransitionTest extends LocalTestCase {
+public final class FragmentTransitionTest extends TestCase {
 
     @Test public void testContract() {
         // Assert:

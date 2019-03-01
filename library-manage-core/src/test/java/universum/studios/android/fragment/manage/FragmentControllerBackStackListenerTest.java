@@ -18,14 +18,13 @@
  */
 package universum.studios.android.fragment.manage;
 
-import androidx.fragment.app.FragmentManager;
-
 import org.junit.Test;
 
-import universum.studios.android.test.local.RobolectricTestCase;
+import androidx.fragment.app.FragmentManager;
+import universum.studios.android.test.AndroidTestCase;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -35,7 +34,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentControllerBackStackListenerTest extends RobolectricTestCase {
+public final class FragmentControllerBackStackListenerTest extends AndroidTestCase {
 
 	@Test public void testInstantiation() {
 		// Arrange:

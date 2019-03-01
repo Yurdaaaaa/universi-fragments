@@ -23,9 +23,9 @@ import org.junit.Test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import universum.studios.android.fragment.R;
 import universum.studios.android.fragment.manage.FragmentTransition;
-import universum.studios.android.fragment.transition.extra.R;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -34,7 +34,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentExtraTransitionsTest extends RobolectricTestCase {
+public final class FragmentExtraTransitionsTest extends AndroidTestCase {
 
 	@Test(expected = IllegalAccessException.class)
 	public void testInstantiation() throws Exception {

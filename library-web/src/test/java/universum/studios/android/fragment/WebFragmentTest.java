@@ -32,8 +32,8 @@ import androidx.fragment.app.FragmentManager;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.WebContent;
 import universum.studios.android.fragment.annotation.handler.WebFragmentAnnotationHandler;
-import universum.studios.android.test.local.RobolectricTestCase;
-import universum.studios.android.test.local.TestCompatActivity;
+import universum.studios.android.test.AndroidTestCase;
+import universum.studios.android.test.TestActivity;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
@@ -47,9 +47,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 /**
  * @author Martin Albedinsky
  */
-public final class WebFragmentTest extends RobolectricTestCase {
+public final class WebFragmentTest extends AndroidTestCase {
 
-	@Override public void beforeTest() throws Exception {
+	@Override public void beforeTest() {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
@@ -113,7 +113,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnCreate() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final WebFragment fragment = new TestFragmentWithWebContent();
 		// Act:
@@ -125,20 +125,20 @@ public final class WebFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnCreateWithWebContentResource() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final WebFragment fragment = new TestFragmentWithWebContentResource();
 		// Act:
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
 		// Assert:
-		assertThat(fragment.getContent(), is(context.getString(TestFragmentWithWebContentResource.CONTENT_RES)));
+		assertThat(fragment.getContent(), is(context().getString(TestFragmentWithWebContentResource.CONTENT_RES)));
 	}
 
 	@Test public void testOnCreateWhenAnnotationsAreDisabled() {
 		// Arrange:
 		FragmentAnnotations.setEnabled(false);
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final WebFragment fragment = new WebFragment();
 		// Act:
@@ -150,7 +150,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnCreateWithOptions() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final WebFragment fragment = WebFragment.newInstance(new WebFragment.WebOptions().content("http://www.google.com"));
 		// Act:
@@ -204,7 +204,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 		// Arrange:
 		final WebFragment fragment = new WebFragment();
 		// Act:
-		final View view = fragment.onCreateView(LayoutInflater.from(context), null, null);
+		final View view = fragment.onCreateView(LayoutInflater.from(context()), null, null);
 		// Assert:
 		assertThat(view, is(notNullValue()));
 		assertThat(view, instanceOf(WebView.class));
@@ -247,7 +247,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 	@SuppressWarnings("ConstantConditions")
 	@Test public void testOnLoadContent() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final WebFragment fragment = new WebFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -267,7 +267,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnSaveInstanceState() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final WebFragment fragment = new WebFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -296,7 +296,7 @@ public final class WebFragmentTest extends RobolectricTestCase {
 	@SuppressWarnings("ConstantConditions")
 	@Test public void testOnBackPress() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final WebFragment fragment = new WebFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();

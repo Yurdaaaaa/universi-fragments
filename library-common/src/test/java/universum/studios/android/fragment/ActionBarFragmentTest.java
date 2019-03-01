@@ -32,8 +32,8 @@ import universum.studios.android.fragment.annotation.ActionBarOptions;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.MenuOptions;
 import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAnnotationHandler;
-import universum.studios.android.test.local.RobolectricTestCase;
-import universum.studios.android.test.local.TestCompatActivity;
+import universum.studios.android.test.AndroidTestCase;
+import universum.studios.android.test.TestActivity;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -49,9 +49,9 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class ActionBarFragmentTest extends RobolectricTestCase {
+public final class ActionBarFragmentTest extends AndroidTestCase {
 
-	@Override public void beforeTest() throws Exception {
+	@Override public void beforeTest() {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
@@ -85,7 +85,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnCreate() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		// Act:
@@ -95,7 +95,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnCreateForFragmentWithoutMenu() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragmentWithoutAnnotation();
 		// Act:
@@ -106,7 +106,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 	@Test public void testOnCreateWhenAnnotationsAreDisabled() {
 		// Arrange:
 		FragmentAnnotations.setEnabled(false);
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		// Act:
@@ -194,7 +194,7 @@ public final class ActionBarFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnActivityCreated() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final ActionBarFragment fragment = new TestFragment();
 		// Act:

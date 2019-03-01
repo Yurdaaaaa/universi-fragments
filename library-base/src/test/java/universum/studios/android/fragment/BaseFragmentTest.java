@@ -39,9 +39,8 @@ import androidx.fragment.app.FragmentManager;
 import universum.studios.android.fragment.annotation.ContentView;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.handler.FragmentAnnotationHandler;
-import universum.studios.android.test.local.RobolectricTestCase;
-import universum.studios.android.test.local.TestActivity;
-import universum.studios.android.test.local.TestCompatActivity;
+import universum.studios.android.test.AndroidTestCase;
+import universum.studios.android.test.TestActivity;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -55,15 +54,14 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 /**
  * @author Martin Albedinsky
  */
-public final class BaseFragmentTest extends RobolectricTestCase {
+public final class BaseFragmentTest extends AndroidTestCase {
 
-	@Override public void beforeTest() throws Exception {
+	@Override public void beforeTest() {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testNewInstanceWithArguments() {
 		// Arrange:
 		final Bundle args = new Bundle();
@@ -74,7 +72,6 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		assertThat(fragment.getArguments(), is(args));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testNewInstanceWithNullArguments() {
 		// Act:
 		final BaseFragment fragment = BaseFragment.newInstanceWithArguments(TestFragment.class, null);
@@ -132,7 +129,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testGetContextTheme() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -151,23 +148,17 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testRunOnUiThread() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
-		Executors.newSingleThreadExecutor().execute(new Runnable() {
-
-			@Override public void run() {
-				// Act + Assert:
-				assertThat(fragment.runOnUiThread(new Runnable() {
-
-					@Override public void run() {
-						fragmentManager.beginTransaction().remove(fragment).commit();
-						fragmentManager.executePendingTransactions();
-					}
-				}), is(true));
-			}
+		Executors.newSingleThreadExecutor().execute(() -> {
+			// Act + Assert:
+			assertThat(fragment.runOnUiThread(() -> {
+				fragmentManager.beginTransaction().remove(fragment).commit();
+				fragmentManager.executePendingTransactions();
+			}), is(true));
 		});
 	}
 
@@ -175,18 +166,15 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		// Arrange:
 		final BaseFragment fragment = new TestFragment();
 		// Act + Assert:
-		assertThat(fragment.runOnUiThread(new Runnable() {
-
-			@Override public void run() {
-				// Will not run.
-				throw new AssertionError("Should not but run on Ui thread!");
-			}
+		assertThat(fragment.runOnUiThread(() -> {
+			// Will not run.
+			throw new AssertionError("Should not but run on Ui thread!");
 		}), is(false));
 	}
 
 	@Test public void testOnCreate() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		// Act:
@@ -203,7 +191,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnStart() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		// Act:
@@ -283,7 +271,6 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 		verifyNoMoreInteractions(mockView);
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testOnViewCreatedWhenAnnotationsAreDisabled() {
 		// Arrange:
 		FragmentAnnotations.setEnabled(false);
@@ -298,7 +285,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testIsViewCreated() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final View contentView = new FrameLayout(activity);
 		contentView.setId(android.R.id.list);
@@ -320,7 +307,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN)
 	@Test public void testInflateTransitionOnJellyBeanApiLevel() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -332,7 +319,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
 	@Test public void testInflateTransitionOnLollipopApiLevel() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -353,7 +340,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnResume() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		// Act:
@@ -370,7 +357,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testInvalidateOptionsMenu() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -389,7 +376,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testInvalidateOptionsMenuWhenHidden() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		fragmentManager.beginTransaction().add(fragment, null).commit();
@@ -403,7 +390,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 	@Test public void testDispatchViewClick() {
 		// Arrange:
 		final TestFragment fragment = new TestFragment();
-		final View view = new Button(context);
+		final View view = new Button(context());
 		// Act + Assert:
 		assertThat(fragment.dispatchViewClick(view), is(false));
 		assertThat(fragment.dispatchedClickedView, is(view));
@@ -422,7 +409,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnStop() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		// Act:
@@ -455,7 +442,7 @@ public final class BaseFragmentTest extends RobolectricTestCase {
 
 	@Test public void testOnDestroy() {
 		// Arrange:
-		final FragmentActivity activity = Robolectric.buildActivity(TestCompatActivity.class).create().start().resume().get();
+		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		final FragmentManager fragmentManager = activity.getSupportFragmentManager();
 		final BaseFragment fragment = new TestFragment();
 		// Act:

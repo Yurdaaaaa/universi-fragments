@@ -84,7 +84,7 @@ def createJavadocTitle() {
 task javadocJar(type: Jar) {
     group 'artifact'
     description "Bundles Javadoc into 'library-javadoc.jar' like file."
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from generateJavadoc
 }
 
@@ -94,7 +94,7 @@ task javadocJar(type: Jar) {
 task sourcesJar(type: Jar) {
     group 'artifact'
     description "Bundles Raw sources into 'library-sources.jar' like file."
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from isModule ? android.sourceSets.main.java.srcDirs : android.sourceSets.release.java.srcDirs
     from isModule ? android.sourceSets.main.res.srcDirs : android.sourceSets.release.res.srcDirs
 }
@@ -110,8 +110,8 @@ task artifactsZip(type: Zip) {
             excludes: ['*.pom', '*.md5', '*.sha1']
     )
     into "${config.library.name}-${config.pom.version}"
-    archiveName "${config.library.name}-${config.pom.version}.zip"
-    destinationDir(file("${buildDir}/tmp/release/artifacts"))
+    archiveFileName = "${config.library.name}-${config.pom.version}.zip"
+    destinationDirectory = file("${buildDir}/tmp/release/artifacts")
 }
 
 /**

@@ -33,7 +33,7 @@ def buildConfig = [
 ]
 
 def testConfig = [
-        instrumentationRunner: [androidJUnit: 'android.support.test.runner.AndroidJUnitRunner'],
+        instrumentationRunner: [androidJUnit: 'androidx.test.runner.AndroidJUnitRunner'],
         coverageToolVersion  : '0.8.3'
 ]
 

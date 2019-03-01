@@ -14,8 +14,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     lintOptions {
@@ -30,11 +30,6 @@ android {
 /**
  * Library dependencies ============================================================================
  */
-repositories {
-    maven { url repos.project.artifacts }
-    mavenLocal()
-}
-
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidx.annotation.annotation
@@ -48,7 +43,22 @@ dependencies {
     debugApi project(':library-transition-common')
 
     // TEST ----------------------------------------------------------------------------------------
-    testImplementation project(':test-local')
+    testImplementation deps.test.junit
+    testImplementation deps.test.mockito.core
+    testImplementation deps.test.robolectric.robolectric
+    testImplementation deps.androidx.test.core
+    testImplementation deps.androidx.test.ext.junit
+    testImplementation deps.universum.studios.testing.testing
+    testImplementation deps.universum.studios.testing.activity
+
+    // Instrumentation test dependencies.
+    androidTestImplementation deps.test.junit
+    androidTestImplementation deps.test.mockito.core
+    androidTestImplementation deps.androidx.test.core
+    androidTestImplementation deps.androidx.test.runner
+    androidTestImplementation deps.androidx.test.ext.junit
+    androidTestImplementation deps.universum.studios.testing.testing
+    androidTestImplementation deps.universum.studios.testing.activity
 }
 
 apply from: "${rootProject.rootDir}/deploy/deploy.gradle"

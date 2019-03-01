@@ -27,6 +27,6 @@
 		android:label="Fragments-Common Tests"
 		tools:replace="android:label">
 
-		<activity android:name="universum.studios.android.test.instrumented.TestActivity" />
+		<activity android:name="universum.studios.android.test.TestActivity" />
 	</application>
 </manifest>

@@ -27,11 +27,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.logging.Logger;
 import universum.studios.android.logging.SimpleLogger;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
@@ -39,11 +39,11 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentsLoggingTest extends RobolectricTestCase {
+public final class FragmentsLoggingTest extends AndroidTestCase {
 
 	@SuppressWarnings("unused") private static final String LOG_TAG = "LoggingTest";
 
-	@Override public void afterTest() throws Exception {
+	@Override public void afterTest() {
 		super.afterTest();
 		// Ensure that the logging class has default logger.
 		FragmentsLogging.setLogger(null);
