@@ -23,8 +23,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import org.hamcrest.Matchers;
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import androidx.annotation.DrawableRes;
@@ -32,9 +30,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
-import universum.studios.android.test.local.RobolectricTestCase;
-import universum.studios.android.test.local.TestActivity;
-import universum.studios.android.test.local.TestCompatActivity;
+import universum.studios.android.test.AndroidTestCase;
+import universum.studios.android.test.TestActivity;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -47,7 +44,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class ActionBarDelegateTest extends RobolectricTestCase {
+public final class ActionBarDelegateTest extends AndroidTestCase {
 
 	@Test public void testInstantiation() {
 		// Arrange:
@@ -55,10 +52,9 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 		// Act:
 		final TestDelegate delegate = new TestDelegate(activity);
 		// Assert:
-		assertThat(delegate.getContext(), Matchers.<Context>is(activity));
+		assertThat(delegate.getContext(), is(activity));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testCreateForFrameworkActivity() {
 		// Arrange:
 		final Activity mockActivity = mock(TestActivity.class);
@@ -68,7 +64,7 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 		final ActionBarDelegate actionBarDelegate = ActionBarDelegate.create(mockActivity);
 		// Assert:
 		assertThat(actionBarDelegate, is(notNullValue()));
-		assertThat(actionBarDelegate.getContext(), Matchers.<Context>is(mockActivity));
+		assertThat(actionBarDelegate.getContext(), is(mockActivity));
 	}
 
 	@Test public void testCreateForFrameworkActivityWithoutActionBar() {
@@ -79,7 +75,6 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 		assertThat(ActionBarDelegate.create(mockActivity), is(nullValue()));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testCreateForCompatActivity() {
 		// Arrange:
 		final AppCompatActivity mockActivity = mock(TestCompatActivity.class);
@@ -89,10 +84,9 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 		final ActionBarDelegate actionBarDelegate = ActionBarDelegate.create(mockActivity);
 		// Assert:
 		assertThat(actionBarDelegate, is(not(nullValue())));
-		assertThat(actionBarDelegate.getContext(), Is.<Context>is(mockActivity));
+		assertThat(actionBarDelegate.getContext(), is(mockActivity));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testCreateForCompatActivityWithoutActionBar() {
 		// Arrange:
 		final AppCompatActivity mockActivity = mock(TestCompatActivity.class);
@@ -103,9 +97,11 @@ public final class ActionBarDelegateTest extends RobolectricTestCase {
 
 	@Test public void testCreateForNullActionBar() {
 		// Act + Assert:
-		assertThat(ActionBarDelegate.create(context, (ActionBar) null), is(notNullValue()));
-		assertThat(ActionBarDelegate.create(context, (androidx.appcompat.app.ActionBar) null), is(notNullValue()));
+		assertThat(ActionBarDelegate.create(context(), (ActionBar) null), is(notNullValue()));
+		assertThat(ActionBarDelegate.create(context(), (androidx.appcompat.app.ActionBar) null), is(notNullValue()));
 	}
+
+	private static class TestCompatActivity extends AppCompatActivity {}
 
 	private static final class TestDelegate extends ActionBarDelegate {
 

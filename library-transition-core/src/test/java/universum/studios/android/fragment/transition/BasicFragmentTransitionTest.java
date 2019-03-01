@@ -23,16 +23,16 @@ import android.os.Parcel;
 import org.junit.Test;
 
 import universum.studios.android.fragment.manage.FragmentTransition;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Martin Albedinsky
  */
-public final class BasicFragmentTransitionTest extends RobolectricTestCase {
+public final class BasicFragmentTransitionTest extends AndroidTestCase {
 
 	@Test public void testInstantiationInOut() {
 		// Arrange:

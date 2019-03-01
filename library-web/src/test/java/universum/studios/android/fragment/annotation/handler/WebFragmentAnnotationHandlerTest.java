@@ -22,15 +22,15 @@ import org.junit.Test;
 
 import universum.studios.android.fragment.WebFragment;
 import universum.studios.android.fragment.annotation.WebContent;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Martin Albedinsky
  */
-public final class WebFragmentAnnotationHandlerTest extends RobolectricTestCase {
+public final class WebFragmentAnnotationHandlerTest extends AndroidTestCase {
 
 	@Test public void testWebContentResId() {
 		// Arrange:

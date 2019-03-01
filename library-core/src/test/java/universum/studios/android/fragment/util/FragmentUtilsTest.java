@@ -29,11 +29,11 @@ import org.robolectric.annotation.Config;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
@@ -42,7 +42,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentUtilsTest extends RobolectricTestCase {
+public final class FragmentUtilsTest extends AndroidTestCase {
 
 	@Test public void testContract() {
 		// Assert:
@@ -66,23 +66,23 @@ public final class FragmentUtilsTest extends RobolectricTestCase {
 
 	@Test public void testWillBeCustomAnimationsPlayed() {
 		// Act + Assert:
-		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(context), is(true));
+		assertThat(FragmentUtils.willBeCustomAnimationsPlayed(context()), is(true));
 	}
 
 	@Test public void testAreAnimationsEnabled() {
 		// Act + Assert:
-		assertThat(FragmentUtils.areAnimationsEnabled(context), is(true));
+		assertThat(FragmentUtils.areAnimationsEnabled(context()), is(true));
 	}
 
 	@Test public void testIsPowerSaveModeActive() {
 		// Act + Assert:
-		assertThat(FragmentUtils.isPowerSaveModeActive(context), is(false));
+		assertThat(FragmentUtils.isPowerSaveModeActive(context()), is(false));
 	}
 
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)
 	@Test public void testInflateTransitionOnLollipopApiLevel() {
 		// Act:
-		final Transition transition = FragmentUtils.inflateTransition(context, android.R.transition.fade);
+		final Transition transition = FragmentUtils.inflateTransition(context(), android.R.transition.fade);
 		// Assert:
 		assertThat(transition, is(notNullValue()));
 		assertThat(transition, instanceOf(Fade.class));
@@ -91,7 +91,7 @@ public final class FragmentUtilsTest extends RobolectricTestCase {
 	@Config(sdk = Build.VERSION_CODES.JELLY_BEAN)
 	@Test public void testInflateTransitionOnJellyBeanApiLevel() {
 		// Act + Assert:
-		assertThat(FragmentUtils.inflateTransition(context, android.R.anim.fade_in), is(nullValue()));
+		assertThat(FragmentUtils.inflateTransition(context(), android.R.anim.fade_in), is(nullValue()));
 	}
 
 	@Config(sdk = Build.VERSION_CODES.LOLLIPOP)

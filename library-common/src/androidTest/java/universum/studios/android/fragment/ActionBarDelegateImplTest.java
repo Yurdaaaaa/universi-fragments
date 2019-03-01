@@ -25,7 +25,7 @@ import android.os.Build;
 import org.junit.Test;
 
 import androidx.annotation.RequiresApi;
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.junit.Assume.assumeTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -36,15 +36,14 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 /**
  * @author Martin Albedinsky
  */
-public final class ActionBarDelegateImplTest extends InstrumentedTestCase {
+public final class ActionBarDelegateImplTest extends AndroidTestCase {
 
-	@SuppressWarnings("deprecation")
 	@RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
 	@Test public void testSetHomeAsUpVectorIndicator() {
 		assumeTrue(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2);
 		// Arrange:
 		final ActionBar mockActionBar = mock(ActionBar.class);
-		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(context, mockActionBar);
+		final ActionBarDelegate delegate = new ActionBarDelegate.Impl(context(), mockActionBar);
 		// Act:
 		delegate.setHomeAsUpVectorIndicator(android.R.drawable.ic_delete);
 		// Assert:

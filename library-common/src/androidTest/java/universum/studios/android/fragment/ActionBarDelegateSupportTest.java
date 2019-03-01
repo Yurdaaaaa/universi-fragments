@@ -22,7 +22,7 @@ import android.graphics.drawable.Drawable;
 
 import org.junit.Test;
 
-import universum.studios.android.test.instrumented.InstrumentedTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -32,13 +32,12 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 /**
  * @author Martin Albedinsky
  */
-public final class ActionBarDelegateSupportTest extends InstrumentedTestCase {
+public final class ActionBarDelegateSupportTest extends AndroidTestCase {
 
-	@SuppressWarnings("deprecation")
 	@Test public void testSetHomeAsUpVectorIndicator() {
 		// Arrange:
 		final androidx.appcompat.app.ActionBar mockActionBar = mock(androidx.appcompat.app.ActionBar.class);
-		final ActionBarDelegate delegate = new ActionBarDelegate.SupportImpl(context, mockActionBar);
+		final ActionBarDelegate delegate = new ActionBarDelegate.SupportImpl(context(), mockActionBar);
 		// Act:
 		delegate.setHomeAsUpVectorIndicator(android.R.drawable.ic_delete);
 		// Assert:

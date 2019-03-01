@@ -32,7 +32,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -47,7 +47,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentRequestTest extends RobolectricTestCase {
+public final class FragmentRequestTest extends AndroidTestCase {
 
     @Test public void testContract() {
 		// Assert:
@@ -259,13 +259,12 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 		assertThat(request.allowReturnTransitionOverlap(), is(true));
     }
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testSharedElements() {
 		// Arrange:
 		final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(context);
-		final View secondElement = new View(context);
-		final View thirdElement = new View(context);
+		final View firstElement = new View(context());
+		final View secondElement = new View(context());
+		final View thirdElement = new View(context());
 		// Act:
 		request.sharedElements(
 				new Pair<>(firstElement, "first_element"),
@@ -284,13 +283,12 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 		assertThat(sharedElements.get(2).second, is("third_element"));
 	}
 
-	@SuppressWarnings("ConstantConditions")
 	@Test public void testSharedElement() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(context);
-		final View secondElement = new View(context);
-		final View thirdElement = new View(context);
+		final View firstElement = new View(context());
+		final View secondElement = new View(context());
+		final View thirdElement = new View(context());
 		// Act:
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElement(secondElement, "second_element");
@@ -311,13 +309,13 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSingleSharedElement() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(context);
+		final View firstElement = new View(context());
 		// Act + Assert:
 		request.sharedElement(firstElement, "first_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
 		assertThat(request.singleSharedElement().second, is("first_element"));
-		final View secondElement = new View(context);
+		final View secondElement = new View(context());
 		request.sharedElement(secondElement, "second_element");
 		assertThat(request.singleSharedElement(), is(notNullValue()));
 		assertThat(request.singleSharedElement().first, is(firstElement));
@@ -328,7 +326,7 @@ public final class FragmentRequestTest extends RobolectricTestCase {
 	@Test public void testSingleSharedElementOnEmptySharedElements() {
 		// Arrange:
     	final FragmentRequest request = new FragmentRequest(mock(FragmentController.class), FragmentRequest.NO_ID);
-		final View firstElement = new View(context);
+		final View firstElement = new View(context());
 		request.sharedElement(firstElement, "first_element");
 		request.sharedElements().clear();
 		// Act + Assert:

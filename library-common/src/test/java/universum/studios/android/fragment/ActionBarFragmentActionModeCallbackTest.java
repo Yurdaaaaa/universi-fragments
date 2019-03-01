@@ -26,7 +26,7 @@ import org.junit.Test;
 import androidx.appcompat.view.ActionMode;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
 import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAnnotationHandler;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -40,9 +40,9 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class ActionBarFragmentActionModeCallbackTest extends RobolectricTestCase {
+public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCase {
 
-	@Override public void afterTest() throws Exception {
+	@Override public void afterTest() {
 		super.afterTest();
 		// Ensure that the annotations processing is kept enabled.
 		FragmentAnnotations.setEnabled(true);

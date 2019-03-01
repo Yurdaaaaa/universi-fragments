@@ -19,15 +19,13 @@
 package universum.studios.android.fragment;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.view.Window;
 
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ActionMode;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -40,7 +38,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class ActivityDelegateCompatImplTest extends RobolectricTestCase {
+public final class ActivityDelegateCompatImplTest extends AndroidTestCase {
 
 	@Test public void testInstantiation() {
 		// Arrange:
@@ -48,7 +46,7 @@ public final class ActivityDelegateCompatImplTest extends RobolectricTestCase {
 		// Act:
 		final ActivityDelegate delegate = new ActivityDelegate.AppCompatImpl(activity);
 		// Assert:
-		assertThat(delegate.getActivity(), Is.<Activity>is(activity));
+		assertThat(delegate.getActivity(), is(activity));
 	}
 
 	@Test public void testRequestWindowFeature() {

@@ -25,7 +25,7 @@ import android.view.Window;
 import org.junit.Test;
 
 import androidx.appcompat.view.ActionMode;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author Martin Albedinsky
  */
-public final class ActivityDelegateImplTest extends RobolectricTestCase {
+public final class ActivityDelegateImplTest extends AndroidTestCase {
 
     @Test public void testInstantiation() {
 	    // Arrange:

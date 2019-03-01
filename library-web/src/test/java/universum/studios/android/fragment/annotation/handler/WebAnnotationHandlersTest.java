@@ -25,19 +25,19 @@ import java.lang.reflect.InvocationTargetException;
 
 import universum.studios.android.fragment.WebFragment;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * @author Martin Albedinsky
  */
-public final class WebAnnotationHandlersTest extends RobolectricTestCase {
+public final class WebAnnotationHandlersTest extends AndroidTestCase {
 
-	@Override public void beforeTest() throws Exception {
+	@Override public void beforeTest() {
 		super.beforeTest();
 		// Ensure that we have always annotations processing enabled.
 		FragmentAnnotations.setEnabled(true);

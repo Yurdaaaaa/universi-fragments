@@ -65,11 +65,6 @@ android {
 /**
  * Application dependencies ========================================================================
  */
-repositories {
-    mavenLocal()
-    maven { url repos.bintray.universum.studios.android }
-}
-
 dependencies {
     implementation project(':library')
     implementation deps.androidx.annotation.annotation

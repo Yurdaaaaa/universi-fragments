@@ -4,12 +4,12 @@ def versions = [
         androidx   : [
                 test: [espresso: '3.1.0']
         ],
+        butterknife: '10.0.0',
         test       : [
                 junit      : '4.12',
-                mockito    : '2.22.0',
-                robolectric: '4.1'
-        ],
-        butterknife: '10.0.0'
+                mockito    : '2.24.0',
+                robolectric: '4.2'
+        ]
 ]
 
 def libraryArtifactBaseId = "${config.pom.groupId}:${config.pom.artifactId}"
@@ -68,12 +68,17 @@ def test = [
 ]
 
 def universum = [studios: [
+        font          : [core: 'universum.studios.android:font-core:1.2.0@aar'],
+        graphics      : [colorUtil: 'universum.studios.android:graphics-color-util:1.1.0@aar'],
         logger        : 'universum.studios.android:logger:1.1.0@aar',
         samples       : 'universum.studios.android:samples:0.2.0@aar',
-        widgetAdapters: 'universum.studios.android:widget-adapters:2.1.0@aar',
+        testing       : [
+                testing : 'universum.studios.android:testing:1.0.0@aar',
+                activity: 'universum.studios.android:testing-activity:1.0.0@aar',
+                view    : 'universum.studios.android:testing-view:1.0.0@aar'
+        ],
         ui            : 'universum.studios.android:ui:0.10.2@aar',
-        graphics      : [colorUtil: 'universum.studios.android:graphics-color-util:1.1.0@aar'],
-        font          : [core: 'universum.studios.android:font-core:1.2.0@aar']
+        widgetAdapters: 'universum.studios.android:widget-adapters:2.1.0@aar'
 ]]
 
 def other = [

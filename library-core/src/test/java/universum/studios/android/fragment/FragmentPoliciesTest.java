@@ -25,7 +25,7 @@ import org.junit.Test;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import universum.studios.android.test.local.RobolectricTestCase;
+import universum.studios.android.test.AndroidTestCase;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -33,7 +33,7 @@ import static org.junit.Assert.assertThat;
 /**
  * @author Martin Albedinsky
  */
-public final class FragmentPoliciesTest extends RobolectricTestCase {
+public final class FragmentPoliciesTest extends AndroidTestCase {
 
 	@Test public void testContract() {
 		// Assert:
