@@ -800,14 +800,14 @@ public class FragmentController {
 		if (request.hasFlag(FragmentRequest.ADD_TO_BACK_STACK)) {
 			FragmentsLogging.d(TAG, "Fragment(" + fragment + ") will be added into back-stack under the tag(" + fragment.getTag() + ").");
 		}
-		// Commit the transaction either normally or allowing state loss.
+		// Commit the transaction either normally or allowing state loss, now or asynchronously.
+		final boolean now = request.hasFlag(FragmentRequest.IMMEDIATE);
 		if (request.hasFlag(FragmentRequest.ALLOW_STATE_LOSS)) {
-			transaction.commitAllowingStateLoss();
+			if (now) transaction.commitNowAllowingStateLoss();
+			else transaction.commitAllowingStateLoss();
 		} else {
-			transaction.commit();
-		}
-		if (request.hasFlag(FragmentRequest.IMMEDIATE)) {
-			manager.executePendingTransactions();
+			if (now) transaction.commitNow();
+			else transaction.commit();
 		}
 		return fragment;
 	}

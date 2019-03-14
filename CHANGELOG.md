@@ -6,6 +6,11 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
+### [1.4.2](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
+> 14.03.2019
+
+- Small updates and improvements.
+
 ### [1.4.1](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
 > 22.01.2019
 
