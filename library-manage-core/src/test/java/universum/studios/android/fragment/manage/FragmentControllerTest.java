@@ -847,7 +847,23 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		verify(mockTransaction, times(0)).commit();
 	}
 
-	@Test public void testOnExecuteRequestImmediate() {
+	@Test public void testOnExecuteRequestNowAllowingStateLoss() {
+		// Arrange:
+		final FragmentManager mockManager = mock(FragmentManager.class);
+		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
+		final FragmentController controller = new FragmentController(mockManager);
+		controller.setViewContainerId(TestActivity.CONTENT_VIEW_ID);
+		when(mockManager.beginTransaction()).thenReturn(mockTransaction);
+		final Fragment fragment = new TestFragment();
+		final FragmentRequest request = controller.newRequest(fragment).transaction(FragmentRequest.ADD).allowStateLoss(true).immediate(true);
+		// Act + Assert:
+		assertThat(controller.onExecuteRequest(request), is(fragment));
+		verify(mockManager).beginTransaction();
+		verify(mockTransaction).commitNowAllowingStateLoss();
+		verify(mockTransaction, times(0)).commit();
+	}
+
+	@Test public void testOnExecuteRequestNow() {
 		// Arrange:
 		final FragmentManager mockManager = mock(FragmentManager.class);
 		final FragmentTransaction mockTransaction = mock(FragmentTransaction.class);
@@ -859,8 +875,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Act + Assert:
 		assertThat(controller.onExecuteRequest(request), is(fragment));
 		verify(mockManager).beginTransaction();
-		verify(mockTransaction).commit();
-		verify(mockManager).executePendingTransactions();
+		verify(mockTransaction).commitNow();
 	}
 
 	@Test(expected = IllegalStateException.class)
