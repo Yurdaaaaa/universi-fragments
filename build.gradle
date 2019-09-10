@@ -13,7 +13,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.5.0'
         classpath 'com.vanniktech:gradle-android-junit-jacoco-plugin:0.13.0'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
     }
@@ -29,6 +29,19 @@ allprojects {
         maven { url repos.bintray.universum.studios.android }
         mavenLocal()
         maven { url repos.project.artifacts }
+    }
+
+    // Disable pre-dexing of libraries when running builds in CI environment.
+    if (config.ci.EXECUTING == true) {
+        project.plugins.whenPluginAdded { plugin ->
+            if (plugin.class.name == "com.android.build.gradle.AppPlugin") {
+                logger.quiet("Disabled pre-dexing for module :${project.name}")
+                project.android.dexOptions.preDexLibraries = false
+            } else if (plugin.class.name == "com.android.build.gradle.LibraryPlugin") {
+                logger.quiet("Disabled pre-dexing for library module :${project.name}")
+                project.android.dexOptions.preDexLibraries = false
+            }
+        }
     }
 }
 

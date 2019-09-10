@@ -50,7 +50,7 @@ def pomConfig = {
     }
 }
 
-def androidAar = artifacts.add('archives', file("${buildDir}/outputs/aar/${project.name}.aar")) {
+def androidAar = artifacts.add('archives', file("${buildDir}/outputs/aar/${project.name}-release.aar")) {
     name "${config.library.name}-${config.pom.version}"
     builtBy ":${project.name}:bundleReleaseAar"
 }
