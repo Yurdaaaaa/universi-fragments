@@ -1,6 +1,6 @@
 ##
 # **************************************************************************************************
-#                                 Copyright 2018 Universum Studios
+#                                 Copyright 2019 Universum Studios
 # **************************************************************************************************
 #                  Licensed under the Apache License, Version 2.0 (the "License")
 # --------------------------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ jobs:
   build:
     working_directory: ~/repo
     docker:
-      - image: universumstudios/android:api-28
+      - image: universumstudios/android:api-29
     environment:
       JAVA_TOOL_OPTIONS: -Xmx4096m
     steps:
@@ -54,7 +54,7 @@ jobs:
   test:
     working_directory: ~/repo
     docker:
-      - image: universumstudios/android:api-28
+      - image: universumstudios/android:api-29
     environment:
       JAVA_TOOL_OPTIONS: -Xmx4096m
     steps:
@@ -73,7 +73,7 @@ jobs:
   deploy:
     working_directory: ~/repo
     docker:
-      - image: universumstudios/android:api-28
+      - image: universumstudios/android:api-29
     environment:
       JAVA_TOOL_OPTIONS: -Xmx4096m
     steps:
@@ -106,7 +106,7 @@ workflows:
           filters:
             branches:
               only:
-                - /^release.*$/
+                - master
       - deploy:
           context: android-universum
           requires:

@@ -4,11 +4,11 @@ def versions = [
         androidx   : [
                 test: [espresso: '3.1.0']
         ],
-        butterknife: '10.0.0',
+        butterknife: '10.1.0',
         test       : [
                 junit      : '4.12',
-                mockito    : '2.24.0',
-                robolectric: '4.2'
+                mockito    : '3.0.0',
+                robolectric: '4.3'
         ]
 ]
 
@@ -28,7 +28,7 @@ def library = [
 ]
 
 def androidx = [
-        annotation    : [annotation: "androidx.annotation:annotation:1.0.0"],
+        annotation    : [annotation: "androidx.annotation:annotation:1.1.0"],
         core          : [core: "androidx.core:core:1.0.0"],
         appcompat     : [appcompat: "androidx.appcompat:appcompat:1.0.0"],
         drawerlayout  : [drawerlayout: "androidx.drawerlayout:drawerlayout:1.0.0"],
@@ -39,15 +39,15 @@ def androidx = [
         ],
         recyclerview  : [recyclerview: "androidx.recyclerview:recyclerview:1.0.0"],
         test          : [
-                core    : "androidx.test:core:1.0.0",
+                core    : "androidx.test:core:1.2.0",
                 espresso: [
                         contrib: "androidx.test.espresso:espresso-contrib:${versions.androidx.test.espresso}",
                         core   : "androidx.test.espresso:espresso-core:${versions.androidx.test.espresso}",
                         intents: "androidx.test.espresso:espresso-intents:${versions.androidx.test.espresso}"
                 ],
-                ext     : [junit: "androidx.test.ext:junit:1.0.0"],
-                rules   : "androidx.test:rules:1.1.0",
-                runner  : "androidx.test:runner:1.1.0"
+                ext     : [junit: "androidx.test.ext:junit:1.1.1"],
+                rules   : "androidx.test:rules:1.2.0",
+                runner  : "androidx.test:runner:1.2.0"
         ],
         vectordrawable: [vectordrawable: "androidx.vectordrawable:vectordrawable:1.0.0"]
 ]

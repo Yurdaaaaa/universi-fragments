@@ -26,15 +26,16 @@ def libraryConfig = [
 ]
 
 def buildConfig = [
-        compileSdkVersion: 28,
-        minSdkVersion    : 14,
-        targetSdkVersion : 28,
-        buildToolsVersion: '28.0.3'
+        compileSdkVersion  : 29,
+        minSdkVersion      : 14,
+        targetSdkVersion   : 29,
+        buildToolsVersion  : '29.0.2',
+        sourceCompatibility: JavaVersion.VERSION_1_8
 ]
 
 def testConfig = [
         instrumentationRunner: [androidJUnit: 'androidx.test.runner.AndroidJUnitRunner'],
-        coverageToolVersion  : '0.8.3'
+        coverageToolVersion  : '0.8.4'
 ]
 
 def bitbucketConfig = [
@@ -105,6 +106,8 @@ def codacyConfig = [
         projectName: "android_${bitbucketConfig.repository}"
 ]
 
+def ciConfig = [EXECUTING: Boolean.parseBoolean(System.getenv("CI"))]
+
 ext.config = [
         "library"  : libraryConfig,
         "build"    : buildConfig,
@@ -114,5 +117,6 @@ ext.config = [
         "javadoc"  : javadocConfig,
         "maven"    : mavenConfig,
         "bintray"  : bintrayConfig,
-        "codacy"   : codacyConfig
+        "codacy"   : codacyConfig,
+        "ci"       : ciConfig
 ]
