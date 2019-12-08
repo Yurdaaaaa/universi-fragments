@@ -46,8 +46,7 @@ dependencies {
     testImplementation deps.test.robolectric.robolectric
     testImplementation deps.androidx.test.core
     testImplementation deps.androidx.test.ext.junit
-    testImplementation deps.universum.studios.testing.testing
-    testImplementation deps.universum.studios.testing.activity
+    testImplementation deps.universum.studios.testing
 
     // Instrumentation test dependencies.
     androidTestImplementation deps.test.junit
@@ -55,8 +54,7 @@ dependencies {
     androidTestImplementation deps.androidx.test.core
     androidTestImplementation deps.androidx.test.runner
     androidTestImplementation deps.androidx.test.ext.junit
-    androidTestImplementation deps.universum.studios.testing.testing
-    androidTestImplementation deps.universum.studios.testing.activity
+    androidTestImplementation deps.universum.studios.testing
 }
 
 apply from: "${rootProject.rootDir}/deploy/deploy.gradle"
