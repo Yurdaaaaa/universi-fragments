@@ -6,6 +6,11 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
+### [1.4.3](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
+> 08.12.2019
+
+- Regular **dependencies update** (mainly artifacts from **Android Jetpack**).
+
 ### [1.4.2](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
 > 14.03.2019
 
