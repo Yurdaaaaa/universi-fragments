@@ -53,11 +53,12 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -76,7 +77,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Arrange:
 		final FragmentActivity activity = Robolectric.buildActivity(TestActivity.class).create().start().resume().get();
 		// Act:
-		final FragmentController controller = new FragmentController(activity);
+		final FragmentController controller = FragmentController.create(activity);
 		// Assert:
 		assertThat(controller.getFragmentManager(), is(activity.getSupportFragmentManager()));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
@@ -101,7 +102,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Arrange:
 		final TestActivityWithAlInterfaces activity = Robolectric.buildActivity(TestActivityWithAlInterfaces.class).create().start().resume().get();
 		// Act:
-		final FragmentController controller = new FragmentController(activity);
+		final FragmentController controller = FragmentController.create(activity);
 		// Assert:
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
 		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
@@ -147,7 +148,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
 		// Act:
-		final FragmentController controller = new FragmentController(fragment);
+		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
@@ -180,7 +181,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		fragmentManager.beginTransaction().add(fragment, null).commit();
 		fragmentManager.executePendingTransactions();
 		// Act:
-		final FragmentController controller = new FragmentController(fragment);
+		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
 		assertThat(controller.getFragmentManager(), is(fragmentManager));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
@@ -334,7 +335,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Assert:
 		final FragmentRequest mockRequest = new FragmentRequest(controller, FragmentRequest.NO_ID);
 		controller.notifyRequestExecuted(mockRequest);
-		verifyZeroInteractions(firstMockListener);
+		verifyNoInteractions(firstMockListener);
 		verify(secondMockListener).onRequestExecuted(mockRequest);
 		controller.unregisterOnRequestListener(secondMockListener);
 		controller.notifyRequestExecuted(mockRequest);
@@ -391,7 +392,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Assert:
 		final FragmentManager.BackStackEntry mockBackStackEntry = mock(FragmentManager.BackStackEntry.class);
 		controller.notifyBackStackEntryChange(mockBackStackEntry, true);
-		verifyZeroInteractions(firstMockListener);
+		verifyNoInteractions(firstMockListener);
 		verify(secondMockListener).onFragmentsBackStackChanged(mockBackStackEntry, true);
 		controller.unregisterOnBackStackChangeListener(secondMockListener);
 		controller.notifyBackStackEntryChange(mockBackStackEntry, false);
@@ -550,7 +551,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		assertThat(controller.executeRequest(request), is(nullValue()));
 		verify(mockLifecycle).getCurrentState();
 		verifyNoMoreInteractions(mockLifecycle);
-		verifyZeroInteractions(mockManager, mockListener);
+		verifyNoInteractions(mockManager, mockListener);
 	}
 
 	@Test public void testExecuteRequestThatIgnoresLifecycleState() {
@@ -671,7 +672,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		verify(mockFactory, times(2)).createFragmentTag(TestFactory.FRAGMENT_1);
 		verify(mockFactory, times(0)).createFragment(TestFactory.FRAGMENT_1);
 		verify(mockManager, times(0)).beginTransaction();
-		verifyZeroInteractions(mockListener);
+		verifyNoInteractions(mockListener);
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -734,14 +735,12 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		final FragmentRequest request = controller.newRequest(fragment);
 		final Fragment interceptedFragment = new TestFragment();
 		when(mockInterceptor.interceptFragmentRequest(request)).thenReturn(interceptedFragment);
+		clearInvocations(mockManager);
 		// Act + Assert:
 		assertThat(controller.executeRequest(request), is(interceptedFragment));
-		verify(mockManager, times(1)).addOnBackStackChangedListener(any(FragmentManager.OnBackStackChangedListener.class));
-		verify(mockManager, times(1)).getBackStackEntryCount();
-		verifyZeroInteractions(mockManager);
 		verify(mockInterceptor, times(1)).interceptFragmentRequest(request);
 		verify(mockListener, times(1)).onRequestExecuted(request);
-		verifyNoMoreInteractions(mockListener);
+		verifyNoMoreInteractions(mockManager, mockListener);
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -812,7 +811,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		when(mockManager.findFragmentByTag(request.tag)).thenReturn(existingFragment);
 		// Act + Assert:
 		assertThat(controller.onExecuteRequest(request), is(existingFragment));
-		verifyZeroInteractions(mockTransaction);
+		verifyNoInteractions(mockTransaction);
 		verify(mockManager).findFragmentByTag(request.tag);
 	}
 
@@ -1260,7 +1259,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Act:
 		FragmentController.attachTransitionsToFragment(request, mockFragment);
 		// Assert:
-		verifyZeroInteractions(mockFragment);
+		verifyNoInteractions(mockFragment);
 	}
 
 	@Test public void testFindCurrentFragment() {
@@ -1326,7 +1325,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		controller.findFragmentByFactoryId(TestFactory.FRAGMENT_1);
 		verify(mockFactory).isFragmentProvided(TestFactory.FRAGMENT_1);
 		verifyNoMoreInteractions(mockFactory);
-		verifyZeroInteractions(mockManager);
+		verifyNoInteractions(mockManager);
 	}
 
 	@Test(expected = IllegalStateException.class)
@@ -1479,7 +1478,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		controller.handleBackStackChange(0, FragmentController.BackStackListener.REMOVED);
 		// Assert:
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
-		verifyZeroInteractions(mockListener);
+		verifyNoInteractions(mockListener);
 	}
 
 	private static FragmentController createDestroyedController() {

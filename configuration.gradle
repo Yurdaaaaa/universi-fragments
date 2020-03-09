@@ -20,8 +20,8 @@
 def libraryConfig = [
         name   : 'fragments',
         version: [
-                production : '1.4.3',
-                development: '1.4.3'
+                production : '1.5.0',
+                development: '1.5.0'
         ]
 ]
 
@@ -29,13 +29,13 @@ def buildConfig = [
         compileSdkVersion  : 29,
         minSdkVersion      : 14,
         targetSdkVersion   : 29,
-        buildToolsVersion  : '29.0.2',
+        buildToolsVersion  : '29.0.3',
         sourceCompatibility: JavaVersion.VERSION_1_8
 ]
 
 def testConfig = [
         instrumentationRunner: [androidJUnit: 'androidx.test.runner.AndroidJUnitRunner'],
-        coverageToolVersion  : '0.8.4'
+        coverageToolVersion  : '0.8.5'
 ]
 
 def bitbucketConfig = [

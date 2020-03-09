@@ -22,7 +22,7 @@ import universum.studios.android.fragment.R;
 import universum.studios.android.fragment.manage.FragmentTransition;
 
 /**
- * Factory providing <b>common</b> {@link FragmentTransition FragmentTransitions}.
+ * Registry providing <b>common</b> {@link FragmentTransition FragmentTransitions}.
  * <ul>
  * <li>{@link #NONE}</li>
  * <li>{@link #CROSS_FADE}</li>
@@ -36,6 +36,7 @@ import universum.studios.android.fragment.manage.FragmentTransition;
  * @author Martin Albedinsky
  * @since 1.0
  */
+@SuppressWarnings("WeakerAccess")
 public final class FragmentTransitions {
 
 	/**

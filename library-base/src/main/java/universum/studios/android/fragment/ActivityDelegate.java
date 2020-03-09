@@ -34,6 +34,7 @@ import androidx.appcompat.view.ActionMode;
  * @author Martin Albedinsky
  * @since 1.0
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class ActivityDelegate {
 
 	/*

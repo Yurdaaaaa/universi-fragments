@@ -101,8 +101,7 @@ public final class BaseManagementAnnotationHandlers extends AnnotationHandlers {
 
 				/**
 				 */
-				@Override
-				public void onProcessField(@NonNull Field field, @NonNull String name) {
+				@Override public void onProcessField(@NonNull Field field, @NonNull String name) {
 					if (field.isAnnotationPresent(FactoryFragment.class) && int.class.equals(field.getType())) {
 						final FactoryFragment factoryFragment = field.getAnnotation(FactoryFragment.class);
 						try {

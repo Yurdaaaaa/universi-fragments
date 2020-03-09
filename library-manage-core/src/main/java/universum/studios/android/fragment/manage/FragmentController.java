@@ -82,6 +82,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
  * @see FragmentFactory
  * @see FragmentRequest
  */
+@SuppressWarnings("WeakerAccess")
 public class FragmentController {
 
 	/*
@@ -230,8 +231,6 @@ public class FragmentController {
 	 */
 
 	/**
-	 * <b>This constructor was deprecated and will be removed in the next minor release.</b>
-	 * <p>
 	 * Creates a new instance of FragmentController for the given <var>parentActivity</var>.
 	 * <p>
 	 * Passed activity will be used to obtain an instance of {@link FragmentManager} for the new
@@ -249,10 +248,8 @@ public class FragmentController {
 	 *
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(Fragment)
-	 *
-	 * @deprecated Use {@link #create(FragmentActivity)} instead.
 	 */
-	@Deprecated public FragmentController(@NonNull final FragmentActivity parentActivity) {
+	private FragmentController(@NonNull final FragmentActivity parentActivity) {
 		this(parentActivity, parentActivity.getSupportFragmentManager());
 		setLifecycle(parentActivity.getLifecycle());
 		if (parentActivity instanceof FragmentRequestInterceptor) {
@@ -267,8 +264,6 @@ public class FragmentController {
 	}
 
 	/**
-	 * <b>This constructor was deprecated and will be removed in the next minor release.</b>
-	 * <p>
 	 * Creates a new instance of FragmentController for the given <var>parentFragment</var>.
 	 * <p>
 	 * Passed fragment will be used to obtain an instance of {@link FragmentManager} for the new
@@ -281,19 +276,14 @@ public class FragmentController {
 	 * <li>{@link OnRequestListener} -&gt; {@link #registerOnRequestListener(OnRequestListener)}</li>
 	 * <li>{@link OnBackStackChangeListener} -&gt; {@link #registerOnBackStackChangeListener(OnBackStackChangeListener)}</li>
 	 * </ul>
-	 * <p>
-	 * <b>Do not forget to destroy the new controller via {@link #destroy()} when the fragment is
-	 * also destroyed.</b>
 	 *
 	 * @param parentFragment The fragment that wants to use the new fragment controller.
 	 *
 	 * @see #FragmentController(Context, FragmentManager)
 	 * @see #FragmentController(FragmentActivity)
-	 *
-	 * @deprecated Use {@link #create(Fragment)} instead.
 	 */
-	@Deprecated public FragmentController(@NonNull final Fragment parentFragment) {
-		this(parentFragment.getActivity(), parentFragment.requireFragmentManager());
+	private FragmentController(@NonNull final Fragment parentFragment) {
+		this(parentFragment.getActivity(), parentFragment.getParentFragmentManager());
 		setLifecycle(parentFragment.getLifecycle());
 		if (parentFragment instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentFragment);
@@ -368,7 +358,7 @@ public class FragmentController {
 	 * @see #setLifecycle(Lifecycle)
 	 * @see #setLifecycleRequiredState(Lifecycle.State)
 	 */
-	@SuppressWarnings("deprecation") public static FragmentController create(@NonNull final FragmentActivity activity) {
+	public static FragmentController create(@NonNull final FragmentActivity activity) {
 		return new FragmentController(activity);
 	}
 
@@ -397,7 +387,7 @@ public class FragmentController {
 	 * @see #setLifecycle(Lifecycle)
 	 * @see #setLifecycleRequiredState(Lifecycle.State)
 	 */
-	@SuppressWarnings("deprecation") public static FragmentController create(@NonNull final Fragment fragment) {
+	public static FragmentController create(@NonNull final Fragment fragment) {
 		return new FragmentController(fragment);
 	}
 
@@ -781,7 +771,6 @@ public class FragmentController {
 	 *                {@link FragmentRequest#execute()}
 	 * @return The fragment associated with the request.
 	 */
-	@SuppressWarnings("ConstantConditions")
 	@NonNull protected Fragment onExecuteRequest(@NonNull final FragmentRequest request) {
 		if (manager.isDestroyed()) {
 			throw new IllegalStateException("Cannot execute fragment request in context of activity that has been already destroyed!");

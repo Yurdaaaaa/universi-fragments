@@ -23,7 +23,6 @@ import android.os.Parcel;
 import androidx.annotation.AnimRes;
 import androidx.annotation.AnimatorRes;
 import androidx.annotation.NonNull;
-
 import universum.studios.android.fragment.manage.FragmentTransition;
 
 /**
@@ -33,6 +32,7 @@ import universum.studios.android.fragment.manage.FragmentTransition;
  * @author Martin Albedinsky
  * @since 1.0
  */
+@SuppressWarnings("WeakerAccess")
 public class BasicFragmentTransition implements FragmentTransition {
 
 	/*

@@ -2,10 +2,10 @@
 def versions = [
         library    : "${config.library.version.production}",
         androidx   : [test: [espresso: '3.2.0']],
-        butterknife: '10.2.0',
+        butterknife: '10.2.1',
         test       : [
-                junit      : '4.12',
-                mockito    : '3.2.0',
+                junit      : '4.13',
+                mockito    : '3.3.0',
                 robolectric: '4.3.1'
         ]
 ]
@@ -28,8 +28,12 @@ def library = [
 def androidx = [
         annotation    : [annotation: "androidx.annotation:annotation:1.1.0"],
         appcompat     : [appcompat: "androidx.appcompat:appcompat:1.1.0"],
-        core          : [core: "androidx.core:core:1.1.0"],
+        core          : [core: "androidx.core:core:1.2.0"],
         drawerlayout  : [drawerlayout: "androidx.drawerlayout:drawerlayout:1.0.0"],
+        fragment      : [
+                fragment: "androidx.fragment:fragment:1.2.2",
+                testing : "androidx.fragment:fragment-testing:1.2.2"
+        ],
         legacy        : [
                 coreUi   : "androidx.legacy:legacy-support-core-ui:1.0.0",
                 coreUtils: "androidx.legacy:legacy-support-core-utils:1.0.0",
@@ -50,7 +54,7 @@ def androidx = [
         vectordrawable: [vectordrawable: "androidx.vectordrawable:vectordrawable:1.1.0"]
 ]
 
-def google = [android: [material: [material: "com.google.android.material:material:1.0.0"]]]
+def google = [android: [material: [material: "com.google.android.material:material:1.1.0"]]]
 
 def test = [
         junit      : "junit:junit:${versions.test.junit}",
@@ -72,7 +76,7 @@ def universum = [studios: [
         samples       : 'universum.studios.android:samples:0.2.0@aar',
         testing       : 'universum.studios.android:testing:1.1.2@aar',
         ui            : 'universum.studios.android:ui:0.10.2@aar',
-        widgetAdapters: 'universum.studios.android:widget-adapters:2.1.1@aar'
+        widgetAdapters: 'universum.studios.android:widget-adapters:2.1.2@aar'
 ]]
 
 def other = [

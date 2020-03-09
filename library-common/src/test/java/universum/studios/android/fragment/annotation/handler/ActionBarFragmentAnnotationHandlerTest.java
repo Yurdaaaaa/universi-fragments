@@ -40,8 +40,8 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -92,7 +92,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCas
 		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
 		// Assert:
-		verifyZeroInteractions(mockActionBarDelegate);
+		verifyNoInteractions(mockActionBarDelegate);
 	}
 
 	@Test public void testActionBarOptionsWithNoneHomeAsUpIndicator() {
@@ -113,7 +113,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCas
 		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
 		// Assert:
-		verifyZeroInteractions(mockActionBarDelegate);
+		verifyNoInteractions(mockActionBarDelegate);
 	}
 
 	@Test public void testActionBarOptionsWithHomeAsUpVectorIndicator() {
@@ -145,7 +145,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCas
 		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
 		// Assert:
-		verifyZeroInteractions(mockActionBarDelegate);
+		verifyNoInteractions(mockActionBarDelegate);
 	}
 
 	@Test public void testActionBarOptionsWithNoneIcon() {
@@ -177,7 +177,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCas
 		// Act:
 		annotationHandler.configureActionBar(mockActionBarDelegate);
 		// Assert:
-		verifyZeroInteractions(mockActionBarDelegate);
+		verifyNoInteractions(mockActionBarDelegate);
 	}
 
 	@Test public void testMenuOptions() {
@@ -223,7 +223,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCas
 		when(mockActionMode.getMenuInflater()).thenReturn(mockMenuInflater);
 		// Act + Assert:
 		assertThat(annotationHandler.handleCreateActionMode(mockActionMode, mockMenu), is(false));
-		verifyZeroInteractions(mockActionMode, mockMenuInflater, mockMenu);
+		verifyNoInteractions(mockActionMode, mockMenuInflater, mockMenu);
 	}
 
 	@Test public void testFragmentWithoutAnnotation() {
@@ -231,7 +231,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCas
 		final ActionBarFragmentAnnotationHandler annotationHandler = new ActionBarAnnotationHandlers.ActionBarFragmentHandler(TestFragmentWithoutAnnotation.class);
 		final ActionBarDelegate mockActionBarDelegate = mock(ActionBarDelegate.class);
 		annotationHandler.configureActionBar(mockActionBarDelegate);
-		verifyZeroInteractions(mockActionBarDelegate);
+		verifyNoInteractions(mockActionBarDelegate);
 		assertThat(annotationHandler.hasOptionsMenu(), is(false));
 		assertThat(annotationHandler.shouldClearOptionsMenu(), is(false));
 		assertThat(annotationHandler.getOptionsMenuResource(-1), is(-1));
@@ -242,7 +242,7 @@ public final class ActionBarFragmentAnnotationHandlerTest extends AndroidTestCas
 		when(mockActionMode.getMenuInflater()).thenReturn(mockMenuInflater);
 		// Act + Assert:
 		assertThat(annotationHandler.handleCreateActionMode(mockActionMode, mockMenu), is(false));
-		verifyZeroInteractions(mockActionMode, mockMenuInflater, mockMenu);
+		verifyNoInteractions(mockActionMode, mockMenuInflater, mockMenu);
 	}
 
 	@ActionBarOptions(

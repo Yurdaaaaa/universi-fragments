@@ -40,8 +40,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -418,7 +418,7 @@ public final class FragmentRequestTest extends AndroidTestCase {
 		assertThat(request.executed(), is(true));
 		verify(mockController).executeRequest(request);
 		verifyNoMoreInteractions(mockController);
-		verifyZeroInteractions(mockFragment);
+		verifyNoInteractions(mockFragment);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -442,7 +442,7 @@ public final class FragmentRequestTest extends AndroidTestCase {
 		assertThat(request.executed(), is(true));
 		verify(mockController).executeRequest(request);
 		verifyNoMoreInteractions(mockController);
-		verifyZeroInteractions(mockFragment);
+		verifyNoInteractions(mockFragment);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -484,7 +484,7 @@ public final class FragmentRequestTest extends AndroidTestCase {
 		assertThat(request.executed(), is(true));
 		verify(mockController).executeRequest(request);
 		verifyNoMoreInteractions(mockController);
-		verifyZeroInteractions(mockFragment);
+		verifyNoInteractions(mockFragment);
 	}
 
 	@Test(expected = IllegalStateException.class)
