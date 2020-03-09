@@ -34,6 +34,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import androidx.annotation.CheckResult;
 import androidx.annotation.IntDef;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.TransitionRes;
@@ -83,6 +84,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
  * @author Martin Albedinsky
  * @since 1.0
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class BaseFragment extends Fragment implements BackPressWatcher, ViewClickWatcher {
 
 	/*
@@ -188,9 +190,21 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * <p>
 	 * If annotations processing is enabled via {@link FragmentAnnotations} all annotations supported
 	 * by this class will be processed/obtained here so they can be later used.
+	 *
+	 * @see #BaseFragment(int)
 	 */
 	public BaseFragment() {
-		super();
+		this(0);
+	}
+
+	/**
+	 * Alternate constructor that may be used to provide a default layout that will be inflated by
+	 * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+	 *
+	 * @param contentLayoutId The desired layout resource id.
+	 */
+	public BaseFragment(@LayoutRes final int contentLayoutId) {
+		super(contentLayoutId);
 		this.annotationHandler = onCreateAnnotationHandler();
 	}
 
@@ -207,7 +221,6 @@ public abstract class BaseFragment extends Fragment implements BackPressWatcher,
 	 * @return New instance of fragment with the given arguments or {@code null} if some instantiation
 	 * error occurs.
 	 */
-	@SuppressWarnings("TryWithIdenticalCatches")
 	@Nullable public static <F extends Fragment> F newInstanceWithArguments(@NonNull final Class<F> classOfFragment, @Nullable final Bundle args) {
 		try {
 			final F fragment = classOfFragment.newInstance();

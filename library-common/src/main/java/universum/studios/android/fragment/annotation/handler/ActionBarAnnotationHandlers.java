@@ -185,6 +185,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 					break;
 			}
 			if (homeAsUpVectorIndicator != ActionBarOptions.UNCHANGED) {
+				//noinspection SwitchStatementWithTooFewBranches
 				switch (homeAsUpVectorIndicator) {
 					case ActionBarOptions.NONE:
 						actionBarDelegate.setHomeAsUpIndicator(new ColorDrawable(Color.TRANSPARENT));
@@ -194,6 +195,7 @@ public final class ActionBarAnnotationHandlers extends AnnotationHandlers {
 						break;
 				}
 			} else if (homeAsUpIndicator != ActionBarOptions.UNCHANGED) {
+				//noinspection SwitchStatementWithTooFewBranches
 				switch (homeAsUpIndicator) {
 					case ActionBarOptions.NONE:
 						actionBarDelegate.setHomeAsUpIndicator(new ColorDrawable(Color.TRANSPARENT));

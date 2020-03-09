@@ -23,7 +23,6 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import universum.studios.android.fragment.BaseFragment;
 import universum.studios.android.fragment.annotation.ContentView;
 
@@ -62,6 +61,7 @@ public final class BaseAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * A {@link FragmentAnnotationHandler} implementation for {@link BaseFragment} class.
 	 */
+	@SuppressWarnings("WeakerAccess")
 	static class FragmentHandler extends BaseAnnotationHandler implements FragmentAnnotationHandler {
 
 		/**
