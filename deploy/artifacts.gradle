@@ -24,7 +24,7 @@ final boolean isPrimaryModule = project.name == 'library'
  * Prepares (copies and renames classes.jar) file for classesJar task for extraction.
  */
 task prepareClassesZip(type: Copy, dependsOn: ":${project.name}:bundleReleaseAar") {
-    from "${buildDir}/intermediates/packaged-classes/release/classes.jar"
+    from "${buildDir}/intermediates/aar_main_jar/release/classes.jar"
     into "${buildDir}/tmp/release"
     rename { fileName -> fileName.replace('.jar', '.zip')}
 }

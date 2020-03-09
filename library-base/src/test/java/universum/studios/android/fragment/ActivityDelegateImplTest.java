@@ -32,8 +32,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -95,7 +95,7 @@ public final class ActivityDelegateImplTest extends AndroidTestCase {
 		final ActivityDelegate.Impl delegate = new ActivityDelegate.Impl(mockActivity);
 		// Act + Assert:
 		assertThat(delegate.getSupportActionBar(), is(nullValue()));
-		verifyZeroInteractions(mockActivity);
+		verifyNoInteractions(mockActivity);
 	}
 
 	@Test public void testStartActionMode() {
@@ -105,6 +105,6 @@ public final class ActivityDelegateImplTest extends AndroidTestCase {
 		final ActivityDelegate delegate = new ActivityDelegate.Impl(mockActivity);
 		// Act + Assert:
 		assertThat(delegate.startActionMode(mockActionModeCallback), is(nullValue()));
-		verifyZeroInteractions(mockActivity);
+		verifyNoInteractions(mockActivity);
 	}
 }

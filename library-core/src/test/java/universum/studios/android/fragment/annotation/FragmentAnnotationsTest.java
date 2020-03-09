@@ -37,8 +37,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 
 /**
  * @author Martin Albedinsky
@@ -155,7 +155,7 @@ public final class FragmentAnnotationsTest extends TestCase {
 		// Act:
 		FragmentAnnotations.iterateFields(mockProcessor, Component.class, null);
 		// Assert:
-		verifyZeroInteractions(mockProcessor);
+		verifyNoInteractions(mockProcessor);
 	}
 
 	@Target(ElementType.TYPE)

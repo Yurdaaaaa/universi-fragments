@@ -18,12 +18,12 @@
  */
 package universum.studios.android.fragment.manage;
 
-import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import universum.studios.android.fragment.annotation.FactoryFragment;
 import universum.studios.android.fragment.annotation.FactoryFragments;
 import universum.studios.android.fragment.annotation.FragmentAnnotations;
@@ -62,6 +62,7 @@ import universum.studios.android.fragment.annotation.handler.FragmentFactoryAnno
  * @author Martin Albedinsky
  * @since 1.0
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class BaseFragmentFactory implements FragmentFactory {
 
 	/*

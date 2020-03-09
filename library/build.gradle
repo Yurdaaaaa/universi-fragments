@@ -96,6 +96,7 @@ android {
 dependencies {
     // PRODUCTION ----------------------------------------------------------------------------------
     implementation deps.androidx.annotation.annotation
+    implementation deps.androidx.fragment.fragment
     implementation deps.androidx.appcompat.appcompat
     implementation deps.androidx.vectordrawable.vectordrawable
     implementation deps.universum.studios.logger

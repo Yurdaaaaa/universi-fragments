@@ -33,8 +33,8 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -78,7 +78,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		verify(mockFragment).getAnnotationHandler();
 		verify(mockAnnotationHandler).handleCreateActionMode(mockActionMode, mockMenu);
 		verifyNoMoreInteractions(mockFragment, mockAnnotationHandler);
-		verifyZeroInteractions(mockActionMode, mockMenu);
+		verifyNoInteractions(mockActionMode, mockMenu);
 	}
 
 	@Test public void testOnCreateActionModeNotHandledByAnnotationHandler() {
@@ -95,7 +95,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		verify(mockFragment).getAnnotationHandler();
 		verify(mockAnnotationHandler).handleCreateActionMode(mockActionMode, mockMenu);
 		verifyNoMoreInteractions(mockFragment, mockAnnotationHandler);
-		verifyZeroInteractions(mockActionMode, mockMenu);
+		verifyNoInteractions(mockActionMode, mockMenu);
 	}
 
 	@Test public void testOnCreateActionModeWithDisabledAnnotations() {
@@ -107,7 +107,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		final ActionBarFragment.ActionModeCallback callback = new ActionBarFragment.ActionModeCallback(mockFragment);
 		// Act + Assert:
 		assertThat(callback.onCreateActionMode(mockActionMode, mockMenu), is(false));
-		verifyZeroInteractions(mockActionMode, mockMenu);
+		verifyNoInteractions(mockActionMode, mockMenu);
 	}
 
 	@Test public void testOnCreateActionModeWithoutAttachedFragment() {
@@ -117,7 +117,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		final ActionBarFragment.ActionModeCallback callback = new ActionBarFragment.ActionModeCallback();
 		// Act + Assert:
 		assertThat(callback.onCreateActionMode(mockActionMode, mockMenu), is(false));
-		verifyZeroInteractions(mockActionMode, mockMenu);
+		verifyNoInteractions(mockActionMode, mockMenu);
 	}
 
 	@Test public void testOnPrepareActionMode() {
@@ -127,7 +127,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		final ActionBarFragment.ActionModeCallback callback = new ActionBarFragment.ActionModeCallback();
 		// Act + Assert:
 		assertThat(callback.onPrepareActionMode(mockActionMode, mockMenu), is(false));
-		verifyZeroInteractions(mockActionMode, mockMenu);
+		verifyNoInteractions(mockActionMode, mockMenu);
 	}
 
 	@Test public void testOnActionItemClicked() {
@@ -155,7 +155,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		assertThat(callback.onActionItemClicked(mockActionMode, mockMenuItem), is(false));
 		verify(mockFragment).onOptionsItemSelected(mockMenuItem);
 		verifyNoMoreInteractions(mockFragment);
-		verifyZeroInteractions(mockActionMode);
+		verifyNoInteractions(mockActionMode);
 	}
 
 	@Test public void testOnActionItemClickedWithoutAttachedFragment() {
@@ -166,7 +166,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		final ActionBarFragment.ActionModeCallback callback = new ActionBarFragment.ActionModeCallback();
 		// Act + Assert:
 		assertThat(callback.onActionItemClicked(mockActionMode, mockMenuItem), is(false));
-		verifyZeroInteractions(mockActionMode, mockMenuItem);
+		verifyNoInteractions(mockActionMode, mockMenuItem);
 	}
 
 	@Test public void testOnDestroyActionMode() {
@@ -179,7 +179,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		// Assert:
 		verify(mockFragment).onActionModeFinished();
 		verifyNoMoreInteractions(mockFragment);
-		verifyZeroInteractions(mockActionMode);
+		verifyNoInteractions(mockActionMode);
 	}
 
 	@Test public void testOnDestroyActionModeWithoutAttachedFragment() {
@@ -190,7 +190,7 @@ public final class ActionBarFragmentActionModeCallbackTest extends AndroidTestCa
 		// Act:
 		callback.onDestroyActionMode(mockActionMode);
 		// Assert:
-		verifyZeroInteractions(mockActionMode);
+		verifyNoInteractions(mockActionMode);
 	}
 
 	public static class TestFragment extends ActionBarFragment {}

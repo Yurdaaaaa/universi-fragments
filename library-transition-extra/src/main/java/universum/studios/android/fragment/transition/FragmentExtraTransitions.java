@@ -22,7 +22,7 @@ import universum.studios.android.fragment.R;
 import universum.studios.android.fragment.manage.FragmentTransition;
 
 /**
- * Factory providing <b>extra</b> {@link FragmentTransition FragmentTransitions}.
+ * Registry providing <b>extra</b> {@link FragmentTransition FragmentTransitions}.
  * <ul>
  * <li>{@link #SCALE_IN_AND_SLIDE_TO_LEFT}</li>
  * <li>{@link #SCALE_IN_AND_SLIDE_TO_RIGHT}</li>
@@ -35,8 +35,9 @@ import universum.studios.android.fragment.manage.FragmentTransition;
  * </ul>
  *
  * @author Martin Albedinsky
- * @since 1.4.0
+ * @since 1.4
  */
+@SuppressWarnings("WeakerAccess")
 public final class FragmentExtraTransitions {
 
 	/**
@@ -51,7 +52,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_scale_out_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SCALE_IN_AND_SLIDE_TO_LEFT = new BasicFragmentTransition(
 			// Incoming animation.
@@ -77,7 +78,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_scale_out_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SCALE_IN_AND_SLIDE_TO_RIGHT = new BasicFragmentTransition(
 			// Incoming animation.
@@ -103,7 +104,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_scale_out_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SCALE_IN_AND_SLIDE_TO_TOP = new BasicFragmentTransition(
 			// Incoming animation.
@@ -129,7 +130,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_scale_out_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SCALE_IN_AND_SLIDE_TO_BOTTOM = new BasicFragmentTransition(
 			// Incoming animation.
@@ -155,7 +156,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_right_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SLIDE_TO_LEFT_AND_SCALE_OUT = new BasicFragmentTransition(
 			// Incoming animation.
@@ -181,7 +182,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_left_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SLIDE_TO_RIGHT_AND_SCALE_OUT = new BasicFragmentTransition(
 			// Incoming animation.
@@ -207,7 +208,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_bottom_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SLIDE_TO_TOP_AND_SCALE_OUT = new BasicFragmentTransition(
 			// Incoming animation.
@@ -233,7 +234,7 @@ public final class FragmentExtraTransitions {
 	 * <li><b>Outgoing (back-stack):</b> {@link R.animator#fragment_slide_out_top_back}</li>
 	 * </ul>
 	 *
-	 * @since 1.4.0
+	 * @since 1.4
 	 */
 	public static final FragmentTransition SLIDE_TO_BOTTOM_AND_SCALE_OUT = new BasicFragmentTransition(
 			// Incoming animation.

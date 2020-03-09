@@ -6,10 +6,17 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
+### [1.5.0](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
+> 09.03.2020
+
+- Regular **dependencies update** (mainly artifacts from **Android Jetpack**).
+     - Updated `androidx.fragment:fragment` dependency to **1.2.2** version.
+- Removed elements that has been **deprecated** in previous versions.
+
 ### [1.4.3](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
 > 08.12.2019
 
-- Regular **dependencies update** (mainly artifacts from **Android Jetpack**).
+- Regular **dependencies update** (mainly to use new artifacts from **Android Jetpack**).
 
 ### [1.4.2](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
 > 14.03.2019

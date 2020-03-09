@@ -20,11 +20,14 @@ package universum.studios.android.fragment;
 
 import android.app.ActionBar;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import androidx.annotation.CallSuper;
+import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -79,6 +82,7 @@ import universum.studios.android.fragment.annotation.handler.ActionBarFragmentAn
  * @author Martin Albedinsky
  * @since 1.0
  */
+@SuppressWarnings("WeakerAccess")
 public class ActionBarFragment extends BaseFragment {
 
 	/*
@@ -117,6 +121,25 @@ public class ActionBarFragment extends BaseFragment {
 	/*
 	 * Constructors ================================================================================
 	 */
+
+	/**
+	 * Creates a new instance of ActionBarFragment.
+	 *
+	 * @see #ActionBarFragment(int)
+	 */
+	public ActionBarFragment() {
+		this(0);
+	}
+
+	/**
+	 * Alternate constructor that may be used to provide a default layout that will be inflated by
+	 * {@link #onCreateView(LayoutInflater, ViewGroup, Bundle)}.
+	 *
+	 * @param contentLayoutId The desired layout resource id.
+	 */
+	public ActionBarFragment(@LayoutRes final int contentLayoutId) {
+		super(contentLayoutId);
+	}
 
 	/*
 	 * Methods =====================================================================================

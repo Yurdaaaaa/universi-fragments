@@ -92,6 +92,7 @@ import universum.studios.android.fragment.annotation.handler.WebFragmentAnnotati
  *
  * @see OnWebContentLoadingListener
  */
+@SuppressWarnings("WeakerAccess")
 public class WebFragment extends ActionBarFragment {
 
 	/*

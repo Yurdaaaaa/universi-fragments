@@ -23,13 +23,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
-
 import universum.studios.android.fragment.util.FragmentUtils;
 
 /**
@@ -39,6 +39,7 @@ import universum.studios.android.fragment.util.FragmentUtils;
  * @author Martin Albedinsky
  * @since 1.0
  */
+@SuppressWarnings("WeakerAccess")
 public abstract class ActionBarDelegate {
 
 	/*

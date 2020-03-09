@@ -61,6 +61,7 @@ public final class WebAnnotationHandlers extends AnnotationHandlers {
 	/**
 	 * A {@link WebFragmentAnnotationHandler} implementation for {@link WebFragment} class.
 	 */
+	@SuppressWarnings("WeakerAccess")
 	static final class WebFragmentHandler extends ActionBarAnnotationHandlers.ActionBarFragmentHandler implements WebFragmentAnnotationHandler {
 
 		/**

@@ -42,8 +42,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 /**
@@ -125,7 +125,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Assert:
 		verify(mockMenuInflater).inflate(TestFragmentWithMenuOptions.MENU_RESOURCE, mockMenu);
 		verifyNoMoreInteractions(mockMenuInflater);
-		verifyZeroInteractions(mockMenu);
+		verifyNoInteractions(mockMenu);
 	}
 
 	@SuppressWarnings("ResourceType")
@@ -139,7 +139,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Assert:
 		verify(mockMenuInflater).inflate(TestFragmentWithMenuOptions.MENU_RESOURCE, mockMenu);
 		verifyNoMoreInteractions(mockMenuInflater);
-		verifyZeroInteractions(mockMenu);
+		verifyNoInteractions(mockMenu);
 	}
 
 	@SuppressWarnings("ResourceType")
@@ -153,7 +153,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Assert:
 		verify(mockMenuInflater).inflate(TestFragmentWithMenuOptions.MENU_RESOURCE, mockMenu);
 		verifyNoMoreInteractions(mockMenuInflater);
-		verifyZeroInteractions(mockMenu);
+		verifyNoInteractions(mockMenu);
 	}
 
 	@Test public void testOnCreateOptionsMenuWithoutMenuResource() {
@@ -166,7 +166,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Assert:
 		verify(mockMenu).clear();
 		verifyNoMoreInteractions(mockMenu);
-		verifyZeroInteractions(mockMenuInflater);
+		verifyNoInteractions(mockMenuInflater);
 	}
 
 	@Test public void testOnCreateOptionsMenuForFragmentWithoutMenu() {
@@ -177,7 +177,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Act:
 		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
 		// Assert:
-		verifyZeroInteractions(mockMenu, mockMenuInflater);
+		verifyNoInteractions(mockMenu, mockMenuInflater);
 	}
 
 	@Test public void testOnCreateOptionsMenuWhenAnnotationsAreDisabled() {
@@ -189,7 +189,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Act:
 		fragment.onCreateOptionsMenu(mockMenu, mockMenuInflater);
 		// Assert:
-		verifyZeroInteractions(mockMenu, mockMenuInflater);
+		verifyNoInteractions(mockMenu, mockMenuInflater);
 	}
 
 	@Test public void testOnActivityCreated() {
@@ -291,7 +291,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Act:
 		fragment.invalidateActionBar();
 		// Assert:
-		verifyZeroInteractions(mockActionBarDelegate);
+		verifyNoInteractions(mockActionBarDelegate);
 	}
 
 	@Test public void testInvalidateActionBarWhenNotAttached() {
@@ -384,7 +384,7 @@ public final class ActionBarFragmentTest extends AndroidTestCase {
 		// Assert:
 		assertThat(fragment.isInActionMode(), is(false));
 		assertThat(fragment.getActionMode(), is(nullValue()));
-		verifyZeroInteractions(mockActionMode);
+		verifyNoInteractions(mockActionMode);
 	}
 
 	@Test public void testOnBackPress() {
