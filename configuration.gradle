@@ -20,8 +20,8 @@
 def libraryConfig = [
         name   : 'fragments',
         version: [
-                production : '1.5.0',
-                development: '1.5.0'
+                production : '1.5.1',
+                development: '1.5.1'
         ]
 ]
 
@@ -96,7 +96,7 @@ def bintrayConfig = [
                 vcsUrl            : "${pomConfig.project.url}.git",
                 labels            : ['android', 'fragment', 'fragment-transactions', 'fragment-transitions', 'fragment-controlling'],
                 versionName       : pomConfig.version,
-                versionDescription: 'Regular dependencies update.',
+                versionDescription: 'Small patch for FragmentController.',
                 versionTag        : "v${pomConfig.version}"
         ]
 ]
