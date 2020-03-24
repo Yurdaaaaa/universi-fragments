@@ -6,6 +6,11 @@ More **detailed changelog** for each respective version may be viewed by pressin
 
 ## Version 1.x ##
 
+### [1.5.1](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
+> 24.03.2020
+
+- `FragmentController.create(Fragment)` now properly creates instance with **child fragment manager** of the given `fragment`.
+
 ### [1.5.0](https://bitbucket.org/android-universum/fragments/wiki/version/1.x) ###
 > 09.03.2020
 
