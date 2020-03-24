@@ -24,7 +24,10 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.transition.Fade;
 import android.transition.Transition;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -150,7 +153,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Act:
 		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
-		assertThat(controller.getFragmentManager(), is(fragmentManager));
+		assertThat(controller.getFragmentManager(), is(fragment.getChildFragmentManager()));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
 		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 	}
@@ -166,7 +169,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
 		assertThat(controller.context, is(activity));
-		assertThat(controller.getFragmentManager(), is(fragmentManager));
+		assertThat(controller.getFragmentManager(), is(fragment.getChildFragmentManager()));
 		assertThat(controller.lifecycle, is(fragment.getLifecycle()));
 		assertThat(controller.getLifecycleRequiredState(), is(Lifecycle.State.STARTED));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
@@ -183,7 +186,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		// Act:
 		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
-		assertThat(controller.getFragmentManager(), is(fragmentManager));
+		assertThat(controller.getFragmentManager(), is(fragment.getChildFragmentManager()));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
 		assertThat(controller.getViewContainerId(), is(FragmentController.NO_CONTAINER_ID));
 		final FragmentRequest request = new FragmentRequest(controller, new TestFragment()).viewContainerId(TestActivity.CONTENT_VIEW_ID);
@@ -206,7 +209,7 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		final FragmentController controller = FragmentController.create(fragment);
 		// Assert:
 		assertThat(controller.context, is(activity));
-		assertThat(controller.getFragmentManager(), is(fragmentManager));
+		assertThat(controller.getFragmentManager(), is(fragment.getChildFragmentManager()));
 		assertThat(controller.lifecycle, is(fragment.getLifecycle()));
 		assertThat(controller.getLifecycleRequiredState(), is(Lifecycle.State.STARTED));
 		assertThat(controller.getTopBackStackEntry(), is(nullValue()));
@@ -1530,7 +1533,16 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		}
 	}
 
-	public static class TestFragment extends Fragment {}
+	public static class TestFragment extends Fragment {
+
+		@Override public View onCreateView(
+				@NonNull LayoutInflater inflater,
+				@Nullable ViewGroup container,
+				@Nullable Bundle savedInstanceState
+		) {
+			return new FrameLayout(inflater.getContext());
+		}
+	}
 
 	public static final class TestFragmentWithAlInterfaces extends TestFragment
 			implements
@@ -1551,6 +1563,16 @@ public final class FragmentControllerTest extends AndroidTestCase {
 		@interface CallbackId {}
 
 		private int receivedCallbacks;
+
+		@Override public View onCreateView(
+				@NonNull LayoutInflater inflater,
+				@Nullable ViewGroup container,
+				@Nullable Bundle savedInstanceState
+		) {
+			final FrameLayout view = new FrameLayout(inflater.getContext());
+			view.setId(android.R.id.custom);
+			return view;
+		}
 
 		@Override @Nullable public Fragment interceptFragmentRequest(@NonNull final FragmentRequest request) {
 			this.receivedCallbacks |= CALLBACK_INTERCEPT_FRAGMENT_REQUEST;

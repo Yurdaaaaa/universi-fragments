@@ -267,7 +267,7 @@ public class FragmentController {
 	 * Creates a new instance of FragmentController for the given <var>parentFragment</var>.
 	 * <p>
 	 * Passed fragment will be used to obtain an instance of {@link FragmentManager} for the new
-	 * controller.
+	 * controller via {@link Fragment#getChildFragmentManager()}.
 	 * <p>
 	 * This constructor attaches the given fragment to the new controller as one of interfaces
 	 * listed below if the fragment implements listed interfaces respectively:
@@ -283,7 +283,7 @@ public class FragmentController {
 	 * @see #FragmentController(FragmentActivity)
 	 */
 	private FragmentController(@NonNull final Fragment parentFragment) {
-		this(parentFragment.getActivity(), parentFragment.getParentFragmentManager());
+		this(parentFragment.getActivity(), parentFragment.getChildFragmentManager());
 		setLifecycle(parentFragment.getLifecycle());
 		if (parentFragment instanceof FragmentRequestInterceptor) {
 			setRequestInterceptor((FragmentRequestInterceptor) parentFragment);
@@ -366,7 +366,7 @@ public class FragmentController {
 	 * Creates a new instance of FragmentController for the given <var>fragment</var>.
 	 * <p>
 	 * Passed fragment will be used to obtain its {@link Lifecycle} along with {@link FragmentManager}
-	 * for the new controller.
+	 * for the new controller via {@link Fragment#getChildFragmentManager()}.
 	 * <p>
 	 * New controller will also have the fragment attached as one of listeners/interceptors listed
 	 * below if that fragment implements these interfaces respectively:

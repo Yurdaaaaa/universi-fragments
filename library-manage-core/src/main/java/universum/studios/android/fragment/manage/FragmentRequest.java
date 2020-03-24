@@ -708,6 +708,8 @@ public final class FragmentRequest {
 	}
 
 	/**
+	 * <b>This method has been deprecated and will be removed in the next minor release.</b>
+	 * <p>
 	 * Sets a resource id of the style containing transitions used to animate change between incoming
 	 * and outgoing fragment.
 	 * <p>
@@ -718,17 +720,25 @@ public final class FragmentRequest {
 	 *
 	 * @see FragmentTransaction#setTransitionStyle(int)
 	 * @see #transitionStyle()
+	 *
+	 * @deprecated See {@link FragmentTransaction#setTransitionStyle(int)}.
 	 */
+	@Deprecated
 	public FragmentRequest transitionStyle(@StyleRes final int transitionStyle) {
 		this.transitionStyle = transitionStyle;
 		return this;
 	}
 
 	/**
+	 * <b>This method has been deprecated and will be removed in the next minor release.</b>
+	 * <p>
 	 * Returns the transition style providing transitions for fragment view changes.
 	 *
 	 * @return Transition style resource or {@link #NO_STYLE} if no style has been specified.
+	 *
+	 * @deprecated See {@link FragmentTransaction#setTransitionStyle(int)}.
 	 */
+	@Deprecated
 	@StyleRes public int transitionStyle() {
 		return transitionStyle;
 	}
