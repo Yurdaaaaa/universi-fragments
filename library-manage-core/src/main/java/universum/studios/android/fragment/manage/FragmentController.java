@@ -692,11 +692,11 @@ public class FragmentController {
 	@Nullable Fragment executeRequest(final FragmentRequest request) {
 		this.assertNotDestroyed("EXECUTE REQUEST");
 
-		final Lifecycle.State lifecycleCurrentState = lifecycle == null ? null : lifecycle.getCurrentState();
-		if (!request.hasFlag(FragmentRequest.IGNORE_LIFECYCLE_STATE) && lifecycleCurrentState != null && !lifecycleCurrentState.isAtLeast(lifecycleRequiredState)) {
-			FragmentsLogging.w(TAG, "Current Lifecycle's state(" + lifecycleCurrentState + ") is not at least(" + lifecycleRequiredState + "). Ignoring request!");
-			return null;
-		}
+//		final Lifecycle.State lifecycleCurrentState = lifecycle == null ? null : lifecycle.getCurrentState();
+//		if (!request.hasFlag(FragmentRequest.IGNORE_LIFECYCLE_STATE) && lifecycleCurrentState != null && !lifecycleCurrentState.isAtLeast(lifecycleRequiredState)) {
+//			FragmentsLogging.w(TAG, "Current Lifecycle's state(" + lifecycleCurrentState + ") is not at least(" + lifecycleRequiredState + "). Ignoring request!");
+//			return null;
+//		}
 
 		Fragment fragment = request.fragment;
 		if (fragment == null) {
